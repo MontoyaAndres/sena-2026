@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ficha 200 — Modelo de Dominio (UML) Simple</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css"
+    />
+
+    <style>
+      .reveal .slides {
+        font-size: 34px;
+      }
+      .reveal h2,
+      .reveal h3 {
+        text-transform: none;
+      }
+      .note {
+        font-size: 0.75em;
+        opacity: 0.85;
+      }
+      .tag {
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 999px;
+        padding: 0.2rem 0.6rem;
+        margin-right: 0.3rem;
+      }
+      ul {
+        line-height: 1.2;
+      }
+      .two {
+        display: flex;
+        gap: 1.2rem;
+      }
+      .col {
+        flex: 1;
+      }
+      .box {
+        border: 1px solid #ddd;
+        border-radius: 14px;
+        padding: 0.8rem;
+      }
+      code {
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 -->
+        <section>
+          <h2>Ficha 200 — Evidencia EV01</h2>
+          <h3>Modelo de Dominio (UML)</h3>
+          <p class="note">
+            Vamos a hacer 2 dibujos (diagramas) y un documento en PDF.
+          </p>
+          <p>
+            <span class="tag">Diagrama de clases</span>
+            <span class="tag">Diagrama de paquetes</span>
+            <span class="tag">Casos de uso</span>
+          </p>
+        </section>
+
+        <!-- 2 -->
+        <section>
+          <h3>¿Qué tengo que entregar?</h3>
+          <ul>
+            <li><b>Un PDF</b> con:</li>
+            <li>✅ Diagrama de clases (dominio)</li>
+            <li>✅ Diagrama de paquetes</li>
+            <li>✅ Casos de uso (plantilla)</li>
+          </ul>
+          <p class="note">
+            La extensión es libre (puede ser corto si está bien hecho).
+          </p>
+        </section>
+
+        <!-- 3 -->
+        <section>
+          <h3>¿Qué es “modelo de dominio”?</h3>
+          <div class="box">
+            <p>
+              <b>Es una lista de “cosas importantes” del sistema</b> y cómo se
+              conectan.
+            </p>
+            <ul>
+              <li>Cosas = <b>clases</b> (Usuario, Pedido, Producto)</li>
+              <li>Conexiones = <b>relaciones</b></li>
+              <li>Cuántas conexiones = <b>cardinalidad</b></li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 4 -->
+        <section>
+          <h3>Paso 1: lee requisitos</h3>
+          <ul>
+            <li>¿Qué hace el sistema?</li>
+            <li>¿Quién lo usa? (actores)</li>
+            <li>Reglas importantes: “debe”, “no puede”, “mínimo”, “máximo”</li>
+          </ul>
+          <p class="note">Sin requisitos, no sabemos qué dibujar.</p>
+        </section>
+
+        <!-- 5 -->
+        <section>
+          <h3>Paso 2: saca las clases (las “cosas”)</h3>
+          <div class="two">
+            <div class="col box">
+              <p><b>Busca sustantivos</b></p>
+              <ul>
+                <li>Usuario</li>
+                <li>Curso</li>
+                <li>Inscripción</li>
+                <li>Pago</li>
+              </ul>
+            </div>
+            <div class="col box">
+              <p><b>No uses</b></p>
+              <ul>
+                <li>Botón</li>
+                <li>Pantalla</li>
+                <li>Formulario</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 -->
+        <section>
+          <h3>Paso 3: une clases con relaciones</h3>
+          <p>Preguntas rápidas:</p>
+          <ul>
+            <li>¿Usuario tiene pedidos?</li>
+            <li>¿Pedido tiene productos?</li>
+            <li>¿Curso tiene estudiantes?</li>
+          </ul>
+          <p class="note">
+            Dibuja líneas entre clases cuando “tengan que ver” una con otra.
+          </p>
+        </section>
+
+        <!-- 7 -->
+        <section>
+          <h3>Paso 4: pon cardinalidad (cuántos)</h3>
+          <div class="box">
+            <ul>
+              <li><code>1..1</code> = exactamente uno</li>
+              <li><code>0..1</code> = opcional (puede no tener)</li>
+              <li><code>0..*</code> = cero o muchos</li>
+              <li><code>1..*</code> = uno o muchos</li>
+            </ul>
+          </div>
+          <p class="note">
+            Ejemplo: Usuario <code>1</code> — Pedido <code>0..*</code>
+          </p>
+        </section>
+
+        <!-- 8 -->
+        <section>
+          <h3>Paso 5: herencia (solo si aplica)</h3>
+          <div class="box">
+            <p><b>Herencia</b> = una clase “es un tipo de” otra.</p>
+            <p class="note">Ejemplo: Persona → Estudiante / Profesor</p>
+          </div>
+          <p class="note">Si no lo necesitas, no la uses.</p>
+        </section>
+
+        <!-- 9 -->
+        <section>
+          <h3>Paso 6: diagrama de paquetes</h3>
+          <div class="box">
+            <p><b>Paquetes = carpetas</b> para ordenar el sistema.</p>
+            <ul>
+              <li>Usuarios</li>
+              <li>Productos</li>
+              <li>Pedidos</li>
+              <li>Pagos</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 10 -->
+        <section>
+          <h3>Paso 7: casos de uso (plantilla)</h3>
+          <ul>
+            <li>Nombre del caso de uso</li>
+            <li>Actor</li>
+            <li>Objetivo</li>
+            <li>Pasos (flujo principal)</li>
+            <li>Errores / alternativas</li>
+          </ul>
+          <p class="note">Haz 3 a 6 casos de uso principales.</p>
+        </section>
+
+        <!-- 11 -->
+        <section>
+          <h3>Herramientas para dibujar</h3>
+          <ul>
+            <li>diagrams.net (draw.io)</li>
+            <li>StarUML</li>
+            <li>Visual Paradigm</li>
+            <li>Lucidchart</li>
+          </ul>
+          <p class="note">Luego exportas y lo pones en el PDF.</p>
+        </section>
+
+        <!-- 12 -->
+        <section>
+          <h3>Checklist final</h3>
+          <ul>
+            <li>✅ Diagrama de clases con cardinalidades</li>
+            <li>✅ Diagrama ordenado y legible</li>
+            <li>✅ Diagrama de paquetes</li>
+            <li>✅ Casos de uso con plantilla</li>
+            <li>✅ Todo en PDF (con portada)</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        transition: "slide",
+      });
+    </script>
+  </body>
+</html>

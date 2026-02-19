@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ficha 52 y 53 — Diagrama de Despliegue (Simple)</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css"
+    />
+
+    <style>
+      .reveal .slides {
+        font-size: 34px;
+      }
+      .reveal h2,
+      .reveal h3 {
+        text-transform: none;
+      }
+      .note {
+        font-size: 0.75em;
+        opacity: 0.85;
+      }
+      .tag {
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 999px;
+        padding: 0.2rem 0.6rem;
+        margin-right: 0.3rem;
+      }
+      ul {
+        line-height: 1.2;
+      }
+      .two {
+        display: flex;
+        gap: 1.2rem;
+      }
+      .col {
+        flex: 1;
+      }
+      .box {
+        border: 1px solid #ddd;
+        border-radius: 14px;
+        padding: 0.8rem;
+      }
+      code {
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 -->
+        <section>
+          <h2>Ficha 52 y 53 — Evidencia EV03</h2>
+          <h3>Diagrama de Despliegue (UML)</h3>
+          <p class="note">
+            Es un dibujo para mostrar <b>dónde</b> corre el sistema y
+            <b>cómo</b> se conecta.
+          </p>
+          <p>
+            <span class="tag">Nodos</span>
+            <span class="tag">Software</span>
+            <span class="tag">Conexiones</span>
+          </p>
+        </section>
+
+        <!-- 2 -->
+        <section>
+          <h3>¿Qué tengo que entregar?</h3>
+          <ul>
+            <li><b>Un documento</b> (normalmente PDF) con:</li>
+            <li>✅ Portada</li>
+            <li>✅ Introducción</li>
+            <li>✅ Diagrama de despliegue</li>
+            <li>✅ Conclusión</li>
+          </ul>
+          <p class="note">Debe servir para el caso de estudio y el proyecto.</p>
+        </section>
+
+        <!-- 3 -->
+        <section>
+          <h3>¿Qué es un diagrama de despliegue?</h3>
+          <div class="box">
+            <p><b>Es como un mapa</b> del sistema:</p>
+            <ul>
+              <li><b>Máquinas / lugares</b> donde corre (nodos)</li>
+              <li><b>Programas</b> que se instalan ahí (artefactos)</li>
+              <li><b>Cables / internet</b> que los conectan (enlaces)</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 4 -->
+        <section>
+          <h3>3 palabras clave</h3>
+          <div class="two">
+            <div class="col box">
+              <p><b>Nodo</b></p>
+              <p class="note">Un “lugar”</p>
+              <ul>
+                <li>PC</li>
+                <li>Servidor</li>
+                <li>Celular</li>
+                <li>Nube</li>
+              </ul>
+            </div>
+            <div class="col box">
+              <p><b>Artefacto</b></p>
+              <p class="note">Un “programa”</p>
+              <ul>
+                <li>App web</li>
+                <li>API</li>
+                <li>Base de datos</li>
+              </ul>
+            </div>
+          </div>
+          <p class="note">
+            Y los <b>enlaces</b> son las conexiones (Internet / red).
+          </p>
+        </section>
+
+        <!-- 5 -->
+        <section>
+          <h3>Paso 1: define tu arquitectura (simple)</h3>
+          <ul>
+            <li>¿Tienes <b>web</b>, <b>backend</b> y <b>base de datos</b>?</li>
+            <li>¿Se usa en <b>celular</b> o en <b>navegador</b>?</li>
+            <li>¿Está en <b>nube</b> o en un <b>PC/servidor</b>?</li>
+          </ul>
+          <p class="note">Arquitectura = las partes principales del sistema.</p>
+        </section>
+
+        <!-- 6 -->
+        <section>
+          <h3>Paso 2: dibuja los nodos</h3>
+          <div class="box">
+            <p><b>Ejemplo típico:</b></p>
+            <ul>
+              <li>Nodo 1: Cliente (PC o Celular)</li>
+              <li>Nodo 2: Servidor (API / app)</li>
+              <li>Nodo 3: Base de datos</li>
+            </ul>
+          </div>
+          <p class="note">Primero dibuja “dónde corre”, luego qué corre ahí.</p>
+        </section>
+
+        <!-- 7 -->
+        <section>
+          <h3>Paso 3: pon los programas dentro (artefactos)</h3>
+          <ul>
+            <li>
+              Dentro del nodo Cliente: <b>Navegador</b> o <b>App móvil</b>
+            </li>
+            <li>Dentro del Servidor: <b>Backend / API</b></li>
+            <li>Dentro de BD: <b>PostgreSQL / MySQL</b> (la base de datos)</li>
+          </ul>
+          <p class="note">
+            Artefacto = lo que se instala / ejecuta en el nodo.
+          </p>
+        </section>
+
+        <!-- 8 -->
+        <section>
+          <h3>Paso 4: conecta con enlaces</h3>
+          <div class="box">
+            <ul>
+              <li>Cliente ↔ Servidor: <code>HTTPS</code> (internet)</li>
+              <li>Servidor ↔ Base de datos: conexión interna (red)</li>
+            </ul>
+          </div>
+          <p class="note">Las flechas/líneas muestran quién habla con quién.</p>
+        </section>
+
+        <!-- 9 -->
+        <section>
+          <h3>Requisitos no funcionales (en fácil)</h3>
+          <ul>
+            <li><b>Seguridad:</b> usar HTTPS, no exponer la base de datos</li>
+            <li><b>Velocidad:</b> cache o buen servidor (si aplica)</li>
+            <li><b>Disponibilidad:</b> copias/backup (si aplica)</li>
+          </ul>
+          <p class="note">Tu diagrama debe “tener sentido” con estos puntos.</p>
+        </section>
+
+        <!-- 10 -->
+        <section>
+          <h3>Herramientas para hacer el diagrama</h3>
+          <ul>
+            <li>diagrams.net (draw.io)</li>
+            <li>StarUML</li>
+            <li>Visual Paradigm</li>
+            <li>Lucidchart</li>
+          </ul>
+          <p class="note">Exporta y lo metes en el documento.</p>
+        </section>
+
+        <!-- 11 -->
+        <section>
+          <h3>Cómo debe verse el documento</h3>
+          <ul>
+            <li><b>Portada</b>: nombre, evidencia, ficha, fecha</li>
+            <li><b>Introducción</b>: qué es el diagrama y para qué sirve</li>
+            <li><b>Diagrama</b>: nodos + artefactos + enlaces</li>
+            <li><b>Conclusión</b>: qué aprendiste y cómo cumple requisitos</li>
+          </ul>
+        </section>
+
+        <!-- 12 -->
+        <section>
+          <h3>Checklist final</h3>
+          <ul>
+            <li>✅ Nodos claros (cliente, servidor, BD…)</li>
+            <li>✅ Programas dentro de cada nodo</li>
+            <li>✅ Líneas de conexión correctas</li>
+            <li>✅ Seguridad básica (HTTPS, BD no pública)</li>
+            <li>✅ Documento con portada + intro + conclusión</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        transition: "slide",
+      });
+    </script>
+  </body>
+</html>
