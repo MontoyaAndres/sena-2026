@@ -7,7 +7,8 @@ class Persona {
 
 class Pelicula {
   constructor({ id, titulo, director }) {
-    if (!(director instanceof Persona)) throw new Error("director debe ser Persona");
+    if (!(director instanceof Persona))
+      throw new Error("director debe ser Persona");
     this.id = id;
     this.titulo = titulo;
 
@@ -30,6 +31,7 @@ class Pelicula {
   }
 
   cambiarDirector(persona) {
+    if (!nuevoDirector) throw new Error("director requerido");
     this.director = persona;
   }
 }
@@ -37,15 +39,21 @@ class Pelicula {
 // ===== Demo =====
 const nolan = new Persona({ id: "1", nombre: "Christopher Nolan" });
 const leo = new Persona({ id: "2", nombre: "Leonardo DiCaprio" });
+const joseph = new Persona({ id: "2.1", nombre: "Joseph Gordon-Levitt" });
 const emma = new Persona({ id: "3", nombre: "Emma Thomas" });
 
-const inception = new Pelicula({ id: "P1", titulo: "Inception", director: nolan });
+const inception = new Pelicula({
+  id: "P1",
+  titulo: "Inception",
+  director: nolan,
+});
 inception.agregarActor(leo);
+inception.agregarActor(joseph);
 inception.agregarProductor(emma);
 
 console.log({
   pelicula: inception.titulo,
   director: inception.director.nombre,
-  actores: [...inception.actores].map(p => p.nombre),
-  productores: [...inception.productores].map(p => p.nombre),
+  actores: [...inception.actores].map((p) => p.nombre),
+  productores: [...inception.productores].map((p) => p.nombre),
 });

@@ -70,6 +70,6 @@ peli.agregarProductor(prod2);
 console.log({
   pelicula: peli.titulo,
   director: peli.director.nombre,
-  actores: [...peli.actores].map(a => a.nombre),
-  productores: [...peli.productores].map(p => p.nombre),
+  actores: [...peli.actores].map((a) => a.nombre),
+  productores: [...peli.productores].map((p) => p.nombre),
 });
