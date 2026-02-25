@@ -1,0 +1,20 @@
+{
+  "name": "video-to-voice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "docker:build": "docker build -t video-to-voice .",
+    "docker:run": "docker run --rm --env-file .env -v $(pwd)/videos:/videos -v $(pwd)/output:/app/output video-to-voice",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "openai": "^6.25.0"
+  }
+}
