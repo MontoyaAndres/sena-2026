@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "docker:build": "docker build -t video-to-voice .",
-    "docker:run": "docker run --rm --env-file .env -v $(pwd)/videos:/videos -v $(pwd)/output:/app/output video-to-voice",
+    "docker:run": "docker run --rm --env-file .env -v $(pwd)/videos:/videos -v $(pwd)/output:/app/output video-to-voice /videos/video.mov",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
