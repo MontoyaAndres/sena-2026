@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evaluación de artefactos del software - GA4-220501095-AA4</title>
+
+    <!-- Reveal.js via CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css"
+    />
+    <style>
+      :root {
+        --r-heading-text-transform: none;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #ddd;
+        font-size: 0.75em;
+        margin-right: 8px;
+      }
+      .small {
+        font-size: 0.85em;
+      }
+      .tiny {
+        font-size: 0.72em;
+      }
+      .callout {
+        border-left: 6px solid #4c8bf5;
+        padding: 12px 14px;
+        background: #f5f8ff;
+        border-radius: 10px;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      ul {
+        line-height: 1.35;
+      }
+      .ok {
+        color: #0f7b0f;
+        font-weight: 600;
+      }
+      .warn {
+        color: #b35c00;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Portada -->
+        <section>
+          <h2>Evaluación de artefactos del software</h2>
+          <p class="small">GA4-220501095-AA4 — Validación de documentos</p>
+          <div class="callout small">
+            <b>Objetivo de la sesión:</b> entender qué son los artefactos,
+            cuáles existen, cómo se verifican/validan y cómo construir
+            instrumentos (listas de chequeo e informes) para evaluar su calidad.
+          </div>
+          <p class="tiny">
+            Duración estimada actividad: <b>40 horas</b> (según la guía)
+          </p>
+        </section>
+
+        <!-- Agenda -->
+        <section>
+          <h3>¿Qué veremos hoy?</h3>
+          <ul>
+            <li>¿Qué es un <b>artefacto</b> y por qué importa?</li>
+            <li>Tipos de artefactos (ejemplos reales)</li>
+            <li>Diferencia entre <b>verificación</b> y <b>validación</b></li>
+            <li>
+              ¿Qué es la <b>evaluación</b> de artefactos y cómo se realiza?
+            </li>
+            <li>
+              Instrumentos: <b>listas de chequeo</b>, revisiones, pruebas,
+              métricas
+            </li>
+            <li>Qué entregar en <b>EV01–EV04</b> (con estructura sugerida)</li>
+          </ul>
+        </section>
+
+        <!-- Qué es un artefacto -->
+        <section>
+          <h3>1) ¿Qué es un artefacto?</h3>
+          <div class="callout">
+            Un <b>artefacto de software</b> es
+            <b>cualquier documento o producto</b> que se crea durante el
+            desarrollo: ayuda a planear, diseñar, construir, probar o mantener
+            el sistema.
+          </div>
+          <ul class="small">
+            <li>
+              Puede ser un documento (requisitos), un diagrama, una historia de
+              usuario…
+            </li>
+            <li>
+              También puede ser código, casos de prueba, manuales, reportes,
+              etc.
+            </li>
+            <li>
+              La clave: <b>sirve como evidencia</b> de lo que se hizo y cómo se
+              hizo.
+            </li>
+          </ul>
+        </section>
+
+        <!-- Por qué evaluar artefactos -->
+        <section>
+          <h3>¿Por qué se evalúan los artefactos?</h3>
+          <div class="grid2">
+            <div class="callout">
+              <b>Idea principal:</b> detectar defectos
+              <b>lo más temprano posible</b> cuesta menos tiempo y esfuerzo.
+            </div>
+            <div class="callout">
+              <b>Beneficios:</b>
+              <ul class="small">
+                <li>Menos retrabajo</li>
+                <li>Más claridad en requisitos y diseño</li>
+                <li>Mejor comunicación del equipo</li>
+                <li>Mayor calidad del producto final</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tipos de artefactos -->
+        <section>
+          <h3>2) Tipos de artefactos (con ejemplos)</h3>
+          <div class="grid3 small">
+            <div class="callout">
+              <b>Gestión / planeación</b>
+              <ul>
+                <li>Plan del proyecto</li>
+                <li>Cronograma</li>
+                <li>Matriz de riesgos</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Requisitos</b>
+              <ul>
+                <li>Historias de usuario</li>
+                <li>Casos de uso</li>
+                <li>Documento SRS</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Diseño</b>
+              <ul>
+                <li>Diagramas UML</li>
+                <li>Arquitectura</li>
+                <li>Modelo de datos</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="grid3 small" style="margin-top: 14px">
+            <div class="callout">
+              <b>Construcción</b>
+              <ul>
+                <li>Código fuente</li>
+                <li>Scripts (BD / despliegue)</li>
+                <li>Configuraciones</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Pruebas</b>
+              <ul>
+                <li>Casos de prueba</li>
+                <li>Plan de pruebas</li>
+                <li>Reporte de bugs</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Entrega / operación</b>
+              <ul>
+                <li>Manual de usuario</li>
+                <li>Guía de instalación</li>
+                <li>Notas de versión</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Verificación vs Validación -->
+        <section>
+          <h3>3) Verificación vs Validación</h3>
+          <div class="grid2">
+            <div class="callout">
+              <div class="badge">Verificación</div>
+              <p class="small">
+                <b>¿Estamos construyendo el producto correctamente?</b>
+              </p>
+              <ul class="small">
+                <li>
+                  Revisar si el artefacto cumple estándares, formato, reglas.
+                </li>
+                <li>Ej.: lista de chequeo para un diagrama UML.</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <div class="badge">Validación</div>
+              <p class="small">
+                <b>¿Estamos construyendo el producto correcto?</b>
+              </p>
+              <ul class="small">
+                <li>
+                  Confirmar si satisface la necesidad real del usuario/cliente.
+                </li>
+                <li>Ej.: revisar requisitos con el usuario final.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="tiny">
+            <b>Truco fácil:</b> verificación = reglas/estándares; validación =
+            necesidad/uso real.
+          </p>
+        </section>
+
+        <!-- Qué es evaluación de artefactos -->
+        <section>
+          <h3>4) ¿Qué es la evaluación de artefactos?</h3>
+          <div class="callout">
+            Es el proceso de <b>revisar, medir y juzgar</b> la calidad de los
+            artefactos para saber si sirven para alcanzar las metas del
+            proyecto.
+          </div>
+          <ul class="small">
+            <li>
+              Busca <b>errores, inconsistencias, omisiones</b> y oportunidades
+              de mejora.
+            </li>
+            <li>
+              Se apoya en estándares (por ejemplo, guías internas, IEEE/ISO,
+              buenas prácticas).
+            </li>
+            <li>
+              Termina con <b>hallazgos</b>, <b>acciones</b> y un <b>informe</b>.
+            </li>
+          </ul>
+        </section>
+
+        <!-- Cómo se realiza: paso a paso -->
+        <section>
+          <h3>5) ¿Cómo se realiza la evaluación?</h3>
+          <ol class="small">
+            <li>
+              <b>Definir alcance:</b> qué artefactos se van a evaluar y para
+              qué.
+            </li>
+            <li>
+              <b>Elegir criterios:</b> completitud, claridad, consistencia,
+              trazabilidad, formato, etc.
+            </li>
+            <li>
+              <b>Seleccionar instrumentos:</b> listas de chequeo, revisiones,
+              métricas, pruebas.
+            </li>
+            <li>
+              <b>Ejecutar la evaluación:</b> revisar, registrar evidencias,
+              marcar incidencias.
+            </li>
+            <li>
+              <b>Analizar resultados:</b> severidad, causa, impacto, prioridad.
+            </li>
+            <li><b>Proponer mejoras:</b> correcciones y responsables.</li>
+            <li>
+              <b>Reportar:</b> informe final con conclusiones y recomendaciones.
+            </li>
+          </ol>
+        </section>
+
+        <!-- Criterios de calidad -->
+        <section>
+          <h3>Criterios típicos para evaluar artefactos</h3>
+          <div class="grid2 small">
+            <div class="callout">
+              <b>Calidad del contenido</b>
+              <ul>
+                <li>Completitud (¿falta algo?)</li>
+                <li>Claridad (¿se entiende?)</li>
+                <li>Consistencia (¿no se contradice?)</li>
+                <li>Trazabilidad (¿se conecta con requisitos?)</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Calidad de forma</b>
+              <ul>
+                <li>Formato y estructura</li>
+                <li>Ortografía y redacción</li>
+                <li>Uso correcto de plantillas</li>
+                <li>Versionado y control de cambios</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Instrumentos -->
+        <section>
+          <h3>6) ¿Qué instrumentos se utilizan?</h3>
+          <div class="grid2 small">
+            <div class="callout">
+              <b>Instrumentos “humanos”</b>
+              <ul>
+                <li>Revisión por pares</li>
+                <li>Inspección (más formal)</li>
+                <li>Walkthrough (recorrido guiado)</li>
+                <li>Reuniones de validación con usuario</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Instrumentos “documentales”</b>
+              <ul>
+                <li>Listas de chequeo (checklists)</li>
+                <li>Plantillas y estándares</li>
+                <li>Matrices (trazabilidad, riesgos)</li>
+                <li>Métricas (defectos, cobertura, etc.)</li>
+              </ul>
+            </div>
+          </div>
+          <p class="tiny">
+            En esta actividad, el instrumento estrella son las
+            <b>listas de chequeo</b> y el <b>informe</b>.
+          </p>
+        </section>
+
+        <!-- Resultados -->
+        <section>
+          <h3>7) ¿Qué resultados se obtienen?</h3>
+          <ul class="small">
+            <li><b>Hallazgos</b>: defectos, inconsistencias, faltantes.</li>
+            <li>
+              <b>Clasificación</b>: severidad (alta/media/baja) y prioridad
+              (urgente/normal).
+            </li>
+            <li>
+              <b>Acciones</b>: correcciones, mejoras, responsables y fechas.
+            </li>
+            <li>
+              <b>Decisiones</b>: aprobar, aprobar con cambios, rechazar y
+              rehacer.
+            </li>
+            <li><b>Lecciones aprendidas</b>: para mejorar el proceso.</li>
+          </ul>
+          <div class="callout small">
+            <b>Meta:</b> que el artefacto quede listo para avanzar a la
+            siguiente fase sin arrastrar errores.
+          </div>
+        </section>
+
+        <!-- Sección evidencias -->
+        <section>
+          <h2>Evidencias EV01 – EV04</h2>
+          <p class="small">
+            Qué entregar y cómo estructurarlo (simple y claro)
+          </p>
+        </section>
+
+        <!-- EV01 -->
+        <section>
+          <h3>EV01 — Taller sobre validación de documentos</h3>
+          <p class="small">
+            <span class="badge">Producto</span> Informe técnico (PDF) —
+            extensión libre
+          </p>
+          <div class="callout small">
+            <b>Tu informe debe responder:</b>
+            <ul>
+              <li>¿Qué es un artefacto?</li>
+              <li>¿Cuáles son los tipos de artefactos?</li>
+              <li>¿Qué es la evaluación de artefactos?</li>
+              <li>¿Cómo se realizan?</li>
+              <li>¿Qué instrumentos se utilizan?</li>
+              <li>¿Qué resultados se obtienen?</li>
+            </ul>
+          </div>
+          <p class="tiny">
+            <b>Tip:</b> usa ejemplos de un proyecto real o uno inventado (pero
+            coherente).
+          </p>
+        </section>
+
+        <!-- EV01 estructura sugerida -->
+        <section>
+          <h3>EV01 — Estructura sugerida (rápida)</h3>
+          <ol class="small">
+            <li>
+              <b>Portada</b> (institución, programa, evidencia, aprendiz, fecha)
+            </li>
+            <li><b>Introducción</b> (1 párrafo: para qué es la validación)</li>
+            <li>
+              <b>Desarrollo</b>
+              <ul>
+                <li>Definición de artefacto</li>
+                <li>Tipos con ejemplos</li>
+                <li>Evaluación: concepto + pasos</li>
+                <li>Instrumentos</li>
+                <li>Resultados esperados</li>
+              </ul>
+            </li>
+            <li><b>Conclusiones</b> (3–5 ideas claras)</li>
+            <li><b>Referencias</b> (si usaste material complementario)</li>
+          </ol>
+        </section>
+
+        <!-- EV02 -->
+        <section>
+          <h3>EV02 — Diseño de instrumentos para verificación</h3>
+          <p class="small">
+            <span class="badge">Producto</span> Documento: instrumento de
+            verificación (PDF)
+          </p>
+
+          <div class="grid2 small">
+            <div class="callout">
+              <b>Qué debes hacer</b>
+              <ul>
+                <li>Diseñar instrumentos para verificar artefactos.</li>
+                <li>Que sea corto, conciso y entendible.</li>
+                <li>Lenguaje sencillo y buena ortografía.</li>
+                <li>Formato amigable y buen diseño.</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Ejemplos de instrumentos</b>
+              <ul>
+                <li>Checklist para requisitos</li>
+                <li>Checklist para diagramas UML</li>
+                <li>Plantilla de revisión por pares</li>
+                <li>Formato de registro de incidencias</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- EV02 ejemplo instrumento -->
+        <section>
+          <h3>EV02 — Ejemplo rápido: “Instrumento de verificación”</h3>
+          <div class="callout small">
+            <b>Instrumento:</b> Formato de revisión de artefacto (1 página)
+            <ul>
+              <li>Nombre del artefacto / versión / fecha</li>
+              <li>Responsable / revisor</li>
+              <li>Criterios (Sí/No/NA) + Observaciones</li>
+              <li>
+                Resultado final: <span class="ok">Aprobado</span> /
+                <span class="warn">Aprobado con cambios</span> / Rechazado
+              </li>
+              <li>Acciones y responsables</li>
+            </ul>
+          </div>
+          <p class="tiny">
+            Esto luego se complementa con las listas de chequeo (EV03).
+          </p>
+        </section>
+
+        <!-- EV03 -->
+        <section>
+          <h3>
+            EV03 — Listas de chequeo para validación (documentación de diseño)
+          </h3>
+          <p class="small">
+            <span class="badge">Producto</span> Documento con listas de chequeo
+            (PDF)
+          </p>
+          <div class="callout small">
+            <b>Una buena lista de chequeo tiene:</b>
+            <ul>
+              <li>Nombre claro (¿para qué sirve?)</li>
+              <li>Categorías/variables (qué se espera encontrar)</li>
+              <li>Escala de incidencias (ej.: Cumple/No cumple/Parcial)</li>
+              <li>Cuadrícula clara y fácil de usar</li>
+              <li>Diseño básico (mientras más simple, mejor)</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- EV03 ejemplo checklist -->
+        <section>
+          <h3>EV03 — Ejemplo de checklist (Diseño UML)</h3>
+          <div class="callout small">
+            <b>Lista de chequeo: Diagrama de clases</b>
+            <ul>
+              <li>¿Incluye clases principales del dominio?</li>
+              <li>¿Relaciones (asociación/herencia) están correctas?</li>
+              <li>¿Atributos y métodos tienen nombres claros?</li>
+              <li>¿Multiplicidades están definidas?</li>
+              <li>¿El diagrama es consistente con los requisitos?</li>
+            </ul>
+            <p class="tiny">
+              <b>Escala sugerida:</b> Cumple / Parcial / No cumple / No aplica
+            </p>
+          </div>
+          <p class="tiny">
+            Puedes hacer varias listas: arquitectura, BD, interfaces, etc.
+          </p>
+        </section>
+
+        <!-- EV04 -->
+        <section>
+          <h3>EV04 — Informe de evaluación de artefactos de diseño</h3>
+          <p class="small">
+            <span class="badge">Producto</span> Informe técnico (PDF) —
+            extensión libre
+          </p>
+
+          <div class="callout small">
+            <b>Debe incluir mínimo:</b>
+            <ul>
+              <li><b>Resumen</b></li>
+              <li><b>Introducción</b></li>
+              <li><b>Objetivos</b></li>
+              <li>
+                <b>Metodología aplicada</b> (cómo evaluaste y con qué
+                instrumentos)
+              </li>
+              <li><b>Conclusiones</b></li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- EV04 contenido clave -->
+        <section>
+          <h3>EV04 — Contenido clave del informe (qué mostrar)</h3>
+          <ul class="small">
+            <li><b>Artefactos evaluados:</b> lista + versión + fecha.</li>
+            <li>
+              <b>Criterios:</b> completitud, claridad, consistencia,
+              trazabilidad, formato.
+            </li>
+            <li>
+              <b>Instrumentos usados:</b> checklists, revisión por pares,
+              registro de incidencias.
+            </li>
+            <li>
+              <b>Hallazgos:</b> tabla con incidencia, severidad, evidencia,
+              recomendación.
+            </li>
+            <li>
+              <b>Decisión:</b> aprobado / aprobado con cambios / rechazado.
+            </li>
+          </ul>
+          <div class="callout tiny">
+            <b>Consejo:</b> usa una tabla simple de hallazgos (ID, Descripción,
+            Severidad, Acción).
+          </div>
+        </section>
+
+        <!-- Errores comunes -->
+        <section>
+          <h3>Errores comunes (y cómo evitarlos)</h3>
+          <div class="grid2 small">
+            <div class="callout">
+              <b>Errores típicos</b>
+              <ul>
+                <li>Checklist demasiado larga</li>
+                <li>Criterios ambiguos (“bien hecho”)</li>
+                <li>No registrar evidencias</li>
+                <li>Sin conclusiones ni decisión final</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Soluciones</b>
+              <ul>
+                <li>Máximo 10–20 ítems por checklist</li>
+                <li>Ítems medibles (Sí/No/Parcial)</li>
+                <li>Observaciones concretas</li>
+                <li>Resumen + decisión + plan de mejora</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mini caso práctico -->
+        <section>
+          <h3>Mini caso práctico (ejemplo)</h3>
+          <div class="callout small">
+            <b>Proyecto:</b> App de citas médicas<br />
+            <b>Artefactos de diseño:</b> diagrama de clases, diagrama de
+            secuencia, modelo entidad-relación<br />
+            <b>Instrumentos:</b> 3 checklists (uno por artefacto) + registro de
+            incidencias<br />
+            <b>Resultado:</b> “Aprobado con cambios” (se corrigen 5
+            inconsistencias antes de pasar a construcción)
+          </div>
+        </section>
+
+        <!-- Cierre -->
+        <section>
+          <h2>Cierre</h2>
+          <ul class="small">
+            <li>
+              Los <b>artefactos</b> son todo lo que se produce en el proyecto
+              (documentos, modelos, código…).
+            </li>
+            <li>Evaluarlos temprano reduce costos y mejora calidad.</li>
+            <li>
+              Las <b>listas de chequeo</b> y los <b>informes</b> hacen la
+              evaluación clara y repetible.
+            </li>
+            <li>
+              EV01–EV04 piden: <b>explicar</b>, <b>crear instrumentos</b>,
+              <b>diseñar checklists</b> y <b>reportar resultados</b>.
+            </li>
+          </ul>
+          <div class="callout small">
+            Si quieres, también puedo generarte las
+            <b>plantillas listas para copiar</b> (portadas, tablas de hallazgos,
+            checklists por tipo de documento) para que las exportes a PDF.
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        controls: true,
+        progress: true,
+        transition: "slide",
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Ficha 200 - Validar artefactos de análisis (GA2-220501093-AA3)
+    </title>
+
+    <!-- Reveal.js -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css"
+    />
+
+    <style>
+      :root {
+        --r-heading-text-transform: none;
+      }
+      body {
+        background: #fff;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #ddd;
+        font-size: 0.75em;
+        margin-right: 8px;
+      }
+      .small {
+        font-size: 0.9em;
+      }
+      .tiny {
+        font-size: 0.75em;
+      }
+      .callout {
+        border-left: 6px solid #4c8bf5;
+        padding: 12px 14px;
+        background: #f5f8ff;
+        border-radius: 12px;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      ul {
+        line-height: 1.35;
+      }
+      .ok {
+        color: #0f7b0f;
+        font-weight: 600;
+      }
+      .warn {
+        color: #b35c00;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Portada -->
+        <section>
+          <h2>Ficha 200 — Validar artefactos de análisis</h2>
+          <p class="small">Actividad GA2-220501093-AA3</p>
+          <div class="callout small">
+            <b>Meta:</b> verificar y validar los documentos de
+            <b>análisis</b> (requisitos, modelos, especificaciones) para
+            asegurar que están alineados con el <b>informe de requisitos</b> y
+            lo que pidió el cliente.
+          </div>
+          <p class="tiny">
+            Duración: <b>24 horas</b> • Componente sugerido: “Validación de
+            documentos”.
+          </p>
+        </section>
+
+        <!-- Agenda -->
+        <section>
+          <h3>¿Qué veremos?</h3>
+          <ul class="small">
+            <li>¿Qué son <b>artefactos de análisis</b>?</li>
+            <li>
+              ¿Qué significa <b>validar</b> y <b>verificar</b> documentos?
+            </li>
+            <li>Proceso simple paso a paso para validar artefactos</li>
+            <li>
+              <b>EV01:</b> Mapa conceptual (cómo hacerlo y qué debe llevar)
+            </li>
+            <li>
+              <b>EV02:</b> Informe de análisis + listas de chequeo (estructura y
+              ejemplo)
+            </li>
+          </ul>
+        </section>
+
+        <!-- Artefactos de análisis -->
+        <section>
+          <h3>1) ¿Qué son “artefactos de análisis”?</h3>
+          <div class="callout">
+            Son los documentos/modelos que describen <b>qué necesita</b> el
+            sistema y <b>cómo se entiende</b> el problema antes de diseñar y
+            programar.
+          </div>
+          <div class="grid3 small" style="margin-top: 14px">
+            <div class="callout">
+              <b>Requisitos</b>
+              <ul>
+                <li>RF / RNF</li>
+                <li>Historias de usuario</li>
+                <li>Casos de uso</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Modelos</b>
+              <ul>
+                <li>Modelo de dominio</li>
+                <li>Procesos / BPMN</li>
+                <li>Casos de uso (UML)</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Especificaciones</b>
+              <ul>
+                <li>Glosario</li>
+                <li>Reglas de negocio</li>
+                <li>Prototipos (wireframes)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Por qué validar -->
+        <section>
+          <h3>¿Por qué es tan importante validarlos?</h3>
+          <div class="grid2 small">
+            <div class="callout">
+              <b>Porque si el análisis está mal…</b>
+              <ul>
+                <li>El diseño sale mal</li>
+                <li>El desarrollo se retrasa</li>
+                <li>Se construye algo que el cliente no pidió</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Y si se valida a tiempo…</b>
+              <ul>
+                <li>Menos cambios costosos</li>
+                <li>Más claridad</li>
+                <li>Mejor comunicación con el cliente</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Verificación vs Validación -->
+        <section>
+          <h3>2) Verificación vs Validación (fácil)</h3>
+          <div class="grid2">
+            <div class="callout small">
+              <div class="badge">Verificación</div>
+              <p><b>¿Está bien hecho el documento?</b></p>
+              <ul>
+                <li>Formato, estructura, consistencia</li>
+                <li>Ortografía, claridad</li>
+                <li>Uso de plantilla y versión</li>
+              </ul>
+            </div>
+            <div class="callout small">
+              <div class="badge">Validación</div>
+              <p><b>¿Dice lo correcto según el cliente?</b></p>
+              <ul>
+                <li>Requisitos completos</li>
+                <li>Lo entiende y aprueba el usuario</li>
+                <li>Coincide con el informe de requisitos</li>
+              </ul>
+            </div>
+          </div>
+          <p class="tiny">
+            <b>Truco:</b> verificar = “calidad del documento”; validar =
+            “calidad de la necesidad”.
+          </p>
+        </section>
+
+        <!-- Proceso paso a paso -->
+        <section>
+          <h3>3) Proceso simple para validar artefactos</h3>
+          <ol class="small">
+            <li>
+              <b>Identificar</b> los documentos a validar (lista de artefactos).
+            </li>
+            <li><b>Definir criterios</b> (qué debe cumplir cada documento).</li>
+            <li>
+              <b>Preparar instrumentos</b> (listas de chequeo + formato de
+              hallazgos).
+            </li>
+            <li>
+              <b>Revisar</b> documento por documento (marcar Cumple/No/Parcial).
+            </li>
+            <li><b>Registrar hallazgos</b> (qué está mal y evidencia).</li>
+            <li><b>Validar con usuarios/cliente</b> (confirmar requisitos).</li>
+            <li>
+              <b>Emitir decisión</b>: Aprobado / Aprobado con cambios /
+              Rechazado.
+            </li>
+          </ol>
+        </section>
+
+        <!-- Qué se entrega -->
+        <section>
+          <h2>Evidencias de la actividad</h2>
+          <p class="small">EV01 y EV02 (qué son y cómo hacerlas)</p>
+        </section>
+
+        <!-- EV01 -->
+        <section>
+          <h3>EV01 — Mapa conceptual sobre validación</h3>
+          <p class="small">
+            <span class="badge">Producto</span> Documento con mapa conceptual
+            (PDF)
+          </p>
+
+          <div class="callout small">
+            <b>Objetivo:</b> mostrar una secuencia lógica de dependencias para
+            validar documentos del proyecto.
+          </div>
+
+          <div class="grid2 small" style="margin-top: 14px">
+            <div class="callout">
+              <b>Debe incluir</b>
+              <ul>
+                <li>Categorías y relaciones claras</li>
+                <li>Orden lógico (de lo general a lo específico)</li>
+                <li>Proporción y lectura fácil</li>
+                <li>Metodología de desarrollo (ágil, tradicional, etc.)</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>También mencionar</b>
+              <ul>
+                <li>Documentos a validar (requisitos, modelos, etc.)</li>
+                <li>
+                  Formatos de aceptación (aprobado, con cambios, rechazado)
+                </li>
+                <li>Herramienta usada (draw.io, Lucidchart, etc.)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- EV01: estructura del mapa conceptual -->
+        <section>
+          <h3>EV01 — Idea de mapa conceptual (contenido sugerido)</h3>
+          <div class="callout small">
+            <b>Nodo central:</b> “Validación de documentos de análisis”
+            <ul>
+              <li>
+                <b>Entradas</b>: Informe de requisitos / necesidades del cliente
+              </li>
+              <li>
+                <b>Artefactos</b>: RF, RNF, casos de uso, reglas de negocio,
+                glosario, prototipos
+              </li>
+              <li>
+                <b>Criterios</b>: completitud, claridad, consistencia,
+                trazabilidad
+              </li>
+              <li>
+                <b>Instrumentos</b>: checklist, revisión por pares, reunión con
+                usuario
+              </li>
+              <li>
+                <b>Resultados</b>: hallazgos + acciones + aceptación (aprobado /
+                con cambios / rechazado)
+              </li>
+            </ul>
+          </div>
+          <p class="tiny">
+            Tip: usa flechas con verbos: “se valida con”, “se verifica
+            mediante”, “genera”.
+          </p>
+        </section>
+
+        <!-- EV02 -->
+        <section>
+          <h3>EV02 — Informe de análisis + listas de chequeo</h3>
+          <p class="small">
+            <span class="badge">Producto</span> Informe técnico (PDF) —
+            extensión libre
+          </p>
+
+          <div class="callout small">
+            <b>Propósito:</b> validar que los artefactos de análisis están
+            acordes con lo requerido por el cliente y que el cliente/usuarios
+            los aprueban.
+          </div>
+
+          <div class="grid2 small" style="margin-top: 14px">
+            <div class="callout">
+              <b>El documento debe tener mínimo</b>
+              <ul>
+                <li>Portada</li>
+                <li>Introducción</li>
+                <li>Alcance</li>
+                <li>Lista de requerimientos</li>
+                <li>Versión del documento</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Además debe evidenciar</b>
+              <ul>
+                <li>Cumplimiento paso a paso</li>
+                <li>Estrategias de cumplimiento</li>
+                <li>Procesos y usuarios interesados</li>
+                <li>Validación con usuarios</li>
+                <li>Listas de chequeo paso a paso</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- EV02: estructura sugerida -->
+        <section>
+          <h3>EV02 — Estructura sugerida del informe</h3>
+          <ol class="small">
+            <li><b>Portada</b> (evidencia, nombre, ficha, fecha)</li>
+            <li><b>Control de versiones</b> (v1.0, v1.1…)</li>
+            <li><b>Introducción</b> (qué se va a validar y por qué)</li>
+            <li><b>Alcance</b> (qué incluye y qué no incluye)</li>
+            <li><b>Requerimientos</b> (lista RF y RNF)</li>
+            <li>
+              <b>Artefactos a validar</b> (tabla: nombre, versión, responsable)
+            </li>
+            <li>
+              <b>Metodología</b> (cómo se hizo la validación + instrumentos)
+            </li>
+            <li><b>Checklists</b> (por artefacto)</li>
+            <li><b>Hallazgos</b> (tabla + severidad)</li>
+            <li>
+              <b>Conclusiones</b> + <b>Aceptación</b> (firmas o visto bueno)
+            </li>
+          </ol>
+        </section>
+
+        <!-- EV02: ejemplo checklist -->
+        <section>
+          <h3>EV02 — Ejemplo de checklist (Requisitos funcionales)</h3>
+          <div class="callout small">
+            <b>Checklist: RF</b> (Escala: Cumple / Parcial / No cumple / N/A)
+            <ul>
+              <li>¿Cada requisito tiene un ID único (RF-01, RF-02…)?</li>
+              <li>¿Está redactado de forma clara y sin ambigüedad?</li>
+              <li>¿Describe una sola necesidad (no mezcla varias)?</li>
+              <li>¿Tiene criterios de aceptación (cómo saber si cumple)?</li>
+              <li>¿Es trazable al objetivo del cliente (evidencia)?</li>
+            </ul>
+          </div>
+          <p class="tiny">
+            Tip: máximo 10–15 ítems por checklist para que sea usable.
+          </p>
+        </section>
+
+        <!-- EV02: tabla de hallazgos -->
+        <section>
+          <h3>EV02 — Tabla simple de hallazgos (recomendado)</h3>
+          <div class="callout small">
+            <b>Campos sugeridos:</b>
+            <ul>
+              <li><b>ID hallazgo</b> (H-01, H-02…)</li>
+              <li><b>Artefacto</b> (Requisitos / caso de uso / prototipo…)</li>
+              <li><b>Descripción</b> (qué está mal o qué falta)</li>
+              <li><b>Severidad</b> (Alta / Media / Baja)</li>
+              <li><b>Recomendación</b> (qué corregir)</li>
+              <li><b>Responsable</b> + <b>fecha</b></li>
+            </ul>
+          </div>
+          <p class="tiny">
+            Resultado final: <span class="ok">Aprobado</span> /
+            <span class="warn">Aprobado con cambios</span> / Rechazado.
+          </p>
+        </section>
+
+        <!-- Tips de presentación -->
+        <section>
+          <h3>Tips para que te quede excelente (y fácil)</h3>
+          <div class="grid2 small">
+            <div class="callout">
+              <b>Mapa conceptual (EV01)</b>
+              <ul>
+                <li>Usa 6–10 nodos clave</li>
+                <li>Flechas con verbos (“se valida con”)</li>
+                <li>
+                  Orden: Requisitos → Artefactos → Instrumentos → Resultados
+                </li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>Informe + checklists (EV02)</b>
+              <ul>
+                <li>Una checklist por artefacto</li>
+                <li>Ítems medibles (no “está bonito”)</li>
+                <li>Hallazgos con evidencia</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cierre -->
+        <section>
+          <h2>Cierre</h2>
+          <ul class="small">
+            <li>
+              Validar artefactos de análisis evita construir “lo incorrecto”.
+            </li>
+            <li>
+              EV01: mapa conceptual con relaciones lógicas y formatos de
+              aceptación.
+            </li>
+            <li>
+              EV02: informe con alcance, requisitos, versión y checklists paso a
+              paso.
+            </li>
+          </ul>
+          <div class="callout small">
+            Si quieres, te armo también:
+            <b>1)</b> un ejemplo de mapa conceptual (texto listo para pasar a
+            draw.io), y <b>2)</b> plantillas de checklists (RF, RNF, casos de
+            uso, prototipos) para copiar/pegar y exportar a PDF.
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        controls: true,
+        progress: true,
+        transition: "slide",
+      });
+    </script>
+  </body>
+</html>
