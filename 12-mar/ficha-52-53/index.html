@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GA5 · Prototipos de Software</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <style>
+      :root {
+        --blue: #1a56db;
+        --blue-lt: #e8f0fe;
+        --orange: #e05c1a;
+        --orange-lt: #fff0e8;
+        --red: #dc2626;
+        --red-lt: #fee2e2;
+        --green: #16a34a;
+        --green-lt: #dcfce7;
+        --gray: #6b7280;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --border: #e2e8f0;
+      }
+
+      .reveal-viewport {
+        background: #f1f5f9;
+      }
+
+      .reveal {
+        font-family: "Nunito", sans-serif;
+        color: var(--dark);
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Nunito", sans-serif;
+        text-transform: none;
+        text-shadow: none;
+        letter-spacing: -0.01em;
+        color: var(--dark);
+      }
+
+      .reveal .slides section {
+        background: white;
+        border-radius: 16px;
+        padding: 36px 44px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .reveal .progress span {
+        background: var(--blue);
+      }
+
+      /* ── PORTADA ── */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100%;
+      }
+      .cover-badge {
+        background: var(--blue-lt);
+        color: var(--blue);
+        font-size: 0.55em;
+        font-weight: 700;
+        padding: 5px 14px;
+        border-radius: 20px;
+        margin-bottom: 18px;
+      }
+      .cover h1 {
+        font-size: 2.4em;
+        font-weight: 800;
+        line-height: 1.1;
+        margin: 0 0 14px;
+      }
+      .cover h1 em {
+        color: var(--blue);
+        font-style: normal;
+      }
+      .cover-bar {
+        width: 60px;
+        height: 5px;
+        background: var(--blue);
+        border-radius: 3px;
+        margin: 16px 0;
+      }
+      .cover p {
+        font-size: 0.72em;
+        color: var(--gray);
+        margin: 4px 0 0;
+      }
+
+      /* ── SLIDE TITLE ── */
+      .stitle {
+        font-size: 1.05em;
+        font-weight: 800;
+        color: var(--dark);
+        margin: 0 0 4px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--border);
+      }
+      .stitle span {
+        color: var(--blue);
+      }
+      .sub {
+        font-size: 0.6em;
+        color: var(--gray);
+        margin: 0 0 16px;
+      }
+
+      /* ── CARDS ── */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .card {
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        background: var(--light);
+      }
+      .card .icon {
+        font-size: 1.6em;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .card h3 {
+        font-size: 0.65em;
+        font-weight: 800;
+        margin: 0 0 6px;
+        color: var(--blue);
+      }
+      .card p {
+        font-size: 0.58em;
+        color: var(--gray);
+        margin: 0;
+        line-height: 1.5;
+      }
+      .card.orange {
+        border-color: #fcd9c4;
+        background: var(--orange-lt);
+      }
+      .card.orange h3 {
+        color: var(--orange);
+      }
+      .card.green {
+        border-color: #bbf7d0;
+        background: var(--green-lt);
+      }
+      .card.green h3 {
+        color: var(--green);
+      }
+
+      /* ── DIVIDER ── */
+      .divider {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background: var(--blue) !important;
+        border-radius: 16px;
+      }
+      .divider h2 {
+        font-size: 1.9em;
+        font-weight: 800;
+        color: white !important;
+        text-align: center;
+        margin: 0;
+      }
+      .divider p {
+        font-size: 0.7em;
+        color: rgba(255, 255, 255, 0.75);
+        margin: 10px 0 0;
+      }
+      .divider .num {
+        font-size: 3.5em;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.15);
+        line-height: 1;
+        margin-bottom: -16px;
+      }
+
+      /* ── WIREFRAME ── */
+      .wf-wrap {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+      }
+      .wf-box {
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        width: 170px;
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      }
+      .wf-head {
+        background: var(--blue);
+        color: white;
+        font-size: 0.5em;
+        font-weight: 700;
+        padding: 7px 10px;
+      }
+      .wf-head.orange {
+        background: var(--orange);
+      }
+      .wf-head.red {
+        background: var(--red);
+      }
+      .wf-body {
+        padding: 12px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        background: white;
+      }
+      .wf-label {
+        font-size: 0.38em;
+        color: var(--gray);
+        margin-bottom: -4px;
+      }
+      .wf-field {
+        border: 1.5px solid var(--border);
+        border-radius: 5px;
+        height: 20px;
+        font-size: 0.42em;
+        color: #94a3b8;
+        padding: 0 8px;
+        display: flex;
+        align-items: center;
+        background: var(--light);
+      }
+      .wf-btn {
+        background: var(--blue);
+        border-radius: 5px;
+        height: 22px;
+        font-size: 0.42em;
+        color: white;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 4px;
+      }
+      .wf-btn.orange {
+        background: var(--orange);
+      }
+      .wf-btn.red {
+        background: var(--red);
+      }
+      .wf-link {
+        font-size: 0.38em;
+        color: var(--blue);
+        text-align: center;
+        text-decoration: underline;
+      }
+      .wf-error {
+        background: var(--red-lt);
+        border: 1px solid #fca5a5;
+        border-radius: 5px;
+        padding: 5px 8px;
+        font-size: 0.4em;
+        color: var(--red);
+        line-height: 1.4;
+      }
+
+      /* ── TIPS ── */
+      .tips {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .tip {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        background: var(--light);
+        border-radius: 8px;
+        padding: 10px 12px;
+        border-left: 3px solid var(--blue);
+      }
+      .tip.orange {
+        border-color: var(--orange);
+      }
+      .tip.red {
+        border-color: var(--red);
+      }
+      .tip.green {
+        border-color: var(--green);
+      }
+      .tip-icon {
+        font-size: 0.9em;
+      }
+      .tip-text h4 {
+        font-size: 0.6em;
+        font-weight: 700;
+        margin: 0 0 3px;
+        color: var(--dark);
+      }
+      .tip-text p {
+        font-size: 0.55em;
+        color: var(--gray);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* ── PALETTE ── */
+      .palette {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin: 18px 0;
+      }
+      .swatch {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .sw-circle {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        border: 3px solid rgba(0, 0, 0, 0.07);
+      }
+      .sw-hex {
+        font-size: 0.5em;
+        color: var(--gray);
+        font-weight: 700;
+      }
+      .sw-role {
+        font-size: 0.55em;
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .sw-use {
+        font-size: 0.48em;
+        color: var(--gray);
+      }
+      .palette-rule {
+        background: var(--blue-lt);
+        border-left: 3px solid var(--blue);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 0.6em;
+        color: var(--dark);
+      }
+
+      /* ── QUALITY TABLE ── */
+      .q-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.6em;
+        margin-top: 14px;
+      }
+      .q-table thead tr {
+        background: var(--blue);
+        color: white;
+      }
+      .q-table th {
+        padding: 9px 12px;
+        text-align: left;
+        font-weight: 700;
+      }
+      .q-table td {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+        color: var(--gray);
+        vertical-align: top;
+      }
+      .q-table td:first-child {
+        font-weight: 700;
+        color: var(--dark);
+        white-space: nowrap;
+      }
+      .q-table tr:nth-child(even) td {
+        background: var(--light);
+      }
+
+      /* ── STEPS ── */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: var(--light);
+        border-radius: 10px;
+        padding: 12px 16px;
+        border: 1.5px solid var(--border);
+      }
+      .step-num {
+        background: var(--blue);
+        color: white;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.58em;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+      .step-content h4 {
+        font-size: 0.65em;
+        font-weight: 700;
+        margin: 0 0 3px;
+        color: var(--dark);
+      }
+      .step-content p {
+        font-size: 0.58em;
+        color: var(--gray);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* ── DELIVERY ── */
+      .delivery {
+        background: var(--light);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 14px;
+      }
+      .delivery-row {
+        display: flex;
+        align-items: center;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.62em;
+      }
+      .delivery-row:last-child {
+        border-bottom: none;
+      }
+      .delivery-row .lbl {
+        font-weight: 700;
+        color: var(--dark);
+        min-width: 110px;
+      }
+      .delivery-row .val {
+        color: var(--gray);
+      }
+      .delivery-row .val.code {
+        background: var(--blue-lt);
+        color: var(--blue);
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+
+      /* ── FINAL ── */
+      .final {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100%;
+        background: var(--blue) !important;
+      }
+      .final h2 {
+        font-size: 2em;
+        font-weight: 800;
+        color: white !important;
+        margin: 0 0 12px;
+      }
+      .final p {
+        font-size: 0.7em;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 380px;
+        line-height: 1.6;
+        margin: 0 0 20px;
+      }
+      .final .code-pill {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        font-size: 0.6em;
+        font-weight: 700;
+        padding: 6px 16px;
+        border-radius: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1. PORTADA -->
+        <section>
+          <div class="cover">
+            <span class="cover-badge">Fichas 3186652 / 3186653 · Guía 5</span>
+            <h1>Prototipos de<br /><em>Software</em></h1>
+            <div class="cover-bar"></div>
+            <p>Actividad AA1-EV01 · Taller sobre construcción del prototipo</p>
+            <p>Competencia 220501095</p>
+          </div>
+        </section>
+
+        <!-- 2. ¿QUÉ HAY QUE HACER? -->
+        <section>
+          <p class="stitle">¿Qué hay que hacer en esta actividad?</p>
+          <p class="sub">El taller tiene dos secciones principales</p>
+          <div class="cards">
+            <div class="card fragment">
+              <span class="icon">🖥️</span>
+              <h3>Sección 1 — Prototipos</h3>
+              <p>
+                Diseñar 3 pantallas: Login, Registro de usuario y pantalla de
+                Errores. Además proponer una paleta de máximo 3 colores.
+              </p>
+            </div>
+            <div class="card orange fragment">
+              <span class="icon">🎨</span>
+              <h3>Paleta de colores</h3>
+              <p>
+                Elegir hasta 3 colores coherentes entre sí y usarlos de forma
+                consistente en todas las pantallas.
+              </p>
+            </div>
+            <div class="card green fragment">
+              <span class="icon">📚</span>
+              <h3>Sección 2 — Calidad</h3>
+              <p>
+                Investigar con mínimo 3 fuentes los conceptos de calidad,
+                usabilidad, estándares y herramientas.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. SEPARADOR -->
+        <section>
+          <div class="divider">
+            <div class="num">01</div>
+            <h2>Sección 1<br />Las 3 pantallas</h2>
+            <p>Diseño de prototipos de interfaz</p>
+          </div>
+        </section>
+
+        <!-- 4. LOGIN -->
+        <section>
+          <p class="stitle">
+            Pantalla 1 · <span>Inicio de sesión (Login)</span>
+          </p>
+          <p class="sub">Permite validar que el usuario es auténtico</p>
+          <div class="wf-wrap">
+            <div class="wf-box fragment">
+              <div class="wf-head">🔐 Iniciar sesión</div>
+              <div class="wf-body">
+                <div class="wf-label">Correo electrónico</div>
+                <div class="wf-field">ejemplo@correo.com</div>
+                <div class="wf-label">Contraseña</div>
+                <div class="wf-field">••••••••</div>
+                <div class="wf-btn">INGRESAR</div>
+                <div class="wf-link">¿Olvidaste tu contraseña?</div>
+              </div>
+            </div>
+            <div class="tips">
+              <div class="tip fragment">
+                <span class="tip-icon">✅</span>
+                <div class="tip-text">
+                  <h4>Componentes necesarios</h4>
+                  <p>
+                    Campo de correo/usuario · Campo de contraseña (texto oculto)
+                    · Botón de acción · Enlace de recuperación
+                  </p>
+                </div>
+              </div>
+              <div class="tip fragment">
+                <span class="tip-icon">📋</span>
+                <div class="tip-text">
+                  <h4>Orden lógico</h4>
+                  <p>
+                    Los campos van de arriba a abajo. El botón siempre al final
+                    del formulario con color destacado.
+                  </p>
+                </div>
+              </div>
+              <div class="tip fragment">
+                <span class="tip-icon">💡</span>
+                <div class="tip-text">
+                  <h4>Buena práctica</h4>
+                  <p>
+                    Usa el mismo tamaño y tipo de letra en todos los campos para
+                    mantener consistencia visual.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. REGISTRO -->
+        <section>
+          <p class="stitle">Pantalla 2 · <span>Registro de usuario</span></p>
+          <p class="sub">
+            Captura nombres, apellidos, cédula y fecha de nacimiento
+          </p>
+          <div class="wf-wrap">
+            <div class="wf-box fragment">
+              <div class="wf-head orange">👤 Registro</div>
+              <div class="wf-body">
+                <div class="wf-label">Nombres</div>
+                <div class="wf-field">Ingresa tus nombres</div>
+                <div class="wf-label">Apellidos</div>
+                <div class="wf-field">Ingresa tus apellidos</div>
+                <div class="wf-label">Cédula</div>
+                <div class="wf-field">Número de documento</div>
+                <div class="wf-label">Fecha de nacimiento</div>
+                <div class="wf-field">DD / MM / AAAA</div>
+                <div class="wf-btn orange">REGISTRAR</div>
+              </div>
+            </div>
+            <div class="tips">
+              <div class="tip orange fragment">
+                <span class="tip-icon">📝</span>
+                <div class="tip-text">
+                  <h4>4 campos requeridos</h4>
+                  <p>
+                    Nombres · Apellidos · Cédula · Fecha de nacimiento. Cada
+                    campo con su etiqueta visible arriba.
+                  </p>
+                </div>
+              </div>
+              <div class="tip fragment">
+                <span class="tip-icon">🔢</span>
+                <div class="tip-text">
+                  <h4>Tipo de dato</h4>
+                  <p>
+                    Cédula: solo números. Fecha: selector de calendario o
+                    formato DD/MM/AAAA para evitar errores.
+                  </p>
+                </div>
+              </div>
+              <div class="tip green fragment">
+                <span class="tip-icon">💡</span>
+                <div class="tip-text">
+                  <h4>Consistencia visual</h4>
+                  <p>
+                    Los 4 campos deben tener el mismo ancho, fuente y altura
+                    para que la pantalla se vea ordenada.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. ERRORES -->
+        <section>
+          <p class="stitle">Pantalla 3 · <span>Mensajes de error</span></p>
+          <p class="sub">Informa al usuario cuando algo salió mal</p>
+          <div class="wf-wrap">
+            <div class="wf-box fragment">
+              <div class="wf-head red">⚠ Error</div>
+              <div class="wf-body">
+                <div class="wf-error">
+                  ⚠ Usuario o contraseña incorrectos.<br />
+                  Verifica tus datos e intenta de nuevo.
+                </div>
+                <div class="wf-field" style="margin-top: 4px">
+                  Correo electrónico
+                </div>
+                <div class="wf-field">Contraseña</div>
+                <div class="wf-btn red">REINTENTAR</div>
+                <div class="wf-link">Ir al inicio</div>
+              </div>
+            </div>
+            <div class="tips">
+              <div class="tip red fragment">
+                <span class="tip-icon">❌</span>
+                <div class="tip-text">
+                  <h4>Elementos obligatorios</h4>
+                  <p>
+                    Ícono de advertencia · Mensaje claro de qué falló ·
+                    Instrucción de qué hacer · Botón para reintentar.
+                  </p>
+                </div>
+              </div>
+              <div class="tip fragment">
+                <span class="tip-icon">🎨</span>
+                <div class="tip-text">
+                  <h4>Color de error</h4>
+                  <p>
+                    El rojo se usa SOLO para errores. No lo uses en ningún otro
+                    lugar de la aplicación.
+                  </p>
+                </div>
+              </div>
+              <div class="tip orange fragment">
+                <span class="tip-icon">✍️</span>
+                <div class="tip-text">
+                  <h4>Redacción del mensaje</h4>
+                  <p>
+                    Di QUÉ pasó y QUÉ debe hacer el usuario. Evita mensajes
+                    técnicos como "Error 401".
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. PALETA -->
+        <section>
+          <p class="stitle">
+            Paleta de colores · <span>Máximo 3 colores</span>
+          </p>
+          <p class="sub">
+            Los 3 colores deben verse coherentes en todas las pantallas
+          </p>
+          <div class="palette">
+            <div class="swatch fragment">
+              <div class="sw-circle" style="background: #2563eb"></div>
+              <div class="sw-hex">#2563EB</div>
+              <div class="sw-role">Color principal</div>
+              <div class="sw-use">Botones, títulos, barras</div>
+            </div>
+            <div class="swatch fragment">
+              <div
+                class="sw-circle"
+                style="background: #f3f4f6; border: 2px solid #e2e8f0"
+              ></div>
+              <div class="sw-hex" style="color: #94a3b8">#F3F4F6</div>
+              <div class="sw-role">Color neutro</div>
+              <div class="sw-use">Fondos, campos, tarjetas</div>
+            </div>
+            <div class="swatch fragment">
+              <div class="sw-circle" style="background: #dc2626"></div>
+              <div class="sw-hex">#DC2626</div>
+              <div class="sw-role">Color de alerta</div>
+              <div class="sw-use">Solo para errores</div>
+            </div>
+          </div>
+          <div class="palette-rule fragment">
+            💡 <strong>Regla 60 / 30 / 10:</strong> El color neutro ocupa el 60%
+            (fondos), el color principal el 30% (botones, encabezados) y el
+            color de alerta solo el 10%, únicamente cuando hay un error.
+          </div>
+        </section>
+
+        <!-- 8. SEPARADOR 2 -->
+        <section>
+          <div class="divider">
+            <div class="num">02</div>
+            <h2>Sección 2<br />Calidad de Software</h2>
+            <p>Investigación con mínimo 3 fuentes</p>
+          </div>
+        </section>
+
+        <!-- 9. CONCEPTOS -->
+        <section>
+          <p class="stitle">
+            Los <span>4 conceptos</span> que debes investigar
+          </p>
+          <p class="sub">
+            Usa al menos 3 fuentes: libros, artículos o sitios académicos
+          </p>
+          <table class="q-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Concepto</th>
+                <th>¿Qué buscar?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fragment">
+                <td>1</td>
+                <td>Definición de calidad de software</td>
+                <td>
+                  ¿Qué significa que un software sea de calidad? Norma ISO 25010
+                </td>
+              </tr>
+              <tr class="fragment">
+                <td>2</td>
+                <td>Usabilidad</td>
+                <td>
+                  ¿Qué tan fácil es de usar? Jakob Nielsen y sus 10 heurísticas
+                </td>
+              </tr>
+              <tr class="fragment">
+                <td>3</td>
+                <td>Estándares de calidad</td>
+                <td>ISO/IEC 25010 · CMMI · IEEE 730 · ISO 9001</td>
+              </tr>
+              <tr class="fragment">
+                <td>4</td>
+                <td>Tecnologías para calidad</td>
+                <td>SonarQube · Selenium · JUnit · Jest · Google Lighthouse</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 10. PASOS -->
+        <section>
+          <p class="stitle">¿Cómo <span>entregar</span> la evidencia?</p>
+          <p class="sub">Sigue estos 4 pasos en orden</p>
+          <div class="steps">
+            <div class="step fragment">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>Diseña los 3 prototipos</h4>
+                <p>
+                  Login · Registro · Error — puedes usar Figma, Balsamiq, Marvel
+                  App o papel y lápiz (fotografiado).
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>Define y muestra tu paleta</h4>
+                <p>
+                  Presenta los 3 colores con su código HEX y explica para qué
+                  usas cada uno.
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>Redacta la investigación</h4>
+                <p>
+                  Responde los 4 conceptos con tus propias palabras. Cita las 3
+                  fuentes al final del documento.
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>Exporta en PDF y sube a la plataforma</h4>
+                <p>
+                  Accede a la actividad AA1-EV01 en la plataforma SENA y adjunta
+                  tu archivo PDF.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. RESUMEN -->
+        <section>
+          <p class="stitle">Resumen · <span>Lo que debes entregar</span></p>
+          <p class="sub">
+            Verifica que tu documento tenga todo esto antes de enviarlo
+          </p>
+          <div class="delivery">
+            <div class="delivery-row">
+              <span class="lbl">📄 Producto</span>
+              <span class="val"
+                >Documento con prototipos + investigación de calidad de
+                software</span
+              >
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">📁 Formato</span>
+              <span class="val">PDF (obligatorio)</span>
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">📏 Extensión</span>
+              <span class="val">Libre — incluye todo lo necesario</span>
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">🖥️ Sección 1</span>
+              <span class="val"
+                >3 pantallas diseñadas + paleta de colores (máx. 3
+                colores)</span
+              >
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">📚 Sección 2</span>
+              <span class="val"
+                >Investigación con los 4 conceptos y mínimo 3 fuentes
+                citadas</span
+              >
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">🔖 Código</span>
+              <span class="val"
+                ><span class="code">GA5-220501095-AA1-EV01</span></span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. CIERRE -->
+        <section>
+          <div class="final">
+            <h2>¡Mucho éxito! 🎉</h2>
+            <p>
+              Recuerda que un buen prototipo comunica la idea antes de escribir
+              una sola línea de código.
+            </p>
+            <div class="code-pill">GA5 · AA1-EV01 · Competencia 220501095</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        controls: true,
+        progress: true,
+        center: false,
+        width: 960,
+        height: 600,
+        margin: 0.04,
+      });
+    </script>
+  </body>
+</html>

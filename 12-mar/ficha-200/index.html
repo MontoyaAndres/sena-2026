@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GA2 · Licenciamiento de Software</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <style>
+      :root {
+        --blue: #1a56db;
+        --blue-lt: #e8f0fe;
+        --green: #16a34a;
+        --green-lt: #dcfce7;
+        --orange: #d97706;
+        --orange-lt: #fef3c7;
+        --purple: #7c3aed;
+        --purple-lt: #ede9fe;
+        --red: #dc2626;
+        --red-lt: #fee2e2;
+        --gray: #6b7280;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --border: #e2e8f0;
+      }
+
+      .reveal-viewport {
+        background: #f1f5f9;
+      }
+      .reveal {
+        font-family: "Nunito", sans-serif;
+        color: var(--dark);
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Nunito", sans-serif;
+        text-transform: none;
+        text-shadow: none;
+        letter-spacing: -0.01em;
+        color: var(--dark);
+      }
+      .reveal .slides section {
+        background: white;
+        border-radius: 16px;
+        padding: 34px 44px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        height: 100%;
+        box-sizing: border-box;
+      }
+      .reveal .progress span {
+        background: var(--blue);
+      }
+
+      /* ── PORTADA ── */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100%;
+      }
+      .cover-badge {
+        background: var(--blue-lt);
+        color: var(--blue);
+        font-size: 0.55em;
+        font-weight: 700;
+        padding: 5px 14px;
+        border-radius: 20px;
+        margin-bottom: 18px;
+      }
+      .cover h1 {
+        font-size: 2.3em;
+        font-weight: 800;
+        line-height: 1.1;
+        margin: 0 0 14px;
+      }
+      .cover h1 em {
+        color: var(--blue);
+        font-style: normal;
+      }
+      .cover-bar {
+        width: 60px;
+        height: 5px;
+        background: var(--blue);
+        border-radius: 3px;
+        margin: 16px 0;
+      }
+      .cover p {
+        font-size: 0.72em;
+        color: var(--gray);
+        margin: 4px 0 0;
+      }
+
+      /* ── SLIDE TITLE ── */
+      .stitle {
+        font-size: 1.05em;
+        font-weight: 800;
+        color: var(--dark);
+        margin: 0 0 4px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--border);
+      }
+      .stitle span {
+        color: var(--blue);
+      }
+      .sub {
+        font-size: 0.6em;
+        color: var(--gray);
+        margin: 0 0 16px;
+      }
+
+      /* ── DIVIDER ── */
+      .divider {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background: var(--blue) !important;
+        border-radius: 16px;
+      }
+      .divider h2 {
+        font-size: 1.9em;
+        font-weight: 800;
+        color: white !important;
+        text-align: center;
+        margin: 0;
+      }
+      .divider p {
+        font-size: 0.7em;
+        color: rgba(255, 255, 255, 0.75);
+        margin: 10px 0 0;
+        text-align: center;
+      }
+      .divider .num {
+        font-size: 3.5em;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.15);
+        line-height: 1;
+        margin-bottom: -16px;
+      }
+
+      /* ── CARDS GRID ── */
+      .cards-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .cards-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .cards-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .card {
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        background: var(--light);
+      }
+      .card .icon {
+        font-size: 1.5em;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .card h3 {
+        font-size: 0.65em;
+        font-weight: 800;
+        margin: 0 0 6px;
+        color: var(--blue);
+      }
+      .card p {
+        font-size: 0.58em;
+        color: var(--gray);
+        margin: 0;
+        line-height: 1.5;
+      }
+      .card.green {
+        border-color: #bbf7d0;
+        background: var(--green-lt);
+      }
+      .card.green h3 {
+        color: var(--green);
+      }
+      .card.orange {
+        border-color: #fde68a;
+        background: var(--orange-lt);
+      }
+      .card.orange h3 {
+        color: var(--orange);
+      }
+      .card.purple {
+        border-color: #ddd6fe;
+        background: var(--purple-lt);
+      }
+      .card.purple h3 {
+        color: var(--purple);
+      }
+      .card.red {
+        border-color: #fecaca;
+        background: var(--red-lt);
+      }
+      .card.red h3 {
+        color: var(--red);
+      }
+
+      /* ── BIG DEFINITION ── */
+      .def-box {
+        background: var(--blue-lt);
+        border-left: 4px solid var(--blue);
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin: 14px 0;
+      }
+      .def-box p {
+        font-size: 0.68em;
+        color: var(--dark);
+        margin: 0;
+        line-height: 1.6;
+      }
+      .def-box.green {
+        background: var(--green-lt);
+        border-color: var(--green);
+      }
+      .def-box.orange {
+        background: var(--orange-lt);
+        border-color: var(--orange);
+      }
+
+      /* ── LICENSE BADGES ── */
+      .lic-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 14px;
+      }
+      .lic-item {
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 14px;
+        background: var(--light);
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .lic-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .lic-item h4 {
+        font-size: 0.65em;
+        font-weight: 800;
+        margin: 0 0 4px;
+        color: var(--dark);
+      }
+      .lic-item p {
+        font-size: 0.56em;
+        color: var(--gray);
+        margin: 0;
+        line-height: 1.4;
+      }
+      .lic-item .tag {
+        font-size: 0.42em;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 5px;
+      }
+
+      /* ── TABLE ── */
+      .tbl {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.6em;
+        margin-top: 14px;
+      }
+      .tbl thead tr {
+        background: var(--blue);
+        color: white;
+      }
+      .tbl th {
+        padding: 9px 12px;
+        text-align: left;
+        font-weight: 700;
+      }
+      .tbl td {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+        color: var(--gray);
+        vertical-align: top;
+      }
+      .tbl td:first-child {
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .tbl tr:nth-child(even) td {
+        background: var(--light);
+      }
+      .chip {
+        display: inline-block;
+        font-size: 0.85em;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 10px;
+      }
+      .chip.b {
+        background: var(--blue-lt);
+        color: var(--blue);
+      }
+      .chip.g {
+        background: var(--green-lt);
+        color: var(--green);
+      }
+      .chip.o {
+        background: var(--orange-lt);
+        color: var(--orange);
+      }
+      .chip.p {
+        background: var(--purple-lt);
+        color: var(--purple);
+      }
+
+      /* ── STEPS ── */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: var(--light);
+        border-radius: 10px;
+        padding: 12px 16px;
+        border: 1.5px solid var(--border);
+      }
+      .step-num {
+        background: var(--blue);
+        color: white;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.58em;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+      .step-num.green {
+        background: var(--green);
+      }
+      .step-num.orange {
+        background: var(--orange);
+      }
+      .step-content h4 {
+        font-size: 0.65em;
+        font-weight: 700;
+        margin: 0 0 3px;
+        color: var(--dark);
+      }
+      .step-content p {
+        font-size: 0.58em;
+        color: var(--gray);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* ── FICHA TÉCNICA PREVIEW ── */
+      .ficha {
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 14px;
+        font-size: 0.58em;
+      }
+      .ficha-head {
+        background: var(--blue);
+        color: white;
+        padding: 8px 14px;
+        font-weight: 800;
+        font-size: 1em;
+      }
+      .ficha-row {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+      }
+      .ficha-row:last-child {
+        border-bottom: none;
+      }
+      .ficha-label {
+        background: var(--light);
+        font-weight: 700;
+        color: var(--dark);
+        padding: 7px 12px;
+        min-width: 160px;
+        border-right: 1px solid var(--border);
+        font-size: 0.95em;
+      }
+      .ficha-val {
+        padding: 7px 12px;
+        color: var(--gray);
+        font-size: 0.95em;
+        flex: 1;
+      }
+      .ficha-val.blank {
+        color: #cbd5e1;
+        font-style: italic;
+      }
+
+      /* ── DELIVERY ── */
+      .delivery {
+        background: var(--light);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 14px;
+      }
+      .delivery-row {
+        display: flex;
+        align-items: center;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.62em;
+      }
+      .delivery-row:last-child {
+        border-bottom: none;
+      }
+      .delivery-row .lbl {
+        font-weight: 700;
+        color: var(--dark);
+        min-width: 120px;
+      }
+      .delivery-row .val {
+        color: var(--gray);
+      }
+      .delivery-row .code {
+        background: var(--blue-lt);
+        color: var(--blue);
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+
+      /* ── FINAL ── */
+      .final {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100%;
+        background: var(--blue) !important;
+      }
+      .final h2 {
+        font-size: 2em;
+        font-weight: 800;
+        color: white !important;
+        margin: 0 0 12px;
+      }
+      .final p {
+        font-size: 0.7em;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 400px;
+        line-height: 1.6;
+        margin: 0 0 20px;
+      }
+      .final .pill {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        font-size: 0.6em;
+        font-weight: 700;
+        padding: 6px 16px;
+        border-radius: 20px;
+        margin: 4px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1. PORTADA -->
+        <section>
+          <div class="cover">
+            <span class="cover-badge">Ficha 3336200 · GA2-220501094</span>
+            <h1>Licenciamiento<br />de <em>Software</em></h1>
+            <div class="cover-bar"></div>
+            <p>Evidencia AA1-EV01 · Foro temático</p>
+            <p>Evidencia AA1-EV02 · Ficha técnica</p>
+          </div>
+        </section>
+
+        <!-- 2. DOS EVIDENCIAS -->
+        <section>
+          <p class="stitle">¿Qué hay que hacer?</p>
+          <p class="sub">Esta guía tiene dos productos que entregar</p>
+          <div class="cards-2">
+            <div class="card fragment">
+              <span class="icon">💬</span>
+              <h3>Evidencia 01 — Foro</h3>
+              <p>
+                Participar en el foro respondiendo preguntas sobre software y
+                licencias. También debes responder el comentario de un compañero
+                de forma crítica y reflexiva.
+              </p>
+            </div>
+            <div class="card green fragment">
+              <span class="icon">📋</span>
+              <h3>Evidencia 02 — Ficha técnica</h3>
+              <p>
+                Diseñar una ficha técnica para recolección de información,
+                basada en la Norma NTC ISO 9000 de Gestión de Calidad.
+              </p>
+            </div>
+          </div>
+          <div class="def-box fragment" style="margin-top: 14px">
+            <p>
+              📌 Antes de hacer cualquiera de las dos evidencias, estudia
+              detenidamente los conceptos del componente formativo y el material
+              complementario sugerido.
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. SEPARADOR EV01 -->
+        <section>
+          <div class="divider">
+            <div class="num">01</div>
+            <h2>Evidencia 01<br />Foro temático</h2>
+            <p>Licenciamiento de software</p>
+          </div>
+        </section>
+
+        <!-- 4. ¿QUÉ ES SOFTWARE? -->
+        <section>
+          <p class="stitle">Pregunta 1 · <span>¿Qué es software?</span></p>
+          <p class="sub">Base conceptual antes de hablar de licencias</p>
+          <div class="def-box fragment">
+            <p>
+              El <strong>software</strong> es el conjunto de programas,
+              instrucciones y datos que permiten a un computador realizar tareas
+              específicas. A diferencia del hardware, el software no se puede
+              tocar; es intangible.
+            </p>
+          </div>
+          <div class="cards-3" style="margin-top: 14px">
+            <div class="card fragment">
+              <span class="icon">⚙️</span>
+              <h3>Software de sistema</h3>
+              <p>Controla el hardware. Ej: Windows, Linux, macOS</p>
+            </div>
+            <div class="card green fragment">
+              <span class="icon">📱</span>
+              <h3>Software de aplicación</h3>
+              <p>Resuelve tareas del usuario. Ej: Word, Chrome, WhatsApp</p>
+            </div>
+            <div class="card orange fragment">
+              <span class="icon">🛠️</span>
+              <h3>Software de desarrollo</h3>
+              <p>Sirve para crear otros programas. Ej: VS Code, Eclipse</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. ¿QUÉ ES LICENCIA? -->
+        <section>
+          <p class="stitle">
+            Pregunta 2 · <span>¿Qué es una licencia de software?</span>
+          </p>
+          <p class="sub">Es un contrato legal entre el creador y el usuario</p>
+          <div class="def-box fragment">
+            <p>
+              Una <strong>licencia de software</strong> es un contrato que
+              define los <strong>derechos y restricciones</strong> de uso de un
+              programa. Establece qué puede hacer el usuario: instalarlo,
+              copiarlo, modificarlo o redistribuirlo.
+            </p>
+          </div>
+          <div class="cards-2" style="margin-top: 14px">
+            <div class="card fragment">
+              <span class="icon">✅</span>
+              <h3>¿Qué permite?</h3>
+              <p>
+                Usar el software en ciertos dispositivos · Hacer copias de
+                seguridad · Acceder a actualizaciones · Usar en un plazo
+                determinado
+              </p>
+            </div>
+            <div class="card red fragment">
+              <span class="icon">🚫</span>
+              <h3>¿Qué prohíbe?</h3>
+              <p>
+                Distribuir sin autorización · Modificar el código fuente · Usar
+                en más equipos de los permitidos · Revender la licencia
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. TIPOS DE LICENCIA -->
+        <section>
+          <p class="stitle">
+            Pregunta 3 · <span>Tipos de licencia de software</span>
+          </p>
+          <p class="sub">
+            Existen varios tipos según el nivel de libertad que otorgan
+          </p>
+          <div class="lic-grid">
+            <div class="lic-item fragment">
+              <div class="lic-dot" style="background: #1a56db"></div>
+              <div>
+                <h4>Propietaria / Comercial</h4>
+                <p>
+                  El código fuente es privado. El usuario paga por usarlo pero
+                  no puede modificarlo. Ej: Windows, Microsoft Office.
+                </p>
+                <span class="tag" style="background: #e8f0fe; color: #1a56db"
+                  >Restrictiva</span
+                >
+              </div>
+            </div>
+            <div class="lic-item fragment">
+              <div class="lic-dot" style="background: #16a34a"></div>
+              <div>
+                <h4>Software Libre (GPL)</h4>
+                <p>
+                  El código es abierto. Se puede usar, copiar, modificar y
+                  redistribuir libremente. Ej: Linux, LibreOffice.
+                </p>
+                <span class="tag" style="background: #dcfce7; color: #16a34a"
+                  >Libre</span
+                >
+              </div>
+            </div>
+            <div class="lic-item fragment">
+              <div class="lic-dot" style="background: #d97706"></div>
+              <div>
+                <h4>Freeware</h4>
+                <p>
+                  Gratuito para usar, pero el código fuente sigue siendo
+                  privado. No se puede modificar. Ej: Adobe Reader, Zoom.
+                </p>
+                <span class="tag" style="background: #fef3c7; color: #d97706"
+                  >Gratis · Sin código</span
+                >
+              </div>
+            </div>
+            <div class="lic-item fragment">
+              <div class="lic-dot" style="background: #7c3aed"></div>
+              <div>
+                <h4>Shareware</h4>
+                <p>
+                  Se puede probar por un tiempo limitado o con funciones
+                  reducidas. Luego requiere pago. Ej: WinRAR.
+                </p>
+                <span class="tag" style="background: #ede9fe; color: #7c3aed"
+                  >Prueba / Pago</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. MÁS TIPOS -->
+        <section>
+          <p class="stitle">Más tipos de licencia</p>
+          <p class="sub">Otras categorías importantes que debes conocer</p>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>¿Qué permite?</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fragment">
+                <td>Open Source (MIT / Apache)</td>
+                <td>
+                  Usar y modificar libremente, incluso en proyectos comerciales
+                </td>
+                <td><span class="chip g">React, Angular</span></td>
+              </tr>
+              <tr class="fragment">
+                <td>Creative Commons</td>
+                <td>
+                  Para contenidos creativos: se define si se puede modificar o
+                  usar comercialmente
+                </td>
+                <td><span class="chip o">Wikipedia</span></td>
+              </tr>
+              <tr class="fragment">
+                <td>Dominio Público</td>
+                <td>
+                  Sin restricciones. Cualquiera puede usarlo, modificarlo y
+                  venderlo
+                </td>
+                <td><span class="chip p">SQLite</span></td>
+              </tr>
+              <tr class="fragment">
+                <td>Freemium / SaaS</td>
+                <td>
+                  Versión básica gratis, funciones avanzadas de pago, como
+                  servicio en la nube
+                </td>
+                <td><span class="chip b">Spotify, Notion</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 8. ¿CUÁLES SON LAS MÁS ADECUADAS? -->
+        <section>
+          <p class="stitle">
+            Pregunta 4 · <span>¿Cuáles son las más adecuadas?</span>
+          </p>
+          <p class="sub">
+            Depende del contexto: desarrollo, empresa o educación
+          </p>
+          <div class="cards-3">
+            <div class="card green fragment">
+              <span class="icon">🎓</span>
+              <h3>Para aprender / estudiar</h3>
+              <p>
+                <strong>Software libre y Open Source.</strong> Permiten ver el
+                código, modificarlo y practicar sin restricciones ni costos.
+              </p>
+            </div>
+            <div class="card fragment">
+              <span class="icon">🏢</span>
+              <h3>Para proyectos empresariales</h3>
+              <p>
+                <strong>MIT / Apache.</strong> Permiten usar código abierto en
+                productos comerciales con muy pocas restricciones.
+              </p>
+            </div>
+            <div class="card orange fragment">
+              <span class="icon">💻</span>
+              <h3>Para uso personal</h3>
+              <p>
+                <strong>Freeware o Freemium.</strong> Son gratuitas, fáciles de
+                instalar y cubren las necesidades cotidianas.
+              </p>
+            </div>
+          </div>
+          <div class="def-box fragment" style="margin-top: 12px">
+            <p>
+              💡 <strong>Para el foro:</strong> argumenta tu respuesta con
+              ejemplos reales. ¿Usas Linux, VLC, LibreOffice? ¡Esos son ejemplos
+              de software libre!
+            </p>
+          </div>
+        </section>
+
+        <!-- 9. CÓMO PARTICIPAR EN EL FORO -->
+        <section>
+          <p class="stitle">¿Cómo participar bien en el <span>foro</span>?</p>
+          <p class="sub">Tu participación debe tener dos partes obligatorias</p>
+          <div class="steps">
+            <div class="step fragment">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>Tu aporte principal</h4>
+                <p>
+                  Responde las 4 preguntas: ¿qué es software?, ¿qué es
+                  licencia?, tipos de licencia y cuáles son las más adecuadas.
+                  Usa tus propias palabras y da ejemplos reales.
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>Respuesta a un compañero</h4>
+                <p>
+                  Lee el aporte de un compañero y responde de forma crítica y
+                  reflexiva. No basta con decir "estoy de acuerdo". Agrega algo
+                  nuevo, cuestiona o complementa su argumento.
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num" style="background: var(--orange)">!</div>
+              <div class="step-content">
+                <h4>Buenas prácticas en el foro</h4>
+                <p>
+                  Sé respetuoso · Usa vocabulario técnico correcto · Cita tus
+                  fuentes si usas información de internet · Escribe con
+                  ortografía y puntuación correctas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. SEPARADOR EV02 -->
+        <section>
+          <div class="divider">
+            <div class="num">02</div>
+            <h2>Evidencia 02<br />Ficha técnica</h2>
+            <p>Recolección de información · NTC ISO 9000</p>
+          </div>
+        </section>
+
+        <!-- 11. ¿QUÉ ES UNA FICHA TÉCNICA? -->
+        <section>
+          <p class="stitle">¿Qué es una <span>ficha técnica</span>?</p>
+          <p class="sub">
+            Documento estandarizado para registrar información de un producto de
+            software
+          </p>
+          <div class="def-box fragment">
+            <p>
+              Una <strong>ficha técnica</strong> es un documento estructurado
+              que reúne las características principales de un producto o fuente
+              de información. Permite identificar, registrar y consultar datos
+              de forma organizada y coherente.
+            </p>
+          </div>
+          <div class="cards-3" style="margin-top: 14px">
+            <div class="card fragment">
+              <span class="icon">🔍</span>
+              <h3>Identifica</h3>
+              <p>
+                Permite reconocer claramente de dónde vino la información y
+                quién la produjo.
+              </p>
+            </div>
+            <div class="card green fragment">
+              <span class="icon">📊</span>
+              <h3>Organiza</h3>
+              <p>
+                Estructura la información en campos definidos para que sea fácil
+                de leer y consultar.
+              </p>
+            </div>
+            <div class="card orange fragment">
+              <span class="icon">✅</span>
+              <h3>Garantiza calidad</h3>
+              <p>
+                Siguiendo la norma NTC ISO 9000, asegura que los datos sean
+                confiables y trazables.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. NORMA ISO 9000 -->
+        <section>
+          <p class="stitle">Referencia · <span>Norma NTC ISO 9000</span></p>
+          <p class="sub">
+            Sistema de Gestión de Calidad — base para diseñar tu ficha
+          </p>
+          <div class="def-box green fragment">
+            <p>
+              La <strong>NTC ISO 9000</strong> establece los fundamentos y
+              vocabulario de los Sistemas de Gestión de Calidad. Busca
+              garantizar que los procesos sean consistentes, documentados y
+              mejorables.
+            </p>
+          </div>
+          <div class="cards-2" style="margin-top: 14px">
+            <div class="card fragment">
+              <span class="icon">📌</span>
+              <h3>¿Por qué usarla en la ficha?</h3>
+              <p>
+                Porque la norma exige que toda información recolectada tenga:
+                nombre, origen, fecha, responsable y criterios de calidad
+                verificables.
+              </p>
+            </div>
+            <div class="card green fragment">
+              <span class="icon">🔗</span>
+              <h3>Principios clave que aplican</h3>
+              <p>
+                Trazabilidad de la información · Documentación clara ·
+                Identificación de fuentes · Control de registros.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13. EJEMPLO DE FICHA -->
+        <section>
+          <p class="stitle">
+            Ejemplo · <span>Estructura de la ficha técnica</span>
+          </p>
+          <p class="sub">Tu ficha debe tener al mínimo estos campos</p>
+          <div class="ficha fragment">
+            <div class="ficha-head">
+              📋 FICHA TÉCNICA — Recolección de Información
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Nombre del software</div>
+              <div class="ficha-val blank">Ej: Mozilla Firefox</div>
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Versión</div>
+              <div class="ficha-val blank">Ej: 120.0</div>
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Tipo de licencia</div>
+              <div class="ficha-val blank">
+                Ej: Mozilla Public License (Open Source)
+              </div>
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Fabricante / Autor</div>
+              <div class="ficha-val blank">Ej: Mozilla Foundation</div>
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Fecha de consulta</div>
+              <div class="ficha-val blank">Ej: 12/03/2026</div>
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Fuente de información</div>
+              <div class="ficha-val blank">Ej: https://www.mozilla.org</div>
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Descripción general</div>
+              <div class="ficha-val blank">
+                Ej: Navegador web de código abierto multiplataforma…
+              </div>
+            </div>
+            <div class="ficha-row">
+              <div class="ficha-label">Criterios de calidad</div>
+              <div class="ficha-val blank">
+                Ej: Fuente oficial, información verificable, vigente
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 14. PASOS PARA HACER LA FICHA -->
+        <section>
+          <p class="stitle">
+            Pasos para elaborar la <span>ficha técnica</span>
+          </p>
+          <p class="sub">Sigue esta secuencia para construir tu documento</p>
+          <div class="steps">
+            <div class="step fragment">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>Estudia la norma NTC ISO 9000</h4>
+                <p>
+                  Revisa los conceptos de trazabilidad, registro y control de
+                  documentos que aplican al diseño de fichas.
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>Define los campos de la ficha</h4>
+                <p>
+                  Identifica qué información necesitas recolectar: nombre,
+                  versión, licencia, autor, fuente, descripción, criterios de
+                  calidad.
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num green">3</div>
+              <div class="step-content">
+                <h4>Diseña la ficha</h4>
+                <p>
+                  Puedes hacerla en Excel (tabla) o en Word/PDF. Debe verse
+                  ordenada, con etiquetas claras y espacio suficiente para cada
+                  campo.
+                </p>
+              </div>
+            </div>
+            <div class="step fragment">
+              <div class="step-num orange">4</div>
+              <div class="step-content">
+                <h4>Llena la ficha con una fuente real</h4>
+                <p>
+                  Selecciona un software concreto (por ejemplo, uno con licencia
+                  libre) y completa todos los campos de tu ficha.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 15. RESUMEN DE ENTREGA -->
+        <section>
+          <p class="stitle">Resumen · <span>Lo que debes entregar</span></p>
+          <p class="sub">Dos evidencias independientes en la plataforma SENA</p>
+          <div class="delivery">
+            <div class="delivery-row">
+              <span class="lbl">💬 EV01 — Foro</span>
+              <span class="val"
+                >Participación con aporte + respuesta crítica a un
+                compañero</span
+              >
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">📁 Formato EV01</span>
+              <span class="val"
+                >Texto en la plataforma (no se sube archivo)</span
+              >
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">🔖 Código EV01</span>
+              <span class="val"
+                ><span class="code">GA2-220501094-AA1-EV01</span></span
+              >
+            </div>
+            <div
+              class="delivery-row"
+              style="margin-top: 2px; border-top: 2px solid var(--border)"
+            >
+              <span class="lbl">📋 EV02 — Ficha</span>
+              <span class="val"
+                >Ficha técnica diseñada con base en NTC ISO 9000,
+                diligenciada</span
+              >
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">📁 Formato EV02</span>
+              <span class="val">PDF o Excel (cualquiera de los dos)</span>
+            </div>
+            <div class="delivery-row">
+              <span class="lbl">🔖 Código EV02</span>
+              <span class="val"
+                ><span class="code">GA2-220501094-AA1-EV02</span></span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- 16. CIERRE -->
+        <section>
+          <div class="final">
+            <h2>¡Mucho éxito! 🎉</h2>
+            <p>
+              Recuerda: primero estudia el material del componente formativo,
+              luego participa en el foro y finalmente diseña tu ficha técnica.
+            </p>
+            <div>
+              <span class="pill">EV01 · Foro</span>
+              <span class="pill">EV02 · Ficha técnica</span>
+            </div>
+            <div style="margin-top: 10px">
+              <span class="pill">Ficha 3336200</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        controls: true,
+        progress: true,
+        center: false,
+        width: 960,
+        height: 600,
+        margin: 0.04,
+      });
+    </script>
+  </body>
+</html>
