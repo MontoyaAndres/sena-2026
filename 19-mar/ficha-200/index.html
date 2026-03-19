@@ -1,0 +1,1396 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Referentes Técnicos y Condiciones Económicas · GA2-220501094-AA1-EV03
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --lime: #b5ff4d;
+        --blue: #4d8fff;
+        --pink: #ff4d8f;
+        --orange: #ffaa4d;
+        --purple: #a64dff;
+        --green: #4dffb5;
+        --bg: #090d14;
+        --surface: #111827;
+        --border: rgba(255, 255, 255, 0.08);
+        --muted: #5a6677;
+        --text: #dde3ed;
+      }
+
+      .reveal-viewport {
+        background: var(--bg);
+      }
+
+      .reveal {
+        font-family: "Outfit", sans-serif;
+        font-size: 30px;
+        color: var(--text);
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Outfit", sans-serif;
+        text-transform: none;
+        text-shadow: none;
+        letter-spacing: -0.02em;
+      }
+      .reveal h1 {
+        font-size: 2.4em;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+      .reveal h2 {
+        font-size: 1.55em;
+        font-weight: 800;
+        color: var(--lime);
+        margin-bottom: 0.45em;
+      }
+      .reveal h3 {
+        font-size: 1em;
+        font-weight: 600;
+        color: var(--orange);
+        margin-bottom: 0.3em;
+      }
+
+      /* ── COVER ── */
+      .cover-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      .cover-noise {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 200px;
+      }
+      .cover-glow {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse 65% 55% at 15% 30%,
+            rgba(181, 255, 77, 0.1) 0%,
+            transparent 65%
+          ),
+          radial-gradient(
+            ellipse 55% 45% at 85% 70%,
+            rgba(77, 143, 255, 0.12) 0%,
+            transparent 60%
+          );
+      }
+      .cover-content {
+        position: relative;
+        z-index: 1;
+      }
+      .ev-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        background: rgba(181, 255, 77, 0.1);
+        border: 1px solid rgba(181, 255, 77, 0.35);
+        color: var(--lime);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.32em;
+        font-weight: 600;
+        padding: 0.4em 1.1em;
+        border-radius: 100px;
+        margin-bottom: 0.9em;
+        letter-spacing: 0.04em;
+      }
+      .cover-h1 {
+        color: #fff;
+      }
+      .cover-h1 span {
+        color: var(--lime);
+      }
+      .cover-sub {
+        font-size: 0.48em;
+        color: var(--muted);
+        margin-top: 0.5em;
+        font-weight: 300;
+        line-height: 1.6;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .cover-foot {
+        font-size: 0.3em;
+        color: var(--muted);
+        margin-top: 2em;
+        padding-top: 0.8em;
+        border-top: 1px solid var(--border);
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* ── SECTION BANNER ── */
+      .sec-banner {
+        background: linear-gradient(
+          135deg,
+          rgba(181, 255, 77, 0.07) 0%,
+          rgba(77, 143, 255, 0.07) 100%
+        );
+        border: 1px solid rgba(181, 255, 77, 0.18);
+        border-radius: 18px;
+        padding: 1.8em 2.2em;
+      }
+      .sec-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.36em;
+        color: var(--lime);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 0.4em;
+      }
+      .sec-banner h2 {
+        color: #fff;
+        margin: 0.15em 0 0.2em;
+        font-size: 1.65em;
+      }
+      .sec-banner p {
+        font-size: 0.44em;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      /* ── GRID CARDS ── */
+      .g2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.65em;
+      }
+      .g3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6em;
+      }
+      .g4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.55em;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0.75em 1em;
+        text-align: left;
+      }
+      .card.lime {
+        border-left: 3px solid var(--lime);
+      }
+      .card.blue {
+        border-left: 3px solid var(--blue);
+      }
+      .card.pink {
+        border-left: 3px solid var(--pink);
+      }
+      .card.orange {
+        border-left: 3px solid var(--orange);
+      }
+      .card.purple {
+        border-left: 3px solid var(--purple);
+      }
+      .card.green {
+        border-left: 3px solid var(--green);
+      }
+      .card p {
+        font-size: 0.47em;
+        color: var(--muted);
+        margin: 0.2em 0 0;
+        line-height: 1.55;
+      }
+      .card h3 {
+        font-size: 0.65em;
+        margin: 0 0 0.15em;
+      }
+      .card .ico {
+        font-size: 1.3em;
+        display: block;
+        margin-bottom: 0.2em;
+      }
+
+      /* ── DOCUMENT STRUCTURE ── */
+      .doc-parts {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        text-align: left;
+      }
+      .doc-part {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8em;
+        background: var(--surface);
+        border-radius: 10px;
+        padding: 0.6em 0.9em;
+        border: 1px solid var(--border);
+      }
+      .doc-num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6em;
+        font-weight: 600;
+        color: var(--lime);
+        min-width: 1.8em;
+        padding-top: 0.1em;
+      }
+      .doc-text {
+        font-size: 0.48em;
+        line-height: 1.55;
+        color: var(--text);
+      }
+      .doc-text strong {
+        color: var(--orange);
+        display: block;
+        font-size: 1.05em;
+        margin-bottom: 0.1em;
+      }
+
+      /* ── SPEC TABLE ── */
+      .spec-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.46em;
+        text-align: left;
+      }
+      .spec-table th {
+        background: rgba(181, 255, 77, 0.1);
+        color: var(--lime);
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        padding: 0.55em 0.9em;
+        border-bottom: 1px solid rgba(181, 255, 77, 0.25);
+        letter-spacing: 0.04em;
+      }
+      .spec-table td {
+        padding: 0.5em 0.9em;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+        vertical-align: top;
+        line-height: 1.5;
+      }
+      .spec-table tr:last-child td {
+        border-bottom: none;
+      }
+      .spec-table tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .tag {
+        display: inline-block;
+        border-radius: 100px;
+        font-size: 0.85em;
+        padding: 0.15em 0.7em;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+      }
+      .tag.hw {
+        background: rgba(77, 143, 255, 0.15);
+        color: var(--blue);
+        border: 1px solid rgba(77, 143, 255, 0.3);
+      }
+      .tag.sw {
+        background: rgba(181, 255, 77, 0.12);
+        color: var(--lime);
+        border: 1px solid rgba(181, 255, 77, 0.3);
+      }
+      .tag.net {
+        background: rgba(166, 77, 255, 0.15);
+        color: var(--purple);
+        border: 1px solid rgba(166, 77, 255, 0.3);
+      }
+      .tag.sec {
+        background: rgba(255, 170, 77, 0.15);
+        color: var(--orange);
+        border: 1px solid rgba(255, 170, 77, 0.3);
+      }
+
+      /* ── COST BREAKDOWN ── */
+      .cost-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--surface);
+        border-radius: 10px;
+        padding: 0.5em 1em;
+        margin-bottom: 0.4em;
+        border: 1px solid var(--border);
+      }
+      .cost-label {
+        font-size: 0.47em;
+        color: var(--text);
+        flex: 1;
+      }
+      .cost-bar-wrap {
+        flex: 2;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 100px;
+        margin: 0 0.8em;
+        overflow: hidden;
+      }
+      .cost-bar {
+        height: 100%;
+        border-radius: 100px;
+      }
+      .cost-val {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.42em;
+        font-weight: 600;
+        min-width: 5em;
+        text-align: right;
+      }
+
+      /* ── ESTIMATION METHODS ── */
+      .method-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.65em;
+      }
+      .method-box {
+        background: var(--surface);
+        border-radius: 12px;
+        padding: 0.8em 1em;
+        border: 1px solid var(--border);
+        text-align: left;
+      }
+      .method-box h3 {
+        font-size: 0.65em;
+        margin: 0 0 0.2em;
+      }
+      .method-box p {
+        font-size: 0.44em;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.55;
+      }
+      .method-box .badge {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.38em;
+        padding: 0.2em 0.6em;
+        border-radius: 100px;
+        margin-bottom: 0.35em;
+        display: inline-block;
+      }
+
+      /* ── TIMELINE ── */
+      .timeline {
+        position: relative;
+        padding-left: 1.6em;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0.5em;
+        top: 0.3em;
+        bottom: 0.3em;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--lime), var(--blue));
+        border-radius: 2px;
+      }
+      .tl-item {
+        position: relative;
+        margin-bottom: 0.55em;
+        background: var(--surface);
+        border-radius: 10px;
+        padding: 0.5em 0.85em;
+        border: 1px solid var(--border);
+      }
+      .tl-item::before {
+        content: "";
+        position: absolute;
+        left: -1.3em;
+        top: 0.65em;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--lime);
+        border: 2px solid var(--bg);
+      }
+      .tl-item h3 {
+        font-size: 0.58em;
+        margin: 0 0 0.1em;
+      }
+      .tl-item p {
+        font-size: 0.43em;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+      .tl-dur {
+        float: right;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        color: var(--blue);
+      }
+
+      /* ── TIPS ── */
+      .tip-row {
+        display: flex;
+        gap: 0.55em;
+        align-items: flex-start;
+        background: var(--surface);
+        border-radius: 10px;
+        padding: 0.55em 0.85em;
+        margin-bottom: 0.4em;
+        border-left: 3px solid var(--lime);
+      }
+      .tip-row .ti {
+        font-size: 1.2em;
+      }
+      .tip-row span {
+        font-size: 0.47em;
+        line-height: 1.55;
+        color: var(--text);
+      }
+      .tip-row strong {
+        color: var(--lime);
+      }
+
+      /* ── CLOSING ── */
+      .close-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 60% 50% at 50% 50%,
+          rgba(181, 255, 77, 0.1),
+          transparent 70%
+        );
+      }
+      .close-body {
+        position: relative;
+        z-index: 1;
+      }
+      .check-icon {
+        font-size: 2.5em;
+        filter: drop-shadow(0 0 18px rgba(181, 255, 77, 0.6));
+        margin-bottom: 0.2em;
+      }
+
+      /* ── REVEAL ── */
+      .reveal .progress {
+        background: rgba(181, 255, 77, 0.1);
+      }
+      .reveal .progress span {
+        background: var(--lime);
+      }
+      .reveal .slide-number {
+        color: var(--muted);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.38em;
+      }
+      .reveal .fragment {
+        transition: all 0.4s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ════════════════════════════════
+       SLIDE 1 · PORTADA
+  ════════════════════════════════ -->
+        <section class="cover-wrap" data-background-color="#090d14">
+          <div class="cover-noise"></div>
+          <div class="cover-glow"></div>
+          <div class="cover-content">
+            <div class="ev-tag">📋 GA2-220501094-AA1-EV03</div>
+            <h1 class="cover-h1">
+              Referentes Técnicos<br />&amp; <span>Condiciones Económicas</span>
+            </h1>
+            <p class="cover-sub">
+              Especificación de los requisitos técnicos y estimación del
+              presupuesto para soluciones de software empresarial
+            </p>
+            <p class="cover-foot">
+              Análisis y Desarrollo de Software · SENA · 2024
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 2 · AGENDA
+  ════════════════════════════════ -->
+        <section>
+          <h2>¿Qué aprenderemos hoy?</h2>
+          <div class="g2">
+            <div class="card lime fragment">
+              <span class="ico">📑</span>
+              <h3>01 · Estructura del Informe</h3>
+              <p>
+                Cómo organizar el documento: portada, introducción, contenido y
+                conclusión
+              </p>
+            </div>
+            <div class="card blue fragment">
+              <span class="ico">⚙️</span>
+              <h3>02 · Referentes Técnicos</h3>
+              <p>Especificaciones de hardware, software, red y seguridad</p>
+            </div>
+            <div class="card orange fragment">
+              <span class="ico">💰</span>
+              <h3>03 · Condiciones Económicas</h3>
+              <p>Métodos de estimación de costos y presupuesto del proyecto</p>
+            </div>
+            <div class="card pink fragment">
+              <span class="ico">📅</span>
+              <h3>04 · Cronograma y Entrega</h3>
+              <p>
+                Fases del proyecto y lineamientos para entregar la evidencia
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 3 · SECCIÓN 1 — INFORME
+  ════════════════════════════════ -->
+        <section>
+          <div class="sec-banner">
+            <div class="sec-label">Sección 01</div>
+            <h2>Estructura del Informe</h2>
+            <p>
+              El documento debe tener mínimo 7 hojas y máximo 10 de contenido,
+              en formato PDF
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 4 · PARTES DEL DOCUMENTO
+  ════════════════════════════════ -->
+        <section>
+          <h2>Partes Obligatorias del Informe</h2>
+          <div class="doc-parts">
+            <div class="doc-part fragment">
+              <span class="doc-num">01</span>
+              <span class="doc-text"
+                ><strong>Portada</strong>Nombre del aprendiz, programa, nombre
+                de la evidencia (GA2-220501094-AA1-EV03), ficha, instructor y
+                fecha de entrega.</span
+              >
+            </div>
+            <div class="doc-part fragment">
+              <span class="doc-num">02</span>
+              <span class="doc-text"
+                ><strong>Introducción</strong>Contexto del proyecto de software,
+                justificación de la solución propuesta y alcance del
+                documento.</span
+              >
+            </div>
+            <div class="doc-part fragment">
+              <span class="doc-num">03</span>
+              <span class="doc-text"
+                ><strong>Contenido principal</strong>Especificaciones técnicas
+                del software + estimación de condiciones económicas. Es el
+                núcleo del informe.</span
+              >
+            </div>
+            <div class="doc-part fragment">
+              <span class="doc-num">04</span>
+              <span class="doc-text"
+                ><strong>Conclusión</strong>Síntesis de los hallazgos,
+                viabilidad técnica y económica del proyecto, y recomendaciones
+                finales.</span
+              >
+            </div>
+            <div class="doc-part fragment">
+              <span class="doc-num">05</span>
+              <span class="doc-text"
+                ><strong>Referencias bibliográficas</strong>Normas APA para
+                citar las fuentes consultadas (normas ISO, modelos de
+                estimación, etc.).</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 5 · SECCIÓN 2 — REFERENTES
+  ════════════════════════════════ -->
+        <section>
+          <div class="sec-banner">
+            <div class="sec-label">Sección 02</div>
+            <h2>Referentes Técnicos</h2>
+            <p>
+              Las condiciones técnicas definen el entorno necesario para que la
+              solución de software funcione correctamente
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 6 · ¿QUÉ SON LOS REFERENTES TÉCNICOS?
+  ════════════════════════════════ -->
+        <section>
+          <h2>¿Qué son los Referentes Técnicos?</h2>
+          <div
+            class="card lime"
+            style="padding: 0.9em 1.2em; margin-bottom: 0.7em"
+          >
+            <p style="font-size: 0.54em; color: var(--text); line-height: 1.65">
+              Son el conjunto de
+              <strong style="color: var(--lime)"
+                >especificaciones y condiciones tecnológicas</strong
+              >
+              que debe cumplir tanto el entorno de desarrollo como el entorno de
+              producción para que la solución de software opere de manera óptima
+              y cumpla con los requisitos del cliente.
+            </p>
+          </div>
+          <div class="g4">
+            <div class="card blue fragment" style="text-align: center">
+              <span class="ico" style="text-align: center">🖥️</span>
+              <h3 style="text-align: center; font-size: 0.6em">Hardware</h3>
+              <p style="text-align: center">CPU, RAM, almacenamiento</p>
+            </div>
+            <div class="card lime fragment" style="text-align: center">
+              <span class="ico" style="text-align: center">💿</span>
+              <h3 style="text-align: center; font-size: 0.6em">Software</h3>
+              <p style="text-align: center">OS, BD, frameworks</p>
+            </div>
+            <div class="card purple fragment" style="text-align: center">
+              <span class="ico" style="text-align: center">🌐</span>
+              <h3 style="text-align: center; font-size: 0.6em">Red</h3>
+              <p style="text-align: center">Ancho de banda, protocolos</p>
+            </div>
+            <div class="card orange fragment" style="text-align: center">
+              <span class="ico" style="text-align: center">🔐</span>
+              <h3 style="text-align: center; font-size: 0.6em">Seguridad</h3>
+              <p style="text-align: center">Cifrado, backups, roles</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 7 · TABLA ESPECIFICACIONES TÉCNICAS
+  ════════════════════════════════ -->
+        <section>
+          <h2>Tabla de Especificaciones Técnicas</h2>
+          <table class="spec-table">
+            <thead>
+              <tr>
+                <th>Componente</th>
+                <th>Tipo</th>
+                <th>Especificación mínima</th>
+                <th>Especificación recomendada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fragment">
+                <td>Procesador</td>
+                <td><span class="tag hw">HW</span></td>
+                <td>Intel Core i5 / 2.0 GHz</td>
+                <td>Intel Core i7 / 3.0 GHz</td>
+              </tr>
+              <tr class="fragment">
+                <td>Memoria RAM</td>
+                <td><span class="tag hw">HW</span></td>
+                <td>8 GB DDR4</td>
+                <td>16 GB DDR4</td>
+              </tr>
+              <tr class="fragment">
+                <td>Almacenamiento</td>
+                <td><span class="tag hw">HW</span></td>
+                <td>256 GB HDD</td>
+                <td>512 GB SSD</td>
+              </tr>
+              <tr class="fragment">
+                <td>Sistema Operativo</td>
+                <td><span class="tag sw">SW</span></td>
+                <td>Windows 10 / Ubuntu 20</td>
+                <td>Windows 11 / Ubuntu 22</td>
+              </tr>
+              <tr class="fragment">
+                <td>Base de Datos</td>
+                <td><span class="tag sw">SW</span></td>
+                <td>MySQL 8.0</td>
+                <td>PostgreSQL 15</td>
+              </tr>
+              <tr class="fragment">
+                <td>Conectividad</td>
+                <td><span class="tag net">RED</span></td>
+                <td>10 Mbps</td>
+                <td>100 Mbps / Fibra</td>
+              </tr>
+              <tr class="fragment">
+                <td>Seguridad</td>
+                <td><span class="tag sec">SEC</span></td>
+                <td>HTTPS + Autenticación básica</td>
+                <td>SSL/TLS + OAuth 2.0 + 2FA</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 8 · CATEGORÍAS TÉCNICAS DETALLE
+  ════════════════════════════════ -->
+        <section>
+          <h2>Categorías de Especificación Técnica</h2>
+          <div class="g2">
+            <div class="card blue fragment">
+              <span class="ico">🖥️</span>
+              <h3>Infraestructura Hardware</h3>
+              <p>
+                Servidores, estaciones de trabajo, dispositivos de red (routers,
+                switches), equipos de respaldo y UPS.
+              </p>
+            </div>
+            <div class="card lime fragment">
+              <span class="ico">💿</span>
+              <h3>Stack de Software</h3>
+              <p>
+                Lenguaje de programación, framework de desarrollo, servidor web
+                (Apache/Nginx), motor de base de datos y herramientas de CI/CD.
+              </p>
+            </div>
+            <div class="card purple fragment">
+              <span class="ico">🌐</span>
+              <h3>Infraestructura de Red</h3>
+              <p>
+                Topología de red, protocolos usados (HTTP/S, TCP/IP), VPN si se
+                requiere, firewall y monitoreo de red.
+              </p>
+            </div>
+            <div class="card orange fragment">
+              <span class="ico">🔐</span>
+              <h3>Seguridad e Integridad</h3>
+              <p>
+                Política de contraseñas, cifrado en tránsito y en reposo, plan
+                de respaldo (backup), control de acceso basado en roles (RBAC).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 9 · SECCIÓN 3 — ECONÓMICO
+  ════════════════════════════════ -->
+        <section>
+          <div class="sec-banner">
+            <div class="sec-label">Sección 03</div>
+            <h2>Condiciones Económicas</h2>
+            <p>
+              La estimación económica proyecta el costo total del desarrollo y
+              permite evaluar la viabilidad del proyecto
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 10 · ¿POR QUÉ ESTIMAR?
+  ════════════════════════════════ -->
+        <section>
+          <h2>¿Por qué Estimar los Costos?</h2>
+          <div class="g3" style="margin-bottom: 0.7em">
+            <div class="card lime fragment" style="text-align: center">
+              <span class="ico" style="text-align: center">📊</span>
+              <h3 style="font-size: 0.6em; text-align: center">
+                Tomar decisiones
+              </h3>
+              <p style="text-align: center">
+                Saber si el proyecto es viable antes de invertir tiempo y
+                recursos
+              </p>
+            </div>
+            <div class="card blue fragment" style="text-align: center">
+              <span class="ico" style="text-align: center">📋</span>
+              <h3 style="font-size: 0.6em; text-align: center">
+                Planificar recursos
+              </h3>
+              <p style="text-align: center">
+                Definir cuántos desarrolladores, en cuánto tiempo y con qué
+                herramientas
+              </p>
+            </div>
+            <div class="card pink fragment" style="text-align: center">
+              <span class="ico" style="text-align: center">🤝</span>
+              <h3 style="font-size: 0.6em; text-align: center">
+                Negociar con el cliente
+              </h3>
+              <p style="text-align: center">
+                Sustentar el presupuesto presentado al cliente con datos reales
+              </p>
+            </div>
+          </div>
+          <div class="card orange fragment" style="padding: 0.75em 1.1em">
+            <p
+              style="
+                font-size: 0.52em;
+                color: var(--text);
+                line-height: 1.65;
+                margin: 0;
+              "
+            >
+              💡 Una estimación incorrecta puede hacer que un proyecto
+              <strong style="color: var(--pink)"
+                >fracase por falta de presupuesto</strong
+              >
+              o que se
+              <strong style="color: var(--pink)">pierda el contrato</strong> por
+              cotizar demasiado caro.
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 11 · MÉTODOS DE ESTIMACIÓN
+  ════════════════════════════════ -->
+        <section>
+          <h2>Métodos de Estimación de Software</h2>
+          <div class="method-wrap">
+            <div class="method-box fragment">
+              <div
+                class="badge"
+                style="
+                  background: rgba(181, 255, 77, 0.12);
+                  color: var(--lime);
+                  border: 1px solid rgba(181, 255, 77, 0.3);
+                "
+              >
+                Puntos de Función
+              </div>
+              <h3 style="color: var(--lime)">Function Points (FP)</h3>
+              <p>
+                Mide la funcionalidad del software desde la perspectiva del
+                usuario. Cuenta entradas, salidas, consultas, archivos e
+                interfaces externas.
+              </p>
+            </div>
+            <div class="method-box fragment">
+              <div
+                class="badge"
+                style="
+                  background: rgba(77, 143, 255, 0.12);
+                  color: var(--blue);
+                  border: 1px solid rgba(77, 143, 255, 0.3);
+                "
+              >
+                COCOMO II
+              </div>
+              <h3 style="color: var(--blue)">Modelo Constructivo de Costos</h3>
+              <p>
+                Estima esfuerzo y tiempo según el tamaño del software (líneas de
+                código) y factores de costo del equipo y plataforma.
+              </p>
+            </div>
+            <div class="method-box fragment">
+              <div
+                class="badge"
+                style="
+                  background: rgba(255, 170, 77, 0.12);
+                  color: var(--orange);
+                  border: 1px solid rgba(255, 170, 77, 0.3);
+                "
+              >
+                Juicio de Expertos
+              </div>
+              <h3 style="color: var(--orange)">Analogía y Delphi</h3>
+              <p>
+                Se basa en experiencia previa con proyectos similares. Varios
+                expertos estiman de forma independiente y se consolida un
+                consenso.
+              </p>
+            </div>
+            <div class="method-box fragment">
+              <div
+                class="badge"
+                style="
+                  background: rgba(166, 77, 255, 0.12);
+                  color: var(--purple);
+                  border: 1px solid rgba(166, 77, 255, 0.3);
+                "
+              >
+                Planning Poker
+              </div>
+              <h3 style="color: var(--purple)">Story Points (Ágil)</h3>
+              <p>
+                En metodologías ágiles, el equipo asigna puntos de historia a
+                las tareas del backlog para estimar el esfuerzo relativo.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 12 · ESTRUCTURA DE COSTOS
+  ════════════════════════════════ -->
+        <section>
+          <h2>Estructura de Costos del Proyecto</h2>
+
+          <div class="cost-row fragment">
+            <span class="cost-label"
+              >👥 Talento humano (desarrollo, diseño, QA)</span
+            >
+            <div class="cost-bar-wrap">
+              <div
+                class="cost-bar"
+                style="width: 65%; background: var(--lime)"
+              ></div>
+            </div>
+            <span class="cost-val" style="color: var(--lime)">~65%</span>
+          </div>
+          <div class="cost-row fragment">
+            <span class="cost-label"
+              >🖥️ Infraestructura y licencias de software</span
+            >
+            <div class="cost-bar-wrap">
+              <div
+                class="cost-bar"
+                style="width: 15%; background: var(--blue)"
+              ></div>
+            </div>
+            <span class="cost-val" style="color: var(--blue)">~15%</span>
+          </div>
+          <div class="cost-row fragment">
+            <span class="cost-label"
+              >☁️ Hosting, dominios y servicios en la nube</span
+            >
+            <div class="cost-bar-wrap">
+              <div
+                class="cost-bar"
+                style="width: 10%; background: var(--orange)"
+              ></div>
+            </div>
+            <span class="cost-val" style="color: var(--orange)">~10%</span>
+          </div>
+          <div class="cost-row fragment">
+            <span class="cost-label"
+              >🧪 Pruebas, despliegue y capacitación</span
+            >
+            <div class="cost-bar-wrap">
+              <div
+                class="cost-bar"
+                style="width: 7%; background: var(--purple)"
+              ></div>
+            </div>
+            <span class="cost-val" style="color: var(--purple)">~7%</span>
+          </div>
+          <div class="cost-row fragment">
+            <span class="cost-label">⚠️ Imprevistos y contingencia</span>
+            <div class="cost-bar-wrap">
+              <div
+                class="cost-bar"
+                style="width: 3%; background: var(--pink)"
+              ></div>
+            </div>
+            <span class="cost-val" style="color: var(--pink)">~3%</span>
+          </div>
+
+          <div
+            class="card lime fragment"
+            style="margin-top: 0.6em; padding: 0.6em 1em"
+          >
+            <p style="font-size: 0.46em; margin: 0">
+              📌 <strong style="color: var(--lime)">Regla de oro:</strong> el
+              costo de mantenimiento anual suele ser el
+              <strong style="color: var(--lime)"
+                >15–20% del costo de desarrollo</strong
+              >
+              total. ¡Inclúyelo en tu estimación!
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 13 · EJEMPLO PRESUPUESTO
+  ════════════════════════════════ -->
+        <section>
+          <h2>Ejemplo: Presupuesto de Proyecto</h2>
+          <table class="spec-table">
+            <thead>
+              <tr>
+                <th>Ítem</th>
+                <th>Cantidad</th>
+                <th>Valor unitario</th>
+                <th>Total estimado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fragment">
+                <td>Analista / Arquitecto de software</td>
+                <td>1 × 3 meses</td>
+                <td>$3.500.000 / mes</td>
+                <td style="color: var(--lime)">$10.500.000</td>
+              </tr>
+              <tr class="fragment">
+                <td>Desarrolladores backend (2)</td>
+                <td>2 × 4 meses</td>
+                <td>$2.800.000 / mes</td>
+                <td style="color: var(--lime)">$22.400.000</td>
+              </tr>
+              <tr class="fragment">
+                <td>Desarrollador frontend (1)</td>
+                <td>1 × 4 meses</td>
+                <td>$2.500.000 / mes</td>
+                <td style="color: var(--lime)">$10.000.000</td>
+              </tr>
+              <tr class="fragment">
+                <td>Tester / QA</td>
+                <td>1 × 2 meses</td>
+                <td>$2.200.000 / mes</td>
+                <td style="color: var(--lime)">$4.400.000</td>
+              </tr>
+              <tr class="fragment">
+                <td>Servidor y hosting (anual)</td>
+                <td>1 año</td>
+                <td>—</td>
+                <td style="color: var(--orange)">$4.800.000</td>
+              </tr>
+              <tr class="fragment">
+                <td>Licencias de software</td>
+                <td>—</td>
+                <td>—</td>
+                <td style="color: var(--orange)">$2.000.000</td>
+              </tr>
+              <tr class="fragment" style="background: rgba(181, 255, 77, 0.06)">
+                <td
+                  colspan="3"
+                  style="
+                    font-weight: 700;
+                    color: var(--lime);
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                  "
+                >
+                  TOTAL ESTIMADO
+                </td>
+                <td
+                  style="
+                    color: var(--lime);
+                    font-weight: 700;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                  "
+                >
+                  $54.100.000
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p
+            style="
+              font-size: 0.36em;
+              color: var(--muted);
+              margin-top: 0.4em;
+              text-align: left;
+            "
+          >
+            * Valores de referencia en COP. Ajusta según el contexto y tamaño de
+            tu empresa objetivo.
+          </p>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 14 · SECCIÓN 4 — CRONOGRAMA
+  ════════════════════════════════ -->
+        <section>
+          <div class="sec-banner">
+            <div class="sec-label">Sección 04</div>
+            <h2>Cronograma del Proyecto</h2>
+            <p>
+              Las fases del proyecto estructuran el trabajo en el tiempo y
+              permiten controlar el avance
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 15 · FASES DEL PROYECTO
+  ════════════════════════════════ -->
+        <section>
+          <h2>Fases del Desarrollo de Software</h2>
+          <div class="timeline">
+            <div class="tl-item fragment">
+              <span class="tl-dur">2 semanas</span>
+              <h3>Fase 1 · Levantamiento de Requisitos</h3>
+              <p>
+                Entrevistas con el cliente, análisis de necesidades, definición
+                del alcance y elaboración del documento de especificación.
+              </p>
+            </div>
+            <div class="tl-item fragment">
+              <span class="tl-dur">3 semanas</span>
+              <h3>Fase 2 · Diseño del Sistema</h3>
+              <p>
+                Arquitectura de software, diseño de base de datos, prototipos de
+                interfaz (wireframes) y definición de APIs.
+              </p>
+            </div>
+            <div class="tl-item fragment">
+              <span class="tl-dur">8 semanas</span>
+              <h3>Fase 3 · Desarrollo e Implementación</h3>
+              <p>
+                Codificación del backend y frontend, integración de módulos,
+                revisiones de código y pruebas unitarias.
+              </p>
+            </div>
+            <div class="tl-item fragment">
+              <span class="tl-dur">3 semanas</span>
+              <h3>Fase 4 · Pruebas y Control de Calidad</h3>
+              <p>
+                Pruebas funcionales, de rendimiento, de seguridad y de
+                aceptación con el usuario final.
+              </p>
+            </div>
+            <div class="tl-item fragment">
+              <span class="tl-dur">2 semanas</span>
+              <h3>Fase 5 · Despliegue y Capacitación</h3>
+              <p>
+                Puesta en producción, migración de datos, manual de usuario y
+                entrenamiento al personal.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 16 · BUENAS PRÁCTICAS
+  ════════════════════════════════ -->
+        <section>
+          <h2>💡 Consejos para tu Informe</h2>
+          <div class="tip-row fragment">
+            <span class="ti">🎯</span>
+            <span
+              ><strong>Sé específico con el contexto:</strong> describe la
+              empresa del caso de estudio (sector, tamaño, necesidad) antes de
+              proponer las especificaciones técnicas.</span
+            >
+          </div>
+          <div class="tip-row fragment">
+            <span class="ti">📐</span>
+            <span
+              ><strong>Justifica cada especificación:</strong> no basta con
+              decir «necesita 16 GB de RAM»; explica por qué esa cantidad es
+              necesaria para ese proyecto.</span
+            >
+          </div>
+          <div class="tip-row fragment">
+            <span class="ti">📊</span>
+            <span
+              ><strong>Usa tablas y gráficos:</strong> un presupuesto en tabla
+              es más claro que párrafos con números. Los lectores agradecen la
+              información organizada visualmente.</span
+            >
+          </div>
+          <div class="tip-row fragment">
+            <span class="ti">🔢</span>
+            <span
+              ><strong>Detalla el costo por ítem:</strong> cantidad × valor
+              unitario = total. Así el cliente entiende exactamente en qué se
+              invierte cada peso.</span
+            >
+          </div>
+          <div class="tip-row fragment">
+            <span class="ti">📎</span>
+            <span
+              ><strong>Cita tus fuentes:</strong> precios de servidores,
+              salarios de referencia y licencias deben venir de fuentes
+              verificables (sitios oficiales, portales de empleo, etc.).</span
+            >
+          </div>
+          <div class="tip-row fragment">
+            <span class="ti">✅</span>
+            <span
+              ><strong>Revisa el número de páginas:</strong> mínimo 7, máximo 10
+              hojas de contenido. ¡No cuentes la portada ni los anexos!</span
+            >
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 17 · RESUMEN GENERAL
+  ════════════════════════════════ -->
+        <section>
+          <h2>Resumen de la Evidencia</h2>
+          <div class="g2">
+            <div class="card lime">
+              <h3 style="color: var(--lime); font-size: 0.7em">
+                📑 Estructura del Informe
+              </h3>
+              <p style="font-size: 0.43em; line-height: 1.7">
+                Portada · Introducción · Contenido principal · Conclusión ·
+                Referencias<br />
+                <strong style="color: var(--lime)"
+                  >Formato PDF · 7–10 páginas de contenido</strong
+                >
+              </p>
+            </div>
+            <div class="card blue">
+              <h3 style="color: var(--blue); font-size: 0.7em">
+                ⚙️ Referentes Técnicos
+              </h3>
+              <p style="font-size: 0.43em; line-height: 1.7">
+                Hardware · Software · Red · Seguridad<br />
+                Especificaciones mínimas y recomendadas<br />
+                <strong style="color: var(--blue)"
+                  >Justificadas según la solución propuesta</strong
+                >
+              </p>
+            </div>
+            <div class="card orange">
+              <h3 style="color: var(--orange); font-size: 0.7em">
+                💰 Condiciones Económicas
+              </h3>
+              <p style="font-size: 0.43em; line-height: 1.7">
+                Métodos: FP, COCOMO II, Analogía, Ágil<br />
+                Talento humano · Infraestructura · Licencias<br />
+                <strong style="color: var(--orange)"
+                  >Presupuesto detallado por ítem</strong
+                >
+              </p>
+            </div>
+            <div class="card pink">
+              <h3 style="color: var(--pink); font-size: 0.7em">
+                📅 Cronograma
+              </h3>
+              <p style="font-size: 0.43em; line-height: 1.7">
+                Requisitos → Diseño → Desarrollo → QA → Despliegue<br />
+                Duración estimada:
+                <strong style="color: var(--pink)">~18 semanas</strong><br />
+                Ajustable según el alcance del proyecto
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════
+       SLIDE 18 · CIERRE
+  ════════════════════════════════ -->
+        <section data-background-color="#090d14">
+          <div class="close-glow"></div>
+          <div class="close-body">
+            <div class="check-icon">📋</div>
+            <h1 style="color: #fff; font-size: 1.7em">
+              ¡A escribir el informe!
+            </h1>
+            <p
+              style="
+                font-size: 0.46em;
+                color: var(--muted);
+                max-width: 600px;
+                margin: 0.8em auto 1.2em;
+                line-height: 1.7;
+              "
+            >
+              Recuerda: un buen informe técnico y económico no solo cumple los
+              requisitos de la evidencia — también demuestra que eres capaz de
+              analizar una necesidad real y proponer una solución viable y
+              sostenible.
+            </p>
+            <div
+              style="
+                display: flex;
+                gap: 0.6em;
+                justify-content: center;
+                flex-wrap: wrap;
+              "
+            >
+              <span
+                style="
+                  background: rgba(181, 255, 77, 0.1);
+                  border: 1px solid rgba(181, 255, 77, 0.3);
+                  color: var(--lime);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.34em;
+                  padding: 0.35em 1em;
+                  border-radius: 100px;
+                  font-weight: 600;
+                "
+                >7–10 páginas PDF</span
+              >
+              <span
+                style="
+                  background: rgba(77, 143, 255, 0.1);
+                  border: 1px solid rgba(77, 143, 255, 0.3);
+                  color: var(--blue);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.34em;
+                  padding: 0.35em 1em;
+                  border-radius: 100px;
+                  font-weight: 600;
+                "
+                >Referentes Técnicos</span
+              >
+              <span
+                style="
+                  background: rgba(255, 170, 77, 0.1);
+                  border: 1px solid rgba(255, 170, 77, 0.3);
+                  color: var(--orange);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.34em;
+                  padding: 0.35em 1em;
+                  border-radius: 100px;
+                  font-weight: 600;
+                "
+                >Presupuesto detallado</span
+              >
+              <span
+                style="
+                  background: rgba(255, 77, 143, 0.1);
+                  border: 1px solid rgba(255, 77, 143, 0.3);
+                  color: var(--pink);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.34em;
+                  padding: 0.35em 1em;
+                  border-radius: 100px;
+                  font-weight: 600;
+                "
+                >Cronograma</span
+              >
+            </div>
+            <p
+              style="
+                font-size: 0.29em;
+                color: var(--muted);
+                margin-top: 2em;
+                padding-top: 0.8em;
+                border-top: 1px solid var(--border);
+                font-family: &quot;JetBrains Mono&quot;, monospace;
+              "
+            >
+              GA2-220501094-AA1-EV03 · Análisis y Desarrollo de Software · SENA
+            </p>
+          </div>
+        </section>
+      </div>
+      <!-- /.slides -->
+    </div>
+    <!-- /.reveal -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: true,
+      });
+    </script>
+  </body>
+</html>

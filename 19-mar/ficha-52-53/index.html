@@ -1,0 +1,1230 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Usabilidad y Accesibilidad · GA5-220501095-AA1-EV02</title>
+
+    <!-- Reveal.js CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary: #00e5ff;
+        --accent: #ff6b6b;
+        --gold: #ffd166;
+        --bg-dark: #0a0f1e;
+        --bg-card: #111827;
+        --text: #e8eaf0;
+        --muted: #8892a4;
+      }
+
+      .reveal-viewport {
+        background: var(--bg-dark);
+      }
+
+      .reveal {
+        font-family: "DM Sans", sans-serif;
+        font-size: 32px;
+        color: var(--text);
+      }
+
+      /* ── HEADINGS ── */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Syne", sans-serif;
+        text-transform: none;
+        letter-spacing: -0.02em;
+        text-shadow: none;
+      }
+      .reveal h1 {
+        font-size: 2.4em;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+      .reveal h2 {
+        font-size: 1.6em;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5em;
+      }
+      .reveal h3 {
+        font-size: 1.1em;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 0.35em;
+      }
+
+      /* ── COVER SLIDE ── */
+      .cover-slide {
+        position: relative;
+        overflow: hidden;
+      }
+      .cover-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse 70% 60% at 80% 20%,
+            rgba(0, 229, 255, 0.18) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 50% 50% at 10% 80%,
+            rgba(255, 107, 107, 0.14) 0%,
+            transparent 60%
+          ),
+          var(--bg-dark);
+      }
+      .cover-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        opacity: 0.05;
+        background-image:
+          linear-gradient(var(--primary) 1px, transparent 1px),
+          linear-gradient(90deg, var(--primary) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      .cover-content {
+        position: relative;
+        z-index: 1;
+      }
+      .cover-badge {
+        display: inline-block;
+        background: rgba(0, 229, 255, 0.12);
+        border: 1px solid rgba(0, 229, 255, 0.4);
+        color: var(--primary);
+        font-family: "Syne", sans-serif;
+        font-size: 0.38em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.4em 1em;
+        border-radius: 100px;
+        margin-bottom: 0.8em;
+      }
+      .cover-title {
+        color: #fff;
+      }
+      .cover-title span {
+        color: var(--primary);
+      }
+      .cover-subtitle {
+        font-size: 0.52em;
+        color: var(--muted);
+        margin-top: 0.5em;
+        font-weight: 300;
+      }
+      .cover-code {
+        font-size: 0.32em;
+        color: var(--muted);
+        margin-top: 1.5em;
+        font-family: "DM Mono", monospace;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 0.8em;
+      }
+
+      /* ── SECTION DIVIDER ── */
+      .section-divider {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 229, 255, 0.08),
+          rgba(255, 107, 107, 0.06)
+        );
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        border-radius: 16px;
+        padding: 2em 2.5em;
+      }
+      .section-num {
+        font-size: 0.5em;
+        color: var(--primary);
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      /* ── CARDS ── */
+      .cards {
+        display: grid;
+        gap: 0.7em;
+        text-align: left;
+      }
+      .cards-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .cards-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .card {
+        background: var(--bg-card);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 0.8em 1em;
+      }
+      .card.cyan {
+        border-left: 3px solid var(--primary);
+      }
+      .card.red {
+        border-left: 3px solid var(--accent);
+      }
+      .card.gold {
+        border-left: 3px solid var(--gold);
+      }
+      .card.green {
+        border-left: 3px solid #06d6a0;
+      }
+      .card.purple {
+        border-left: 3px solid #c77dff;
+      }
+
+      .card-icon {
+        font-size: 1.4em;
+        margin-bottom: 0.2em;
+        display: block;
+      }
+      .card p {
+        font-size: 0.52em;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+      .card h3 {
+        margin: 0 0 0.2em;
+        font-size: 0.7em;
+      }
+
+      /* ── RULE CARDS (usability) ── */
+      .rule-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.55em;
+        text-align: left;
+      }
+      .rule-item {
+        background: var(--bg-card);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+        padding: 0.6em 0.85em;
+        display: flex;
+        gap: 0.55em;
+        align-items: flex-start;
+      }
+      .rule-num {
+        font-family: "Syne", sans-serif;
+        font-size: 0.55em;
+        font-weight: 800;
+        color: var(--primary);
+        min-width: 1.5em;
+        opacity: 0.7;
+      }
+      .rule-text {
+        font-size: 0.48em;
+        line-height: 1.5;
+        color: var(--text);
+      }
+      .rule-text strong {
+        color: var(--gold);
+        font-weight: 600;
+        display: block;
+        font-size: 1.05em;
+        margin-bottom: 0.1em;
+      }
+
+      /* ── COMPARISON TABLE ── */
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7em;
+        text-align: left;
+      }
+      .compare-col {
+        background: var(--bg-card);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .compare-header {
+        padding: 0.55em 1em;
+        font-family: "Syne", sans-serif;
+        font-size: 0.55em;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+      .compare-header.ind {
+        background: rgba(0, 229, 255, 0.15);
+        color: var(--primary);
+      }
+      .compare-header.web {
+        background: rgba(255, 107, 107, 0.15);
+        color: var(--accent);
+      }
+      .compare-body {
+        padding: 0.6em 1em;
+      }
+      .compare-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5em;
+        font-size: 0.46em;
+        padding: 0.3em 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        line-height: 1.5;
+        color: var(--text);
+      }
+      .compare-item:last-child {
+        border-bottom: none;
+      }
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 0.4em;
+      }
+      .dot.c {
+        background: var(--primary);
+      }
+      .dot.w {
+        background: var(--accent);
+      }
+
+      /* ── WCAG PILLS ── */
+      .wcag-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        justify-content: center;
+        margin-top: 0.6em;
+      }
+      .pill {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 100px;
+        font-size: 0.38em;
+        padding: 0.35em 0.9em;
+        color: var(--text);
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+      }
+      .pill.p {
+        border-color: rgba(0, 229, 255, 0.5);
+        color: var(--primary);
+      }
+      .pill.o {
+        border-color: rgba(255, 209, 102, 0.5);
+        color: var(--gold);
+      }
+      .pill.u {
+        border-color: rgba(6, 214, 160, 0.5);
+        color: #06d6a0;
+      }
+      .pill.r {
+        border-color: rgba(199, 125, 255, 0.5);
+        color: #c77dff;
+      }
+
+      /* ── ACCESSIBILITY PRINCIPLES ── */
+      .a11y-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.6em;
+        text-align: center;
+      }
+      .a11y-box {
+        border-radius: 12px;
+        padding: 0.8em 0.6em;
+        font-size: 0.48em;
+      }
+      .a11y-box .letter {
+        font-family: "Syne", sans-serif;
+        font-size: 2.2em;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 0.15em;
+      }
+      .a11y-box p {
+        font-size: 0.85em;
+        color: var(--muted);
+        margin: 0.2em 0 0;
+      }
+      .a11y-box.p-box {
+        background: rgba(0, 229, 255, 0.1);
+      }
+      .a11y-box.p-box .letter {
+        color: var(--primary);
+      }
+      .a11y-box.o-box {
+        background: rgba(255, 209, 102, 0.1);
+      }
+      .a11y-box.o-box .letter {
+        color: var(--gold);
+      }
+      .a11y-box.u-box {
+        background: rgba(6, 214, 160, 0.1);
+      }
+      .a11y-box.u-box .letter {
+        color: #06d6a0;
+      }
+      .a11y-box.r-box {
+        background: rgba(199, 125, 255, 0.1);
+      }
+      .a11y-box.r-box .letter {
+        color: #c77dff;
+      }
+
+      /* ── TIPS ── */
+      .tip-list {
+        text-align: left;
+      }
+      .tip-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7em;
+        background: var(--bg-card);
+        border-radius: 10px;
+        padding: 0.55em 0.85em;
+        margin-bottom: 0.4em;
+        font-size: 0.5em;
+        border-left: 3px solid var(--gold);
+        line-height: 1.5;
+      }
+      .tip-item .ti {
+        font-size: 1.3em;
+      }
+
+      /* ── CLOSING ── */
+      .closing-glow {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background: radial-gradient(
+          ellipse 60% 50% at 50% 50%,
+          rgba(0, 229, 255, 0.12),
+          transparent 70%
+        );
+      }
+      .closing-content {
+        position: relative;
+        z-index: 1;
+      }
+      .big-check {
+        font-size: 2.5em;
+        margin-bottom: 0.2em;
+        filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.6));
+      }
+
+      /* ── PROGRESS BAR ── */
+      .reveal .progress {
+        background: rgba(0, 229, 255, 0.15);
+      }
+      .reveal .progress span {
+        background: var(--primary);
+      }
+
+      /* ── SLIDE NUMBER ── */
+      .reveal .slide-number {
+        color: var(--muted);
+        font-family: "Syne", sans-serif;
+        font-size: 0.4em;
+      }
+
+      /* ── FRAGMENTS ── */
+      .reveal .fragment {
+        transition: all 0.4s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ══════════════════════════════════════════
+         SLIDE 1 · COVER
+    ══════════════════════════════════════════ -->
+        <section class="cover-slide" data-background-color="#0a0f1e">
+          <div class="cover-bg"></div>
+          <div class="cover-grid"></div>
+          <div class="cover-content">
+            <div class="cover-badge">Evidencia GA5-220501095-AA1-EV02</div>
+            <h1 class="cover-title">
+              Usabilidad &amp;<br />
+              <span>Accesibilidad</span>
+            </h1>
+            <p class="cover-subtitle">
+              Nociones de reglas en aplicaciones independientes y web
+            </p>
+            <p class="cover-code">
+              AA1-EV02 · Formación SENA · Análisis y Desarrollo de Software
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 2 · AGENDA
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>¿Qué vamos a aprender?</h2>
+          <div class="cards cards-2">
+            <div class="card cyan fragment">
+              <span class="card-icon">📖</span>
+              <h3>01 · Conceptos clave</h3>
+              <p>Qué es usabilidad y qué es accesibilidad</p>
+            </div>
+            <div class="card gold fragment">
+              <span class="card-icon">📏</span>
+              <h3>02 · Reglas de usabilidad</h3>
+              <p>Las 10 heurísticas de Nielsen</p>
+            </div>
+            <div class="card red fragment">
+              <span class="card-icon">♿</span>
+              <h3>03 · Reglas de accesibilidad</h3>
+              <p>Principios WCAG y POUR</p>
+            </div>
+            <div class="card green fragment">
+              <span class="card-icon">💻</span>
+              <h3>04 · Tipos de aplicaciones</h3>
+              <p>Independientes vs Web · Diferencias y características</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 3 · SECCIÓN 1 — CONCEPTOS
+    ══════════════════════════════════════════ -->
+        <section>
+          <div class="section-divider">
+            <div class="section-num">Sección 01</div>
+            <h2 style="color: #fff; margin: 0.2em 0 0.1em">Conceptos Clave</h2>
+            <p style="font-size: 0.5em; color: var(--muted); margin: 0">
+              ¿De qué hablamos cuando decimos «usabilidad» y «accesibilidad»?
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 4 · USABILIDAD
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>¿Qué es la Usabilidad?</h2>
+          <div class="cards" style="grid-template-columns: 1fr">
+            <div class="card cyan" style="padding: 1em 1.2em">
+              <p
+                style="font-size: 0.58em; color: var(--text); line-height: 1.6"
+              >
+                La <strong style="color: var(--primary)">usabilidad</strong> es
+                la medida en que un sistema puede ser usado por usuarios
+                específicos para alcanzar metas específicas con
+                <strong style="color: var(--primary)"
+                  >efectividad, eficiencia y satisfacción</strong
+                >
+                en un contexto de uso determinado.
+                <em style="color: var(--muted)">(ISO 9241-11)</em>
+              </p>
+            </div>
+          </div>
+          <div class="cards cards-3" style="margin-top: 0.7em">
+            <div class="card cyan fragment">
+              <h3>✅ Efectividad</h3>
+              <p>El usuario logra su objetivo de forma completa y correcta</p>
+            </div>
+            <div class="card gold fragment">
+              <h3>⚡ Eficiencia</h3>
+              <p>Se usa el menor tiempo y esfuerzo posible</p>
+            </div>
+            <div class="card red fragment">
+              <h3>😊 Satisfacción</h3>
+              <p>El usuario se siente cómodo y a gusto con la app</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 5 · ACCESIBILIDAD
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>¿Qué es la Accesibilidad?</h2>
+          <div class="cards" style="grid-template-columns: 1fr">
+            <div class="card red" style="padding: 1em 1.2em">
+              <p
+                style="font-size: 0.58em; color: var(--text); line-height: 1.6"
+              >
+                La
+                <strong style="color: var(--accent)">accesibilidad</strong>
+                garantiza que todas las personas,
+                <strong style="color: var(--accent)"
+                  >independientemente de sus capacidades físicas, sensoriales o
+                  cognitivas</strong
+                >, puedan percibir, entender, navegar e interactuar con una
+                aplicación sin barreras.
+              </p>
+            </div>
+          </div>
+          <div class="cards cards-2" style="margin-top: 0.7em">
+            <div class="card red fragment">
+              <span class="card-icon">👁️</span>
+              <h3>Discapacidad visual</h3>
+              <p>
+                Lectores de pantalla, alto contraste, texto alternativo en
+                imágenes
+              </p>
+            </div>
+            <div class="card gold fragment">
+              <span class="card-icon">👂</span>
+              <h3>Discapacidad auditiva</h3>
+              <p>Subtítulos, transcripciones, alertas visuales</p>
+            </div>
+            <div class="card green fragment">
+              <span class="card-icon">🖐️</span>
+              <h3>Discapacidad motriz</h3>
+              <p>Navegación por teclado, botones grandes, comandos de voz</p>
+            </div>
+            <div class="card purple fragment">
+              <span class="card-icon">🧠</span>
+              <h3>Discapacidad cognitiva</h3>
+              <p>Lenguaje simple, íconos claros, flujos predecibles</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 6 · SECCIÓN 2 — HEURÍSTICAS
+    ══════════════════════════════════════════ -->
+        <section>
+          <div class="section-divider">
+            <div class="section-num">Sección 02</div>
+            <h2 style="color: #fff; margin: 0.2em 0 0.1em">
+              Reglas de Usabilidad
+            </h2>
+            <p style="font-size: 0.5em; color: var(--muted); margin: 0">
+              Las 10 Heurísticas de Jakob Nielsen (1994)
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 7 · HEURÍSTICAS 1-5
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>Heurísticas 1 – 5</h2>
+          <div class="rule-list">
+            <div class="rule-item">
+              <span class="rule-num">01</span>
+              <span class="rule-text"
+                ><strong>Visibilidad del estado del sistema</strong>El sistema
+                informa siempre al usuario sobre lo que está ocurriendo
+                (indicadores de carga, confirmaciones).</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">02</span>
+              <span class="rule-text"
+                ><strong>Correspondencia con el mundo real</strong>Usa lenguaje
+                familiar al usuario; evita términos técnicos internos del
+                sistema.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">03</span>
+              <span class="rule-text"
+                ><strong>Control y libertad del usuario</strong>Ofrece
+                «deshacer» y «rehacer»; el usuario puede salir de estados no
+                deseados fácilmente.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">04</span>
+              <span class="rule-text"
+                ><strong>Consistencia y estándares</strong>Las convenciones de
+                plataforma se respetan; palabras iguales significan cosas
+                iguales.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">05</span>
+              <span class="rule-text"
+                ><strong>Prevención de errores</strong>Diseña para evitar que
+                ocurran problemas antes que simplemente reportarlos.</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 8 · HEURÍSTICAS 6-10
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>Heurísticas 6 – 10</h2>
+          <div class="rule-list">
+            <div class="rule-item">
+              <span class="rule-num">06</span>
+              <span class="rule-text"
+                ><strong>Reconocer antes que recordar</strong>Objetos, acciones
+                y opciones visibles; el usuario no debe memorizar información
+                entre pantallas.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">07</span>
+              <span class="rule-text"
+                ><strong>Flexibilidad y eficiencia</strong>Los usuarios expertos
+                pueden usar atajos; la interfaz se adapta a novatos y
+                avanzados.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">08</span>
+              <span class="rule-text"
+                ><strong>Diseño estético y minimalista</strong>Solo muestra
+                información relevante; cada elemento extra compite con los
+                importantes.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">09</span>
+              <span class="rule-text"
+                ><strong>Reconocer y recuperarse de errores</strong>Los mensajes
+                de error indican claramente qué salió mal y cómo
+                resolverlo.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num">10</span>
+              <span class="rule-text"
+                ><strong>Ayuda y documentación</strong>Aunque la app sea
+                intuitiva, el usuario debe poder acceder a ayuda cuando la
+                necesite.</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 9 · SECCIÓN 3 — ACCESIBILIDAD
+    ══════════════════════════════════════════ -->
+        <section>
+          <div class="section-divider">
+            <div class="section-num">Sección 03</div>
+            <h2 style="color: #fff; margin: 0.2em 0 0.1em">
+              Reglas de Accesibilidad
+            </h2>
+            <p style="font-size: 0.5em; color: var(--muted); margin: 0">
+              WCAG 2.1 y el modelo POUR
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 10 · WCAG
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>WCAG — Pautas de Accesibilidad</h2>
+          <div
+            class="cards"
+            style="grid-template-columns: 1fr; margin-bottom: 0.7em"
+          >
+            <div class="card cyan" style="padding: 0.7em 1em">
+              <p
+                style="font-size: 0.52em; line-height: 1.5; color: var(--text)"
+              >
+                <strong style="color: var(--primary)"
+                  >Web Content Accessibility Guidelines (WCAG)</strong
+                >
+                son las normas internacionales del W3C que definen cómo hacer
+                contenido digital accesible. Se organizan en 3 niveles:
+              </p>
+            </div>
+          </div>
+          <div class="wcag-wrap">
+            <span class="pill p">Nivel A · Mínimo</span>
+            <span class="pill o">Nivel AA · Recomendado</span>
+            <span class="pill r">Nivel AAA · Óptimo</span>
+          </div>
+          <div class="a11y-row" style="margin-top: 1em">
+            <div class="a11y-box p-box fragment">
+              <div class="letter">P</div>
+              <strong
+                style="
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-size: 0.9em;
+                "
+                >Perceptible</strong
+              >
+              <p>La info debe poder percibirse</p>
+            </div>
+            <div class="a11y-box o-box fragment">
+              <div class="letter">O</div>
+              <strong
+                style="
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-size: 0.9em;
+                "
+                >Operable</strong
+              >
+              <p>Los componentes son operables</p>
+            </div>
+            <div class="a11y-box u-box fragment">
+              <div class="letter">U</div>
+              <strong
+                style="
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-size: 0.9em;
+                "
+                >Comprensible</strong
+              >
+              <p>Información y UI comprensibles</p>
+            </div>
+            <div class="a11y-box r-box fragment">
+              <div class="letter">R</div>
+              <strong
+                style="
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-size: 0.9em;
+                "
+                >Robusto</strong
+              >
+              <p>Compatible con tecnologías asistivas</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 11 · REGLAS DE ACCESIBILIDAD
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>Reglas Prácticas de Accesibilidad</h2>
+          <div class="rule-list">
+            <div class="rule-item">
+              <span class="rule-num" style="color: var(--accent)">A</span>
+              <span class="rule-text"
+                ><strong>Texto alternativo</strong>Toda imagen debe tener un
+                atributo
+                <code style="color: var(--primary)">alt</code> descriptivo para
+                lectores de pantalla.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num" style="color: var(--accent)">B</span>
+              <span class="rule-text"
+                ><strong>Contraste de color</strong>Relación mínima de 4.5:1
+                entre texto y fondo (nivel AA).</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num" style="color: var(--accent)">C</span>
+              <span class="rule-text"
+                ><strong>Navegación por teclado</strong>Toda funcionalidad debe
+                ser accesible sin mouse; uso de <kbd>Tab</kbd> y
+                <kbd>Enter</kbd>.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num" style="color: var(--accent)">D</span>
+              <span class="rule-text"
+                ><strong>Tamaño de fuente ajustable</strong>El texto debe poder
+                ampliarse hasta 200% sin perder contenido ni
+                funcionalidad.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num" style="color: var(--accent)">E</span>
+              <span class="rule-text"
+                ><strong>Etiquetas en formularios</strong>Cada campo debe tener
+                su etiqueta
+                <code style="color: var(--primary)">label</code> asociada
+                correctamente.</span
+              >
+            </div>
+            <div class="rule-item">
+              <span class="rule-num" style="color: var(--accent)">F</span>
+              <span class="rule-text"
+                ><strong>Mensajes de error claros</strong>Indicar qué campo
+                tiene error y cómo corregirlo, no solo con color.</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 12 · SECCIÓN 4 — TIPOS DE APP
+    ══════════════════════════════════════════ -->
+        <section>
+          <div class="section-divider">
+            <div class="section-num">Sección 04</div>
+            <h2 style="color: #fff; margin: 0.2em 0 0.1em">
+              Tipos de Aplicaciones
+            </h2>
+            <p style="font-size: 0.5em; color: var(--muted); margin: 0">
+              Independientes vs Web — ¿cuáles son las diferencias?
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 13 · COMPARATIVA
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>Aplicación Independiente vs Web</h2>
+          <div class="compare-grid">
+            <div class="compare-col">
+              <div class="compare-header ind">
+                💻 Aplicación Independiente (Desktop)
+              </div>
+              <div class="compare-body">
+                <div class="compare-item">
+                  <div class="dot c"></div>
+                  Se instala directamente en el sistema operativo
+                </div>
+                <div class="compare-item">
+                  <div class="dot c"></div>
+                  Funciona sin conexión a Internet
+                </div>
+                <div class="compare-item">
+                  <div class="dot c"></div>
+                  Mayor acceso a recursos del hardware (GPU, archivos)
+                </div>
+                <div class="compare-item">
+                  <div class="dot c"></div>
+                  Actualizaciones manuales o automáticas por instalador
+                </div>
+                <div class="compare-item">
+                  <div class="dot c"></div>
+                  Ejemplos: Microsoft Word, Photoshop, VLC
+                </div>
+                <div class="compare-item">
+                  <div class="dot c"></div>
+                  Tecnologías: Java, .NET, C++, Python (Tkinter/PyQt)
+                </div>
+              </div>
+            </div>
+            <div class="compare-col">
+              <div class="compare-header web">🌐 Aplicación Web</div>
+              <div class="compare-body">
+                <div class="compare-item">
+                  <div class="dot w"></div>
+                  Se ejecuta en un navegador; no requiere instalación
+                </div>
+                <div class="compare-item">
+                  <div class="dot w"></div>
+                  Requiere conexión a Internet (normalmente)
+                </div>
+                <div class="compare-item">
+                  <div class="dot w"></div>
+                  Acceso limitado al hardware por seguridad del navegador
+                </div>
+                <div class="compare-item">
+                  <div class="dot w"></div>
+                  Actualizaciones instantáneas en el servidor
+                </div>
+                <div class="compare-item">
+                  <div class="dot w"></div>
+                  Ejemplos: Gmail, Google Docs, Trello, Figma
+                </div>
+                <div class="compare-item">
+                  <div class="dot w"></div>
+                  Tecnologías: HTML, CSS, JavaScript, React, Angular
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 14 · CARACTERÍSTICAS INDEPENDIENTE
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>Características de una App Independiente</h2>
+          <div class="cards cards-2">
+            <div class="card cyan fragment">
+              <span class="card-icon">📦</span>
+              <h3>Instalación local</h3>
+              <p>
+                El ejecutable (.exe, .dmg, .deb) se descarga e instala en el
+                dispositivo del usuario
+              </p>
+            </div>
+            <div class="card gold fragment">
+              <span class="card-icon">🔌</span>
+              <h3>Modo offline</h3>
+              <p>
+                Funciona sin red; los datos se almacenan localmente en el disco
+              </p>
+            </div>
+            <div class="card red fragment">
+              <span class="card-icon">⚙️</span>
+              <h3>Alto rendimiento</h3>
+              <p>Aprovecha al máximo la CPU, memoria y GPU del equipo local</p>
+            </div>
+            <div class="card green fragment">
+              <span class="card-icon">🔐</span>
+              <h3>Seguridad local</h3>
+              <p>
+                Los datos sensibles pueden no salir del dispositivo; menor
+                exposición en red
+              </p>
+            </div>
+            <div class="card purple fragment">
+              <span class="card-icon">🖥️</span>
+              <h3>Integración con OS</h3>
+              <p>
+                Accede a impresoras, cámara, micrófono y sistema de archivos
+                directamente
+              </p>
+            </div>
+            <div class="card cyan fragment">
+              <span class="card-icon">🔄</span>
+              <h3>Ciclo de actualización</h3>
+              <p>
+                El usuario debe descargar e instalar nuevas versiones
+                manualmente o con instalador
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 15 · CARACTERÍSTICAS WEB
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>Características de una App Web</h2>
+          <div class="cards cards-2">
+            <div class="card red fragment">
+              <span class="card-icon">🌍</span>
+              <h3>Acceso universal</h3>
+              <p>
+                Disponible desde cualquier dispositivo con navegador y conexión
+                a Internet
+              </p>
+            </div>
+            <div class="card gold fragment">
+              <span class="card-icon">🚀</span>
+              <h3>Despliegue inmediato</h3>
+              <p>
+                Una actualización en el servidor llega a todos los usuarios al
+                instante
+              </p>
+            </div>
+            <div class="card cyan fragment">
+              <span class="card-icon">📱</span>
+              <h3>Multiplataforma</h3>
+              <p>
+                Funciona en Windows, macOS, Linux, Android, iOS sin cambios de
+                código
+              </p>
+            </div>
+            <div class="card green fragment">
+              <span class="card-icon">🤝</span>
+              <h3>Colaboración en tiempo real</h3>
+              <p>
+                Múltiples usuarios pueden trabajar simultáneamente sobre los
+                mismos datos
+              </p>
+            </div>
+            <div class="card purple fragment">
+              <span class="card-icon">💰</span>
+              <h3>Menor coste de distribución</h3>
+              <p>
+                No hay distribución de instaladores; el usuario accede con una
+                URL
+              </p>
+            </div>
+            <div class="card red fragment">
+              <span class="card-icon">🛡️</span>
+              <h3>Limitaciones de seguridad</h3>
+              <p>
+                El sandbox del navegador restringe el acceso al hardware por
+                protección
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 16 · BUENAS PRÁCTICAS APLICADAS
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>💡 Buenas Prácticas para Ambos Tipos</h2>
+          <div class="tip-list">
+            <div class="tip-item fragment">
+              <span class="ti">🎨</span>
+              <span
+                ><strong style="color: var(--gold)">Diseño consistente:</strong>
+                Usa paletas de colores y tipografías coherentes en toda la
+                aplicación para no confundir al usuario.</span
+              >
+            </div>
+            <div class="tip-item fragment">
+              <span class="ti">📐</span>
+              <span
+                ><strong style="color: var(--gold)">Jerarquía visual:</strong>
+                Lo más importante debe verse primero. Tamaño, color y posición
+                guían la atención.</span
+              >
+            </div>
+            <div class="tip-item fragment">
+              <span class="ti">⚡</span>
+              <span
+                ><strong style="color: var(--gold)"
+                  >Retroalimentación inmediata:</strong
+                >
+                Siempre confirma las acciones del usuario: loaders, mensajes de
+                éxito/error, animaciones.</span
+              >
+            </div>
+            <div class="tip-item fragment">
+              <span class="ti">♿</span>
+              <span
+                ><strong style="color: var(--gold)"
+                  >Pruebas de accesibilidad:</strong
+                >
+                Usa herramientas como WAVE, Lighthouse o axe para validar el
+                cumplimiento WCAG.</span
+              >
+            </div>
+            <div class="tip-item fragment">
+              <span class="ti">👥</span>
+              <span
+                ><strong style="color: var(--gold)"
+                  >Pruebas con usuarios reales:</strong
+                >
+                El mayor test de usabilidad es que personas reales usen tu app
+                sin ayuda.</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 17 · RESUMEN VISUAL
+    ══════════════════════════════════════════ -->
+        <section>
+          <h2>Resumen General</h2>
+          <div class="cards cards-2">
+            <div class="card cyan">
+              <h3 style="color: var(--primary); font-size: 0.75em">
+                📏 Usabilidad (Nielsen)
+              </h3>
+              <p style="font-size: 0.44em; line-height: 1.7">
+                1 Visibilidad del estado · 2 Mundo real · 3 Control libre · 4
+                Consistencia · 5 Prevención errores · 6 Reconocer · 7
+                Flexibilidad · 8 Minimalismo · 9 Recuperar errores · 10 Ayuda
+              </p>
+            </div>
+            <div class="card red">
+              <h3 style="color: var(--accent); font-size: 0.75em">
+                ♿ Accesibilidad (WCAG)
+              </h3>
+              <p style="font-size: 0.44em; line-height: 1.7">
+                <strong style="color: var(--primary)">P</strong>erceptible ·
+                <strong style="color: var(--gold)">O</strong>perable ·
+                <strong style="color: #06d6a0">U</strong>nderstandable ·
+                <strong style="color: #c77dff">R</strong>obust <br />Texto alt ·
+                Contraste · Teclado · Etiquetas · Fuente escalable
+              </p>
+            </div>
+            <div class="card cyan">
+              <h3 style="color: var(--primary); font-size: 0.75em">
+                💻 App Independiente
+              </h3>
+              <p style="font-size: 0.44em; line-height: 1.7">
+                Instalada en el OS · Offline · Alto rendimiento · Integración
+                hardware · Actualización manual
+              </p>
+            </div>
+            <div class="card red">
+              <h3 style="color: var(--accent); font-size: 0.75em">
+                🌐 App Web
+              </h3>
+              <p style="font-size: 0.44em; line-height: 1.7">
+                Corre en navegador · Requiere red · Multiplataforma ·
+                Actualización automática · Colaboración en tiempo real
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+         SLIDE 18 · CIERRE
+    ══════════════════════════════════════════ -->
+        <section data-background-color="#0a0f1e">
+          <div class="closing-glow"></div>
+          <div class="closing-content">
+            <div class="big-check">✅</div>
+            <h1 style="color: #fff; font-size: 1.8em">
+              ¡Listo para la evidencia!
+            </h1>
+            <p
+              style="
+                font-size: 0.5em;
+                color: var(--muted);
+                max-width: 600px;
+                margin: 0.8em auto 1.2em;
+              "
+            >
+              Ahora conoces las reglas de usabilidad y accesibilidad, y sabes
+              diferenciar entre una aplicación independiente y una web. ¡Aplica
+              estos conceptos en tu evidencia GA5-220501095-AA1-EV02!
+            </p>
+            <div
+              style="
+                display: flex;
+                gap: 0.8em;
+                justify-content: center;
+                flex-wrap: wrap;
+              "
+            >
+              <span class="pill p">10 Heurísticas de Nielsen</span>
+              <span class="pill r">WCAG POUR</span>
+              <span class="pill o">App Independiente</span>
+              <span class="pill u">App Web</span>
+            </div>
+            <p
+              style="
+                font-size: 0.32em;
+                color: var(--muted);
+                margin-top: 2em;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 0.8em;
+              "
+            >
+              GA5-220501095-AA1-EV02 · Análisis y Desarrollo de Software · SENA
+            </p>
+          </div>
+        </section>
+      </div>
+      <!-- /.slides -->
+    </div>
+    <!-- /.reveal -->
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: true,
+        plugins: [],
+      });
+    </script>
+  </body>
+</html>
