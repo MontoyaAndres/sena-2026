@@ -1,0 +1,1183 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      GA2-220501094-AA2-EV01 | Ficha Técnica y Análisis de Proveedores
+    </title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;800&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --azul: #1a3a5c;
+        --verde: #00b896;
+        --naranja: #f4a261;
+        --amarillo: #ffd166;
+        --rojo: #e63946;
+        --gris: #f4f5f7;
+        --texto: #1e1e2e;
+        --blanco: #ffffff;
+      }
+
+      .reveal {
+        font-family: "Inter", sans-serif;
+        font-size: 36px;
+        color: var(--texto);
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Nunito", sans-serif;
+        text-transform: none;
+        letter-spacing: -0.01em;
+      }
+      .reveal h1 {
+        font-size: 1.8em;
+        font-weight: 800;
+      }
+      .reveal h2 {
+        font-size: 1.35em;
+        font-weight: 700;
+        color: var(--azul);
+      }
+      .reveal h3 {
+        font-size: 0.9em;
+        font-weight: 600;
+        color: var(--azul);
+      }
+      .reveal .slides section {
+        text-align: left;
+        padding: 20px 44px;
+      }
+
+      /* ── PORTADA ── */
+      .slide-portada {
+        background: var(--azul) !important;
+        color: var(--blanco) !important;
+      }
+      .slide-portada h1 {
+        color: var(--blanco) !important;
+        font-size: 1.55em;
+        line-height: 1.2;
+      }
+      .slide-portada .badge {
+        display: inline-block;
+        background: var(--naranja);
+        color: var(--blanco);
+        font-family: "Space Mono", monospace;
+        font-size: 0.28em;
+        font-weight: 700;
+        padding: 6px 16px;
+        border-radius: 4px;
+        margin-bottom: 18px;
+      }
+      .slide-portada .chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 28px;
+      }
+      .slide-portada .chip {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 0.29em;
+        font-family: "Space Mono", monospace;
+        padding: 6px 14px;
+        border-radius: 20px;
+      }
+      .slide-portada .deco {
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 7em;
+        opacity: 0.05;
+        font-family: "Nunito", sans-serif;
+        font-weight: 800;
+        pointer-events: none;
+      }
+
+      /* ── CARDS ── */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        margin-top: 16px;
+      }
+      .cards.three {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .cards.four {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .card {
+        background: var(--gris);
+        border-left: 4px solid var(--naranja);
+        border-radius: 8px;
+        padding: 16px 18px;
+        font-size: 0.49em;
+      }
+      .card .emoji {
+        font-size: 1.5em;
+        display: block;
+        margin-bottom: 6px;
+      }
+      .card strong {
+        font-family: "Nunito", sans-serif;
+        font-size: 1.05em;
+        color: var(--azul);
+      }
+      .card.accent {
+        border-left-color: var(--verde);
+      }
+      .card.warn {
+        border-left-color: var(--rojo);
+      }
+      .card.info {
+        border-left-color: var(--azul);
+      }
+
+      /* ── LISTA LIMPIA ── */
+      .reveal ul.clean {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .reveal ul.clean li {
+        font-size: 0.5em;
+        padding: 10px 12px;
+        border-bottom: 1px solid #e8e8e8;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .reveal ul.clean li:last-child {
+        border-bottom: none;
+      }
+      .reveal ul.clean li .dot {
+        width: 8px;
+        height: 8px;
+        background: var(--naranja);
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 6px;
+      }
+      .reveal ul.clean li .dot.verde {
+        background: var(--verde);
+      }
+
+      /* ── PASOS ── */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .step {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: var(--gris);
+        border-radius: 8px;
+        padding: 12px 16px;
+      }
+      .step .num {
+        width: 34px;
+        height: 34px;
+        background: var(--azul);
+        color: var(--blanco);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Space Mono", monospace;
+        font-size: 0.44em;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .step .num.naranja {
+        background: var(--naranja);
+      }
+      .step .txt {
+        font-size: 0.47em;
+      }
+      .step .txt strong {
+        color: var(--azul);
+        font-family: "Nunito", sans-serif;
+      }
+
+      /* ── HIGHLIGHT BOX ── */
+      .highlight-box {
+        background: var(--azul);
+        color: var(--blanco);
+        border-radius: 10px;
+        padding: 18px 24px;
+        margin-top: 14px;
+      }
+      .highlight-box p {
+        font-size: 0.49em;
+        margin: 0;
+        line-height: 1.6;
+      }
+      .highlight-box strong {
+        color: var(--naranja);
+      }
+      .highlight-box.verde {
+        background: #e6faf5;
+      }
+      .highlight-box.verde p {
+        color: var(--texto);
+      }
+      .highlight-box.verde strong {
+        color: var(--verde);
+      }
+
+      /* ── FICHA TÉCNICA VISUAL ── */
+      .ficha {
+        border: 2px solid var(--azul);
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 0.38em;
+        margin-top: 14px;
+      }
+      .ficha-header {
+        background: var(--azul);
+        color: var(--blanco);
+        padding: 10px 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .ficha-header .logo-box {
+        width: 46px;
+        height: 36px;
+        background: var(--naranja);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-family: "Nunito", sans-serif;
+        font-size: 1.1em;
+        color: #fff;
+      }
+      .ficha-header .titulo {
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        font-size: 1.1em;
+      }
+      .ficha-header .subtitulo {
+        font-size: 0.85em;
+        color: #a0bcd0;
+      }
+      .ficha-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .ficha-section {
+        padding: 12px 16px;
+        border-right: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .ficha-section:nth-child(even) {
+        border-right: none;
+      }
+      .ficha-section .label {
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        color: var(--azul);
+        font-size: 0.95em;
+        margin-bottom: 4px;
+      }
+      .ficha-section .val {
+        color: #444;
+        line-height: 1.4;
+      }
+      .ficha-footer {
+        background: var(--gris);
+        padding: 7px 16px;
+        text-align: right;
+        color: #999;
+        border-top: 1px solid #ddd;
+      }
+
+      /* ── TABLA COMPARATIVA ── */
+      .comp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.42em;
+        margin-top: 14px;
+      }
+      .comp-table th {
+        background: var(--azul);
+        color: var(--blanco);
+        font-family: "Nunito", sans-serif;
+        padding: 9px 12px;
+        text-align: left;
+      }
+      .comp-table td {
+        padding: 8px 12px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle;
+      }
+      .comp-table tr:nth-child(even) td {
+        background: var(--gris);
+      }
+      .comp-table .ganador {
+        background: #e6faf5 !important;
+        font-weight: 700;
+        color: var(--verde);
+      }
+      .comp-table .check {
+        color: var(--verde);
+        font-size: 1.2em;
+      }
+      .comp-table .cross {
+        color: var(--rojo);
+        font-size: 1.2em;
+      }
+
+      /* ── SLIDE DARK ── */
+      .slide-dark {
+        background: #12233a !important;
+        color: var(--blanco) !important;
+      }
+      .slide-dark h2 {
+        color: var(--naranja) !important;
+      }
+
+      /* ── SLIDE VERDE ── */
+      .slide-verde {
+        background: #edfaf6 !important;
+      }
+
+      /* ── SLIDE NARANJA ── */
+      .slide-naranja {
+        background: #fff7ee !important;
+      }
+
+      /* ── MONO ── */
+      .mono {
+        font-family: "Space Mono", monospace;
+      }
+
+      /* ── TAG ── */
+      .tag {
+        display: inline-block;
+        background: var(--amarillo);
+        color: var(--azul);
+        font-family: "Space Mono", monospace;
+        font-size: 0.28em;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-right: 6px;
+      }
+      .tag.verde {
+        background: #b8f0e0;
+        color: #005a44;
+      }
+      .tag.rojo {
+        background: #fde0e2;
+        color: #8b0000;
+      }
+
+      .mt8 {
+        margin-top: 8px;
+      }
+      .mt14 {
+        margin-top: 14px;
+      }
+      .small {
+        font-size: 0.48em;
+        color: #555;
+      }
+      .reveal .progress {
+        color: var(--naranja);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ══════════════════════════════════════
+     SLIDE 1 — PORTADA
+══════════════════════════════════════ -->
+        <section class="slide-portada" data-background-color="#1a3a5c">
+          <div class="badge">GA2-220501094-AA2-EV01</div>
+          <h1>La Ficha Técnica y el<br />Análisis de Proveedores</h1>
+          <p style="color: #a0b8cc; font-size: 0.37em; margin-top: 10px">
+            Cómo describir, comparar y seleccionar los mejores productos para un
+            proyecto de software
+          </p>
+          <div class="chips">
+            <span class="chip">📄 Ficha técnica</span>
+            <span class="chip">🏪 Proveedores</span>
+            <span class="chip">📊 Análisis comparativo</span>
+            <span class="chip">⏱ 12 horas</span>
+          </div>
+          <div class="deco">FT</div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 2 — ¿QUÉ VAMOS A APRENDER?
+══════════════════════════════════════ -->
+        <section>
+          <h2>¿Qué aprenderemos hoy?</h2>
+          <div class="cards">
+            <div class="card">
+              <span class="emoji">📄</span>
+              <strong>¿Qué es una ficha técnica?</strong><br />
+              Documento que describe un producto en detalle.
+            </div>
+            <div class="card accent">
+              <span class="emoji">🏪</span>
+              <strong>¿Quién es un proveedor?</strong><br />
+              Empresa o persona que suministra productos o servicios.
+            </div>
+            <div class="card info">
+              <span class="emoji">📊</span>
+              <strong>Análisis comparativo</strong><br />
+              Comparar opciones por costo, cantidad y specs.
+            </div>
+            <div class="card warn">
+              <span class="emoji">✅</span>
+              <strong>Selección final</strong><br />
+              Elegir la mejor opción para el proyecto.
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 3 — ¿POR QUÉ ES IMPORTANTE?
+══════════════════════════════════════ -->
+        <section class="slide-naranja">
+          <h2>¿Por qué necesitamos fichas técnicas?</h2>
+          <div class="highlight-box" style="margin-top: 18px">
+            <p>
+              Imagina que vas a comprar un servidor para tu empresa y el
+              vendedor te dice: <strong>"es bueno y rápido"</strong>. ¿Lo
+              comprarías sin saber cuánta RAM tiene, qué procesador usa o cuánto
+              cuesta el mantenimiento?
+            </p>
+          </div>
+          <div class="steps" style="margin-top: 16px">
+            <div class="step">
+              <div class="num naranja">💡</div>
+              <div class="txt">
+                La ficha técnica <strong>elimina la ambigüedad</strong> y pone
+                en blanco y negro las características reales.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num naranja">⚖️</div>
+              <div class="txt">
+                Permite <strong>comparar objetivamente</strong> entre varios
+                proveedores con los mismos criterios.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num naranja">📋</div>
+              <div class="txt">
+                Es el <strong>punto de partida</strong> del desarrollo: todo el
+                equipo sabe con qué herramientas trabaja.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 4 — ¿QUÉ ES UNA FICHA TÉCNICA?
+══════════════════════════════════════ -->
+        <section>
+          <h2>¿Qué es una Ficha Técnica?</h2>
+          <p class="small">
+            Es un documento formal que describe con precisión un producto o
+            servicio.
+          </p>
+          <div class="cards three" style="margin-top: 16px">
+            <div class="card">
+              <span class="emoji">📝</span>
+              <strong>Descripción</strong><br />
+              ¿Qué es el producto? ¿Para qué sirve?
+            </div>
+            <div class="card accent">
+              <span class="emoji">⚙️</span>
+              <strong>Características</strong><br />
+              Datos técnicos: RAM, velocidad, tamaño, peso, etc.
+            </div>
+            <div class="card info">
+              <span class="emoji">🎯</span>
+              <strong>Funciones</strong><br />
+              ¿Qué puede hacer? ¿Cómo se usa?
+            </div>
+          </div>
+          <div class="highlight-box verde mt14">
+            <p>
+              Una buena ficha técnica responde tres preguntas:
+              <strong>¿Qué es?</strong> — <strong>¿Cómo es?</strong> —
+              <strong>¿Para qué sirve?</strong>
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 5 — ESTRUCTURA VISUAL DE LA FICHA
+══════════════════════════════════════ -->
+        <section>
+          <h2>Así luce una Ficha Técnica</h2>
+          <p class="small">Formato horizontal, con diseño de empresa real.</p>
+          <div class="ficha">
+            <div class="ficha-header">
+              <div class="logo-box">AB</div>
+              <div>
+                <div class="titulo">
+                  FICHA TÉCNICA — Servidor de Aplicaciones
+                </div>
+                <div class="subtitulo">
+                  AcmeSoft S.A.S · Código: FT-001 · Versión 1.0
+                </div>
+              </div>
+            </div>
+            <div class="ficha-body">
+              <div class="ficha-section">
+                <div class="label">📝 Descripción</div>
+                <div class="val">
+                  Servidor para alojar aplicaciones web empresariales de alto
+                  tráfico con soporte 24/7.
+                </div>
+              </div>
+              <div class="ficha-section">
+                <div class="label">⚙️ Características técnicas</div>
+                <div class="val">
+                  CPU: Intel Xeon 8 núcleos · RAM: 32 GB · Almacenamiento: 2 TB
+                  SSD
+                </div>
+              </div>
+              <div class="ficha-section">
+                <div class="label">🎯 Funciones principales</div>
+                <div class="val">
+                  Hosting web · Balanceo de carga · Copias de seguridad
+                  automáticas
+                </div>
+              </div>
+              <div class="ficha-section">
+                <div class="label">💰 Costo estimado</div>
+                <div class="val">
+                  $4.500.000 COP / mes · Contrato mínimo: 12 meses
+                </div>
+              </div>
+            </div>
+            <div class="ficha-footer">
+              Elaborado por: Equipo de sistemas · Fecha: 2025
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 6 — LAS 3 SECCIONES CLAVE
+══════════════════════════════════════ -->
+        <section class="slide-verde">
+          <h2>Las 3 secciones que no pueden faltar</h2>
+          <div class="steps" style="margin-top: 20px">
+            <div class="step">
+              <div class="num">1</div>
+              <div class="txt">
+                <strong>Descripción</strong><br />
+                Nombre del producto, proveedor, código, versión. Contexto
+                general: ¿qué problema resuelve?
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">2</div>
+              <div class="txt">
+                <strong>Características</strong><br />
+                Especificaciones medibles y objetivas: procesador, memoria,
+                capacidad, peso, dimensiones, compatibilidad, normas técnicas
+                aplicables.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">3</div>
+              <div class="txt">
+                <strong>Funciones</strong><br />
+                Lo que el producto <em>hace</em>: acciones, integraciones, modos
+                de operación, capacidades especiales.
+              </div>
+            </div>
+          </div>
+          <div class="highlight-box mt14">
+            <p>
+              💡 Una característica es un <strong>dato</strong> ("32 GB RAM").
+              Una función es una <strong>acción</strong> ("balancea la carga
+              entre servidores").
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 7 — QUIÉN ES UN PROVEEDOR
+══════════════════════════════════════ -->
+        <section class="slide-dark" data-background-color="#12233a">
+          <h2>¿Quién es un Proveedor?</h2>
+          <p class="small" style="color: #a0b8cc">
+            Es la empresa o persona que nos vende o suministra un producto o
+            servicio.
+          </p>
+          <div class="cards" style="margin-top: 18px">
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: var(--naranja);
+                color: #fff;
+              "
+            >
+              <span class="emoji">🏭</span>
+              <strong style="color: var(--naranja)"
+                >Proveedor de hardware</strong
+              ><br />
+              Vende servidores, computadores, redes, cables.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: var(--verde);
+                color: #fff;
+              "
+            >
+              <span class="emoji">☁️</span>
+              <strong style="color: var(--verde)"
+                >Proveedor de software/nube</strong
+              ><br />
+              Licencias, SaaS, hosting, bases de datos.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: #a8d8ea;
+                color: #fff;
+              "
+            >
+              <span class="emoji">🛠️</span>
+              <strong style="color: #a8d8ea">Proveedor de servicios</strong
+              ><br />
+              Consultoría, mantenimiento, soporte técnico.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: var(--amarillo);
+                color: #fff;
+              "
+            >
+              <span class="emoji">📦</span>
+              <strong style="color: var(--amarillo)"
+                >Proveedor de insumos</strong
+              ><br />
+              Materiales de oficina, consumibles, papelería.
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 8 — ANÁLISIS COMPARATIVO
+══════════════════════════════════════ -->
+        <section>
+          <h2>¿Qué es el Análisis Comparativo de Proveedores?</h2>
+          <p class="small">
+            Evaluar a varios proveedores usando los
+            <em>mismos criterios</em> para elegir la mejor opción.
+          </p>
+          <div class="cards three" style="margin-top: 16px">
+            <div class="card">
+              <span class="emoji">💰</span>
+              <strong>Costos</strong><br />
+              Precio unitario, descuentos por volumen, costos ocultos de
+              instalación o mantenimiento.
+            </div>
+            <div class="card accent">
+              <span class="emoji">📦</span>
+              <strong>Cantidad</strong><br />
+              Mínimos de compra, disponibilidad de stock, tiempos de entrega.
+            </div>
+            <div class="card info">
+              <span class="emoji">📋</span>
+              <strong>Especificaciones técnicas</strong><br />
+              ¿Cumple los requisitos del proyecto? Garantía y soporte.
+            </div>
+          </div>
+          <div class="highlight-box mt14">
+            <p>
+              🏆 El mejor proveedor no siempre es
+              <strong>el más barato</strong>. Es el que ofrece el mejor
+              equilibrio entre precio, calidad y servicio.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 9 — TABLA COMPARATIVA EJEMPLO
+══════════════════════════════════════ -->
+        <section>
+          <h2>Ejemplo — Tabla comparativa de proveedores</h2>
+          <p class="small">
+            Comparación de 3 proveedores para un servidor web.
+          </p>
+          <table class="comp-table">
+            <tr>
+              <th>Criterio</th>
+              <th>Proveedor A</th>
+              <th>Proveedor B</th>
+              <th>Proveedor C ✨</th>
+            </tr>
+            <tr>
+              <td><strong>Precio mensual</strong></td>
+              <td>$3.200.000</td>
+              <td>$5.000.000</td>
+              <td class="ganador">$3.800.000</td>
+            </tr>
+            <tr>
+              <td><strong>RAM</strong></td>
+              <td>16 GB</td>
+              <td>64 GB</td>
+              <td class="ganador">32 GB</td>
+            </tr>
+            <tr>
+              <td><strong>Soporte 24/7</strong></td>
+              <td class="cross">✗</td>
+              <td class="check">✓</td>
+              <td class="check ganador">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Tiempo de entrega</strong></td>
+              <td>15 días</td>
+              <td>5 días</td>
+              <td class="ganador">7 días</td>
+            </tr>
+            <tr>
+              <td><strong>Garantía</strong></td>
+              <td>6 meses</td>
+              <td>24 meses</td>
+              <td class="ganador">12 meses</td>
+            </tr>
+            <tr>
+              <td><strong>Cumple requisitos</strong></td>
+              <td class="cross">✗ Insuficiente</td>
+              <td class="check">✓ Excede</td>
+              <td class="check ganador">✓ Exacto</td>
+            </tr>
+          </table>
+          <p
+            style="
+              font-size: 0.35em;
+              color: #888;
+              margin-top: 8px;
+              font-family: &quot;Space Mono&quot;, monospace;
+            "
+          >
+            ★ Proveedor C seleccionado: mejor equilibrio
+            precio-calidad-servicio.
+          </p>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 10 — CÓMO HACER EL ANÁLISIS
+══════════════════════════════════════ -->
+        <section class="slide-naranja">
+          <h2>Paso a paso — Cómo hacer el análisis</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="num">1</div>
+              <div class="txt">
+                <strong>Define los requisitos</strong> — ¿Qué necesita
+                exactamente el proyecto? (lista técnica precisa).
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">2</div>
+              <div class="txt">
+                <strong>Identifica mínimo 3 proveedores</strong> — Busca en el
+                mercado opciones comparables.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">3</div>
+              <div class="txt">
+                <strong>Solicita fichas técnicas y cotizaciones</strong> — Cada
+                proveedor debe darte su documentación.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">4</div>
+              <div class="txt">
+                <strong>Construye la tabla comparativa</strong> — Mismo formato
+                para todos: costo, cantidad, specs.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">5</div>
+              <div class="txt">
+                <strong>Aplica criterios de selección</strong> — Puntúa cada
+                opción y elige la ganadora con justificación.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">6</div>
+              <div class="txt">
+                <strong>Documenta la decisión</strong> — Deja registro escrito
+                de por qué se eligió ese proveedor.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 11 — CRITERIOS DE SELECCIÓN
+══════════════════════════════════════ -->
+        <section>
+          <h2>Criterios para elegir un proveedor</h2>
+          <p class="small">No es solo precio. Evalúa todos estos factores:</p>
+          <div class="cards" style="margin-top: 14px">
+            <div class="card">
+              <span class="emoji">💵</span>
+              <strong>Precio total</strong><br />
+              Precio base + instalación + mantenimiento + actualizaciones.
+            </div>
+            <div class="card accent">
+              <span class="emoji">📐</span>
+              <strong>Cumplimiento técnico</strong><br />
+              ¿Las especificaciones cumplen o superan lo requerido?
+            </div>
+            <div class="card info">
+              <span class="emoji">🚚</span>
+              <strong>Disponibilidad y entrega</strong><br />
+              Stock inmediato, tiempo de despacho, logística.
+            </div>
+            <div class="card warn">
+              <span class="emoji">🛡️</span>
+              <strong>Garantía y soporte</strong><br />
+              Tiempo de garantía, canales de soporte, SLA.
+            </div>
+          </div>
+          <ul class="clean mt8">
+            <li>
+              <div class="dot verde"></div>
+              También considera la <strong>reputación</strong> del proveedor y
+              referencias de otros clientes.
+            </li>
+            <li>
+              <div class="dot verde"></div>
+              Verifica que el proveedor esté
+              <strong>legalmente constituido</strong> (NIT, cámara de comercio).
+            </li>
+          </ul>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 12 — FORMATO Y DISEÑO
+══════════════════════════════════════ -->
+        <section class="slide-dark" data-background-color="#12233a">
+          <h2>Formato y diseño del documento</h2>
+          <p class="small" style="color: #a0b8cc">
+            La evidencia se entrega en Excel o Word, en formato horizontal, como
+            si fuera papelería real de una empresa.
+          </p>
+          <div class="cards" style="margin-top: 18px">
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: var(--naranja);
+                color: #fff;
+              "
+            >
+              <span class="emoji">🖼️</span>
+              <strong style="color: var(--naranja)">Logo de empresa</strong
+              ><br />
+              Crea o usa un logo ficticio. Dale identidad al documento.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: var(--verde);
+                color: #fff;
+              "
+            >
+              <span class="emoji">📏</span>
+              <strong style="color: var(--verde)">Formato horizontal</strong
+              ><br />
+              Orientación apaisada (landscape) para más columnas.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: #a8d8ea;
+                color: #fff;
+              "
+            >
+              <span class="emoji">🎨</span>
+              <strong style="color: #a8d8ea">Diseño profesional</strong><br />
+              Colores corporativos, tipografía legible, tablas ordenadas.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.07);
+                border-left-color: var(--amarillo);
+                color: #fff;
+              "
+            >
+              <span class="emoji">📋</span>
+              <strong style="color: var(--amarillo)">Datos completos</strong
+              ><br />
+              Código, versión, fecha, nombre del elaborador.
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 13 — ERRORES COMUNES
+══════════════════════════════════════ -->
+        <section>
+          <h2>Errores comunes que debes evitar ⚠️</h2>
+          <ul class="clean" style="margin-top: 20px">
+            <li>
+              <div class="dot" style="background: var(--rojo)"></div>
+              <strong>Solo comparar precios</strong> — Un producto barato que no
+              cumple los requisitos sale más caro a largo plazo.
+            </li>
+            <li>
+              <div class="dot" style="background: var(--rojo)"></div>
+              <strong>Fichas sin datos técnicos concretos</strong> — "Es rápido"
+              no vale. Escribe "procesador de 3.5 GHz".
+            </li>
+            <li>
+              <div class="dot" style="background: var(--rojo)"></div>
+              <strong>No verificar al proveedor</strong> — Asegúrate de que sea
+              una empresa real y confiable.
+            </li>
+            <li>
+              <div class="dot" style="background: var(--rojo)"></div>
+              <strong>Documento sin diseño institucional</strong> — Una ficha
+              técnica sin logo ni estructura no es profesional.
+            </li>
+            <li>
+              <div class="dot" style="background: var(--rojo)"></div>
+              <strong>No documentar la decisión</strong> — Siempre justifica por
+              qué elegiste ese proveedor sobre los demás.
+            </li>
+            <li>
+              <div class="dot" style="background: var(--rojo)"></div>
+              <strong>Comparar productos diferentes</strong> — Todos los
+              proveedores deben cotizar exactamente lo mismo.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 14 — QUÉ ENTREGAR
+══════════════════════════════════════ -->
+        <section class="slide-verde">
+          <h2>¿Qué debes entregar exactamente?</h2>
+          <div class="steps" style="margin-top: 18px">
+            <div class="step">
+              <div class="num">📄</div>
+              <div class="txt">
+                <strong>Ficha técnica del producto principal</strong> — Con
+                descripción, características y funciones.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">🏪</div>
+              <div class="txt">
+                <strong>Mínimo 3 fichas técnicas de proveedores</strong> — Una
+                por cada opción evaluada.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">📊</div>
+              <div class="txt">
+                <strong>Tabla comparativa</strong> — Con criterios uniformes:
+                precio, cantidad, specs, garantía.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">✅</div>
+              <div class="txt">
+                <strong>Justificación de la selección</strong> — Explica por qué
+                elegiste el proveedor ganador.
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">🎨</div>
+              <div class="txt">
+                <strong>Diseño institucional</strong> — Logo, colores
+                corporativos, formato horizontal.
+              </div>
+            </div>
+          </div>
+          <p
+            style="
+              font-size: 0.38em;
+              margin-top: 14px;
+              color: #555;
+              font-family: &quot;Space Mono&quot;, monospace;
+            "
+          >
+            Formato: Excel (.xlsx) o Word (.docx) · Extensión: libre
+          </p>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 15 — TIPS
+══════════════════════════════════════ -->
+        <section>
+          <h2>Tips para una evidencia excelente 🏆</h2>
+          <ul class="clean" style="margin-top: 18px">
+            <li>
+              <div class="dot verde"></div>
+              Usa <strong>Excel</strong> si quieres hacer cálculos automáticos
+              de costos en la tabla comparativa.
+            </li>
+            <li>
+              <div class="dot verde"></div>
+              Usa <strong>Word</strong> si prefieres más control sobre el diseño
+              visual y el texto descriptivo.
+            </li>
+            <li>
+              <div class="dot verde"></div>
+              Crea un logo sencillo en <strong>Canva</strong> (gratuito) y
+              pégalo en el encabezado del documento.
+            </li>
+            <li>
+              <div class="dot verde"></div>
+              Inventa un nombre de empresa creíble: "TechSoluciones S.A.S" o
+              "DataBridge Ltda."
+            </li>
+            <li>
+              <div class="dot verde"></div>
+              Usa <strong>colores consistentes</strong> en toda la ficha:
+              encabezado, tablas y pie de página.
+            </li>
+            <li>
+              <div class="dot verde"></div>
+              Numera cada criterio de la ficha técnica para facilitar la
+              comparación.
+            </li>
+            <li>
+              <div class="dot verde"></div>
+              Revisa <strong>ortografía</strong> antes de entregar. Una ficha
+              con errores no es profesional.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ══════════════════════════════════════
+     SLIDE 16 — RESUMEN FINAL
+══════════════════════════════════════ -->
+        <section class="slide-portada" data-background-color="#1a3a5c">
+          <h2 style="color: var(--naranja) !important">
+            Resumen — Lo que debes recordar
+          </h2>
+          <div class="cards" style="margin-top: 18px">
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.08);
+                border-left-color: var(--naranja);
+                color: #fff;
+              "
+            >
+              <span class="emoji">📄</span>
+              <strong style="color: var(--naranja)">Ficha técnica</strong><br />
+              Descripción + Características + Funciones. Formato horizontal con
+              diseño de empresa.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.08);
+                border-left-color: var(--verde);
+                color: #fff;
+              "
+            >
+              <span class="emoji">🏪</span>
+              <strong style="color: var(--verde)">Proveedores</strong><br />
+              Mínimo 3 opciones. Comparar precio, cantidad y specs con los
+              mismos criterios.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.08);
+                border-left-color: #a8d8ea;
+                color: #fff;
+              "
+            >
+              <span class="emoji">📊</span>
+              <strong style="color: #a8d8ea">Análisis comparativo</strong><br />
+              Tabla con criterios claros. El mejor no siempre es el más barato.
+            </div>
+            <div
+              class="card"
+              style="
+                background: rgba(255, 255, 255, 0.08);
+                border-left-color: var(--amarillo);
+                color: #fff;
+              "
+            >
+              <span class="emoji">✅</span>
+              <strong style="color: var(--amarillo)"
+                >Selección justificada</strong
+              ><br />
+              Explica con argumentos técnicos por qué elegiste ese proveedor.
+            </div>
+          </div>
+          <p
+            style="
+              color: #6a8faf;
+              font-family: &quot;Space Mono&quot;, monospace;
+              font-size: 0.3em;
+              margin-top: 24px;
+              text-align: center;
+            "
+          >
+            GA2-220501094-AA2-EV01 · Entrega en Excel o Word · Duración: 12
+            horas
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        transition: "fade",
+        transitionSpeed: "fast",
+        controls: true,
+        progress: true,
+        center: false,
+        slideNumber: "c/t",
+      });
+    </script>
+  </body>
+</html>
