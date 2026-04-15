@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GA5 · Evidencias EV04, EV05, EV06</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css"
+    />
+    <style>
+      :root {
+        --accent: #00e5a0;
+        --accent2: #ff6b6b;
+        --accent3: #ffc94a;
+        --bg-dark: #0a0f1e;
+        --bg-card: #111827;
+        --text: #e8edf5;
+        --muted: #8892a4;
+      }
+
+      .reveal-viewport {
+        background: var(--bg-dark);
+      }
+
+      .reveal {
+        font-family: "DM Sans", sans-serif;
+        font-size: 36px;
+        color: var(--text);
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Syne", sans-serif;
+        text-transform: none;
+        letter-spacing: -0.02em;
+        color: #fff;
+      }
+
+      /* ── SLIDE COVER ─────────────────────────── */
+      .cover-slide {
+        position: relative;
+        overflow: hidden;
+      }
+      .cover-slide::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 60% 50% at 80% 20%,
+            rgba(0, 229, 160, 0.18) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 50% 40% at 10% 80%,
+            rgba(255, 107, 107, 0.12) 0%,
+            transparent 55%
+          );
+        pointer-events: none;
+      }
+      .cover-badge {
+        display: inline-block;
+        background: rgba(0, 229, 160, 0.15);
+        border: 1px solid rgba(0, 229, 160, 0.4);
+        color: var(--accent);
+        font-family: "Syne", sans-serif;
+        font-size: 0.55em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.25em 0.9em;
+        border-radius: 99px;
+        margin-bottom: 0.6em;
+      }
+      .cover-title {
+        font-size: 1.55em !important;
+        font-weight: 800 !important;
+        line-height: 1.1 !important;
+        margin-bottom: 0.3em !important;
+      }
+      .cover-sub {
+        font-size: 0.52em;
+        color: var(--muted);
+        max-width: 680px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+      .cover-dots {
+        display: flex;
+        gap: 0.5em;
+        justify-content: center;
+        margin-top: 1.6em;
+      }
+      .cover-dots span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--muted);
+        opacity: 0.4;
+      }
+      .cover-dots span:nth-child(1) {
+        background: var(--accent);
+        opacity: 1;
+      }
+      .cover-dots span:nth-child(2) {
+        background: var(--accent2);
+        opacity: 1;
+      }
+      .cover-dots span:nth-child(3) {
+        background: var(--accent3);
+        opacity: 1;
+      }
+
+      /* ── SECTION HEADER ─────────────────────── */
+      .sec-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 0.5em;
+      }
+      .sec-num {
+        font-family: "Syne", sans-serif;
+        font-size: 5em;
+        font-weight: 800;
+        line-height: 1;
+        background: linear-gradient(135deg, var(--accent) 0%, #00b4d8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .sec-num.red {
+        background: linear-gradient(135deg, var(--accent2), #ff9a3c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .sec-num.gold {
+        background: linear-gradient(135deg, var(--accent3), #f7971e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .sec-label {
+        font-size: 0.6em;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* ── CARD GRID ───────────────────────────── */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1em;
+        margin-top: 0.8em;
+      }
+      .card {
+        background: var(--bg-card);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 16px;
+        padding: 1.1em 1em;
+        text-align: left;
+        font-size: 0.48em;
+        line-height: 1.55;
+      }
+      .card .icon {
+        font-size: 1.8em;
+        margin-bottom: 0.4em;
+        display: block;
+      }
+      .card h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 1.2em;
+        margin: 0 0 0.35em;
+        color: #fff;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .card.green {
+        border-top: 3px solid var(--accent);
+      }
+      .card.red {
+        border-top: 3px solid var(--accent2);
+      }
+      .card.gold {
+        border-top: 3px solid var(--accent3);
+      }
+
+      /* ── STEP LIST ───────────────────────────── */
+      .step-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        font-size: 0.5em;
+        line-height: 1.55;
+      }
+      .step-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7em;
+        margin-bottom: 0.65em;
+        padding: 0.55em 0.8em;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
+      }
+      .step-list li .bullet {
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 0.9em;
+        margin-top: 1px;
+      }
+      .bullet.g {
+        background: rgba(0, 229, 160, 0.2);
+        color: var(--accent);
+      }
+      .bullet.r {
+        background: rgba(255, 107, 107, 0.2);
+        color: var(--accent2);
+      }
+      .bullet.y {
+        background: rgba(255, 201, 74, 0.2);
+        color: var(--accent3);
+      }
+
+      /* ── COMPARISION TABLE ───────────────────── */
+      .compare {
+        font-size: 0.46em;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.5em;
+      }
+      .compare th {
+        font-family: "Syne", sans-serif;
+        padding: 0.5em 0.8em;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--accent3);
+        border-bottom: 2px solid rgba(255, 201, 74, 0.25);
+        text-align: left;
+      }
+      .compare td {
+        padding: 0.5em 0.8em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--muted);
+        vertical-align: top;
+      }
+      .compare tr:hover td {
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .compare td:first-child {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      /* ── HIGHLIGHT BOX ───────────────────────── */
+      .highlight-box {
+        border-radius: 14px;
+        padding: 0.8em 1.1em;
+        font-size: 0.48em;
+        line-height: 1.6;
+        text-align: left;
+        margin-top: 0.7em;
+      }
+      .highlight-box.green {
+        background: rgba(0, 229, 160, 0.08);
+        border-left: 4px solid var(--accent);
+      }
+      .highlight-box.red {
+        background: rgba(255, 107, 107, 0.08);
+        border-left: 4px solid var(--accent2);
+      }
+      .highlight-box.gold {
+        background: rgba(255, 201, 74, 0.08);
+        border-left: 4px solid var(--accent3);
+      }
+      .highlight-box strong {
+        color: #fff;
+      }
+
+      /* ── SUMMARY STRIP ───────────────────────── */
+      .summary-strip {
+        display: flex;
+        gap: 0.7em;
+        margin-top: 0.9em;
+        font-size: 0.46em;
+      }
+      .strip-item {
+        flex: 1;
+        background: var(--bg-card);
+        border-radius: 12px;
+        padding: 0.8em;
+        border-top: 3px solid transparent;
+        text-align: center;
+      }
+      .strip-item.g {
+        border-color: var(--accent);
+      }
+      .strip-item.r {
+        border-color: var(--accent2);
+      }
+      .strip-item.y {
+        border-color: var(--accent3);
+      }
+      .strip-item .si-icon {
+        font-size: 1.8em;
+        margin-bottom: 0.3em;
+      }
+      .strip-item .si-title {
+        font-family: "Syne", sans-serif;
+        color: #fff;
+        font-weight: 700;
+        font-size: 1em;
+      }
+      .strip-item .si-ev {
+        color: var(--muted);
+        font-size: 0.85em;
+        margin-top: 0.15em;
+      }
+
+      /* ── SLIDE BASE ──────────────────────────── */
+      .reveal .slides section {
+        padding: 0 60px;
+      }
+      .reveal .progress {
+        color: var(--accent);
+      }
+      .reveal .controls {
+        color: var(--accent);
+      }
+
+      /* ── SLIDE TITLE ─────────────────────────── */
+      .slide-title {
+        font-size: 0.72em !important;
+        font-weight: 800 !important;
+        margin-bottom: 0.5em !important;
+        text-align: center;
+      }
+      .ev-tag {
+        display: inline-block;
+        font-size: 0.38em;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        padding: 0.2em 0.75em;
+        border-radius: 99px;
+        margin-bottom: 0.5em;
+        vertical-align: middle;
+      }
+      .ev-tag.g {
+        background: rgba(0, 229, 160, 0.15);
+        color: var(--accent);
+        border: 1px solid rgba(0, 229, 160, 0.3);
+      }
+      .ev-tag.r {
+        background: rgba(255, 107, 107, 0.15);
+        color: var(--accent2);
+        border: 1px solid rgba(255, 107, 107, 0.3);
+      }
+      .ev-tag.y {
+        background: rgba(255, 201, 74, 0.15);
+        color: var(--accent3);
+        border: 1px solid rgba(255, 201, 74, 0.3);
+      }
+
+      /* nav line */
+      .nav-line {
+        width: 60px;
+        height: 3px;
+        border-radius: 99px;
+        margin: 0 auto 0.7em;
+      }
+      .nav-line.g {
+        background: var(--accent);
+      }
+      .nav-line.r {
+        background: var(--accent2);
+      }
+      .nav-line.y {
+        background: var(--accent3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ───────── COVER ───────── -->
+        <section class="cover-slide" data-background-color="#0a0f1e">
+          <div class="cover-badge">GA5 · 220501095 · AA1</div>
+          <h1 class="cover-title">Tres Evidencias,<br />un solo objetivo 🚀</h1>
+          <p class="cover-sub">
+            Aprende a maquetar páginas web, crear mapas de navegación<br />
+            y aplicar reglas de usabilidad — de forma práctica y clara.
+          </p>
+          <div class="cover-dots">
+            <span></span><span></span><span></span> <span></span><span></span>
+          </div>
+        </section>
+
+        <!-- ───────── ¿QUÉ VAMOS A VER? ───────── -->
+        <section data-background-color="#0a0f1e">
+          <h2 class="slide-title">¿Qué vamos a ver hoy?</h2>
+          <div class="summary-strip">
+            <div class="strip-item g">
+              <div class="si-icon">🎨</div>
+              <div class="si-title">Maquetación HTML</div>
+              <div class="si-ev">EV04</div>
+            </div>
+            <div class="strip-item r">
+              <div class="si-icon">🗺️</div>
+              <div class="si-title">Mapa de Navegación</div>
+              <div class="si-ev">EV05</div>
+            </div>
+            <div class="strip-item y">
+              <div class="si-icon">📱</div>
+              <div class="si-title">Usabilidad & Accesibilidad</div>
+              <div class="si-ev">EV06</div>
+            </div>
+          </div>
+          <div class="highlight-box green" style="margin-top: 1em">
+            💡 <strong>Consejo:</strong> Cada evidencia construye sobre la
+            anterior. Primero diseñas las páginas (EV04), luego conectas su
+            estructura (EV05) y finalmente haces que sean fáciles de usar
+            (EV06).
+          </div>
+        </section>
+
+        <!-- ══════════ EV04 ══════════ -->
+        <section data-background-color="#0a0f1e">
+          <div class="sec-header">
+            <div class="sec-num">EV04</div>
+            <div class="sec-label">
+              Maquetación de la interfaz gráfica en HTML
+            </div>
+          </div>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag g">EV04</span>
+          <div class="nav-line g"></div>
+          <h2 class="slide-title">¿Qué es maquetar?</h2>
+          <div class="highlight-box green">
+            <strong>Maquetar</strong> es organizar y combinar texto, imágenes,
+            colores, tamaños y animaciones en una página web usando
+            <strong>HTML, CSS y JavaScript</strong>, para que luzca bien tanto
+            en computadores como en celulares y tablets.
+          </div>
+          <div class="card-grid" style="margin-top: 0.9em">
+            <div class="card green">
+              <span class="icon">🖼️</span>
+              <h4>Composición visual</h4>
+              <p>
+                Defines dónde va cada elemento: títulos, imágenes, botones,
+                videos.
+              </p>
+            </div>
+            <div class="card green">
+              <span class="icon">🎨</span>
+              <h4>Colores y tipografías</h4>
+              <p>
+                Eliges la paleta de colores y los estilos de letra que
+                representan la marca.
+              </p>
+            </div>
+            <div class="card green">
+              <span class="icon">📐</span>
+              <h4>Responsive design</h4>
+              <p>
+                La página se adapta a cualquier pantalla: PC, tablet o móvil.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag g">EV04</span>
+          <div class="nav-line g"></div>
+          <h2 class="slide-title">¿Cómo lo hago? — Paso a paso</h2>
+          <ul class="step-list">
+            <li>
+              <span class="bullet g">1</span>
+              <span
+                ><strong style="color: #fff"
+                  >Estudia los requisitos del cliente</strong
+                >
+                — ¿Qué necesita mostrar la web? ¿Quiénes son los usuarios?</span
+              >
+            </li>
+            <li>
+              <span class="bullet g">2</span>
+              <span
+                ><strong style="color: #fff">Boceta el diseño</strong> — Dibuja
+                en papel o en Figma cómo lucirá cada página antes de escribir
+                código.</span
+              >
+            </li>
+            <li>
+              <span class="bullet g">3</span>
+              <span
+                ><strong style="color: #fff">Escribe el HTML</strong> —
+                Estructura el contenido con etiquetas semánticas
+                (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>,
+                <code>&lt;footer&gt;</code>).</span
+              >
+            </li>
+            <li>
+              <span class="bullet g">4</span>
+              <span
+                ><strong style="color: #fff">Aplica CSS / Framework</strong> —
+                Usa Bootstrap, Tailwind o Foundation para estilos rápidos y
+                responsivos.</span
+              >
+            </li>
+            <li>
+              <span class="bullet g">5</span>
+              <span
+                ><strong style="color: #fff">Agrega interactividad</strong> —
+                Con JavaScript añade animaciones, validaciones o efectos
+                visuales.</span
+              >
+            </li>
+          </ul>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag g">EV04</span>
+          <div class="nav-line g"></div>
+          <h2 class="slide-title">Herramientas recomendadas</h2>
+          <div class="card-grid">
+            <div class="card green">
+              <span class="icon">⚡</span>
+              <h4>Bootstrap</h4>
+              <p>
+                El framework más popular. Grid de 12 columnas, componentes
+                listos y docs increíbles.
+              </p>
+            </div>
+            <div class="card green">
+              <span class="icon">🌬️</span>
+              <h4>Tailwind CSS</h4>
+              <p>
+                Clases utilitarias en el HTML. Total control del diseño sin
+                salir del archivo.
+              </p>
+            </div>
+            <div class="card green">
+              <span class="icon">🏗️</span>
+              <h4>Foundation</h4>
+              <p>
+                Alternativa robusta orientada a proyectos profesionales y
+                accesibilidad.
+              </p>
+            </div>
+          </div>
+          <div class="highlight-box green">
+            📦 <strong>Entregable EV04:</strong> Archivos HTML/CSS/JS con las
+            páginas maquetadas + evidencia de cómo se ven en distintos
+            dispositivos.
+          </div>
+        </section>
+
+        <!-- ══════════ EV05 ══════════ -->
+        <section data-background-color="#0a0f1e">
+          <div class="sec-header">
+            <div class="sec-num red">EV05</div>
+            <div class="sec-label">Mapa de Navegación</div>
+          </div>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag r">EV05</span>
+          <div class="nav-line r"></div>
+          <h2 class="slide-title">¿Qué es un mapa de navegación?</h2>
+          <div class="highlight-box red">
+            Es un <strong>árbol jerárquico</strong> que muestra todas las
+            páginas del sitio web y cómo están conectadas entre sí. Es como el
+            plano de un edificio: antes de construir, sabes cuántos pisos hay y
+            cómo se llega a cada cuarto.
+          </div>
+          <div class="card-grid" style="margin-top: 0.9em">
+            <div class="card red">
+              <span class="icon">📋</span>
+              <h4>Lineal</h4>
+              <p>
+                Páginas una tras otra en secuencia. Ideal para tutoriales o
+                formularios paso a paso.
+              </p>
+            </div>
+            <div class="card red">
+              <span class="icon">🌳</span>
+              <h4>Jerárquico</h4>
+              <p>
+                Estructura de árbol: inicio → secciones → subsecciones. El más
+                común en sitios web.
+              </p>
+            </div>
+            <div class="card red">
+              <span class="icon">🕸️</span>
+              <h4>Web / Compuesto</h4>
+              <p>
+                Cualquier página puede enlazar a cualquier otra. Usado en wikis
+                o portales grandes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag r">EV05</span>
+          <div class="nav-line r"></div>
+          <h2 class="slide-title">¿Cómo lo construyo?</h2>
+          <ul class="step-list">
+            <li>
+              <span class="bullet r">1</span>
+              <span
+                ><strong style="color: #fff">Lista todo el contenido</strong> —
+                ¿Qué información debe mostrar el sitio? Escríbela toda.</span
+              >
+            </li>
+            <li>
+              <span class="bullet r">2</span>
+              <span
+                ><strong style="color: #fff">Agrupa por categorías</strong> —
+                Junta contenido relacionado: Inicio, Sobre nosotros, Servicios,
+                Contacto…</span
+              >
+            </li>
+            <li>
+              <span class="bullet r">3</span>
+              <span
+                ><strong style="color: #fff">Define la jerarquía</strong> — ¿Qué
+                va primero? ¿Qué es submenú de qué?</span
+              >
+            </li>
+            <li>
+              <span class="bullet r">4</span>
+              <span
+                ><strong style="color: #fff">Dibuja el árbol</strong> — Usa
+                papel, Figma, Miro o cualquier herramienta de diagramas.</span
+              >
+            </li>
+            <li>
+              <span class="bullet r">5</span>
+              <span
+                ><strong style="color: #fff">Valida con otros</strong> —
+                Muéstraselo a alguien que no sepa del proyecto. Si lo entiende,
+                ¡vas bien!</span
+              >
+            </li>
+          </ul>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag r">EV05</span>
+          <div class="nav-line r"></div>
+          <h2 class="slide-title">Ejemplo de árbol jerárquico</h2>
+          <div
+            style="
+              font-size: 0.46em;
+              background: var(--bg-card);
+              border-radius: 14px;
+              padding: 1.1em 1.4em;
+              text-align: left;
+              line-height: 2;
+              font-family:
+                &quot;DM Mono&quot;, monospace, &quot;DM Sans&quot;, sans-serif;
+            "
+          >
+            <span style="color: var(--accent2); font-weight: 700"
+              >🏠 Inicio</span
+            ><br />
+            &nbsp;&nbsp;├── <span style="color: #fff">📄 Sobre Nosotros</span
+            ><br />
+            &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├──
+            <span style="color: var(--muted)">👥 Equipo</span><br />
+            &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└──
+            <span style="color: var(--muted)">🏆 Historia</span><br />
+            &nbsp;&nbsp;├── <span style="color: #fff">🛒 Productos</span><br />
+            &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├──
+            <span style="color: var(--muted)">📦 Categoría A</span><br />
+            &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└──
+            <span style="color: var(--muted)">📦 Categoría B</span><br />
+            &nbsp;&nbsp;└── <span style="color: #fff">✉️ Contacto</span>
+          </div>
+          <div class="highlight-box red">
+            📦 <strong>Entregable EV05:</strong> Diagrama del mapa de navegación
+            + plantillas con los estilos de cada tipo de página.
+          </div>
+        </section>
+
+        <!-- ══════════ EV06 ══════════ -->
+        <section data-background-color="#0a0f1e">
+          <div class="sec-header">
+            <div class="sec-num gold">EV06</div>
+            <div class="sec-label">
+              Usabilidad y Accesibilidad en Apps Móviles
+            </div>
+          </div>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag y">EV06</span>
+          <div class="nav-line y"></div>
+          <h2 class="slide-title">Usabilidad vs. Accesibilidad</h2>
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>¿Qué significa?</th>
+                <th>Ejemplo práctico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🎯 Usabilidad</td>
+                <td>
+                  Que la app sea <strong>fácil e intuitiva</strong> de usar para
+                  cualquier persona.
+                </td>
+                <td>
+                  Botón grande de "Comprar" que se encuentra de inmediato.
+                </td>
+              </tr>
+              <tr>
+                <td>♿ Accesibilidad</td>
+                <td>
+                  Que la app pueda usarse por personas con
+                  <strong>discapacidades</strong> visuales, motrices, etc.
+                </td>
+                <td>
+                  Textos alternativos en imágenes para lectores de pantalla.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="highlight-box gold" style="margin-top: 0.8em">
+            💡 Una app puede ser usable pero NO accesible. Lo ideal es que sea
+            <strong>ambas cosas a la vez</strong>.
+          </div>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag y">EV06</span>
+          <div class="nav-line y"></div>
+          <h2 class="slide-title">Tipos de aplicaciones móviles</h2>
+          <div class="card-grid">
+            <div class="card gold">
+              <span class="icon">📱</span>
+              <h4>Nativa</h4>
+              <p>
+                Construida específicamente para un SO.
+                <em>Swift/SwiftUI</em> para iOS, <em>Kotlin</em> para Android.
+                Máximo rendimiento.
+              </p>
+            </div>
+            <div class="card gold">
+              <span class="icon">🔀</span>
+              <h4>Híbrida</h4>
+              <p>
+                Un solo código para varios SO. Usa tecnologías web (HTML/JS)
+                envueltas en un contenedor nativo. Ej: <em>Ionic</em>,
+                <em>React Native</em>.
+              </p>
+            </div>
+            <div class="card gold">
+              <span class="icon">💻</span>
+              <h4>Independiente (Desktop)</h4>
+              <p>
+                Corre en el sistema operativo del PC sin necesidad de navegador
+                ni conexión. Ej: apps de escritorio con <em>Electron</em>.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag y">EV06</span>
+          <div class="nav-line y"></div>
+          <h2 class="slide-title">Ecosistemas y herramientas</h2>
+          <ul class="step-list">
+            <li>
+              <span class="bullet y">🍎</span>
+              <span
+                ><strong style="color: #fff">iOS (Apple)</strong> — IDE:
+                <em>Xcode</em> · Lenguajes: Swift, Objective-C · Tienda: App
+                Store</span
+              >
+            </li>
+            <li>
+              <span class="bullet y">🤖</span>
+              <span
+                ><strong style="color: #fff">Android (Google)</strong> — IDE:
+                <em>Android Studio</em> · Lenguajes: Kotlin, Java · Tienda:
+                Google Play</span
+              >
+            </li>
+            <li>
+              <span class="bullet y">⚡</span>
+              <span
+                ><strong style="color: #fff">Multiplataforma</strong> —
+                <em>Flutter</em> (Dart), <em>React Native</em> (JS),
+                <em>Xamarin</em> (.NET)</span
+              >
+            </li>
+          </ul>
+          <div class="highlight-box gold">
+            📦 <strong>Entregable EV06:</strong> Documento PDF con las
+            respuestas sobre conceptos de usabilidad, accesibilidad y tipos de
+            apps móviles.
+          </div>
+        </section>
+
+        <!-- ───────── REGLAS CLAVE USABILIDAD ───────── -->
+        <section data-background-color="#0a0f1e">
+          <span class="ev-tag y">EV06</span>
+          <div class="nav-line y"></div>
+          <h2 class="slide-title">10 reglas de oro de usabilidad</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 0.5em;
+              font-size: 0.42em;
+              text-align: left;
+            "
+          >
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">1.</strong> Visibilidad del
+              estado del sistema
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">2.</strong> Correspondencia
+              con el mundo real
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">3.</strong> Control y
+              libertad del usuario
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">4.</strong> Consistencia y
+              estándares
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">5.</strong> Prevención de
+              errores
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">6.</strong> Reconocimiento
+              antes de recordar
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">7.</strong> Flexibilidad y
+              eficiencia
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">8.</strong> Estética y
+              diseño minimalista
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">9.</strong> Ayuda a
+              reconocer y recuperarse de errores
+            </div>
+            <div
+              style="
+                background: rgba(255, 201, 74, 0.06);
+                border: 1px solid rgba(255, 201, 74, 0.15);
+                border-radius: 10px;
+                padding: 0.6em 0.8em;
+              "
+            >
+              <strong style="color: var(--accent3)">10.</strong> Ayuda y
+              documentación
+            </div>
+          </div>
+          <p style="font-size: 0.38em; color: var(--muted); margin-top: 0.5em">
+            Heurísticas de Jakob Nielsen — el estándar de la industria UX.
+          </p>
+        </section>
+
+        <!-- ───────── RESUMEN ENTREGABLES ───────── -->
+        <section data-background-color="#0a0f1e">
+          <h2 class="slide-title">Resumen de entregables</h2>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 0.6em;
+              margin-top: 0.4em;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1.2fr 2.5fr 1.8fr;
+                gap: 0;
+                font-size: 0.52em;
+                font-family: &quot;Syne&quot;, sans-serif;
+                font-weight: 700;
+                color: var(--accent3);
+                background: rgba(255, 255, 255, 0.06);
+                border-radius: 12px 12px 0 0;
+                padding: 0.55em 1em;
+              "
+            >
+              <span>Evidencia</span><span>¿Qué hago?</span
+              ><span>Formato de entrega</span>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1.2fr 2.5fr 1.8fr;
+                gap: 0;
+                font-size: 0.52em;
+                background: rgba(0, 229, 160, 0.07);
+                border: 1px solid rgba(0, 229, 160, 0.18);
+                border-radius: 0;
+                padding: 0.7em 1em;
+                align-items: center;
+              "
+            >
+              <span
+                style="
+                  color: var(--accent);
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-weight: 700;
+                  font-size: 1.1em;
+                "
+                >🎨 EV04</span
+              >
+              <span style="color: var(--text)"
+                >Maquetar páginas web en HTML + CSS + JS usando Bootstrap o
+                Tailwind</span
+              >
+              <span style="color: var(--muted)"
+                >Diagramas y/o documentos + archivos de código</span
+              >
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1.2fr 2.5fr 1.8fr;
+                gap: 0;
+                font-size: 0.52em;
+                background: rgba(255, 107, 107, 0.07);
+                border: 1px solid rgba(255, 107, 107, 0.18);
+                border-radius: 0;
+                padding: 0.7em 1em;
+                align-items: center;
+              "
+            >
+              <span
+                style="
+                  color: var(--accent2);
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-weight: 700;
+                  font-size: 1.1em;
+                "
+                >🗺️ EV05</span
+              >
+              <span style="color: var(--text)"
+                >Crear el árbol jerárquico del sitio + plantillas de estilos de
+                páginas</span
+              >
+              <span style="color: var(--muted)"
+                >Diagramas del mapa de navegación</span
+              >
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1.2fr 2.5fr 1.8fr;
+                gap: 0;
+                font-size: 0.52em;
+                background: rgba(255, 201, 74, 0.07);
+                border: 1px solid rgba(255, 201, 74, 0.18);
+                border-radius: 0 0 12px 12px;
+                padding: 0.7em 1em;
+                align-items: center;
+              "
+            >
+              <span
+                style="
+                  color: var(--accent3);
+                  font-family: &quot;Syne&quot;, sans-serif;
+                  font-weight: 700;
+                  font-size: 1.1em;
+                "
+                >📱 EV06</span
+              >
+              <span style="color: var(--text)"
+                >Responder sobre usabilidad, accesibilidad y tipos de apps
+                móviles</span
+              >
+              <span style="color: var(--muted)"
+                >Documento PDF — extensión libre</span
+              >
+            </div>
+          </div>
+          <div
+            class="highlight-box green"
+            style="margin-top: 0.75em; font-size: 0.5em"
+          >
+            ✅ <strong>Tip final:</strong> Lee bien los criterios de evaluación
+            antes de entregar. Una revisión rápida puede marcar la diferencia
+            entre un 3 y un 5.
+          </div>
+        </section>
+
+        <!-- ───────── CIERRE ───────── -->
+        <section class="cover-slide" data-background-color="#0a0f1e">
+          <div style="font-size: 3em; margin-bottom: 0.3em">🎉</div>
+          <h2 class="cover-title" style="font-size: 1.2em !important">
+            ¡A construir se ha dicho!
+          </h2>
+          <p class="cover-sub" style="font-size: 0.55em">
+            Recuerda: <strong style="color: var(--accent)">EV04</strong> diseña,
+            <strong style="color: var(--accent2)">EV05</strong> conecta y
+            <strong style="color: var(--accent3)">EV06</strong> mejora la
+            experiencia.<br />
+            Cualquier pregunta, ¡en clase la resolvemos!
+          </p>
+          <div class="cover-dots" style="margin-top: 1.2em">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </section>
+      </div>
+      <!-- .slides -->
+    </div>
+    <!-- .reveal -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        transition: "slide",
+        transitionSpeed: "fast",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: true,
+        width: 1100,
+        height: 700,
+        margin: 0.05,
+        plugins: [],
+      });
+    </script>
+  </body>
+</html>
