@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="logo_sena.png" />
+    <title>Inicio sesión - Sena</title>
+    <link rel="stylesheet" href="./inicio.css" />
+    <link rel="stylesheet" href="./login.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="inicio.html">
+        <img src="./logo_sena.png" alt="" class="logo" />
+      </a>
+      <div class="navbar-options">
+        <a class="navbar-option" href="login.html">Iniciar sesión</a>
+        <a class="navbar-option" href="">Registro</a>
+        <a class="navbar-option" href="">Acerca de</a>
+      </div>
+    </nav>
+    <div class="form-container">
+      <form class="form" id="form">
+        <h2 class="form-title">Iniciar sesión</h2>
+        <p class="form-description">
+          Ingresa tu correo y contraseña para continuar
+        </p>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          class="form-input"
+          placeholder="Ingresa tu correo"
+          required
+        />
+        <input
+          id="password"
+          type="password"
+          name="password"
+          class="form-input"
+          placeholder="Ingresa tu contraseña"
+          required
+        />
+        <button class="form-button" type="submit">Iniciar sesión</button>
+      </form>
+    </div>
+  </body>
+  <script>
+    var form = document.getElementById("form");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      alert(`Ha ingresado el correo ${email} y la contrasena ${password}`);
+
+      form.reset();
+    });
+  </script>
+</html>
