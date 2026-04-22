@@ -1,0 +1,1634 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>
+      Especificaciones Técnicas y Licenciamiento de Software - GA2-220501094-AA1
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+    />
+
+    <style>
+      :root {
+        --sena-verde: #39a900;
+        --sena-verde-oscuro: #2d7a00;
+        --sena-naranja: #ff7900;
+        --sena-azul: #00324d;
+        --sena-gris: #f4f4f4;
+        --texto: #2c3e50;
+      }
+
+      .reveal {
+        font-family: "Roboto", sans-serif;
+        font-size: 28px;
+        color: var(--texto);
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        text-transform: none;
+        letter-spacing: -0.02em;
+        color: var(--sena-azul);
+      }
+
+      .reveal h1 {
+        font-size: 2.2em;
+      }
+      .reveal h2 {
+        font-size: 1.6em;
+        color: var(--sena-verde-oscuro);
+      }
+      .reveal h3 {
+        font-size: 1.2em;
+        color: var(--sena-verde-oscuro);
+      }
+
+      .reveal .slides section {
+        text-align: left;
+        padding: 20px;
+      }
+
+      .reveal .slides section.centrado {
+        text-align: center;
+      }
+
+      /* Portada */
+      .portada {
+        background: linear-gradient(
+          135deg,
+          var(--sena-verde) 0%,
+          var(--sena-verde-oscuro) 100%
+        );
+        color: white !important;
+        padding: 60px !important;
+        border-radius: 0;
+        text-align: center !important;
+      }
+      .portada h1 {
+        color: white !important;
+        font-size: 2.5em;
+        margin-bottom: 0.3em;
+      }
+      .portada .subtitulo {
+        font-size: 1.3em;
+        opacity: 0.95;
+        margin-bottom: 2em;
+      }
+      .portada .codigo {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-family: "Roboto", monospace;
+        font-size: 0.9em;
+        margin-top: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+      }
+
+      /* Sección divider */
+      .divisor {
+        background: linear-gradient(135deg, var(--sena-azul) 0%, #004d73 100%);
+        color: white !important;
+        text-align: center !important;
+        padding: 60px !important;
+      }
+      .divisor h1,
+      .divisor h2 {
+        color: white !important;
+      }
+      .divisor .numero-seccion {
+        font-size: 6em;
+        font-weight: 800;
+        color: var(--sena-naranja);
+        line-height: 1;
+        display: block;
+        margin-bottom: 0.2em;
+      }
+
+      /* Cards */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .card-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border-left: 5px solid var(--sena-verde);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        font-size: 0.75em;
+      }
+
+      .card.naranja {
+        border-left-color: var(--sena-naranja);
+      }
+      .card.azul {
+        border-left-color: var(--sena-azul);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        color: var(--sena-verde-oscuro);
+        font-size: 1.2em;
+      }
+
+      .card.naranja h3 {
+        color: #cc5f00;
+      }
+      .card.azul h3 {
+        color: var(--sena-azul);
+      }
+
+      /* Badges */
+      .badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.7em;
+        font-weight: 600;
+        margin: 3px;
+      }
+      .badge-verde {
+        background: #e1f5d4;
+        color: var(--sena-verde-oscuro);
+      }
+      .badge-naranja {
+        background: #ffe5cc;
+        color: #cc5f00;
+      }
+      .badge-azul {
+        background: #cce5f0;
+        color: var(--sena-azul);
+      }
+      .badge-gris {
+        background: #e8e8e8;
+        color: #555;
+      }
+
+      /* Listas bonitas */
+      .reveal ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      .reveal ul li {
+        padding: 8px 0 8px 35px;
+        position: relative;
+        line-height: 1.5;
+      }
+      .reveal ul li::before {
+        content: "▸";
+        position: absolute;
+        left: 10px;
+        color: var(--sena-verde);
+        font-weight: bold;
+        font-size: 1.2em;
+      }
+
+      /* Definición destacada */
+      .definicion {
+        background: linear-gradient(135deg, #f0f9ea 0%, #e1f5d4 100%);
+        border-left: 6px solid var(--sena-verde);
+        padding: 25px 30px;
+        border-radius: 8px;
+        margin: 20px 0;
+        font-size: 0.9em;
+      }
+      .definicion strong {
+        color: var(--sena-verde-oscuro);
+      }
+
+      /* Alerta */
+      .alerta {
+        background: #fff4e6;
+        border-left: 6px solid var(--sena-naranja);
+        padding: 20px 25px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-size: 0.8em;
+      }
+
+      /* Tabla */
+      .reveal table {
+        font-size: 0.7em;
+        margin: 20px auto;
+        border-collapse: collapse;
+        width: 95%;
+      }
+      .reveal table th {
+        background: var(--sena-verde);
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+      }
+      .reveal table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .reveal table tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+
+      /* Pregunta */
+      .pregunta {
+        background: linear-gradient(
+          135deg,
+          var(--sena-naranja) 0%,
+          #e56e00 100%
+        );
+        color: white;
+        padding: 25px;
+        border-radius: 12px;
+        font-size: 1.1em;
+        font-weight: 500;
+        text-align: center;
+        box-shadow: 0 6px 15px rgba(255, 121, 0, 0.3);
+      }
+
+      /* Iconos grandes */
+      .icono-grande {
+        font-size: 3em;
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      /* Footer */
+      .footer-slide {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+        font-size: 0.4em;
+        color: #999;
+      }
+
+      /* Highlight */
+      .highlight {
+        background: linear-gradient(180deg, transparent 60%, #ffe88a 60%);
+        padding: 0 4px;
+        font-weight: 600;
+      }
+
+      /* Number circle */
+      .num-circle {
+        display: inline-block;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--sena-verde);
+        color: white;
+        text-align: center;
+        line-height: 45px;
+        font-weight: bold;
+        margin-right: 12px;
+        font-size: 0.9em;
+      }
+
+      /* Proceso pasos */
+      .pasos {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        justify-content: space-between;
+      }
+      .paso {
+        flex: 1;
+        background: white;
+        border-top: 4px solid var(--sena-verde);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        font-size: 0.65em;
+        text-align: center;
+      }
+      .paso .num {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: var(--sena-verde);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+      }
+
+      /* Two column */
+      .dos-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+      }
+
+      /* Pros y contras */
+      .pros-contras {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 15px;
+      }
+      .pros,
+      .contras {
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 0.75em;
+      }
+      .pros {
+        background: #e8f5e0;
+        border-left: 4px solid var(--sena-verde);
+      }
+      .contras {
+        background: #ffe5e5;
+        border-left: 4px solid #d63031;
+      }
+      .pros h4 {
+        color: var(--sena-verde-oscuro);
+        margin-top: 0;
+      }
+      .contras h4 {
+        color: #d63031;
+        margin-top: 0;
+      }
+
+      /* Small text */
+      .small {
+        font-size: 0.7em;
+      }
+      .tiny {
+        font-size: 0.55em;
+      }
+
+      .reveal p {
+        line-height: 1.5;
+      }
+
+      .logo-sena {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-weight: bold;
+        color: var(--sena-verde);
+        font-size: 0.5em;
+        letter-spacing: 0.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- PORTADA -->
+        <section class="portada centrado">
+          <div style="font-size: 3em; margin-bottom: 0.2em">💻</div>
+          <h1>Estructurar Propuesta Técnica de Servicio de TI</h1>
+          <p class="subtitulo">
+            Especificaciones Técnicas, Licenciamiento de Software y Fichas
+            Técnicas
+          </p>
+          <div class="codigo">Competencia 220501094 · GA2-AA1</div>
+          <p style="margin-top: 30px; font-size: 0.7em; opacity: 0.9">
+            Actividad de Aprendizaje 1 — Determinar las especificaciones
+            técnicas, a partir del diagnóstico de necesidades informáticas
+          </p>
+        </section>
+
+        <!-- AGENDA -->
+        <section>
+          <h2>📋 ¿Qué veremos hoy?</h2>
+          <div class="card-grid">
+            <div class="card">
+              <h3>🎯 Contexto</h3>
+              <p>
+                Entender la competencia y su propósito dentro de la propuesta
+                técnica de TI.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>📝 Evidencia EV01</h3>
+              <p>
+                Foro temático sobre <strong>licenciamiento de software</strong>:
+                conceptos, tipos y aplicación.
+              </p>
+            </div>
+            <div class="card azul">
+              <h3>📊 Evidencia EV02</h3>
+              <p>
+                Diseño de <strong>fichas técnicas</strong> para recolección de
+                información (ISO 9000).
+              </p>
+            </div>
+            <div class="card">
+              <h3>✅ Entregables</h3>
+              <p>Qué se debe entregar, cómo y en qué formato.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTEXTO DE LA COMPETENCIA -->
+        <section>
+          <h2>🎯 Sobre la competencia</h2>
+          <div class="definicion">
+            Esta competencia detalla la forma correcta de
+            <strong
+              >preparar, elaborar y presentar una propuesta técnica de
+              software</strong
+            >, siguiendo los parámetros y especificaciones técnicas
+            establecidas, teniendo en cuenta como insumo principal las
+            <span class="highlight"
+              >necesidades de los stakeholders o partes interesadas</span
+            >.
+          </div>
+          <p style="margin-top: 20px">
+            <strong>En esta actividad (AA1) aprenderán a:</strong>
+          </p>
+          <ul>
+            <li>
+              Determinar las especificaciones técnicas de una solución de
+              software.
+            </li>
+            <li>Diseñar y elaborar fichas técnicas.</li>
+            <li>
+              Comprender los tipos de licencias de software y las condiciones
+              económicas del producto.
+            </li>
+          </ul>
+          <div class="alerta">
+            <strong>⏱ Duración:</strong> 72 horas &nbsp; · &nbsp;
+            <strong>📚 Material:</strong> Componente formativo "Especificaciones
+            y gestión de proyectos de software".
+          </div>
+        </section>
+
+        <!-- ============================== -->
+        <!-- SECCIÓN 1: LICENCIAMIENTO     -->
+        <!-- ============================== -->
+        <section class="divisor centrado">
+          <span class="numero-seccion">01</span>
+          <h1>Licenciamiento de Software</h1>
+          <p style="font-size: 1.2em; margin-top: 20px">
+            Evidencia GA2-220501094-AA1-EV01
+          </p>
+          <p style="opacity: 0.8; font-size: 0.9em">Foro temático</p>
+        </section>
+
+        <!-- ¿QUÉ ES SOFTWARE? -->
+        <section>
+          <h2>💡 ¿Qué es software?</h2>
+          <div class="definicion">
+            El <strong>software</strong> es el conjunto de
+            <span class="highlight"
+              >programas, instrucciones y reglas informáticas</span
+            >
+            que permiten a un dispositivo (computador, celular, servidor)
+            ejecutar tareas específicas. Es la parte lógica e intangible de un
+            sistema informático, a diferencia del hardware que es la parte
+            física.
+          </div>
+          <div class="card-grid-3" style="margin-top: 30px">
+            <div class="card">
+              <span class="icono-grande">⚙️</span>
+              <h3 style="text-align: center">Software de sistema</h3>
+              <p style="text-align: center">
+                Sistemas operativos, controladores, firmware (Windows, Linux,
+                Android).
+              </p>
+            </div>
+            <div class="card naranja">
+              <span class="icono-grande">📱</span>
+              <h3 style="text-align: center">Software de aplicación</h3>
+              <p style="text-align: center">
+                Programas para el usuario final (Word, Excel, navegadores,
+                apps).
+              </p>
+            </div>
+            <div class="card azul">
+              <span class="icono-grande">🛠️</span>
+              <h3 style="text-align: center">Software de desarrollo</h3>
+              <p style="text-align: center">
+                Herramientas para crear software (IDE, compiladores,
+                frameworks).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ¿QUÉ ES UNA LICENCIA? -->
+        <section>
+          <h2>📜 ¿Qué es una licencia de software?</h2>
+          <div class="definicion">
+            Una <strong>licencia de software</strong> es un
+            <span class="highlight">contrato legal</span> entre el autor o
+            propietario (licenciante) y el usuario (licenciatario), que
+            establece los
+            <strong>derechos, obligaciones y condiciones</strong> bajo los
+            cuales se puede usar, copiar, modificar o distribuir un programa.
+          </div>
+          <h3 style="margin-top: 30px">¿Qué define una licencia?</h3>
+          <div class="card-grid">
+            <div class="card">
+              <h3>✅ Qué SÍ se puede hacer</h3>
+              <p>
+                Uso personal, comercial, número de instalaciones, copias de
+                respaldo, modificaciones.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>❌ Qué NO se puede hacer</h3>
+              <p>
+                Redistribución no autorizada, ingeniería inversa, revender,
+                compartir credenciales.
+              </p>
+            </div>
+            <div class="card azul">
+              <h3>⏰ Duración</h3>
+              <p>Temporal, permanente, por suscripción mensual o anual.</p>
+            </div>
+            <div class="card">
+              <h3>💰 Condiciones económicas</h3>
+              <p>
+                Precio, forma de pago, renovación, actualizaciones incluidas o
+                no.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- IMPORTANCIA -->
+        <section>
+          <h2>⚖️ ¿Por qué son importantes las licencias?</h2>
+          <div class="card-grid">
+            <div class="card">
+              <h3>🛡️ Protección legal</h3>
+              <p>
+                Protegen los derechos de autor y la propiedad intelectual del
+                creador del software.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>💼 Cumplimiento normativo</h3>
+              <p>
+                Evitan sanciones legales, multas y demandas por uso indebido de
+                software.
+              </p>
+            </div>
+            <div class="card azul">
+              <h3>🔐 Seguridad</h3>
+              <p>
+                Garantizan que el software sea auténtico, con soporte y
+                actualizaciones.
+              </p>
+            </div>
+            <div class="card">
+              <h3>💡 Claridad</h3>
+              <p>Definen claramente los derechos y deberes de ambas partes.</p>
+            </div>
+          </div>
+          <div class="alerta" style="margin-top: 25px">
+            <strong>📌 En Colombia:</strong> el uso de software sin licencia es
+            un delito según la <strong>Ley 603 de 2000</strong> y la
+            <strong>Ley 1915 de 2018</strong> (derechos de autor). Las empresas
+            deben reportar el cumplimiento en sus informes de gestión.
+          </div>
+        </section>
+
+        <!-- TIPOS DE LICENCIA: INTRO -->
+        <section class="centrado">
+          <h2>🔖 Tipos de licencias de software</h2>
+          <p style="font-size: 1.1em; margin: 40px 0">
+            Existen varios tipos de licencia, clasificados principalmente por el
+            <strong>nivel de libertad</strong> que otorgan al usuario y por su
+            <strong>modelo económico</strong>.
+          </p>
+          <div class="pregunta">Veremos las 8 más importantes</div>
+        </section>
+
+        <!-- LICENCIA PROPIETARIA -->
+        <section>
+          <h2>1️⃣ Licencia propietaria o comercial</h2>
+          <p>
+            El código fuente es <strong>privado</strong>. El usuario paga para
+            usar el software bajo condiciones estrictas.
+          </p>
+          <div class="pros-contras">
+            <div class="pros">
+              <h4>✓ Ventajas</h4>
+              <ul style="font-size: 0.9em">
+                <li>Soporte técnico oficial</li>
+                <li>Actualizaciones garantizadas</li>
+                <li>Calidad y estabilidad comprobada</li>
+              </ul>
+            </div>
+            <div class="contras">
+              <h4>✗ Desventajas</h4>
+              <ul style="font-size: 0.9em">
+                <li>Costo elevado</li>
+                <li>Dependencia del fabricante</li>
+                <li>No se puede modificar el código</li>
+              </ul>
+            </div>
+          </div>
+          <p style="margin-top: 15px">
+            <strong>Ejemplos:</strong>
+            <span class="badge badge-gris">Microsoft Windows</span>
+            <span class="badge badge-gris">Adobe Photoshop</span>
+            <span class="badge badge-gris">AutoCAD</span>
+            <span class="badge badge-gris">SAP</span>
+          </p>
+        </section>
+
+        <!-- LICENCIA DE CÓDIGO ABIERTO -->
+        <section>
+          <h2>2️⃣ Licencia de código abierto (Open Source)</h2>
+          <p>
+            Permite <strong>ver, modificar y distribuir</strong> el código
+            fuente libremente, bajo ciertas condiciones.
+          </p>
+          <div class="pros-contras">
+            <div class="pros">
+              <h4>✓ Ventajas</h4>
+              <ul style="font-size: 0.9em">
+                <li>Generalmente gratuito</li>
+                <li>Comunidad activa de desarrollo</li>
+                <li>Transparencia y seguridad</li>
+                <li>Personalización total</li>
+              </ul>
+            </div>
+            <div class="contras">
+              <h4>✗ Desventajas</h4>
+              <ul style="font-size: 0.9em">
+                <li>Soporte no siempre oficial</li>
+                <li>Curva de aprendizaje</li>
+                <li>Compatibilidad variable</li>
+              </ul>
+            </div>
+          </div>
+          <p style="margin-top: 15px">
+            <strong>Sublicencias populares:</strong>
+            <span class="badge badge-verde">GPL</span>
+            <span class="badge badge-verde">MIT</span>
+            <span class="badge badge-verde">Apache</span>
+            <span class="badge badge-verde">BSD</span>
+          </p>
+          <p class="small">
+            <strong>Ejemplos:</strong> Linux, LibreOffice, GIMP, MySQL, Apache,
+            VLC.
+          </p>
+        </section>
+
+        <!-- LICENCIA LIBRE -->
+        <section>
+          <h2>3️⃣ Software Libre (Free Software)</h2>
+          <div class="definicion">
+            Definido por la <strong>Free Software Foundation</strong>, garantiza
+            las <span class="highlight">4 libertades esenciales</span> al
+            usuario.
+          </div>
+          <div class="card-grid" style="margin-top: 20px">
+            <div class="card">
+              <h3><span class="num-circle">0</span> Usar</h3>
+              <p>Libertad de ejecutar el programa para cualquier propósito.</p>
+            </div>
+            <div class="card">
+              <h3><span class="num-circle">1</span> Estudiar</h3>
+              <p>
+                Libertad de estudiar cómo funciona y adaptarlo (acceso al
+                código).
+              </p>
+            </div>
+            <div class="card">
+              <h3><span class="num-circle">2</span> Distribuir</h3>
+              <p>Libertad de redistribuir copias para ayudar a otros.</p>
+            </div>
+            <div class="card">
+              <h3><span class="num-circle">3</span> Mejorar</h3>
+              <p>Libertad de mejorar el programa y publicar las mejoras.</p>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 15px">
+            <em
+              >Nota: Software libre ≠ software gratis. "Free" se refiere a
+              libertad, no al precio.</em
+            >
+          </p>
+        </section>
+
+        <!-- FREEWARE -->
+        <section>
+          <h2>4️⃣ Freeware</h2>
+          <p>
+            Software <strong>gratuito</strong> para usar, pero el
+            <strong>código fuente es cerrado</strong>. No se puede modificar ni
+            redistribuir comercialmente.
+          </p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>📌 Características</h3>
+              <ul style="font-size: 0.9em">
+                <li>Uso sin costo</li>
+                <li>Sin acceso al código</li>
+                <li>Puede tener restricciones de uso comercial</li>
+              </ul>
+            </div>
+            <div class="card azul">
+              <h3>💡 Ejemplos</h3>
+              <p>
+                <span class="badge badge-azul">Skype</span>
+                <span class="badge badge-azul">Adobe Reader</span>
+                <span class="badge badge-azul">WhatsApp</span>
+                <span class="badge badge-azul">Zoom (versión básica)</span>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SHAREWARE -->
+        <section>
+          <h2>5️⃣ Shareware</h2>
+          <p>
+            Software de <strong>evaluación gratuita</strong> por un período
+            limitado o con funciones reducidas. Después se debe pagar para
+            seguir usándolo.
+          </p>
+          <div class="card-grid-3">
+            <div class="card">
+              <h3>⏱ Trialware</h3>
+              <p>Uso completo por tiempo limitado (ej: 30 días).</p>
+            </div>
+            <div class="card naranja">
+              <h3>🧩 Demo</h3>
+              <p>Funciones limitadas de forma permanente.</p>
+            </div>
+            <div class="card azul">
+              <h3>💸 Adware</h3>
+              <p>Gratis pero con publicidad incluida.</p>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 20px">
+            <strong>Ejemplos:</strong> WinRAR, algunas versiones de antivirus,
+            juegos demo.
+          </p>
+        </section>
+
+        <!-- LICENCIA OEM -->
+        <section>
+          <h2>6️⃣ Licencia OEM (Original Equipment Manufacturer)</h2>
+          <div class="definicion">
+            Software que viene <strong>preinstalado</strong> en un equipo nuevo
+            y está <span class="highlight">vinculado al hardware</span>. No se
+            puede transferir a otro equipo.
+          </div>
+          <div class="pros-contras" style="margin-top: 20px">
+            <div class="pros">
+              <h4>✓ Ventajas</h4>
+              <ul style="font-size: 0.9em">
+                <li>Más económica</li>
+                <li>Ya instalada y configurada</li>
+              </ul>
+            </div>
+            <div class="contras">
+              <h4>✗ Desventajas</h4>
+              <ul style="font-size: 0.9em">
+                <li>Atada al equipo original</li>
+                <li>Soporte limitado del fabricante del PC</li>
+              </ul>
+            </div>
+          </div>
+          <p class="small">
+            <strong>Ejemplo:</strong> Windows que viene con un computador Lenovo
+            o HP.
+          </p>
+        </section>
+
+        <!-- LICENCIA VOLUMEN -->
+        <section>
+          <h2>7️⃣ Licencia por volumen (Volume License)</h2>
+          <p>
+            Permite instalar el mismo software en
+            <strong>múltiples equipos</strong> de una organización con una sola
+            clave o contrato.
+          </p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>🏢 Ideal para</h3>
+              <ul style="font-size: 0.9em">
+                <li>Empresas medianas y grandes</li>
+                <li>Instituciones educativas</li>
+                <li>Entidades del gobierno</li>
+              </ul>
+            </div>
+            <div class="card naranja">
+              <h3>💰 Beneficios</h3>
+              <ul style="font-size: 0.9em">
+                <li>Descuentos por cantidad</li>
+                <li>Administración centralizada</li>
+                <li>Soporte empresarial</li>
+              </ul>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 15px">
+            <strong>Ejemplos:</strong> Microsoft Volume Licensing, Adobe
+            Creative Cloud for Teams.
+          </p>
+        </section>
+
+        <!-- LICENCIA SAAS / SUSCRIPCIÓN -->
+        <section>
+          <h2>8️⃣ Licencia por suscripción (SaaS)</h2>
+          <div class="definicion">
+            <strong>Software as a Service</strong>: se paga de forma periódica
+            (mensual o anual) por el uso del software, generalmente
+            <span class="highlight">en la nube</span>.
+          </div>
+          <div class="pros-contras" style="margin-top: 20px">
+            <div class="pros">
+              <h4>✓ Ventajas</h4>
+              <ul style="font-size: 0.85em">
+                <li>Sin instalación local</li>
+                <li>Actualizaciones automáticas</li>
+                <li>Acceso desde cualquier lugar</li>
+                <li>Menor inversión inicial</li>
+              </ul>
+            </div>
+            <div class="contras">
+              <h4>✗ Desventajas</h4>
+              <ul style="font-size: 0.85em">
+                <li>Requiere conexión a internet</li>
+                <li>Costo acumulado a largo plazo</li>
+                <li>Dependencia del proveedor</li>
+              </ul>
+            </div>
+          </div>
+          <p class="small">
+            <strong>Ejemplos:</strong> Microsoft 365, Google Workspace, Netflix,
+            Spotify, Salesforce, Canva Pro.
+          </p>
+        </section>
+
+        <!-- TABLA COMPARATIVA -->
+        <section>
+          <h2>📊 Tabla comparativa</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Costo</th>
+                <th>Código fuente</th>
+                <th>Modificable</th>
+                <th>Uso comercial</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Propietaria</strong></td>
+                <td>Alto</td>
+                <td>Cerrado</td>
+                <td>No</td>
+                <td>Según licencia</td>
+              </tr>
+              <tr>
+                <td><strong>Open Source</strong></td>
+                <td>Gratis / Bajo</td>
+                <td>Abierto</td>
+                <td>Sí</td>
+                <td>Sí (según sublicencia)</td>
+              </tr>
+              <tr>
+                <td><strong>Software Libre</strong></td>
+                <td>Gratis</td>
+                <td>Abierto</td>
+                <td>Sí</td>
+                <td>Sí</td>
+              </tr>
+              <tr>
+                <td><strong>Freeware</strong></td>
+                <td>Gratis</td>
+                <td>Cerrado</td>
+                <td>No</td>
+                <td>Con restricciones</td>
+              </tr>
+              <tr>
+                <td><strong>Shareware</strong></td>
+                <td>Prueba/pago</td>
+                <td>Cerrado</td>
+                <td>No</td>
+                <td>Tras pago</td>
+              </tr>
+              <tr>
+                <td><strong>OEM</strong></td>
+                <td>Bajo (con equipo)</td>
+                <td>Cerrado</td>
+                <td>No</td>
+                <td>Sí</td>
+              </tr>
+              <tr>
+                <td><strong>Volumen</strong></td>
+                <td>Por cantidad</td>
+                <td>Cerrado</td>
+                <td>No</td>
+                <td>Sí (empresarial)</td>
+              </tr>
+              <tr>
+                <td><strong>SaaS</strong></td>
+                <td>Suscripción</td>
+                <td>Cerrado</td>
+                <td>No</td>
+                <td>Sí</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ¿CUÁLES SON LAS MÁS ADECUADAS? -->
+        <section>
+          <h2>🎯 ¿Cuáles son las más adecuadas?</h2>
+          <p>
+            Depende del <strong>contexto</strong>, el
+            <strong>presupuesto</strong> y las <strong>necesidades</strong>:
+          </p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>🏠 Uso personal</h3>
+              <p>
+                <strong>Freeware</strong> u <strong>Open Source</strong>:
+                económicos, suficientes para tareas cotidianas.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>🎓 Educación</h3>
+              <p>
+                <strong>Software Libre</strong> y
+                <strong>licencias académicas</strong>: promueven aprendizaje y
+                son de bajo costo.
+              </p>
+            </div>
+            <div class="card azul">
+              <h3>🏢 PYMES</h3>
+              <p>
+                <strong>SaaS</strong> o <strong>Open Source</strong>: baja
+                inversión inicial, flexibilidad, escalabilidad.
+              </p>
+            </div>
+            <div class="card">
+              <h3>🏛️ Grandes empresas</h3>
+              <p>
+                <strong>Volumen</strong> o <strong>Propietaria</strong>: soporte
+                robusto, control centralizado, cumplimiento legal.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- TENDENCIAS ACTUALES -->
+        <section>
+          <h2>🚀 Realidad actual del licenciamiento</h2>
+          <div class="definicion">
+            Hoy en día predomina el modelo
+            <strong>SaaS (suscripción)</strong> por encima de las licencias
+            perpetuas. Las empresas migran hacia la
+            <span class="highlight">nube</span> para reducir costos iniciales y
+            obtener flexibilidad.
+          </div>
+          <div class="card-grid" style="margin-top: 20px">
+            <div class="card">
+              <h3>📈 Crecimiento del SaaS</h3>
+              <p>
+                Microsoft 365, Google Workspace, Adobe CC, Salesforce dominan el
+                mercado empresarial.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>🌍 Auge del Open Source</h3>
+              <p>
+                Linux domina servidores; Android, WordPress, Kubernetes impulsan
+                la industria.
+              </p>
+            </div>
+            <div class="card azul">
+              <h3>🤖 IA y nuevas licencias</h3>
+              <p>
+                Surgen licencias específicas para modelos de IA (OpenRAIL,
+                Apache 2.0 modificadas).
+              </p>
+            </div>
+            <div class="card">
+              <h3>⚖️ Cumplimiento estricto</h3>
+              <p>
+                Auditorías de software más frecuentes, mayor conciencia sobre
+                piratería.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FORO -->
+        <section class="centrado">
+          <h2>💬 Participación en el Foro</h2>
+          <div class="pregunta">
+            Foro temático — Licenciamiento de software<br />GA2-220501094-AA1-EV01
+          </div>
+          <div style="text-align: left; margin-top: 30px">
+            <p><strong>Preguntas orientadoras:</strong></p>
+            <ul>
+              <li>¿Qué es software?</li>
+              <li>¿Qué es una licencia de software?</li>
+              <li>Tipos de licencia de software.</li>
+              <li>¿Cuáles son las más adecuadas y por qué?</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- CÓMO PARTICIPAR -->
+        <section>
+          <h2>✍️ Cómo participar exitosamente</h2>
+          <div class="pasos">
+            <div class="paso">
+              <div class="num">1</div>
+              <strong>Estudiar</strong>
+              <p>Revisar a fondo el componente formativo.</p>
+            </div>
+            <div class="paso">
+              <div class="num">2</div>
+              <strong>Redactar</strong>
+              <p>Exponer tu concepto de forma clara y argumentada.</p>
+            </div>
+            <div class="paso">
+              <div class="num">3</div>
+              <strong>Aportar</strong>
+              <p>Incluir ejemplos, datos y referencias propias.</p>
+            </div>
+            <div class="paso">
+              <div class="num">4</div>
+              <strong>Responder</strong>
+              <p>Comentar de forma crítico-reflexiva a un compañero.</p>
+            </div>
+            <div class="paso">
+              <div class="num">5</div>
+              <strong>Construir</strong>
+              <p>Demostrar construcción colectiva de conocimiento.</p>
+            </div>
+          </div>
+          <div class="alerta" style="margin-top: 25px">
+            <strong>💡 Recuerda:</strong> no se trata solo de responder, sino de
+            <strong>construir conocimiento</strong> con los aportes de tus
+            compañeros.
+          </div>
+        </section>
+
+        <!-- ============================== -->
+        <!-- SECCIÓN 2: FICHAS TÉCNICAS    -->
+        <!-- ============================== -->
+        <section class="divisor centrado">
+          <span class="numero-seccion">02</span>
+          <h1>Fichas Técnicas</h1>
+          <p style="font-size: 1.2em; margin-top: 20px">
+            Evidencia GA2-220501094-AA1-EV02
+          </p>
+          <p style="opacity: 0.8; font-size: 0.9em">
+            Diseño para la recolección de información
+          </p>
+        </section>
+
+        <!-- ¿QUÉ ES UNA FICHA TÉCNICA? -->
+        <section>
+          <h2>📋 ¿Qué es una ficha técnica?</h2>
+          <div class="definicion">
+            Una <strong>ficha técnica</strong> es un
+            <span class="highlight">documento estructurado</span> que reúne las
+            <strong>características, especificaciones y atributos</strong> de un
+            producto de software. Permite el registro, identificación y consulta
+            organizada de las fuentes de información.
+          </div>
+          <h3 style="margin-top: 25px">Funciones principales:</h3>
+          <div class="card-grid">
+            <div class="card">
+              <h3>📑 Documentar</h3>
+              <p>
+                Reúne de forma clara las especificaciones del software
+                desarrollado.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>🔍 Identificar</h3>
+              <p>Permite reconocer rápidamente el producto y sus fuentes.</p>
+            </div>
+            <div class="card azul">
+              <h3>📊 Comparar</h3>
+              <p>
+                Facilita la comparación entre diferentes soluciones o versiones.
+              </p>
+            </div>
+            <div class="card">
+              <h3>✅ Validar</h3>
+              <p>
+                Sirve como evidencia de cumplimiento de requisitos y
+                normatividad.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ¿POR QUÉ SON IMPORTANTES? -->
+        <section>
+          <h2>💡 ¿Por qué son importantes?</h2>
+          <ul>
+            <li>
+              <strong>Estandarización:</strong> unifican la forma en que se
+              recolecta y presenta la información.
+            </li>
+            <li>
+              <strong>Trazabilidad:</strong> permiten seguir el historial y
+              cambios del producto.
+            </li>
+            <li>
+              <strong>Comunicación:</strong> facilitan el diálogo entre equipos
+              técnicos, comerciales y clientes.
+            </li>
+            <li>
+              <strong>Toma de decisiones:</strong> brindan datos concretos para
+              decidir sobre el producto.
+            </li>
+            <li>
+              <strong>Cumplimiento normativo:</strong> evidencian el apego a
+              estándares como ISO 9000.
+            </li>
+          </ul>
+          <div class="alerta">
+            <strong>📌 En propuestas técnicas de TI:</strong> la ficha técnica
+            es un anexo fundamental que respalda la seriedad y formalidad de la
+            propuesta.
+          </div>
+        </section>
+
+        <!-- NORMA ISO 9000 -->
+        <section>
+          <h2>📏 Norma NTC ISO 9000</h2>
+          <div class="definicion">
+            La <strong>NTC ISO 9000</strong> es la norma técnica colombiana que
+            establece los
+            <span class="highlight">fundamentos y el vocabulario</span> de los
+            <strong>Sistemas de Gestión de Calidad (SGC)</strong>. Forma parte
+            de la familia ISO 9000, que es reconocida internacionalmente.
+          </div>
+          <div class="card-grid" style="margin-top: 20px">
+            <div class="card">
+              <h3>🎯 Objetivo</h3>
+              <p>
+                Establecer el marco conceptual y terminología común para los SGC
+                en cualquier organización.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>🌐 Alcance</h3>
+              <p>
+                Aplica a productos y servicios, independientemente del sector
+                (incluye software).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRINCIPIOS ISO 9000 -->
+        <section>
+          <h2>🎯 7 Principios de gestión de calidad (ISO 9000)</h2>
+          <div class="card-grid-3">
+            <div class="card">
+              <h3><span class="num-circle">1</span> Enfoque al cliente</h3>
+              <p class="small">Cumplir y superar expectativas.</p>
+            </div>
+            <div class="card naranja">
+              <h3><span class="num-circle">2</span> Liderazgo</h3>
+              <p class="small">Dirección unificada y comprometida.</p>
+            </div>
+            <div class="card azul">
+              <h3>
+                <span class="num-circle">3</span> Compromiso de las personas
+              </h3>
+              <p class="small">Personal competente y motivado.</p>
+            </div>
+            <div class="card">
+              <h3><span class="num-circle">4</span> Enfoque a procesos</h3>
+              <p class="small">Gestionar actividades interrelacionadas.</p>
+            </div>
+            <div class="card naranja">
+              <h3><span class="num-circle">5</span> Mejora</h3>
+              <p class="small">Enfoque permanente en mejorar.</p>
+            </div>
+            <div class="card azul">
+              <h3>
+                <span class="num-circle">6</span> Toma de decisiones basada en
+                evidencia
+              </h3>
+              <p class="small">Datos y análisis como base.</p>
+            </div>
+          </div>
+          <div
+            class="card"
+            style="
+              margin-top: 15px;
+              max-width: 50%;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          >
+            <h3><span class="num-circle">7</span> Gestión de relaciones</h3>
+            <p class="small">
+              Relaciones con proveedores y partes interesadas.
+            </p>
+          </div>
+        </section>
+
+        <!-- ELEMENTOS DE UNA FICHA -->
+        <section>
+          <h2>🧩 Elementos clave de una ficha técnica</h2>
+          <div class="dos-col">
+            <div>
+              <h3>📌 Información general</h3>
+              <ul class="small">
+                <li>Nombre del producto/software</li>
+                <li>Versión</li>
+                <li>Código o identificador</li>
+                <li>Fecha de elaboración</li>
+                <li>Responsable / autor</li>
+                <li>Empresa desarrolladora</li>
+              </ul>
+              <h3>⚙️ Especificaciones técnicas</h3>
+              <ul class="small">
+                <li>Lenguaje de programación</li>
+                <li>Plataforma / sistema operativo</li>
+                <li>Requisitos de hardware</li>
+                <li>Dependencias y librerías</li>
+                <li>Base de datos</li>
+              </ul>
+            </div>
+            <div>
+              <h3>📜 Información legal</h3>
+              <ul class="small">
+                <li>Tipo de licencia</li>
+                <li>Condiciones de uso</li>
+                <li>Vigencia</li>
+                <li>Derechos de autor</li>
+              </ul>
+              <h3>💰 Información comercial</h3>
+              <ul class="small">
+                <li>Precio / modelo de pago</li>
+                <li>Garantía y soporte</li>
+                <li>Canales de distribución</li>
+              </ul>
+              <h3>✅ Calidad (ISO 9000)</h3>
+              <ul class="small">
+                <li>Indicadores de calidad</li>
+                <li>Criterios de aceptación</li>
+                <li>Proceso de validación</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- EJEMPLO DE FICHA TÉCNICA -->
+        <section>
+          <h2>📄 Ejemplo de estructura de ficha técnica</h2>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">FICHA TÉCNICA DE SOFTWARE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Nombre del producto</strong></td>
+                <td>Sistema de Gestión Académica v2.0</td>
+              </tr>
+              <tr>
+                <td><strong>Código</strong></td>
+                <td>SGA-2025-001</td>
+              </tr>
+              <tr>
+                <td><strong>Fecha</strong></td>
+                <td>15 de abril de 2026</td>
+              </tr>
+              <tr>
+                <td><strong>Descripción</strong></td>
+                <td>
+                  Software web para la gestión de estudiantes, notas y
+                  asistencia.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Lenguaje</strong></td>
+                <td>Python (Django) + JavaScript</td>
+              </tr>
+              <tr>
+                <td><strong>Base de datos</strong></td>
+                <td>PostgreSQL 15</td>
+              </tr>
+              <tr>
+                <td><strong>Plataforma</strong></td>
+                <td>Web — Compatible con Chrome, Firefox, Edge</td>
+              </tr>
+              <tr>
+                <td><strong>Tipo de licencia</strong></td>
+                <td>Propietaria — Suscripción anual</td>
+              </tr>
+              <tr>
+                <td><strong>Soporte</strong></td>
+                <td>8×5 vía correo y chat</td>
+              </tr>
+              <tr>
+                <td><strong>Norma de calidad</strong></td>
+                <td>NTC ISO 9000 / ISO 25010</td>
+              </tr>
+              <tr>
+                <td><strong>Responsable</strong></td>
+                <td>Ing. María Pérez — Líder de Proyecto</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- PASOS PARA DISEÑAR FICHA -->
+        <section>
+          <h2>🛠️ Pasos para diseñar la ficha técnica</h2>
+          <div class="pasos">
+            <div class="paso">
+              <div class="num">1</div>
+              <strong>Identificar</strong>
+              <p>Qué información se necesita recolectar.</p>
+            </div>
+            <div class="paso">
+              <div class="num">2</div>
+              <strong>Consultar</strong>
+              <p>Estándares (ISO 9000) y componente formativo.</p>
+            </div>
+            <div class="paso">
+              <div class="num">3</div>
+              <strong>Estructurar</strong>
+              <p>Organizar campos por secciones lógicas.</p>
+            </div>
+            <div class="paso">
+              <div class="num">4</div>
+              <strong>Diseñar</strong>
+              <p>Crear el formato visual (tabla, formulario).</p>
+            </div>
+            <div class="paso">
+              <div class="num">5</div>
+              <strong>Validar</strong>
+              <p>Revisar coherencia y completitud.</p>
+            </div>
+            <div class="paso">
+              <div class="num">6</div>
+              <strong>Aplicar</strong>
+              <p>Usar para recolectar datos reales.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARACTERÍSTICAS DE FUENTES -->
+        <section>
+          <h2>🔎 Características de las fuentes de información</h2>
+          <p>
+            Al diseñar una ficha técnica, se debe considerar el
+            <strong>tipo de fuente</strong> a consultar:
+          </p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>📚 Fuentes primarias</h3>
+              <p>
+                Información original y directa: entrevistas, encuestas,
+                observación, documentación propia del software.
+              </p>
+            </div>
+            <div class="card naranja">
+              <h3>📖 Fuentes secundarias</h3>
+              <p>
+                Análisis o interpretación de fuentes primarias: libros,
+                artículos, reportes técnicos, manuales.
+              </p>
+            </div>
+            <div class="card azul">
+              <h3>🌐 Fuentes terciarias</h3>
+              <p>
+                Compilaciones de fuentes secundarias: bases de datos,
+                directorios, enciclopedias.
+              </p>
+            </div>
+            <div class="card">
+              <h3>💾 Fuentes digitales</h3>
+              <p>
+                Repositorios, páginas web oficiales, documentación técnica en
+                línea, foros especializados.
+              </p>
+            </div>
+          </div>
+          <div class="alerta">
+            <strong>✔ Criterio clave:</strong> toda fuente debe ser
+            <strong>confiable, actual y verificable</strong>.
+          </div>
+        </section>
+
+        <!-- BUENAS PRÁCTICAS -->
+        <section>
+          <h2>✨ Buenas prácticas al elaborar la ficha</h2>
+          <div class="card-grid">
+            <div class="card">
+              <h3>🎯 Claridad</h3>
+              <p>Usar lenguaje técnico preciso pero comprensible.</p>
+            </div>
+            <div class="card naranja">
+              <h3>📐 Estructura</h3>
+              <p>Organizar por secciones claras y lógicas.</p>
+            </div>
+            <div class="card azul">
+              <h3>📊 Completitud</h3>
+              <p>Incluir todos los campos necesarios, sin excesos.</p>
+            </div>
+            <div class="card">
+              <h3>🔄 Actualización</h3>
+              <p>Mantener versiones y fechas visibles.</p>
+            </div>
+            <div class="card naranja">
+              <h3>🎨 Presentación</h3>
+              <p>Formato profesional, logos, colores institucionales.</p>
+            </div>
+            <div class="card azul">
+              <h3>📎 Referencias</h3>
+              <p>Citar fuentes consultadas correctamente.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ENTREGA -->
+        <section>
+          <h2>📤 Lineamientos para la entrega</h2>
+          <div class="card-grid">
+            <div class="card">
+              <h3>📦 Producto</h3>
+              <p>Ficha técnica para la recolección de la información.</p>
+            </div>
+            <div class="card naranja">
+              <h3>📄 Formato</h3>
+              <p>
+                <span class="badge badge-naranja">PDF</span>
+                <span class="badge badge-naranja">Excel</span>
+              </p>
+            </div>
+            <div class="card azul">
+              <h3>📍 Ruta de envío</h3>
+              <p>
+                Espacio:
+                <em
+                  >Diseño de las fichas técnicas para la recolección de la
+                  información — GA2-220501094-AA1-EV02</em
+                >
+              </p>
+            </div>
+            <div class="card">
+              <h3>⏰ Plazo</h3>
+              <p>Dentro de las 72 horas establecidas para la actividad.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESUMEN FINAL -->
+        <section>
+          <h2>🎓 Resumen de la actividad</h2>
+          <div class="dos-col">
+            <div class="card">
+              <h3>📝 EV01 — Foro</h3>
+              <ul class="small">
+                <li>Participar con concepto propio</li>
+                <li>Abordar las 4 preguntas orientadoras</li>
+                <li>Responder crítico-reflexivamente a un compañero</li>
+                <li>Construir conocimiento colaborativo</li>
+              </ul>
+            </div>
+            <div class="card azul">
+              <h3>📊 EV02 — Ficha técnica</h3>
+              <ul class="small">
+                <li>Diseñar con base en ISO 9000</li>
+                <li>Incluir información completa del software</li>
+                <li>Entregar en PDF o Excel</li>
+                <li>Considerar fuentes de información</li>
+              </ul>
+            </div>
+          </div>
+          <div class="alerta" style="margin-top: 25px">
+            <strong>💪 Competencia a desarrollar:</strong> Estructurar propuesta
+            técnica de servicio de tecnología de la información según requisitos
+            técnicos y normativa.
+          </div>
+        </section>
+
+        <!-- CIERRE -->
+        <section class="portada centrado">
+          <div style="font-size: 3em">🎯</div>
+          <h1>¡Manos a la obra!</h1>
+          <p class="subtitulo">Ahora es momento de aplicar lo aprendido</p>
+          <div
+            style="
+              margin-top: 40px;
+              display: flex;
+              gap: 20px;
+              justify-content: center;
+            "
+          >
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.15);
+                padding: 20px 30px;
+                border-radius: 12px;
+              "
+            >
+              <div style="font-size: 2em">💬</div>
+              <strong>Participa en el Foro</strong>
+            </div>
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.15);
+                padding: 20px 30px;
+                border-radius: 12px;
+              "
+            >
+              <div style="font-size: 2em">📋</div>
+              <strong>Diseña tu Ficha Técnica</strong>
+            </div>
+          </div>
+          <p style="margin-top: 40px; font-size: 0.7em; opacity: 0.9">
+            ¿Dudas? Consulta al instructor en los espacios habilitados.
+          </p>
+        </section>
+
+        <!-- GRACIAS -->
+        <section class="divisor centrado">
+          <div style="font-size: 4em">🙌</div>
+          <h1>¡Gracias!</h1>
+          <p style="font-size: 1.2em; margin-top: 20px">
+            Competencia 220501094
+          </p>
+          <p style="opacity: 0.8">
+            GA2 — AA1 · Especificaciones técnicas del software
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/markdown/markdown.min.js"></script>
+
+    <script>
+      Reveal.initialize({
+        hash: true,
+        controls: true,
+        progress: true,
+        center: false,
+        transition: "slide",
+        backgroundTransition: "fade",
+        slideNumber: "c/t",
+        width: 1280,
+        height: 800,
+        margin: 0.05,
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
