@@ -15,7 +15,7 @@
   padding: 40px;
 }
 
-#email {
+#name, #email, #phone {
   margin-bottom: 20px;
 }
 
