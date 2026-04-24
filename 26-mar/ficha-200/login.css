@@ -32,7 +32,7 @@
   border-radius: 10px;
 }
 
-#email {
+#email, #name, #phone {
   margin-bottom: 20px;
 }
 

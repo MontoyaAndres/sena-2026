@@ -1,10 +1,11 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Iniciar sesión - Sena</title>
+    <title>Crear cuenta - Sena</title>
     <link rel="icon" type="image/x-icon" href="logo.png" />
     <link rel="stylesheet" href="inicio.css" />
     <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="registro.css" />
   </head>
   <body>
     <nav class="navbar">
@@ -21,8 +22,24 @@
       <form id="form" class="form">
         <h2 class="form-title">Ingresa tus datos</h2>
         <p class="form-description">
-          Ingresa tu correo y contraseña para continuar
+          Ingresa tu nombre, teléfono, correo y contraseña
         </p>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          class="form-input"
+          placeholder="Ingresa tu nombre"
+          required
+        />
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          class="form-input"
+          placeholder="Ingresa tu teléfono"
+          required
+        />
         <input
           id="email"
           name="email"
@@ -49,11 +66,13 @@
     form.addEventListener("submit", function (event) {
       event.preventDefault();
 
+      var name = document.getElementById("name").value;
+      var phone = document.getElementById("phone").value;
       var email = document.getElementById("email").value;
       var password = document.getElementById("password").value;
 
       alert(
-        `El usuario ha ingresado el correo ${email} y la contrasena ${password}`,
+        `El usuario ha ingresado el nombre ${name}, el telefono ${phone}, el correo ${email} y la contrasena ${password}`,
       );
 
       form.reset();
