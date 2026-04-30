@@ -1,0 +1,1521 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modelo Relacional, Cardinalidad y Normalización</title>
+
+    <!-- Reveal.js core -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800;9..144,900&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #f4ede0;
+        --bg-soft: #ebe2d0;
+        --ink: #1c1d2e;
+        --ink-soft: #4a4c63;
+        --paper: #fbf7ee;
+        --accent: #c0392b; /* terracota */
+        --accent-2: #1f6f6b; /* teal profundo */
+        --accent-3: #d4a017; /* mostaza */
+        --line: #2a2b3d;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+      }
+
+      /* Tipografía global */
+      .reveal {
+        font-family: "Manrope", sans-serif;
+        font-size: 30px;
+        color: var(--ink);
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Fraunces", serif;
+        color: var(--ink);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        text-transform: none;
+        line-height: 1.05;
+        text-shadow: none;
+        margin-bottom: 0.4em;
+      }
+
+      .reveal h1 {
+        font-size: 2.6em;
+      }
+      .reveal h2 {
+        font-size: 1.9em;
+      }
+      .reveal h3 {
+        font-size: 1.3em;
+      }
+
+      .reveal p,
+      .reveal li {
+        color: var(--ink-soft);
+        line-height: 1.5;
+      }
+
+      .reveal strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .reveal em {
+        color: var(--accent);
+        font-style: italic;
+      }
+
+      /* Code */
+      .reveal code,
+      .reveal pre {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .reveal pre {
+        box-shadow: 0 4px 20px rgba(28, 29, 46, 0.15);
+        border-radius: 6px;
+        font-size: 0.55em;
+      }
+
+      /* Listas */
+      .reveal ul,
+      .reveal ol {
+        margin-left: 1em;
+      }
+      .reveal li {
+        margin-bottom: 0.4em;
+      }
+      .reveal ul li::marker {
+        color: var(--accent);
+      }
+
+      /* Slide base */
+      .reveal .slides section {
+        text-align: left;
+        padding: 0 30px;
+      }
+
+      /* Pequeño número de capítulo */
+      .chapter-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        margin-bottom: 1em;
+        display: block;
+      }
+
+      /* === PORTADA === */
+      .cover {
+        background: var(--ink) !important;
+        color: var(--paper) !important;
+        height: 100%;
+      }
+      .cover .cover-inner {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 40px;
+        position: relative;
+      }
+      .cover h1 {
+        font-size: 3.4em;
+        color: var(--paper);
+        line-height: 0.95;
+        max-width: 11em;
+      }
+      .cover h1 .accent {
+        color: var(--accent-3);
+        font-style: italic;
+        font-weight: 400;
+      }
+      .cover .meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        color: var(--paper);
+        opacity: 0.6;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+      .cover .ornament {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        width: 220px;
+        opacity: 0.7;
+      }
+
+      /* === BLOQUES DE CONTENIDO === */
+      .callout {
+        background: var(--paper);
+        border-left: 4px solid var(--accent);
+        padding: 24px 28px;
+        margin: 20px 0;
+        font-size: 0.95em;
+        border-radius: 2px;
+      }
+      .callout.teal {
+        border-left-color: var(--accent-2);
+      }
+      .callout.mostaza {
+        border-left-color: var(--accent-3);
+      }
+
+      .tag {
+        display: inline-block;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 4px 12px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.45em;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        border-radius: 3px;
+        margin-right: 8px;
+      }
+      .tag.terra {
+        background: var(--accent);
+      }
+      .tag.teal {
+        background: var(--accent-2);
+      }
+      .tag.mostaza {
+        background: var(--accent-3);
+        color: var(--ink);
+      }
+
+      /* === TABLAS DEMOSTRATIVAS === */
+      .db-table {
+        border-collapse: collapse;
+        background: var(--paper);
+        box-shadow: 0 4px 20px rgba(28, 29, 46, 0.12);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6em;
+        margin: 14px 0;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .db-table caption {
+        caption-side: top;
+        text-align: left;
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        color: var(--ink);
+        padding: 0 0 8px 4px;
+        font-size: 1.05em;
+      }
+      .db-table th {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 10px 16px;
+        text-align: left;
+        font-weight: 600;
+        text-transform: lowercase;
+        letter-spacing: 0.05em;
+        border: none;
+      }
+      .db-table td {
+        padding: 8px 16px;
+        border-top: 1px solid var(--bg-soft);
+        color: var(--ink-soft);
+      }
+      .db-table tr:nth-child(even) td {
+        background: rgba(28, 29, 46, 0.025);
+      }
+      .db-table .pk {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .db-table .fk {
+        color: var(--accent-2);
+        font-weight: 700;
+      }
+      .db-table th.pk-col {
+        background: var(--accent);
+      }
+      .db-table th.fk-col {
+        background: var(--accent-2);
+      }
+
+      .legend {
+        font-size: 0.55em;
+        margin-top: 8px;
+        color: var(--ink-soft);
+        font-family: "JetBrains Mono", monospace;
+      }
+      .legend .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      .legend .dot.pk {
+        background: var(--accent);
+      }
+      .legend .dot.fk {
+        background: var(--accent-2);
+      }
+
+      /* === GRIDS === */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+      }
+      .three-col {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--paper);
+        padding: 22px;
+        border-radius: 6px;
+        box-shadow: 0 2px 12px rgba(28, 29, 46, 0.08);
+      }
+      .card h3 {
+        font-size: 1em;
+        margin-bottom: 8px;
+        color: var(--ink);
+      }
+      .card p {
+        font-size: 0.78em;
+        margin: 0;
+      }
+      .card .num {
+        font-family: "Fraunces", serif;
+        font-size: 2.2em;
+        color: var(--accent);
+        line-height: 1;
+        font-weight: 800;
+        font-style: italic;
+      }
+
+      /* === DIAGRAMAS DE CARDINALIDAD === */
+      .cardinality-diagram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        margin: 30px 0;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .entity-box {
+        background: var(--paper);
+        border: 2px solid var(--ink);
+        padding: 16px 26px;
+        font-weight: 600;
+        font-size: 0.85em;
+        border-radius: 4px;
+        box-shadow: 4px 4px 0 var(--ink);
+        text-align: center;
+        min-width: 140px;
+      }
+      .relation-line {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+        padding: 0 10px;
+        position: relative;
+      }
+      .relation-line .label {
+        position: absolute;
+        top: -22px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7em;
+        color: var(--accent);
+        font-weight: 600;
+        background: var(--bg);
+        padding: 2px 8px;
+      }
+      .relation-line .line {
+        height: 2px;
+        background: var(--ink);
+        width: 60px;
+      }
+      .crow {
+        font-family: "Fraunces", serif;
+        font-size: 1.4em;
+        color: var(--accent);
+        font-weight: 800;
+        margin: 0 4px;
+      }
+
+      /* === BIG NUMBER === */
+      .big-number {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-weight: 900;
+        font-size: 9em;
+        line-height: 0.9;
+        color: var(--accent);
+        margin-bottom: 0.1em;
+      }
+
+      /* === COMPARACIÓN ANTES/DESPUÉS === */
+      .before-after {
+        display: grid;
+        grid-template-columns: 1fr 40px 1fr;
+        gap: 16px;
+        align-items: center;
+        margin: 20px 0;
+      }
+      .before-after .arrow {
+        text-align: center;
+        font-size: 2em;
+        color: var(--accent);
+        font-weight: 800;
+      }
+      .panel {
+        background: var(--paper);
+        padding: 16px;
+        border-radius: 6px;
+        box-shadow: 0 2px 12px rgba(28, 29, 46, 0.1);
+      }
+      .panel-title {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid var(--bg-soft);
+      }
+      .panel.bad .panel-title {
+        color: var(--accent);
+      }
+      .panel.good .panel-title {
+        color: var(--accent-2);
+      }
+
+      /* === CONTROLES DE REVEAL === */
+      .reveal .progress {
+        color: var(--accent);
+        height: 4px;
+      }
+      .reveal .controls {
+        color: var(--ink);
+      }
+      .reveal .slide-number {
+        background: transparent;
+        color: var(--ink-soft);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+      }
+
+      /* === BARRA INFERIOR DECORATIVA === */
+      .slide-footer {
+        position: absolute;
+        bottom: 18px;
+        left: 30px;
+        right: 30px;
+        display: flex;
+        justify-content: space-between;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-soft);
+        opacity: 0.5;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+
+      /* === SLIDE DE CIERRE === */
+      .closing {
+        background: var(--ink) !important;
+        color: var(--paper) !important;
+        height: 100%;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px;
+      }
+      .closing h1 {
+        color: var(--paper);
+        font-size: 4em;
+      }
+      .closing h1 .accent {
+        color: var(--accent-3);
+        font-style: italic;
+      }
+      .closing p {
+        color: var(--paper);
+        opacity: 0.7;
+      }
+
+      /* Pequeñas decoraciones */
+      .divider {
+        width: 60px;
+        height: 3px;
+        background: var(--accent);
+        margin: 16px 0 24px;
+      }
+
+      ul.clean {
+        list-style: none;
+        margin-left: 0;
+      }
+      ul.clean li {
+        padding-left: 24px;
+        position: relative;
+      }
+      ul.clean li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ========== 1. PORTADA ========== -->
+        <section class="cover">
+          <div class="cover-inner">
+            <div>
+              <span class="meta"
+                >SENA · GA6-220501096-AA1 · Bases de datos</span
+              >
+            </div>
+
+            <div>
+              <h1>
+                Modelo<br />Relacional<span class="accent">,</span
+                ><br />Cardinalidad<br />& Normalización
+              </h1>
+            </div>
+
+            <div class="meta">
+              Una guía visual para entender cómo se diseña<br />una base de
+              datos bien hecha
+            </div>
+
+            <!-- Pequeño ornamento SVG -->
+            <svg class="ornament" viewBox="0 0 200 200">
+              <circle
+                cx="100"
+                cy="100"
+                r="80"
+                fill="none"
+                stroke="#d4a017"
+                stroke-width="1"
+              />
+              <circle
+                cx="100"
+                cy="100"
+                r="55"
+                fill="none"
+                stroke="#d4a017"
+                stroke-width="1"
+              />
+              <circle
+                cx="100"
+                cy="100"
+                r="30"
+                fill="none"
+                stroke="#d4a017"
+                stroke-width="1"
+              />
+              <line
+                x1="20"
+                y1="100"
+                x2="180"
+                y2="100"
+                stroke="#d4a017"
+                stroke-width="1"
+              />
+              <line
+                x1="100"
+                y1="20"
+                x2="100"
+                y2="180"
+                stroke="#d4a017"
+                stroke-width="1"
+              />
+            </svg>
+          </div>
+        </section>
+
+        <!-- ========== 2. AGENDA ========== -->
+        <section>
+          <span class="chapter-tag">Lo que veremos hoy</span>
+          <h2>Tres preguntas, tres respuestas</h2>
+          <div class="divider"></div>
+
+          <div class="three-col">
+            <div class="card">
+              <div class="num">01</div>
+              <h3>¿Cómo organizo los datos?</h3>
+              <p>El modelo relacional: tablas, llaves y relaciones.</p>
+            </div>
+            <div class="card">
+              <div class="num">02</div>
+              <h3>¿Cómo se conectan las tablas?</h3>
+              <p>Cardinalidad: 1 a 1, 1 a muchos, muchos a muchos.</p>
+            </div>
+            <div class="card">
+              <div class="num">03</div>
+              <h3>¿Cómo evito errores?</h3>
+              <p>Normalización: 1FN, 2FN y 3FN sin dolor de cabeza.</p>
+            </div>
+          </div>
+          <div class="slide-footer"><span>Agenda</span><span>01</span></div>
+        </section>
+
+        <!-- ========== 3. POR QUÉ MODELAR ========== -->
+        <section>
+          <span class="chapter-tag">Antes de empezar</span>
+          <h2>¿Por qué <em>modelar</em> antes de codificar?</h2>
+          <div class="divider"></div>
+
+          <div class="two-col">
+            <div>
+              <p>
+                Imagina construir una casa <strong>sin planos</strong>: paredes
+                que no calzan, tuberías repetidas, puertas que no abren.
+              </p>
+              <p>
+                Una base de datos sin modelo es exactamente eso:
+                <em>datos duplicados</em>, errores al actualizar, información
+                que se pierde.
+              </p>
+            </div>
+            <div class="callout teal">
+              <strong>Modelar = pensar antes de teclear.</strong><br /><br />
+              Un buen modelo te ahorra horas de bugs, refactors y café derramado
+              a las 2 a.m.
+            </div>
+          </div>
+          <div class="slide-footer">
+            <span>Introducción</span><span>02</span>
+          </div>
+        </section>
+
+        <!-- ========== 4. QUÉ ES MODELO RELACIONAL ========== -->
+        <section>
+          <span class="chapter-tag">Parte 1 · Modelo Relacional</span>
+          <h2>Todo cabe en una <em>tabla</em></h2>
+          <div class="divider"></div>
+
+          <p>
+            El modelo relacional, propuesto por
+            <strong>E. F. Codd en 1970</strong>, dice algo simple: la
+            información del mundo real se puede representar como
+            <strong>tablas conectadas entre sí</strong>.
+          </p>
+
+          <table class="db-table">
+            <caption>
+              estudiante
+            </caption>
+            <thead>
+              <tr>
+                <th class="pk-col">id_estudiante</th>
+                <th>nombre</th>
+                <th>email</th>
+                <th>ciudad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="pk">001</td>
+                <td>María Gómez</td>
+                <td>maria@correo.co</td>
+                <td>Bogotá</td>
+              </tr>
+              <tr>
+                <td class="pk">002</td>
+                <td>Carlos Ruiz</td>
+                <td>carlos@correo.co</td>
+                <td>Medellín</td>
+              </tr>
+              <tr>
+                <td class="pk">003</td>
+                <td>Laura Peña</td>
+                <td>laura@correo.co</td>
+                <td>Cali</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="legend">
+            <span class="dot pk"></span> Llave primaria (PK)
+          </div>
+
+          <div class="slide-footer">
+            <span>Modelo Relacional</span><span>03</span>
+          </div>
+        </section>
+
+        <!-- ========== 5. ANATOMÍA DE UNA TABLA ========== -->
+        <section>
+          <span class="chapter-tag">Parte 1 · Modelo Relacional</span>
+          <h2>Anatomía de una tabla</h2>
+          <div class="divider"></div>
+
+          <div class="two-col">
+            <div>
+              <ul class="clean">
+                <li>
+                  <strong>Tabla / Relación:</strong> el conjunto completo (ej.
+                  <code>estudiante</code>).
+                </li>
+                <li>
+                  <strong>Atributo / Columna:</strong> una propiedad
+                  (<code>nombre</code>, <code>email</code>).
+                </li>
+                <li>
+                  <strong>Tupla / Fila:</strong> un registro completo (un
+                  estudiante real).
+                </li>
+                <li>
+                  <strong>Dominio:</strong> los valores válidos de un atributo
+                  (ej. <code>email</code> → texto con @).
+                </li>
+              </ul>
+            </div>
+            <div>
+              <table class="db-table" style="font-size: 0.55em">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>nombre</th>
+                    <th>edad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    style="
+                      outline: 2px solid var(--accent);
+                      outline-offset: -2px;
+                    "
+                  >
+                    <td>001</td>
+                    <td>María</td>
+                    <td>22</td>
+                  </tr>
+                  <tr>
+                    <td>002</td>
+                    <td>Carlos</td>
+                    <td>25</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p
+                style="
+                  font-size: 0.6em;
+                  color: var(--accent);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                "
+              >
+                ↑ Esta fila es una <strong>tupla</strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>Modelo Relacional</span><span>04</span>
+          </div>
+        </section>
+
+        <!-- ========== 6. LLAVES ========== -->
+        <section>
+          <span class="chapter-tag">Parte 1 · Modelo Relacional</span>
+          <h2>Las <em>llaves</em> son la clave</h2>
+          <div class="divider"></div>
+
+          <div class="two-col">
+            <div class="callout">
+              <span class="tag terra">PK</span> <strong>Llave Primaria</strong>
+              <p style="margin-top: 8px">
+                Identifica de forma <em>única</em> cada fila. No se repite,
+                nunca está vacía.
+              </p>
+              <p
+                style="
+                  margin: 0;
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.85em;
+                "
+              >
+                → <code>id_estudiante</code>
+              </p>
+            </div>
+            <div class="callout teal">
+              <span class="tag teal">FK</span> <strong>Llave Foránea</strong>
+              <p style="margin-top: 8px">
+                Apunta a la PK de <em>otra</em> tabla. Crea las relaciones entre
+                ellas.
+              </p>
+              <p
+                style="
+                  margin: 0;
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.85em;
+                "
+              >
+                → <code>id_curso</code> en <code>matricula</code>
+              </p>
+            </div>
+          </div>
+
+          <p style="font-size: 0.85em; margin-top: 20px">
+            Sin llaves, una tabla es solo una hoja de cálculo.
+            <strong>Con llaves, es una base de datos.</strong>
+          </p>
+
+          <div class="slide-footer">
+            <span>Modelo Relacional</span><span>05</span>
+          </div>
+        </section>
+
+        <!-- ========== 7. EJEMPLO PK Y FK ========== -->
+        <section>
+          <span class="chapter-tag">Parte 1 · Modelo Relacional</span>
+          <h2>PK y FK trabajando juntas</h2>
+          <div class="divider"></div>
+
+          <div class="two-col">
+            <table class="db-table">
+              <caption>
+                curso
+              </caption>
+              <thead>
+                <tr>
+                  <th class="pk-col">id_curso</th>
+                  <th>nombre</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="pk">C01</td>
+                  <td>SQL Básico</td>
+                </tr>
+                <tr>
+                  <td class="pk">C02</td>
+                  <td>Python</td>
+                </tr>
+                <tr>
+                  <td class="pk">C03</td>
+                  <td>Diseño UX</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="db-table">
+              <caption>
+                matricula
+              </caption>
+              <thead>
+                <tr>
+                  <th class="pk-col">id</th>
+                  <th class="fk-col">id_estudiante</th>
+                  <th class="fk-col">id_curso</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="pk">M1</td>
+                  <td class="fk">001</td>
+                  <td class="fk">C01</td>
+                </tr>
+                <tr>
+                  <td class="pk">M2</td>
+                  <td class="fk">001</td>
+                  <td class="fk">C02</td>
+                </tr>
+                <tr>
+                  <td class="pk">M3</td>
+                  <td class="fk">002</td>
+                  <td class="fk">C01</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="legend">
+            <span class="dot pk"></span> PK &nbsp;&nbsp;
+            <span class="dot fk"></span> FK · apunta a otra tabla
+          </div>
+          <p style="font-size: 0.75em; margin-top: 8px">
+            <em>matricula</em> conecta estudiantes con cursos usando dos FKs.
+          </p>
+
+          <div class="slide-footer">
+            <span>Modelo Relacional</span><span>06</span>
+          </div>
+        </section>
+
+        <!-- ========== 8. CARDINALIDAD INTRO ========== -->
+        <section>
+          <span class="chapter-tag">Parte 2 · Cardinalidad</span>
+          <h2>Cardinalidad:<br />¿<em>cuántos</em> con cuántos?</h2>
+          <div class="divider"></div>
+
+          <p>
+            Cuando dos tablas se relacionan, hay que responder una pregunta:
+          </p>
+
+          <div class="callout mostaza" style="font-size: 1.1em">
+            <strong
+              >"¿Cuántos registros de A pueden estar relacionados con cuántos de
+              B?"</strong
+            >
+          </div>
+
+          <p>
+            Hay <strong>tres tipos</strong> de respuesta. Vamos uno por uno.
+          </p>
+
+          <div class="slide-footer">
+            <span>Cardinalidad</span><span>07</span>
+          </div>
+        </section>
+
+        <!-- ========== 9. 1:1 ========== -->
+        <section>
+          <span class="chapter-tag">Cardinalidad · Tipo 1</span>
+          <h2>
+            Uno a Uno
+            <span style="color: var(--accent); font-style: italic">(1:1)</span>
+          </h2>
+          <div class="divider"></div>
+
+          <div class="cardinality-diagram">
+            <div class="entity-box">PERSONA</div>
+            <div class="relation-line">
+              <span class="label">tiene</span>
+              <span class="crow">1</span>
+              <div class="line"></div>
+              <span class="crow">1</span>
+            </div>
+            <div class="entity-box">CÉDULA</div>
+          </div>
+
+          <div class="two-col">
+            <div>
+              <p>
+                <strong>Cada persona tiene exactamente una cédula</strong>, y
+                cada cédula pertenece a una sola persona.
+              </p>
+            </div>
+            <div class="callout">
+              <strong>Otros ejemplos:</strong>
+              <ul style="margin-top: 8px; font-size: 0.85em">
+                <li>Un usuario ↔ un perfil</li>
+                <li>Un país ↔ una capital</li>
+                <li>Un empleado ↔ un casillero asignado</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>Cardinalidad</span><span>08</span>
+          </div>
+        </section>
+
+        <!-- ========== 10. 1:N ========== -->
+        <section>
+          <span class="chapter-tag">Cardinalidad · Tipo 2</span>
+          <h2>
+            Uno a Muchos
+            <span style="color: var(--accent); font-style: italic">(1:N)</span>
+          </h2>
+          <div class="divider"></div>
+
+          <div class="cardinality-diagram">
+            <div class="entity-box">CLIENTE</div>
+            <div class="relation-line">
+              <span class="label">realiza</span>
+              <span class="crow">1</span>
+              <div class="line"></div>
+              <span class="crow">N</span>
+            </div>
+            <div class="entity-box">PEDIDO</div>
+          </div>
+
+          <div class="two-col">
+            <div>
+              <p>
+                <strong>Un cliente</strong> puede tener
+                <strong>muchos pedidos</strong>, pero cada pedido pertenece a un
+                solo cliente.
+              </p>
+              <p style="font-size: 0.85em; color: var(--accent-2)">
+                <strong>Implementación:</strong> la tabla "muchos" (PEDIDO)
+                recibe la FK que apunta al "uno" (CLIENTE).
+              </p>
+            </div>
+            <div class="callout teal">
+              <strong>Es la más común.</strong>
+              <ul style="margin-top: 8px; font-size: 0.85em">
+                <li>Un autor → muchos libros</li>
+                <li>Un curso → muchos estudiantes (si solo eligen uno)</li>
+                <li>Una categoría → muchos productos</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>Cardinalidad</span><span>09</span>
+          </div>
+        </section>
+
+        <!-- ========== 11. N:M ========== -->
+        <section>
+          <span class="chapter-tag">Cardinalidad · Tipo 3</span>
+          <h2>
+            Muchos a Muchos
+            <span style="color: var(--accent); font-style: italic">(N:M)</span>
+          </h2>
+          <div class="divider"></div>
+
+          <div class="cardinality-diagram">
+            <div class="entity-box">ESTUDIANTE</div>
+            <div class="relation-line">
+              <span class="label">cursa</span>
+              <span class="crow">N</span>
+              <div class="line"></div>
+              <span class="crow">M</span>
+            </div>
+            <div class="entity-box">CURSO</div>
+          </div>
+
+          <p>
+            Un estudiante puede tomar <strong>varios cursos</strong>, y cada
+            curso tiene <strong>varios estudiantes</strong>.
+          </p>
+
+          <div class="callout">
+            <strong>Truco clave:</strong> en la práctica, una relación N:M se
+            rompe en <em>dos relaciones 1:N</em> usando una
+            <strong>tabla puente</strong> (o intermedia).
+          </div>
+
+          <div class="cardinality-diagram" style="margin-top: 10px">
+            <div class="entity-box" style="font-size: 0.7em">ESTUDIANTE</div>
+            <div class="relation-line">
+              <span class="crow">1</span>
+              <div class="line" style="width: 30px"></div>
+              <span class="crow">N</span>
+            </div>
+            <div
+              class="entity-box"
+              style="font-size: 0.7em; background: var(--accent-3)"
+            >
+              MATRÍCULA
+            </div>
+            <div class="relation-line">
+              <span class="crow">N</span>
+              <div class="line" style="width: 30px"></div>
+              <span class="crow">1</span>
+            </div>
+            <div class="entity-box" style="font-size: 0.7em">CURSO</div>
+          </div>
+
+          <div class="slide-footer">
+            <span>Cardinalidad</span><span>10</span>
+          </div>
+        </section>
+
+        <!-- ========== 12. RESUMEN CARDINALIDAD ========== -->
+        <section>
+          <span class="chapter-tag">Cardinalidad · Resumen</span>
+          <h2>Tres formas, una pregunta</h2>
+          <div class="divider"></div>
+
+          <div class="three-col">
+            <div class="card">
+              <div class="num" style="color: var(--accent)">1:1</div>
+              <h3>Uno a Uno</h3>
+              <p>Cada A se conecta con un solo B. Poco frecuente.</p>
+            </div>
+            <div class="card">
+              <div class="num" style="color: var(--accent-2)">1:N</div>
+              <h3>Uno a Muchos</h3>
+              <p>La más común. La FK va en el lado "muchos".</p>
+            </div>
+            <div class="card">
+              <div class="num" style="color: var(--accent-3)">N:M</div>
+              <h3>Muchos a Muchos</h3>
+              <p>Necesita una tabla puente con dos FKs.</p>
+            </div>
+          </div>
+
+          <p
+            style="
+              text-align: center;
+              margin-top: 24px;
+              font-style: italic;
+              color: var(--ink-soft);
+            "
+          >
+            Pregúntate siempre:
+            <strong style="color: var(--ink)"
+              >¿uno de A puede tener varios de B? ¿Y al revés?</strong
+            >
+          </p>
+
+          <div class="slide-footer">
+            <span>Cardinalidad</span><span>11</span>
+          </div>
+        </section>
+
+        <!-- ========== 13. NORMALIZACIÓN INTRO ========== -->
+        <section>
+          <span class="chapter-tag">Parte 3 · Normalización</span>
+          <h2>Normalización:<br />poner la casa <em>en orden</em></h2>
+          <div class="divider"></div>
+
+          <p>
+            Es un proceso para <strong>organizar las tablas</strong> y eliminar
+            tres enemigos silenciosos:
+          </p>
+
+          <div class="three-col">
+            <div class="card">
+              <h3 style="color: var(--accent)">Redundancia</h3>
+              <p>El mismo dato repetido en muchas filas.</p>
+            </div>
+            <div class="card">
+              <h3 style="color: var(--accent)">Anomalías</h3>
+              <p>Errores al insertar, actualizar o borrar.</p>
+            </div>
+            <div class="card">
+              <h3 style="color: var(--accent)">Inconsistencias</h3>
+              <p>El mismo dato escrito de formas distintas.</p>
+            </div>
+          </div>
+
+          <div class="callout mostaza">
+            Lo haremos en <strong>tres pasos</strong>: 1FN → 2FN → 3FN. Cada uno
+            se construye sobre el anterior.
+          </div>
+
+          <div class="slide-footer">
+            <span>Normalización</span><span>12</span>
+          </div>
+        </section>
+
+        <!-- ========== 14. PROBLEMA INICIAL ========== -->
+        <section>
+          <span class="chapter-tag">Caso de estudio</span>
+          <h2>Empezamos con una tabla <em>desordenada</em></h2>
+          <div class="divider"></div>
+
+          <table class="db-table">
+            <caption>
+              matricula (sin normalizar)
+            </caption>
+            <thead>
+              <tr>
+                <th>id_est</th>
+                <th>nombre</th>
+                <th>cursos</th>
+                <th>nom_curso</th>
+                <th>profesor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td>María Gómez</td>
+                <td>C01, C02</td>
+                <td>SQL, Python</td>
+                <td>Ana, Luis</td>
+              </tr>
+              <tr>
+                <td>002</td>
+                <td>Carlos Ruiz</td>
+                <td>C01</td>
+                <td>SQL</td>
+                <td>Ana</td>
+              </tr>
+              <tr>
+                <td>003</td>
+                <td>Laura Peña</td>
+                <td>C02, C03</td>
+                <td>Python, UX</td>
+                <td>Luis, Sofía</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p style="font-size: 0.85em; color: var(--accent); margin-top: 12px">
+            <strong>Problemas:</strong> celdas con varios valores, datos
+            repetidos, difícil de actualizar.
+          </p>
+
+          <div class="slide-footer">
+            <span>Normalización</span><span>13</span>
+          </div>
+        </section>
+
+        <!-- ========== 15. 1FN ========== -->
+        <section>
+          <span class="chapter-tag">Primera Forma Normal</span>
+          <h2>1FN · Un valor por celda</h2>
+          <div class="divider"></div>
+
+          <div class="callout">
+            <strong>Regla:</strong> cada celda contiene un
+            <em>único valor atómico</em>. Nada de listas, comas ni datos
+            amontonados.
+          </div>
+
+          <div class="before-after">
+            <div class="panel bad">
+              <div class="panel-title">✗ Antes</div>
+              <table class="db-table" style="font-size: 0.5em; margin: 0">
+                <tr>
+                  <th>est</th>
+                  <th>cursos</th>
+                </tr>
+                <tr>
+                  <td>001</td>
+                  <td>SQL, Python</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>Python, UX</td>
+                </tr>
+              </table>
+            </div>
+            <div class="arrow">→</div>
+            <div class="panel good">
+              <div class="panel-title">✓ Después (1FN)</div>
+              <table class="db-table" style="font-size: 0.5em; margin: 0">
+                <tr>
+                  <th>est</th>
+                  <th>curso</th>
+                </tr>
+                <tr>
+                  <td>001</td>
+                  <td>SQL</td>
+                </tr>
+                <tr>
+                  <td>001</td>
+                  <td>Python</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>Python</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>UX</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <p style="font-size: 0.8em">
+            Cada fila representa <strong>una sola cosa</strong>. Cada columna,
+            <strong>un solo dato</strong>.
+          </p>
+
+          <div class="slide-footer">
+            <span>Normalización</span><span>14</span>
+          </div>
+        </section>
+
+        <!-- ========== 16. 2FN ========== -->
+        <section>
+          <span class="chapter-tag">Segunda Forma Normal</span>
+          <h2>2FN · Sin dependencias parciales</h2>
+          <div class="divider"></div>
+
+          <div class="callout">
+            <strong>Regla:</strong> estar en 1FN <em>y</em> que cada atributo no
+            clave dependa de <strong>toda</strong> la llave primaria, no solo
+            una parte.
+          </div>
+
+          <p style="font-size: 0.85em">
+            Si tu PK es compuesta (ej. <code>id_est + id_curso</code>), ningún
+            campo debe depender solo de una parte de ella.
+          </p>
+
+          <div class="before-after">
+            <div class="panel bad">
+              <div class="panel-title">✗ Mal</div>
+              <table class="db-table" style="font-size: 0.5em; margin: 0">
+                <tr>
+                  <th>id_est</th>
+                  <th>id_curso</th>
+                  <th>nom_curso</th>
+                </tr>
+                <tr>
+                  <td>001</td>
+                  <td>C01</td>
+                  <td>SQL</td>
+                </tr>
+                <tr>
+                  <td>002</td>
+                  <td>C01</td>
+                  <td>SQL</td>
+                </tr>
+              </table>
+              <p style="font-size: 0.65em; margin-top: 4px">
+                <code>nom_curso</code> solo depende de <code>id_curso</code>.
+              </p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="panel good">
+              <div class="panel-title">✓ Bien (2FN)</div>
+              <table class="db-table" style="font-size: 0.5em; margin: 0 0 6px">
+                <tr>
+                  <th>id_est</th>
+                  <th>id_curso</th>
+                </tr>
+                <tr>
+                  <td>001</td>
+                  <td>C01</td>
+                </tr>
+              </table>
+              <table class="db-table" style="font-size: 0.5em; margin: 0">
+                <tr>
+                  <th>id_curso</th>
+                  <th>nom_curso</th>
+                </tr>
+                <tr>
+                  <td>C01</td>
+                  <td>SQL</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>Normalización</span><span>15</span>
+          </div>
+        </section>
+
+        <!-- ========== 17. 3FN ========== -->
+        <section>
+          <span class="chapter-tag">Tercera Forma Normal</span>
+          <h2>3FN · Sin dependencias <em>transitivas</em></h2>
+          <div class="divider"></div>
+
+          <div class="callout">
+            <strong>Regla:</strong> estar en 2FN <em>y</em> que ningún atributo
+            no clave dependa de <strong>otro atributo no clave</strong>.
+          </div>
+
+          <div class="before-after">
+            <div class="panel bad">
+              <div class="panel-title">✗ Mal</div>
+              <table class="db-table" style="font-size: 0.5em; margin: 0">
+                <tr>
+                  <th>id_curso</th>
+                  <th>profesor</th>
+                  <th>tel_prof</th>
+                </tr>
+                <tr>
+                  <td>C01</td>
+                  <td>Ana</td>
+                  <td>3001234</td>
+                </tr>
+                <tr>
+                  <td>C02</td>
+                  <td>Luis</td>
+                  <td>3015678</td>
+                </tr>
+              </table>
+              <p style="font-size: 0.65em; margin-top: 4px">
+                <code>tel_prof</code> depende de <code>profesor</code>, no del
+                curso.
+              </p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="panel good">
+              <div class="panel-title">✓ Bien (3FN)</div>
+              <table class="db-table" style="font-size: 0.5em; margin: 0 0 6px">
+                <tr>
+                  <th>id_curso</th>
+                  <th>id_prof</th>
+                </tr>
+                <tr>
+                  <td>C01</td>
+                  <td>P1</td>
+                </tr>
+              </table>
+              <table class="db-table" style="font-size: 0.5em; margin: 0">
+                <tr>
+                  <th>id_prof</th>
+                  <th>nombre</th>
+                  <th>tel</th>
+                </tr>
+                <tr>
+                  <td>P1</td>
+                  <td>Ana</td>
+                  <td>3001234</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <p style="font-size: 0.75em; font-style: italic">
+            Si cambias el teléfono de Ana, lo haces en
+            <strong>un solo lugar</strong>.
+          </p>
+
+          <div class="slide-footer">
+            <span>Normalización</span><span>16</span>
+          </div>
+        </section>
+
+        <!-- ========== 18. RESUMEN NORMALIZACIÓN ========== -->
+        <section>
+          <span class="chapter-tag">Normalización · Recap</span>
+          <h2>Las 3 reglas en una frase</h2>
+          <div class="divider"></div>
+
+          <div class="three-col">
+            <div class="card" style="border-top: 4px solid var(--accent)">
+              <h3>1FN</h3>
+              <p style="font-style: italic">"Un valor por celda."</p>
+              <p style="font-size: 0.7em; color: var(--ink-soft)">
+                Sin listas ni datos múltiples en una columna.
+              </p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--accent-2)">
+              <h3>2FN</h3>
+              <p style="font-style: italic">"Depender de toda la PK."</p>
+              <p style="font-size: 0.7em; color: var(--ink-soft)">
+                Sin dependencias parciales en PK compuestas.
+              </p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--accent-3)">
+              <h3>3FN</h3>
+              <p style="font-style: italic">"Solo depender de la PK."</p>
+              <p style="font-size: 0.7em; color: var(--ink-soft)">
+                Sin dependencias entre atributos no clave.
+              </p>
+            </div>
+          </div>
+
+          <div class="callout teal" style="margin-top: 22px">
+            <strong>Regla práctica:</strong> si un dato se repite muchas veces
+            sin razón, probablemente quiere irse a otra tabla.
+          </div>
+
+          <div class="slide-footer">
+            <span>Normalización</span><span>17</span>
+          </div>
+        </section>
+
+        <!-- ========== 19. CHECKLIST ========== -->
+        <section>
+          <span class="chapter-tag">Para tu evidencia GA6-AA1-EV01</span>
+          <h2>Checklist antes de entregar</h2>
+          <div class="divider"></div>
+
+          <ul class="clean">
+            <li>Cada tabla tiene una <strong>llave primaria</strong> clara.</li>
+            <li>
+              Las relaciones usan <strong>llaves foráneas</strong> bien
+              identificadas.
+            </li>
+            <li>
+              La <strong>cardinalidad</strong> está marcada en cada relación
+              (1:1, 1:N, N:M).
+            </li>
+            <li>Las relaciones N:M usan <strong>tabla puente</strong>.</li>
+            <li>Cada celda tiene un <strong>único valor</strong> (1FN).</li>
+            <li>No hay <strong>dependencias parciales</strong> (2FN).</li>
+            <li>No hay <strong>dependencias transitivas</strong> (3FN).</li>
+            <li>
+              El documento tiene
+              <strong>portada, introducción, objetivo y análisis</strong>.
+            </li>
+          </ul>
+
+          <div class="slide-footer"><span>Cierre</span><span>18</span></div>
+        </section>
+
+        <!-- ========== 20. CIERRE ========== -->
+        <section class="closing">
+          <h1>
+            Bien diseñada,<br />una BD <span class="accent">no se nota.</span>
+          </h1>
+          <p style="margin-top: 30px; font-size: 0.6em; max-width: 30em">
+            Modela primero. Normaliza después. Tu yo del futuro (y tu equipo) te
+            lo van a agradecer.
+          </p>
+          <p
+            style="
+              margin-top: 50px;
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+              font-size: 0.4em;
+              opacity: 0.5;
+              letter-spacing: 0.2em;
+            "
+          >
+            ¿PREGUNTAS?
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <!-- Reveal.js scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: false,
+        width: 1280,
+        height: 760,
+        margin: 0.06,
+        minScale: 0.2,
+        maxScale: 2.0,
+        plugins: [RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>

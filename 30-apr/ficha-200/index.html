@@ -1,0 +1,1532 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propuesta Técnica y Presupuestos · GA2-220501094-AA3</title>
+
+    <!-- Reveal.js core -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css"
+      id="theme"
+    />
+
+    <!-- Tipografías editoriales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #f4ede2; /* crema cálido */
+        --bg-deep: #ebe1d0;
+        --ink: #1a1a1a;
+        --ink-soft: #3a3a3a;
+        --muted: #6b655a;
+        --accent: #c2410c; /* terracota / ladrillo */
+        --accent-2: #0c4a6e; /* azul tinta */
+        --gold: #b58900;
+        --line: #1a1a1a;
+        --paper: #fbf7ee;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+      }
+
+      .reveal {
+        font-family: "DM Sans", system-ui, sans-serif;
+        font-size: 28px;
+        color: var(--ink);
+        font-weight: 400;
+        letter-spacing: -0.005em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 0 40px;
+      }
+
+      /* Tipografía display */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Fraunces", Georgia, serif;
+        color: var(--ink);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        font-weight: 600;
+        line-height: 1.05;
+        margin: 0 0 0.4em 0;
+        text-shadow: none;
+      }
+
+      .reveal h1 {
+        font-size: 3.6em;
+        font-weight: 800;
+        font-style: italic;
+      }
+      .reveal h2 {
+        font-size: 2.4em;
+      }
+      .reveal h3 {
+        font-size: 1.6em;
+        color: var(--accent-2);
+      }
+      .reveal h4 {
+        font-size: 1.15em;
+        color: var(--muted);
+        font-weight: 500;
+        font-style: italic;
+      }
+
+      .reveal p,
+      .reveal li {
+        line-height: 1.55;
+        color: var(--ink-soft);
+      }
+      .reveal strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .reveal em {
+        color: var(--accent);
+        font-style: italic;
+      }
+
+      /* Etiquetas tipo "kicker" editorial */
+      .kicker {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 1em;
+        display: inline-block;
+        border-top: 2px solid var(--accent);
+        padding-top: 0.4em;
+      }
+
+      .label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      /* Listas */
+      .reveal ul,
+      .reveal ol {
+        margin-left: 0;
+        list-style: none;
+        padding-left: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding-left: 1.5em;
+        margin-bottom: 0.5em;
+      }
+      .reveal ul li::before {
+        content: "▸";
+        color: var(--accent);
+        position: absolute;
+        left: 0;
+        font-weight: 700;
+      }
+
+      .reveal ol {
+        counter-reset: item;
+      }
+      .reveal ol li {
+        position: relative;
+        padding-left: 2em;
+        margin-bottom: 0.6em;
+        counter-increment: item;
+      }
+      .reveal ol li::before {
+        content: counter(item, decimal-leading-zero);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        color: var(--accent);
+        position: absolute;
+        left: 0;
+        top: 0.25em;
+        font-weight: 700;
+      }
+
+      /* Marcos y bordes editoriales */
+      .frame {
+        border: 1.5px solid var(--ink);
+        padding: 1em 1.4em;
+        background: var(--paper);
+        position: relative;
+      }
+
+      .frame.accent {
+        border-color: var(--accent);
+      }
+
+      .note {
+        background: var(--paper);
+        border-left: 4px solid var(--accent);
+        padding: 0.8em 1.2em;
+        margin: 0.8em 0;
+        font-size: 0.85em;
+        color: var(--ink-soft);
+        font-style: italic;
+      }
+
+      /* Título / portada */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        padding: 60px 60px !important;
+        background:
+          radial-gradient(
+            circle at 85% 15%,
+            rgba(194, 65, 12, 0.08) 0%,
+            transparent 50%
+          ),
+          repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 28px,
+            rgba(26, 26, 26, 0.04) 28px,
+            rgba(26, 26, 26, 0.04) 29px
+          );
+      }
+
+      .cover-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-bottom: 1px solid var(--ink);
+        padding-bottom: 0.8em;
+      }
+
+      .cover-mid h1 {
+        font-size: 4.5em;
+        margin: 0;
+        line-height: 0.95;
+      }
+      .cover-mid .amp {
+        color: var(--accent);
+        font-style: italic;
+        font-weight: 300;
+      }
+      .cover-mid .sub {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95em;
+        color: var(--ink-soft);
+        margin-top: 1em;
+        max-width: 70%;
+        line-height: 1.5;
+      }
+
+      .cover-bot {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-top: 1px solid var(--ink);
+        padding-top: 0.8em;
+      }
+
+      /* Secciones divisoras */
+      .section-divider {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        padding: 0 80px !important;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .section-divider .num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        color: var(--accent);
+        letter-spacing: 0.3em;
+        margin-bottom: 1em;
+      }
+      .section-divider h1 {
+        color: var(--paper);
+        font-size: 4em;
+        font-style: italic;
+        font-weight: 300;
+      }
+      .section-divider h1 .em {
+        color: var(--accent);
+        font-weight: 800;
+        font-style: normal;
+      }
+      .section-divider .meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        color: rgba(251, 247, 238, 0.6);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-top: 2em;
+        border-top: 1px solid rgba(251, 247, 238, 0.3);
+        padding-top: 1em;
+        max-width: 600px;
+      }
+
+      /* Grid de dos columnas */
+      .cols-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2em;
+        align-items: start;
+      }
+      .cols-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1.4em;
+      }
+
+      .card {
+        background: var(--paper);
+        border: 1.5px solid var(--ink);
+        padding: 1.2em;
+        position: relative;
+      }
+      .card .num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        color: var(--accent);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+      }
+      .card h4 {
+        font-family: "Fraunces", serif;
+        color: var(--ink);
+        font-size: 1.2em;
+        font-style: normal;
+        font-weight: 600;
+        margin: 0.3em 0 0.5em 0;
+      }
+      .card p {
+        font-size: 0.78em;
+        margin: 0;
+        color: var(--ink-soft);
+      }
+
+      /* Tablas comparativas */
+      .reveal table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.65em;
+        background: var(--paper);
+        font-family: "DM Sans", sans-serif;
+      }
+      .reveal table th {
+        background: var(--ink);
+        color: var(--paper);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85em;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-align: left;
+        padding: 0.7em 0.9em;
+        border: none;
+      }
+      .reveal table td {
+        padding: 0.6em 0.9em;
+        border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+        vertical-align: top;
+      }
+      .reveal table tr:hover td {
+        background: rgba(194, 65, 12, 0.05);
+      }
+      .reveal table .price {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        color: var(--accent-2);
+        text-align: right;
+        white-space: nowrap;
+      }
+      .reveal table .total {
+        background: var(--bg-deep);
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      /* Mock de papelería de empresa */
+      .letterhead {
+        background: var(--paper);
+        border: 1px solid var(--ink);
+        padding: 1.4em 1.6em;
+        font-size: 0.6em;
+        font-family: "DM Sans", sans-serif;
+        position: relative;
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+      .letterhead-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 0.8em;
+        margin-bottom: 1em;
+      }
+      .logo {
+        font-family: "Fraunces", serif;
+        font-size: 1.6em;
+        font-weight: 800;
+        font-style: italic;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+      }
+      .logo .dot {
+        width: 0.6em;
+        height: 0.6em;
+        background: var(--accent);
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .letterhead-info {
+        text-align: right;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75em;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+        line-height: 1.5;
+      }
+
+      /* Pie editorial */
+      .foot-stamp {
+        position: absolute;
+        bottom: 20px;
+        right: 30px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        color: var(--muted);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      /* Pull quote */
+      .quote {
+        font-family: "Fraunces", serif;
+        font-size: 1.8em;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.25;
+        color: var(--ink);
+        border-left: 4px solid var(--accent);
+        padding-left: 0.8em;
+        margin: 0.6em 0;
+      }
+      .quote .em {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* Big number */
+      .bignum {
+        font-family: "Fraunces", serif;
+        font-size: 6em;
+        font-weight: 800;
+        font-style: italic;
+        color: var(--accent);
+        line-height: 1;
+      }
+
+      /* Tags */
+      .tag {
+        display: inline-block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.3em 0.7em;
+        margin-right: 0.4em;
+        margin-bottom: 0.4em;
+      }
+      .tag.outline {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--ink);
+      }
+      .tag.accent {
+        background: var(--accent);
+      }
+
+      /* Compare arrow */
+      .vs-arrow {
+        text-align: center;
+        font-family: "Fraunces", serif;
+        font-size: 2em;
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      /* Final */
+      .end {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100%;
+      }
+      .end h1 {
+        font-size: 5em;
+        font-style: italic;
+      }
+      .end .sub {
+        font-family: "JetBrains Mono", monospace;
+        color: var(--muted);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-size: 0.7em;
+      }
+
+      /* Reveal controls cleanup */
+      .reveal .controls {
+        color: var(--accent);
+      }
+      .reveal .progress {
+        color: var(--accent);
+        height: 4px;
+      }
+      .reveal .slide-number {
+        font-family: "JetBrains Mono", monospace;
+        background: transparent;
+        color: var(--muted);
+        font-size: 14px;
+        letter-spacing: 0.15em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============== SLIDE 1: PORTADA ============== -->
+        <section class="cover">
+          <div class="cover-top">
+            <span>SENA · ADSO · GA2-220501094-AA3</span>
+            <span>EV01 / EV02</span>
+          </div>
+          <div class="cover-mid">
+            <span class="kicker">Componente Formativo · Sesión Magistral</span>
+            <h1>
+              Presupuestos<br /><span class="amp">&amp;</span>
+              Propuesta<br />Técnica
+            </h1>
+            <p class="sub">
+              Cómo diseñar tablas comparativas de hardware y software, y
+              elaborar una propuesta técnica y económica que un cliente real
+              querría firmar.
+            </p>
+          </div>
+          <div class="cover-bot">
+            <span>Guía para estudiantes</span>
+            <span>30 · 04 · 2026</span>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 2: AGENDA ============== -->
+        <section>
+          <span class="kicker">Agenda · 01</span>
+          <h2>Lo que vamos a recorrer hoy</h2>
+          <div class="cols-2" style="margin-top: 1.2em">
+            <div>
+              <h4>Bloque I — Evidencia EV01</h4>
+              <ul>
+                <li>Qué son y para qué sirven las tablas comparativas</li>
+                <li>Componentes de un presupuesto de hardware</li>
+                <li>Componentes de un presupuesto de software</li>
+                <li>Estructura del documento entregable</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Bloque II — Evidencia EV02</h4>
+              <ul>
+                <li>Anatomía de una propuesta técnica</li>
+                <li>Las 7 secciones obligatorias</li>
+                <li>Diseño, branding y papelería</li>
+                <li>Por qué siempre 2 opciones de propuesta</li>
+              </ul>
+            </div>
+          </div>
+          <div class="note" style="margin-top: 1.5em">
+            Al final tendrás un mapa claro para entregar ambas evidencias sin
+            atajos ni improvisación.
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 3: CONTEXTO ============== -->
+        <section>
+          <span class="kicker">Contexto</span>
+          <h2>¿Por qué importa esto, en serio?</h2>
+          <div class="cols-2" style="margin-top: 0.8em; gap: 3em">
+            <div>
+              <p>
+                Un buen desarrollador no solo escribe código. También
+                <strong
+                  >traduce una necesidad de negocio en una oferta clara</strong
+                >: cuánto cuesta, qué incluye, qué tecnología usa y por qué.
+              </p>
+              <p>
+                Los presupuestos y la propuesta técnica son el
+                <em>puente</em> entre el cliente y el equipo de software.
+              </p>
+            </div>
+            <div>
+              <div class="frame accent">
+                <p style="margin: 0; font-size: 0.85em">
+                  <strong>El error típico:</strong>
+                </p>
+                <p style="margin: 0.4em 0 0 0; font-size: 0.85em">
+                  Cotizar "a ojo", sin tabla comparativa, sin justificar por qué
+                  un equipo cuesta lo que cuesta. El cliente desconfía y se va
+                  con la competencia.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 4: SEPARADOR EV01 ============== -->
+        <section class="section-divider">
+          <div class="num">PARTE I — EV01</div>
+          <h1>
+            Tablas <span class="em">comparativas</span><br />de presupuesto
+          </h1>
+          <div class="meta">
+            GA2-220501094-AA3-EV01 · Diseño de tablas comparativas sobre
+            presupuestos de hardware y software
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 5: ¿QUÉ ES? ============== -->
+        <section>
+          <span class="kicker">EV01 · Concepto</span>
+          <h2>¿Qué es una tabla comparativa de presupuesto?</h2>
+          <p>
+            Es una herramienta visual que organiza, en filas y columnas,
+            <strong>opciones equivalentes</strong> de productos o servicios para
+            evaluarlas bajo los mismos criterios: precio, especificaciones,
+            garantía, soporte y compatibilidad.
+          </p>
+          <div class="cols-3" style="margin-top: 1em">
+            <div class="card">
+              <span class="num">01</span>
+              <h4>Comparable</h4>
+              <p>
+                Mismos criterios para todas las opciones. No se compara una pera
+                con una manzana.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">02</span>
+              <h4>Cuantificable</h4>
+              <p>
+                Cifras claras en pesos, GB, meses de garantía. Nada de "bueno" o
+                "regular".
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">03</span>
+              <h4>Decidible</h4>
+              <p>
+                Al final debe poder señalarse una opción ganadora con argumento.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 6: HARDWARE ============== -->
+        <section>
+          <span class="kicker">EV01 · Hardware</span>
+          <h2>¿Qué se cotiza en hardware?</h2>
+          <div class="cols-2" style="gap: 2.5em">
+            <ul>
+              <li>
+                <strong>Equipos de cómputo:</strong> servidores, estaciones de
+                trabajo, laptops
+              </li>
+              <li>
+                <strong>Periféricos:</strong> monitores, teclados, impresoras,
+                escáneres
+              </li>
+              <li>
+                <strong>Redes:</strong> routers, switches, access points,
+                cableado
+              </li>
+              <li>
+                <strong>Almacenamiento:</strong> discos, NAS, respaldo en cinta
+              </li>
+              <li>
+                <strong>Energía:</strong> UPS, reguladores, plantas eléctricas
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <strong>Mobiliario técnico:</strong> rack, mesas, sillas
+                ergonómicas
+              </li>
+              <li>
+                <strong>Seguridad física:</strong> cámaras, control de acceso
+              </li>
+              <li>
+                <strong>Garantía y soporte:</strong> años incluidos, tiempo de
+                respuesta
+              </li>
+              <li><strong>Instalación:</strong> mano de obra técnica</li>
+              <li>
+                <strong>Repuestos:</strong> baterías, fuentes, módulos RAM extra
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 7: SOFTWARE ============== -->
+        <section>
+          <span class="kicker">EV01 · Software</span>
+          <h2>¿Qué se cotiza en software?</h2>
+          <div class="cols-2" style="gap: 2.5em">
+            <ul>
+              <li>
+                <strong>Sistema operativo:</strong> Windows, macOS, distros
+                Linux
+              </li>
+              <li>
+                <strong>Suites ofimáticas:</strong> Microsoft 365, Google
+                Workspace
+              </li>
+              <li>
+                <strong>Bases de datos:</strong> SQL Server, Oracle, PostgreSQL
+              </li>
+              <li>
+                <strong>IDE y herramientas:</strong> Visual Studio, JetBrains,
+                Figma
+              </li>
+              <li><strong>Antivirus / EDR:</strong> licencias por equipo</li>
+            </ul>
+            <ul>
+              <li>
+                <strong>Servicios en la nube:</strong> AWS, Azure, GCP (mensual)
+              </li>
+              <li>
+                <strong>Frameworks comerciales</strong> y librerías con licencia
+              </li>
+              <li><strong>Mantenimiento:</strong> actualizaciones y parches</li>
+              <li><strong>Capacitación</strong> a usuarios finales</li>
+              <li><strong>Soporte técnico:</strong> SLA por bolsa de horas</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 8: EJEMPLO TABLA HARDWARE ============== -->
+        <section>
+          <span class="kicker">EV01 · Ejemplo aplicado</span>
+          <h2>Tabla comparativa — Hardware</h2>
+          <h4 style="margin-top: -0.4em">
+            Equipo de desarrollo · 5 estaciones de trabajo
+          </h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Ítem</th>
+                <th>Opción A — Básica</th>
+                <th>Opción B — Recomendada</th>
+                <th>Opción C — Premium</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Procesador</td>
+                <td>Intel i5 · 12.ª gen</td>
+                <td>Intel i7 · 13.ª gen</td>
+                <td>Intel i9 · 14.ª gen</td>
+              </tr>
+              <tr>
+                <td>RAM</td>
+                <td>16 GB DDR4</td>
+                <td>32 GB DDR5</td>
+                <td>64 GB DDR5</td>
+              </tr>
+              <tr>
+                <td>Almacenamiento</td>
+                <td>SSD 512 GB</td>
+                <td>SSD NVMe 1 TB</td>
+                <td>SSD NVMe 2 TB</td>
+              </tr>
+              <tr>
+                <td>Monitor</td>
+                <td>24" Full HD</td>
+                <td>27" 2K IPS</td>
+                <td>27" 4K + dual</td>
+              </tr>
+              <tr>
+                <td>Garantía</td>
+                <td>1 año</td>
+                <td>3 años</td>
+                <td>3 años + soporte 24/7</td>
+              </tr>
+              <tr class="total">
+                <td>Total (5 unidades)</td>
+                <td class="price">$ 12.500.000</td>
+                <td class="price">$ 21.750.000</td>
+                <td class="price">$ 34.000.000</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">
+            Cifras de ejemplo en COP. Lo importante es la estructura: mismos
+            criterios, columnas paralelas, total al final.
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 9: EJEMPLO TABLA SOFTWARE ============== -->
+        <section>
+          <span class="kicker">EV01 · Ejemplo aplicado</span>
+          <h2>Tabla comparativa — Software</h2>
+          <h4 style="margin-top: -0.4em">
+            Stack para 5 desarrolladores · vigencia anual
+          </h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Opción A — Open Source</th>
+                <th>Opción B — Mixta</th>
+                <th>Opción C — Comercial</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sistema operativo</td>
+                <td>Ubuntu LTS · gratis</td>
+                <td>Windows 11 Pro</td>
+                <td>Windows 11 Pro</td>
+              </tr>
+              <tr>
+                <td>IDE</td>
+                <td>VS Code</td>
+                <td>VS Code + Copilot</td>
+                <td>JetBrains All Products</td>
+              </tr>
+              <tr>
+                <td>Base de datos</td>
+                <td>PostgreSQL</td>
+                <td>PostgreSQL + pgAdmin</td>
+                <td>SQL Server Standard</td>
+              </tr>
+              <tr>
+                <td>Ofimática</td>
+                <td>LibreOffice</td>
+                <td>Microsoft 365 Business</td>
+                <td>Microsoft 365 Premium</td>
+              </tr>
+              <tr>
+                <td>Antivirus</td>
+                <td>Defender</td>
+                <td>ESET Endpoint</td>
+                <td>Kaspersky Endpoint</td>
+              </tr>
+              <tr class="total">
+                <td>Total anual (5 licencias)</td>
+                <td class="price">$ 0</td>
+                <td class="price">$ 6.300.000</td>
+                <td class="price">$ 14.800.000</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ============== SLIDE 10: ESTRUCTURA DOCUMENTO ============== -->
+        <section>
+          <span class="kicker">EV01 · Entregable</span>
+          <h2>Estructura mínima del documento</h2>
+          <div class="cols-2" style="gap: 2em">
+            <ol>
+              <li>
+                <strong>Portada:</strong> título, autor, ficha, fecha, logo
+                institucional
+              </li>
+              <li>
+                <strong>Introducción:</strong> qué problema resuelven los
+                presupuestos y qué encontrará el lector
+              </li>
+              <li>
+                <strong>Contenido:</strong> tablas comparativas de hardware y de
+                software con su análisis breve
+              </li>
+              <li>
+                <strong>Conclusión:</strong> cuál opción se recomienda y por qué
+              </li>
+            </ol>
+            <div>
+              <div class="frame">
+                <p style="margin: 0; font-size: 0.85em">
+                  <strong>Formato aceptado</strong>
+                </p>
+                <div style="margin-top: 0.6em">
+                  <span class="tag">PDF</span>
+                  <span class="tag outline">Word</span>
+                  <span class="tag outline">Excel</span>
+                </div>
+                <p style="margin: 0.8em 0 0 0; font-size: 0.78em">
+                  La <em>extensión es libre</em>, pero no la calidad:
+                  ortografía, alineación de columnas y números bien formateados
+                  son innegociables.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 11: TIPS EV01 ============== -->
+        <section>
+          <span class="kicker">EV01 · Cierre</span>
+          <h2>Cinco aciertos que marcan diferencia</h2>
+          <ul>
+            <li>
+              <strong>Usa la misma unidad de medida</strong> en toda la columna
+              (no mezcles GB con TB).
+            </li>
+            <li>
+              <strong>Incluye el IVA o aclara que no lo incluye.</strong> Es la
+              pregunta #1 del cliente.
+            </li>
+            <li>
+              <strong>Marca la opción recomendada</strong> con un color suave o
+              un asterisco. No dejes la decisión flotando.
+            </li>
+            <li>
+              <strong>Cita las fuentes de los precios</strong> (proveedor, fecha
+              de consulta). Da credibilidad.
+            </li>
+            <li>
+              <strong>Agrega una columna de "observaciones"</strong> cuando una
+              opción tenga riesgo o ventaja particular.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ============== SLIDE 12: SEPARADOR EV02 ============== -->
+        <section class="section-divider">
+          <div class="num">PARTE II — EV02</div>
+          <h1>La <span class="em">propuesta</span><br />técnica y económica</h1>
+          <div class="meta">
+            GA2-220501094-AA3-EV02 · Propuesta técnica para la implementación
+            del proyecto · mínimo 2 opciones
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 13: ¿QUÉ ES? ============== -->
+        <section>
+          <span class="kicker">EV02 · Concepto</span>
+          <h2>¿Qué es una propuesta técnica?</h2>
+          <div class="quote">
+            Es el <span class="em">documento comercial</span> que entregas a un
+            cliente potencial, donde detallas la estrategia para resolver su
+            problema con una solución de software.
+          </div>
+          <p style="margin-top: 1em">
+            A diferencia del presupuesto solo, aquí
+            <strong>cuentas una historia</strong>: diagnóstico, alternativas,
+            costos y compromisos. Y lo haces con la cara visible de una empresa
+            (logo, papelería, tono).
+          </p>
+        </section>
+
+        <!-- ============== SLIDE 14: ESTRUCTURA OVERVIEW ============== -->
+        <section>
+          <span class="kicker">EV02 · Anatomía</span>
+          <h2>Las 7 secciones obligatorias</h2>
+          <div class="cols-3" style="margin-top: 1em">
+            <div class="card">
+              <span class="num">01</span>
+              <h4>Presentación y saludos</h4>
+            </div>
+            <div class="card">
+              <span class="num">02</span>
+              <h4>Alcance de la propuesta</h4>
+            </div>
+            <div class="card">
+              <span class="num">03</span>
+              <h4>Valoración de la situación</h4>
+            </div>
+            <div class="card">
+              <span class="num">04</span>
+              <h4>Opciones de propuesta</h4>
+            </div>
+            <div class="card">
+              <span class="num">05</span>
+              <h4>Estimación de costos</h4>
+            </div>
+            <div class="card">
+              <span class="num">06</span>
+              <h4>Cotización</h4>
+            </div>
+            <div class="card" style="grid-column: span 3">
+              <span class="num">07</span>
+              <h4>Términos y condiciones</h4>
+              <p>
+                Plus obligatorio: diseño / logo / papelería corporativa, como si
+                fueras una empresa real.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 15: SECCIÓN 1 ============== -->
+        <section>
+          <span class="kicker">Sección 01</span>
+          <h2>Presentación y saludos</h2>
+          <div class="cols-2" style="gap: 2.5em">
+            <div>
+              <p>
+                La <strong>primera página de contenido</strong>. Aquí tu empresa
+                se presenta, agradece la oportunidad y enmarca el documento que
+                el cliente va a leer.
+              </p>
+              <p>Tono profesional, cercano, sin formalismos vacíos.</p>
+            </div>
+            <div class="letterhead">
+              <div class="letterhead-top">
+                <div class="logo"><span class="dot"></span> Códex&amp;Co</div>
+                <div class="letterhead-info">
+                  NIT 901.234.567-8<br />Bogotá · Colombia<br />hola@codexco.dev
+                </div>
+              </div>
+              <p style="font-size: 1.05em; line-height: 1.5">
+                Estimado(a) <strong>Sr. Pérez</strong>,<br />Reciba un cordial
+                saludo del equipo de Códex&amp;Co. Agradecemos la confianza al
+                permitirnos presentar la siguiente propuesta…
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 16: SECCIÓN 2 ============== -->
+        <section>
+          <span class="kicker">Sección 02</span>
+          <h2>Alcance de la propuesta</h2>
+          <p>
+            Define con precisión
+            <strong>qué incluye y qué NO incluye</strong> la oferta. Evita
+            malentendidos posteriores.
+          </p>
+          <div class="cols-2" style="gap: 2em; margin-top: 1em">
+            <div class="frame">
+              <p style="margin: 0"><span class="tag accent">INCLUYE</span></p>
+              <ul style="margin-top: 0.6em">
+                <li>Análisis y diseño del sistema</li>
+                <li>Desarrollo del módulo de inventarios</li>
+                <li>Capacitación para 5 usuarios</li>
+                <li>3 meses de soporte post-entrega</li>
+              </ul>
+            </div>
+            <div class="frame">
+              <p style="margin: 0">
+                <span class="tag outline">NO INCLUYE</span>
+              </p>
+              <ul style="margin-top: 0.6em">
+                <li>Compra de hardware o licencias</li>
+                <li>Migración de datos legacy</li>
+                <li>Integración con SAP</li>
+                <li>Soporte después de los 3 meses</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 17: SECCIÓN 3 ============== -->
+        <section>
+          <span class="kicker">Sección 03</span>
+          <h2>Valoración de la situación</h2>
+          <p>
+            Demuéstrale al cliente que <strong>entendiste su problema</strong>.
+            Aquí no se vende todavía: se diagnostica.
+          </p>
+          <div class="cols-2" style="gap: 2em; margin-top: 0.6em">
+            <ul>
+              <li>Contexto actual del cliente y su operación</li>
+              <li>Problemas detectados (datos, procesos, dolor)</li>
+              <li>Impacto de no resolverlos</li>
+              <li>Objetivos a lograr con el proyecto</li>
+            </ul>
+            <div class="note" style="font-size: 1em">
+              Una buena valoración hace que el cliente piense
+              <em>"sí, este equipo entendió lo que me pasa"</em> antes de ver el
+              precio. Eso es media venta hecha.
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 18: SECCIÓN 4 ============== -->
+        <section>
+          <span class="kicker">Sección 04</span>
+          <h2>Opciones de propuesta · mínimo 2</h2>
+          <div class="cols-2" style="gap: 2em">
+            <div>
+              <p>
+                El componente formativo lo exige:
+                <strong>nunca presentes una sola opción</strong>. Dale al
+                cliente la dignidad de elegir.
+              </p>
+              <p>
+                Las dos opciones <em>no son lo mismo más caro</em>: difieren en
+                alcance, tecnología o tiempos.
+              </p>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom: 1em">
+                <span class="num">OPCIÓN A</span>
+                <h4>MVP en 6 semanas</h4>
+                <p>
+                  Solo el módulo crítico, en stack open source, con capacitación
+                  básica. Salida rápida a producción.
+                </p>
+              </div>
+              <div class="card">
+                <span class="num">OPCIÓN B</span>
+                <h4>Solución completa en 4 meses</h4>
+                <p>
+                  Sistema integral con dashboard, integraciones y soporte
+                  extendido. Mayor inversión, mayor cobertura.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 19: SECCIÓN 5 ============== -->
+        <section>
+          <span class="kicker">Sección 05</span>
+          <h2>Estimación de costos</h2>
+          <p>
+            El <strong>desglose interno</strong> de cómo se llega al precio.
+            Aquí entran las tablas comparativas que diseñaste en la EV01.
+          </p>
+          <table style="margin-top: 0.8em">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Detalle</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Recurso humano</td>
+                <td>2 desarrolladores · 6 semanas</td>
+                <td class="price">$ 18.000.000</td>
+              </tr>
+              <tr>
+                <td>Hardware</td>
+                <td>1 servidor + 2 laptops</td>
+                <td class="price">$ 9.500.000</td>
+              </tr>
+              <tr>
+                <td>Software / Licencias</td>
+                <td>Stack mixto anual</td>
+                <td class="price">$ 6.300.000</td>
+              </tr>
+              <tr>
+                <td>Capacitación</td>
+                <td>16 horas presenciales</td>
+                <td class="price">$ 2.400.000</td>
+              </tr>
+              <tr>
+                <td>Imprevistos</td>
+                <td>10 %</td>
+                <td class="price">$ 3.620.000</td>
+              </tr>
+              <tr class="total">
+                <td colspan="2">Total estimado</td>
+                <td class="price">$ 39.820.000</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ============== SLIDE 20: SECCIÓN 6 ============== -->
+        <section>
+          <span class="kicker">Sección 06</span>
+          <h2>Cotización</h2>
+          <div class="cols-2" style="gap: 2em">
+            <div>
+              <p>
+                La <strong>cara comercial</strong> del costo. El cliente NO
+                necesita ver tu margen ni tus salarios internos: ve un precio
+                limpio, con IVA, condiciones de pago y vigencia.
+              </p>
+              <ul>
+                <li>Valor antes de IVA</li>
+                <li>IVA (19 % en Colombia)</li>
+                <li>Valor total a pagar</li>
+                <li>Forma de pago: anticipo, cuotas, contraentrega</li>
+                <li>Vigencia de la oferta (ej. 30 días)</li>
+              </ul>
+            </div>
+            <div class="letterhead">
+              <div class="letterhead-top">
+                <div class="logo"><span class="dot"></span> Códex&amp;Co</div>
+                <div class="letterhead-info">
+                  Cot. #2026-114<br />30/04/2026
+                </div>
+              </div>
+              <table style="font-size: 1em">
+                <tbody>
+                  <tr>
+                    <td>Subtotal</td>
+                    <td class="price">$ 39.820.000</td>
+                  </tr>
+                  <tr>
+                    <td>IVA 19 %</td>
+                    <td class="price">$ 7.565.800</td>
+                  </tr>
+                  <tr class="total">
+                    <td>Total</td>
+                    <td class="price">$ 47.385.800</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p style="font-size: 0.95em; margin-top: 0.8em">
+                50 % anticipo · 50 % entrega final · Vigencia 30 días
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 21: SECCIÓN 7 ============== -->
+        <section>
+          <span class="kicker">Sección 07</span>
+          <h2>Términos y condiciones</h2>
+          <p>
+            Las <strong>reglas del juego</strong>. Protege a ambas partes y
+            evita conflictos en mitad del proyecto.
+          </p>
+          <div class="cols-2" style="gap: 2em; margin-top: 0.6em">
+            <ul>
+              <li>Plazos y cronograma de entregas</li>
+              <li>Propiedad intelectual del código</li>
+              <li>Confidencialidad y manejo de datos</li>
+              <li>Garantía post-entrega</li>
+            </ul>
+            <ul>
+              <li>Causales de modificación o suspensión</li>
+              <li>Penalidades por incumplimiento</li>
+              <li>Mecanismo de resolución de disputas</li>
+              <li>Firma del proponente y aceptación</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 22: BRANDING ============== -->
+        <section>
+          <span class="kicker">EV02 · Diseño</span>
+          <h2>El plus que sube la nota: papelería de empresa</h2>
+          <div class="cols-2" style="gap: 2em">
+            <div>
+              <p>
+                El componente formativo te pide enriquecer la propuesta con
+                <strong>diseño y logo, como si fuera una empresa real</strong>.
+              </p>
+              <p>Eso significa:</p>
+              <ul>
+                <li>Logo coherente en cada página</li>
+                <li>Encabezado y pie de página</li>
+                <li>Paleta de 2-3 colores constantes</li>
+                <li>Tipografía estable (no mezcles 5 fuentes)</li>
+                <li>Datos de contacto siempre visibles</li>
+              </ul>
+            </div>
+            <div>
+              <div class="letterhead" style="font-size: 0.85em">
+                <div class="letterhead-top">
+                  <div class="logo"><span class="dot"></span> Códex&amp;Co</div>
+                  <div class="letterhead-info">
+                    www.codexco.dev<br />+57 300 000 0000
+                  </div>
+                </div>
+                <p>
+                  <strong>Propuesta técnica</strong><br />Sistema de inventarios
+                  para Comercializadora XYZ
+                </p>
+                <p style="color: var(--muted); font-size: 0.9em">
+                  Confidencial · Página 01 de 12
+                </p>
+              </div>
+              <p class="label" style="margin-top: 0.6em; text-align: center">
+                Mock de carátula con papelería
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 23: COMPARACIÓN EV01 vs EV02 ============== -->
+        <section>
+          <span class="kicker">Síntesis</span>
+          <h2>EV01 y EV02 · ¿cómo se conectan?</h2>
+          <div class="cols-2" style="gap: 1em; align-items: stretch">
+            <div class="frame">
+              <h4 style="font-style: italic">EV01 — Tablas comparativas</h4>
+              <p style="font-size: 0.85em">
+                Insumo técnico. Tablas frías que comparan opciones de hardware y
+                software bajo los mismos criterios.
+              </p>
+              <p class="label">Documento corto · interno</p>
+            </div>
+            <div class="frame accent">
+              <h4 style="font-style: italic">EV02 — Propuesta técnica</h4>
+              <p style="font-size: 0.85em">
+                Documento comercial. Envuelve las tablas en una historia con
+                saludo, diagnóstico, opciones y términos.
+              </p>
+              <p class="label">Documento extenso · externo</p>
+            </div>
+          </div>
+          <div class="quote" style="font-size: 1.4em; margin-top: 1em">
+            La EV01 alimenta a la EV02. Las tablas no se botan:
+            <span class="em">se incrustan</span> dentro de la propuesta.
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 24: ERRORES COMUNES ============== -->
+        <section>
+          <span class="kicker">Advertencia</span>
+          <h2>Errores que bajan la nota</h2>
+          <div class="cols-2" style="gap: 2em">
+            <ul>
+              <li>Presentar <strong>una sola opción</strong> en la EV02</li>
+              <li>Tablas sin total o sin moneda especificada</li>
+              <li>Copiar precios sin citar la fuente</li>
+              <li>Ortografía descuidada en propuesta comercial</li>
+            </ul>
+            <ul>
+              <li>Logo distinto en cada página</li>
+              <li>Olvidar la sección de términos y condiciones</li>
+              <li>Mezclar costos internos con cotización al cliente</li>
+              <li>Entregar sin portada ni conclusión</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 25: HERRAMIENTAS ============== -->
+        <section>
+          <span class="kicker">Herramientas</span>
+          <h2>Con qué construir cada entregable</h2>
+          <div class="cols-3" style="margin-top: 1em">
+            <div class="card">
+              <span class="num">DOCS</span>
+              <h4>Word · Google Docs</h4>
+              <p>
+                Para la propuesta técnica completa con encabezados, índice y
+                portada.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">SHEETS</span>
+              <h4>Excel · Google Sheets</h4>
+              <p>
+                Para tablas comparativas con fórmulas de totales e IVA
+                automáticos.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">DESIGN</span>
+              <h4>Canva · Figma</h4>
+              <p>
+                Para diseñar el logo, la portada y la papelería corporativa.
+              </p>
+            </div>
+          </div>
+          <div class="note" style="margin-top: 1.2em">
+            El entregable final puede salir como PDF desde cualquiera de estas
+            herramientas. Lo importante es la coherencia visual entre todas las
+            páginas.
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 26: CRONOGRAMA SUGERIDO ============== -->
+        <section>
+          <span class="kicker">Plan de trabajo</span>
+          <h2>Cronograma sugerido para entregar ambas evidencias</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Día</th>
+                <th>Tarea</th>
+                <th>Entregable parcial</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Investigar precios y especificaciones reales</td>
+                <td>Hoja de datos crudos</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Construir tablas comparativas (EV01)</td>
+                <td>Borrador EV01</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Diseñar logo y plantilla de papelería</td>
+                <td>Identidad visual</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Redactar secciones 1-4 de la propuesta</td>
+                <td>Mitad EV02</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Redactar secciones 5-7 e incrustar tablas</td>
+                <td>EV02 completa</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Revisión, exportar a PDF, entregar</td>
+                <td>EV01 + EV02 finales</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ============== SLIDE 27: CHECKLIST ============== -->
+        <section>
+          <span class="kicker">Antes de entregar</span>
+          <h2>Checklist final</h2>
+          <div class="cols-2" style="gap: 2em">
+            <div>
+              <h4 style="font-style: italic; color: var(--accent)">EV01</h4>
+              <ul>
+                <li>Portada con nombre, ficha, fecha</li>
+                <li>Introducción que explica el contexto</li>
+                <li>Tabla de hardware con totales</li>
+                <li>Tabla de software con totales</li>
+                <li>Conclusión con recomendación</li>
+                <li>Exportado en PDF, Word o Excel</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-style: italic; color: var(--accent)">EV02</h4>
+              <ul>
+                <li>Logo y papelería en todas las páginas</li>
+                <li>Las 7 secciones presentes</li>
+                <li>Mínimo 2 opciones con cotización propia</li>
+                <li>IVA y forma de pago especificados</li>
+                <li>Términos y condiciones firmados</li>
+                <li>Exportado en PDF o Word</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 28: BIG NUMBER ============== -->
+        <section>
+          <div
+            style="display: flex; align-items: center; gap: 2em; height: 100%"
+          >
+            <div class="bignum">02</div>
+            <div>
+              <span class="kicker">Recordatorio final</span>
+              <h2 style="margin-top: 0.3em">Opciones mínimas en la EV02</h2>
+              <p>
+                Si presentas solo una, no estás haciendo una propuesta: estás
+                haciendo una factura. El cliente decide cuando ve alternativas.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 29: PREGUNTAS ============== -->
+        <section>
+          <span class="kicker">Conversación</span>
+          <h2>¿Qué dudas se quedaron?</h2>
+          <div class="cols-2" style="gap: 2em; margin-top: 1em">
+            <ul>
+              <li>¿Cómo encuentro precios reales y actualizados?</li>
+              <li>¿Qué hago si el cliente no me da requisitos claros?</li>
+              <li>¿Puedo usar plantillas o tengo que diseñar desde cero?</li>
+            </ul>
+            <ul>
+              <li>¿Cómo justifico una opción frente a otra?</li>
+              <li>¿Qué pasa si el cliente pide una tercera opción?</li>
+              <li>¿Cuántas páginas debe tener la propuesta?</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============== SLIDE 30: CIERRE ============== -->
+        <section class="end">
+          <span class="sub">Fin de la sesión</span>
+          <h1>Manos a la obra.</h1>
+          <p
+            style="
+              font-family: &quot;Fraunces&quot;, serif;
+              font-style: italic;
+              color: var(--muted);
+              font-size: 1.1em;
+              max-width: 600px;
+            "
+          >
+            Una buena propuesta no se improvisa. Se diseña.
+          </p>
+          <div style="margin-top: 2em" class="label">
+            GA2-220501094-AA3 · EV01 + EV02
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        controls: true,
+        progress: true,
+        center: false,
+        width: 1280,
+        height: 760,
+        margin: 0.06,
+        plugins: [RevealNotes],
+      });
+    </script>
+  </body>
+</html>
