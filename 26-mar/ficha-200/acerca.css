@@ -1,0 +1,46 @@
+.acerca-container {
+  width: 100%;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.acerca-title {
+  margin: 0;
+  margin-bottom: 20px;
+  font-size: 40px;
+}
+
+.acerca-description {
+  max-width: 700px;
+  text-align: center;
+  font-size: 18px;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+.acerca-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.acerca-card {
+  width: 280px;
+  border: 1px solid #a8b8d0;
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.acerca-card-title {
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.acerca-card-text {
+  margin: 0;
+  font-size: 16px;
+}

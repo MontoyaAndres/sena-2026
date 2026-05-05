@@ -54,6 +54,7 @@ body {
   margin-top: 20px;
   cursor: pointer;
   transition: background-color .2s;
+  text-decoration: none;
 }
 
 .hero-button:hover {
