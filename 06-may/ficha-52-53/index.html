@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1280" />
+    <title>Bases de Datos · 3 Evidencias · SENA</title>
+
+    <!-- Reveal.js core -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+
+    <!-- Tipografías distintivas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #0b0f14;
+        --bg-2: #11171f;
+        --ink: #e9eef5;
+        --ink-soft: #a8b2c1;
+        --lime: #c6ff3d;
+        --lime-soft: #9ad200;
+        --magenta: #ff5cb1;
+        --cyan: #5eead4;
+        --amber: #ffb347;
+        --line: #1f2731;
+      }
+
+      .reveal {
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal section {
+        padding: 0 4%;
+      }
+
+      /* Fondo con grano sutil */
+      body,
+      .reveal-viewport {
+        background: var(--bg);
+        background-image:
+          radial-gradient(
+            1200px 600px at 10% -10%,
+            rgba(198, 255, 61, 0.08),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 500px at 110% 110%,
+            rgba(94, 234, 212, 0.07),
+            transparent 60%
+          );
+      }
+
+      /* Tipografías */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Unbounded", sans-serif;
+        text-transform: none;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin-bottom: 0.4em;
+        line-height: 1.1;
+      }
+      .reveal h1 {
+        font-size: 3.2em;
+        font-weight: 800;
+      }
+      .reveal h2 {
+        font-size: 2.2em;
+        font-weight: 700;
+      }
+      .reveal h3 {
+        font-size: 1.4em;
+        font-weight: 600;
+      }
+
+      .reveal p,
+      .reveal li {
+        font-size: 0.85em;
+        line-height: 1.55;
+        color: var(--ink-soft);
+      }
+      .reveal strong {
+        color: var(--ink);
+      }
+      .reveal em.lime {
+        color: var(--lime);
+        font-style: normal;
+        font-weight: 600;
+      }
+      .reveal em.cyan {
+        color: var(--cyan);
+        font-style: normal;
+        font-weight: 600;
+      }
+      .reveal em.magenta {
+        color: var(--magenta);
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      /* Etiquetas tipo terminal */
+      .tag {
+        display: inline-block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--lime);
+        background: rgba(198, 255, 61, 0.05);
+        margin-bottom: 18px;
+      }
+      .tag.cyan {
+        color: var(--cyan);
+        background: rgba(94, 234, 212, 0.05);
+      }
+      .tag.magenta {
+        color: var(--magenta);
+        background: rgba(255, 92, 177, 0.05);
+      }
+      .tag.amber {
+        color: var(--amber);
+        background: rgba(255, 179, 71, 0.05);
+      }
+
+      /* Bloques de código */
+      .reveal pre {
+        width: 100%;
+        box-shadow: none;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #0a0e13;
+        margin: 0.4em 0;
+      }
+      .reveal pre code {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        line-height: 1.55;
+        padding: 18px 22px;
+        max-height: none;
+        border-radius: 12px;
+      }
+
+      /* Tarjetas */
+      .grid {
+        display: grid;
+        gap: 18px;
+      }
+      .grid.cols-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .grid.cols-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .grid.cols-4 {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+
+      .card {
+        background: var(--bg-2);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+      }
+      .card.lime {
+        border-color: rgba(198, 255, 61, 0.35);
+      }
+      .card.cyan {
+        border-color: rgba(94, 234, 212, 0.35);
+      }
+      .card.magenta {
+        border-color: rgba(255, 92, 177, 0.35);
+      }
+      .card.amber {
+        border-color: rgba(255, 179, 71, 0.35);
+      }
+      .card h3 {
+        font-size: 1em;
+        margin-bottom: 6px;
+      }
+      .card p,
+      .card li {
+        font-size: 0.7em;
+      }
+
+      .num {
+        font-family: "Unbounded", sans-serif;
+        font-weight: 800;
+        font-size: 2.4em;
+        line-height: 1;
+        color: var(--lime);
+      }
+      .num.cyan {
+        color: var(--cyan);
+      }
+      .num.magenta {
+        color: var(--magenta);
+      }
+      .num.amber {
+        color: var(--amber);
+      }
+
+      /* Slide portada */
+      .cover {
+        height: 100%;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .cover .meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        color: var(--ink-soft);
+        letter-spacing: 0.06em;
+        margin-top: 24px;
+      }
+      .cover h1 {
+        font-size: 4em;
+      }
+      .cover .accent {
+        color: var(--lime);
+      }
+      .cover .glitch {
+        display: block;
+        font-size: 0.35em;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--cyan);
+        letter-spacing: 0.4em;
+        margin-bottom: 18px;
+      }
+
+      /* Sección divisoria */
+      .section {
+        height: 100%;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .section .big-num {
+        font-family: "Unbounded", sans-serif;
+        font-weight: 800;
+        font-size: 9em;
+        line-height: 0.9;
+        color: var(--lime);
+        margin: 0;
+      }
+      .section .big-num.cyan {
+        color: var(--cyan);
+      }
+      .section .big-num.magenta {
+        color: var(--magenta);
+      }
+      .section h2 {
+        font-size: 2.6em;
+      }
+      .section .code-id {
+        font-family: "JetBrains Mono", monospace;
+        color: var(--ink-soft);
+        font-size: 0.7em;
+        margin-top: 10px;
+      }
+
+      /* Diagrama MER simple */
+      .mer-diagram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .mer-entity {
+        background: var(--bg-2);
+        border: 2px solid var(--cyan);
+        border-radius: 10px;
+        padding: 14px 22px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        color: var(--cyan);
+        text-align: center;
+      }
+      .mer-rel {
+        background: var(--bg-2);
+        border: 2px solid var(--magenta);
+        transform: rotate(45deg);
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .mer-rel span {
+        transform: rotate(-45deg);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        color: var(--magenta);
+      }
+      .mer-line {
+        flex: 0 0 60px;
+        height: 2px;
+        background: var(--ink-soft);
+        position: relative;
+      }
+      .card-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6em;
+        color: var(--lime);
+        position: absolute;
+        top: -22px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+      }
+
+      /* Listas con viñetas custom */
+      .reveal ul {
+        list-style: none;
+        margin-left: 0;
+      }
+      .reveal ul li {
+        padding-left: 22px;
+        position: relative;
+        margin-bottom: 8px;
+      }
+      .reveal ul li::before {
+        content: "▸";
+        color: var(--lime);
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .reveal ul.cyan li::before {
+        color: var(--cyan);
+      }
+      .reveal ul.magenta li::before {
+        color: var(--magenta);
+      }
+      .reveal ul.amber li::before {
+        color: var(--amber);
+      }
+
+      /* Banner de entrega */
+      .delivery {
+        margin-top: 18px;
+        padding: 14px 18px;
+        background: linear-gradient(
+          90deg,
+          rgba(198, 255, 61, 0.08),
+          transparent
+        );
+        border-left: 3px solid var(--lime);
+        border-radius: 4px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        color: var(--ink-soft);
+      }
+      .delivery.cyan {
+        background: linear-gradient(
+          90deg,
+          rgba(94, 234, 212, 0.08),
+          transparent
+        );
+        border-left-color: var(--cyan);
+      }
+      .delivery.magenta {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 92, 177, 0.08),
+          transparent
+        );
+        border-left-color: var(--magenta);
+      }
+      .delivery strong {
+        color: var(--ink);
+      }
+
+      /* Vs card */
+      .vs-grid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 16px;
+        align-items: stretch;
+      }
+      .vs-grid .vs {
+        align-self: center;
+        font-family: "Unbounded", sans-serif;
+        font-weight: 800;
+        font-size: 1.6em;
+        color: var(--magenta);
+      }
+
+      /* Pista en footer */
+      .reveal .slide-number {
+        color: var(--ink-soft);
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* Mejoras controles */
+      .reveal .controls {
+        color: var(--lime);
+      }
+      .reveal .progress {
+        color: var(--lime);
+      }
+
+      /* Responsive code blocks */
+      .small-code pre code {
+        font-size: 0.48em;
+      }
+
+      /* Ajuste para dos columnas con código */
+      .split {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      .step-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+      .step-row .step-n {
+        flex: 0 0 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: var(--lime);
+        color: #0a0e13;
+        font-family: "Unbounded", sans-serif;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8em;
+      }
+      .step-row.cyan .step-n {
+        background: var(--cyan);
+      }
+      .step-row.magenta .step-n {
+        background: var(--magenta);
+      }
+      .step-row.amber .step-n {
+        background: var(--amber);
+      }
+      .step-row p {
+        margin: 6px 0 0 0;
+        font-size: 0.75em;
+      }
+
+      /* Highlight inline */
+      code.inline {
+        font-family: "JetBrains Mono", monospace;
+        background: rgba(94, 234, 212, 0.1);
+        color: var(--cyan);
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 0.85em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============================ -->
+        <!-- 1. PORTADA                   -->
+        <!-- ============================ -->
+        <section class="cover" data-background-color="#0b0f14">
+          <span class="glitch">// SENA · ADSO</span>
+          <h1>
+            Bases de Datos<br /><span class="accent">en 3 evidencias</span>
+          </h1>
+          <p style="font-size: 1.1em; max-width: 80%; margin-top: 14px">
+            Del modelo entidad-relación a MongoDB.<br />
+            Una guía simple para entregar bien las 3 evidencias del día de hoy.
+          </p>
+          <div class="meta">
+            FICHAS 3186652 · 3186653 &nbsp;|&nbsp; PLATAFORMA ZAJUNA
+            &nbsp;|&nbsp; GA6-220501096
+          </div>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 2. AGENDA                    -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag">AGENDA DEL DÍA</span>
+          <h2>Lo que vamos a entregar hoy</h2>
+          <div class="grid cols-3" style="margin-top: 18px">
+            <div class="card lime">
+              <div class="num">01</div>
+              <h3>EV02 · Modelo E-R</h3>
+              <p>
+                Diagrama entidad-relación del caso, hecho con una herramienta y
+                con cardinalidades.
+              </p>
+              <p
+                style="
+                  color: var(--lime);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.6em;
+                "
+              >
+                📄 PDF
+              </p>
+            </div>
+            <div class="card cyan">
+              <div class="num cyan">02</div>
+              <h3>EV03 · Sentencias NoSQL</h3>
+              <p>
+                Documento con la creación, inserción, consulta y actualización
+                de la colección de carros.
+              </p>
+              <p
+                style="
+                  color: var(--cyan);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.6em;
+                "
+              >
+                📄 PDF
+              </p>
+            </div>
+            <div class="card magenta">
+              <div class="num magenta">03</div>
+              <h3>EV04 · Práctica MongoDB</h3>
+              <p>
+                Video creando y manipulando la base de datos
+                <code class="inline">parque</code> en MongoDB real.
+              </p>
+              <p
+                style="
+                  color: var(--magenta);
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.6em;
+                "
+              >
+                🎬 MP4
+              </p>
+            </div>
+          </div>
+          <p style="margin-top: 18px; font-size: 0.7em">
+            Las 3 son del mismo guion (<strong>GA6-220501096-AA1</strong>) y se
+            construyen una encima de la otra.
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 3. SECCIÓN EV02              -->
+        <!-- ============================ -->
+        <section class="section" data-background-color="#0b0f14">
+          <p class="big-num">01</p>
+          <h2>Modelo Entidad-Relación</h2>
+          <p class="code-id">GA6-220501096-AA1-EV02</p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 4. ¿Qué es el MER?           -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag">CONCEPTO</span>
+          <h2>¿Qué es un modelo E-R?</h2>
+          <div class="split">
+            <div>
+              <p>
+                Es un <em class="lime">dibujo</em> que representa cómo se
+                organizan los datos antes de programarlos.
+              </p>
+              <p>
+                Sirve para <strong>ponerse de acuerdo</strong> entre el cliente,
+                el equipo y el desarrollador sobre
+                <em class="cyan">qué información</em> guarda el sistema y
+                <em class="magenta">cómo se conecta</em>.
+              </p>
+              <ul>
+                <li>
+                  <strong>Entidad:</strong> una "cosa" del mundo real (Cliente,
+                  Carro, Factura).
+                </li>
+                <li>
+                  <strong>Atributo:</strong> una característica de la entidad
+                  (placa, modelo, marca).
+                </li>
+                <li>
+                  <strong>Relación:</strong> cómo se conectan las entidades (un
+                  Cliente <em class="lime">tiene</em> Carros).
+                </li>
+              </ul>
+            </div>
+            <div class="card">
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.6em;
+                  color: var(--lime);
+                  margin-bottom: 8px;
+                "
+              >
+                // EJEMPLO MINI
+              </p>
+              <div class="mer-diagram" style="flex-direction: column; gap: 6px">
+                <div class="mer-entity">CLIENTE</div>
+                <div
+                  style="
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    color: var(--magenta);
+                    font-size: 0.7em;
+                  "
+                >
+                  ↓ tiene ↓
+                </div>
+                <div
+                  class="mer-entity"
+                  style="border-color: var(--lime); color: var(--lime)"
+                >
+                  CARRO
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 5. Cardinalidad              -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag cyan">CARDINALIDAD</span>
+          <h2>¿Cuántos con cuántos?</h2>
+          <p>
+            La cardinalidad le pone <em class="cyan">números</em> a la relación.
+            Es <strong>obligatoria</strong> en la evidencia.
+          </p>
+
+          <div class="grid cols-3" style="margin-top: 18px">
+            <div class="card lime">
+              <h3 style="color: var(--lime)">1 : 1</h3>
+              <p>Uno con uno.</p>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.6em;
+                  color: var(--ink-soft);
+                "
+              >
+                Persona ↔ Cédula
+              </p>
+            </div>
+            <div class="card cyan">
+              <h3 style="color: var(--cyan)">1 : N</h3>
+              <p>Uno con muchos.</p>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.6em;
+                  color: var(--ink-soft);
+                "
+              >
+                Cliente → muchos Carros
+              </p>
+            </div>
+            <div class="card magenta">
+              <h3 style="color: var(--magenta)">N : M</h3>
+              <p>Muchos con muchos.</p>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.6em;
+                  color: var(--ink-soft);
+                "
+              >
+                Estudiantes ↔ Cursos
+              </p>
+            </div>
+          </div>
+
+          <p style="margin-top: 14px; font-size: 0.7em">
+            💡 <strong>Tip:</strong> en tu diagrama deben aparecer estos números
+            (1, N, M) <em class="lime">en cada línea</em> que une dos entidades.
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 6. Herramientas              -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag">HERRAMIENTAS PERMITIDAS</span>
+          <h2>¿Con qué lo dibujo?</h2>
+          <p>
+            Use <em class="lime">una</em> de las herramientas vistas en el
+            componente formativo. Algunas opciones:
+          </p>
+          <div class="grid cols-4" style="margin-top: 14px">
+            <div class="card">
+              <h3>MySQL Workbench</h3>
+              <p>Modelo profesional, exporta a SQL.</p>
+            </div>
+            <div class="card">
+              <h3>draw.io</h3>
+              <p>Gratis, en el navegador, fácil.</p>
+            </div>
+            <div class="card">
+              <h3>Lucidchart</h3>
+              <p>En línea, plantillas listas.</p>
+            </div>
+            <div class="card">
+              <h3>DBDesigner</h3>
+              <p>Específica para BD.</p>
+            </div>
+          </div>
+          <p style="margin-top: 18px; font-size: 0.7em">
+            ⚠️ <strong>No vale</strong> dibujar a mano y tomar foto. Tiene que
+            ser una <em class="cyan">herramienta digital</em>.
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 7. Entrega EV02              -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag">CHECKLIST DE ENTREGA · EV02</span>
+          <h2>Cómo se entrega</h2>
+          <div class="split">
+            <div>
+              <ul>
+                <li><strong>Producto:</strong> modelo relacional.</li>
+                <li><strong>Formato:</strong> PDF.</li>
+                <li><strong>Extensión:</strong> libre.</li>
+                <li>
+                  <strong>Debe incluir:</strong> entidades, atributos,
+                  relaciones <em class="lime">y cardinalidades</em>.
+                </li>
+                <li>
+                  <strong>Hecho con:</strong> una herramienta del componente.
+                </li>
+                <li>
+                  <strong>Basado en:</strong> los requisitos analizados en la
+                  EV01.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div class="delivery">
+                <strong>📤 Ruta de envío en Zajuna:</strong><br />
+                Actividad correspondiente →<br />
+                "Modelo entidad relación de caso.<br />
+                <span style="color: var(--lime)">GA6-220501096-AA1-EV02</span>"
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 8. SECCIÓN EV03              -->
+        <!-- ============================ -->
+        <section class="section" data-background-color="#0b0f14">
+          <p class="big-num cyan">02</p>
+          <h2>Sentencias NoSQL</h2>
+          <p class="code-id">GA6-220501096-AA1-EV03</p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 9. SQL vs NoSQL              -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag cyan">CAMBIO DE MUNDO</span>
+          <h2>SQL vs NoSQL en 30 segundos</h2>
+          <div class="vs-grid" style="margin-top: 14px">
+            <div class="card lime">
+              <h3 style="color: var(--lime)">SQL</h3>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.65em;
+                "
+              >
+                Tablas · Filas · Columnas
+              </p>
+              <ul>
+                <li>Estructura fija</li>
+                <li>Esquema definido</li>
+                <li>MySQL, Postgres, Oracle</li>
+              </ul>
+            </div>
+            <div class="vs">VS</div>
+            <div class="card cyan">
+              <h3 style="color: var(--cyan)">NoSQL</h3>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.65em;
+                "
+              >
+                Colecciones · Documentos · JSON
+              </p>
+              <ul class="cyan">
+                <li>Estructura flexible</li>
+                <li>Cada documento es distinto</li>
+                <li>MongoDB, Redis, Cassandra</li>
+              </ul>
+            </div>
+          </div>
+          <p style="margin-top: 18px; font-size: 0.7em">
+            En esta evidencia trabajamos con <em class="cyan">MongoDB</em>: cada
+            "registro" es un objeto <strong>JSON</strong>.
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 10. Objeto JSON Carro        -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag cyan">PASO 1 · MODELAR</span>
+          <h2>El objeto <code class="inline">carro</code> en JSON</h2>
+          <p>
+            El enunciado pide modelar un carro con
+            <em class="cyan">6 campos</em>. Así se ve:
+          </p>
+          <pre><code class="language-javascript" data-trim data-noescape>
+{
+  "placa":         "ABC123",
+  "numero_serie":  "SN-0001-2024",
+  "modelo":        2022,
+  "marca":         "Toyota",
+  "kilometraje":   45000,
+  "tipo":          "Sedán"
+}
+</code></pre>
+          <p style="font-size: 0.7em">
+            💡 <strong>Tip:</strong> los textos van entre comillas, los números
+            no. <code class="inline">tipo</code> puede ser "Sedán", "SUV",
+            "Pickup", "Hatchback"…
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 11. Crear colección + insertar -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag cyan">PASO 2 · CREAR E INSERTAR</span>
+          <h2>Colección + 5 documentos</h2>
+          <pre><code class="language-javascript" data-trim data-noescape>
+// Crear la colección (en EV04 se llamará "parque")
+db.createCollection("carros")
+
+// Insertar 5 carros de un solo golpe
+db.carros.insertMany([
+  { placa:"ABC123", numero_serie:"SN-0001", modelo:2022,
+    marca:"Toyota",  kilometraje:45000, tipo:"Sedán" },
+  { placa:"DEF456", numero_serie:"SN-0002", modelo:2020,
+    marca:"Chevrolet", kilometraje:78000, tipo:"SUV" },
+  { placa:"GHI789", numero_serie:"SN-0003", modelo:2023,
+    marca:"Mazda",   kilometraje:12000, tipo:"Hatchback" },
+  { placa:"JKL012", numero_serie:"SN-0004", modelo:2019,
+    marca:"Renault", kilometraje:95000, tipo:"Pickup" },
+  { placa:"MNO345", numero_serie:"SN-0005", modelo:2024,
+    marca:"Kia",     kilometraje:5000,  tipo:"Sedán" }
+])
+</code></pre>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 12. Consultar y actualizar   -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag cyan">PASO 3 · CONSULTAR Y ACTUALIZAR</span>
+          <h2>Ver y modificar los datos</h2>
+          <pre><code class="language-javascript" data-trim data-noescape>
+// Consultar todos los documentos
+db.carros.find()
+
+// Consultarlos formateados (más legible)
+db.carros.find().pretty()
+
+// Buscar un carro específico
+db.carros.findOne({ placa: "ABC123" })
+
+// Actualizar el kilometraje de un carro
+db.carros.updateOne(
+  { placa: "ABC123" },
+  { $set: { kilometraje: 47500 } }
+)
+
+// Actualizar varios a la vez (todos los Toyota)
+db.carros.updateMany(
+  { marca: "Toyota" },
+  { $set: { revisado: true } }
+)
+</code></pre>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 13. Entrega EV03             -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag cyan">CHECKLIST DE ENTREGA · EV03</span>
+          <h2>Cómo se entrega</h2>
+          <div class="split">
+            <div>
+              <p style="margin-bottom: 8px">
+                El documento PDF debe llevar <em class="cyan">como mínimo</em>:
+              </p>
+              <ul class="cyan">
+                <li>Portada</li>
+                <li>Introducción</li>
+                <li>Objetivo</li>
+                <li>Sentencia para crear la colección</li>
+                <li>Sentencia para insertar 5 datos</li>
+                <li>Sentencia para consultar</li>
+                <li>Sentencia para actualizar</li>
+              </ul>
+            </div>
+            <div>
+              <div class="delivery cyan">
+                <strong>📤 Ruta de envío en Zajuna:</strong><br />
+                Actividad correspondiente →<br />
+                "Creación de los objetos de la base de datos.<br />
+                <span style="color: var(--cyan)">GA6-220501096-AA1-EV03</span>"
+              </div>
+              <p style="font-size: 0.65em; margin-top: 14px">
+                <strong>Formato:</strong> PDF ·
+                <strong>Extensión:</strong> libre.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 14. SECCIÓN EV04             -->
+        <!-- ============================ -->
+        <section class="section" data-background-color="#0b0f14">
+          <p class="big-num magenta">03</p>
+          <h2>MongoDB en vivo</h2>
+          <p class="code-id">
+            GA6-220501096-AA1-EV04 · 🎬 entrega en VIDEO MP4
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 15. Lo que graba el video    -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag magenta">GUION DEL VIDEO</span>
+          <h2>8 acciones que tienen que aparecer</h2>
+          <div class="grid cols-2" style="margin-top: 14px">
+            <div>
+              <div class="step-row magenta">
+                <div class="step-n">1</div>
+                <p>Crear una base de datos NoSQL</p>
+              </div>
+              <div class="step-row magenta">
+                <div class="step-n">2</div>
+                <p>Crear la colección <code class="inline">parque</code></p>
+              </div>
+              <div class="step-row magenta">
+                <div class="step-n">3</div>
+                <p>
+                  Insertar <strong>5 documentos</strong> con la estructura JSON
+                </p>
+              </div>
+              <div class="step-row magenta">
+                <div class="step-n">4</div>
+                <p>
+                  Actualizar el <strong>primer</strong> y
+                  <strong>último</strong> registro
+                </p>
+              </div>
+            </div>
+            <div>
+              <div class="step-row magenta">
+                <div class="step-n">5</div>
+                <p>Listar la colección completa</p>
+              </div>
+              <div class="step-row magenta">
+                <div class="step-n">6</div>
+                <p>Borrar el <strong>tercer</strong> documento</p>
+              </div>
+              <div class="step-row magenta">
+                <div class="step-n">7</div>
+                <p>Volver a listar la colección</p>
+              </div>
+              <div class="step-row magenta">
+                <div class="step-n">8</div>
+                <p>Buscar un documento <strong>por placa</strong></p>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top: 14px; font-size: 0.7em">
+            ⚠️ <strong>Importante:</strong> ahora la colección se llama
+            <em class="magenta">parque</em> (no "carros"). Y se entrega un
+            <em class="magenta">video MP4</em>, no PDF.
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 16. Comandos parte 1         -->
+        <!-- ============================ -->
+        <section class="small-code">
+          <span class="tag magenta">COMANDOS · PARTE 1 (PASOS 1–4)</span>
+          <h2>Setup, inserción y actualización</h2>
+          <pre><code class="language-javascript" data-trim data-noescape>
+// 1) Crear y usar la base de datos
+use parqueDB
+
+// 2) Crear la colección "parque"
+db.createCollection("parque")
+
+// 3) Insertar 5 documentos
+db.parque.insertMany([
+  { placa:"ABC123", numero_serie:"SN-0001", modelo:2022, marca:"Toyota",    kilometraje:45000, tipo:"Sedán"     },
+  { placa:"DEF456", numero_serie:"SN-0002", modelo:2020, marca:"Chevrolet", kilometraje:78000, tipo:"SUV"       },
+  { placa:"GHI789", numero_serie:"SN-0003", modelo:2023, marca:"Mazda",     kilometraje:12000, tipo:"Hatchback" },
+  { placa:"JKL012", numero_serie:"SN-0004", modelo:2019, marca:"Renault",   kilometraje:95000, tipo:"Pickup"    },
+  { placa:"MNO345", numero_serie:"SN-0005", modelo:2024, marca:"Kia",       kilometraje:5000,  tipo:"Sedán"     }
+])
+
+// 4) Actualizar primer y último registro
+db.parque.updateOne({ placa:"ABC123" }, { $set: { kilometraje: 50000 } })  // primero
+db.parque.updateOne({ placa:"MNO345" }, { $set: { kilometraje: 8000  } })  // último
+</code></pre>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 17. Comandos parte 2         -->
+        <!-- ============================ -->
+        <section class="small-code">
+          <span class="tag magenta">COMANDOS · PARTE 2 (PASOS 5–8)</span>
+          <h2>Listar, borrar y buscar</h2>
+          <pre><code class="language-javascript" data-trim data-noescape>
+// 5) Listar la colección completa
+db.parque.find().pretty()
+
+// 6) Borrar el TERCER documento (placa GHI789)
+db.parque.deleteOne({ placa: "GHI789" })
+
+// 7) Listar otra vez para mostrar que ya son 4
+db.parque.find().pretty()
+
+// 8) Obtener un documento según número de placa
+db.parque.findOne({ placa: "DEF456" })
+</code></pre>
+          <p style="font-size: 0.7em; margin-top: 6px">
+            💡 En el video, después de cada comando
+            <strong>muestra el resultado en pantalla</strong> antes de pasar al
+            siguiente.
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 18. Tips para grabar         -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag amber">CÓMO QUEDA UN VIDEO PROFESIONAL</span>
+          <h2>Tips para grabar la EV04</h2>
+          <div class="grid cols-2" style="margin-top: 14px">
+            <div class="card amber">
+              <h3 style="color: var(--amber)">🎙️ Antes de grabar</h3>
+              <ul class="amber">
+                <li>Prepara los 8 comandos en un archivo .txt</li>
+                <li>Verifica que MongoDB Shell o Compass funcione</li>
+                <li>Cierra apps y notificaciones</li>
+                <li>Aumenta el zoom de la terminal</li>
+              </ul>
+            </div>
+            <div class="card amber">
+              <h3 style="color: var(--amber)">🎬 Durante el video</h3>
+              <ul class="amber">
+                <li>Saluda y di tu nombre + ficha + evidencia</li>
+                <li>Explica qué vas a hacer en cada paso</li>
+                <li>Muestra el resultado de cada comando</li>
+                <li>Despídete confirmando que entregaste todo</li>
+              </ul>
+            </div>
+          </div>
+          <p style="margin-top: 14px; font-size: 0.7em">
+            Herramientas gratis para grabar: <em class="amber">OBS Studio</em>,
+            <em class="amber">Xbox Game Bar</em> (Win+G),
+            <em class="amber">Loom</em>.
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 19. Entrega EV04             -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag magenta">CHECKLIST DE ENTREGA · EV04</span>
+          <h2>Cómo se entrega</h2>
+          <div class="split">
+            <div>
+              <ul class="magenta">
+                <li>
+                  <strong>Producto:</strong> video de creación y manipulación de
+                  BD NoSQL.
+                </li>
+                <li>
+                  <strong>Formato:</strong> <em class="magenta">MP4</em> (no
+                  PDF).
+                </li>
+                <li><strong>Debe verse:</strong> los 8 pasos del guion.</li>
+                <li><strong>Recomendado:</strong> 3 a 8 minutos.</li>
+              </ul>
+            </div>
+            <div>
+              <div class="delivery magenta">
+                <strong>📤 Ruta de envío en Zajuna:</strong><br />
+                Actividad correspondiente →<br />
+                "Elaboración de las bases de datos.<br />
+                <span style="color: var(--magenta)">GA6-220501096-AA1-EV04</span
+                >"
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 20. RESUMEN FINAL            -->
+        <!-- ============================ -->
+        <section>
+          <span class="tag">RESUMEN PARA NO PERDERSE</span>
+          <h2>Las 3 evidencias en una sola vista</h2>
+          <div class="grid cols-3" style="margin-top: 14px">
+            <div class="card lime">
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  color: var(--lime);
+                  font-size: 0.6em;
+                "
+              >
+                EV02 · PDF
+              </p>
+              <h3>Modelo E-R</h3>
+              <p>
+                Diagrama con entidades, atributos, relaciones y
+                <strong>cardinalidades</strong>, hecho con una herramienta
+                digital.
+              </p>
+            </div>
+            <div class="card cyan">
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  color: var(--cyan);
+                  font-size: 0.6em;
+                "
+              >
+                EV03 · PDF
+              </p>
+              <h3>Sentencias NoSQL</h3>
+              <p>
+                Documento con portada, introducción, objetivo y las sentencias
+                de <strong>crear, insertar, consultar y actualizar</strong>.
+              </p>
+            </div>
+            <div class="card magenta">
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  color: var(--magenta);
+                  font-size: 0.6em;
+                "
+              >
+                EV04 · MP4
+              </p>
+              <h3>MongoDB en vivo</h3>
+              <p>
+                Video ejecutando los 8 pasos sobre la colección
+                <code class="inline">parque</code>.
+              </p>
+            </div>
+          </div>
+          <p style="margin-top: 18px; font-size: 0.85em; text-align: center">
+            <em class="lime">Modela</em> &nbsp;→&nbsp;
+            <em class="cyan">Documenta las sentencias</em> &nbsp;→&nbsp;
+            <em class="magenta">Demuestra en video</em>
+          </p>
+        </section>
+
+        <!-- ============================ -->
+        <!-- 21. CIERRE                   -->
+        <!-- ============================ -->
+        <section class="cover" data-background-color="#0b0f14">
+          <span class="glitch">// FIN DE LA SESIÓN</span>
+          <h1>
+            ¿Preguntas<br /><span class="accent">antes de subir a Zajuna?</span>
+          </h1>
+          <p style="font-size: 1em; max-width: 80%; margin-top: 14px">
+            Recuerden: las 3 evidencias se entregan <strong>hoy</strong> en la
+            plataforma.<br />
+            Cualquier duda, pregúntenla ahora — después es más difícil.
+          </p>
+          <div class="meta">
+            FICHAS 3186652 · 3186653 &nbsp;|&nbsp; ¡ÉXITOS!
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        width: 1280,
+        height: 800,
+        margin: 0.04,
+        transition: "slide",
+        backgroundTransition: "fade",
+        plugins: [RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
