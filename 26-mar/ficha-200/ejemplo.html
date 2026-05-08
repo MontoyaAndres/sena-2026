@@ -1,0 +1,23 @@
+<html>
+  <body id="cuerpoPagina">
+    <h3>El numero actual es: <span id="numero">0</span></h3>
+    <button id="boton">Cambiar color</button>
+  </body>
+  <script>
+    var boton = document.getElementById("boton");
+    var numeroEnPantalla = document.getElementById("numero");
+    var body = document.getElementById("cuerpoPagina");
+    console.log(body);
+    var numero = 0;
+
+    boton.addEventListener("click", function () {
+      var color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+      numero = numero + 1;
+      numeroEnPantalla.innerHTML = numero;
+      numeroEnPantalla.style.color = "red";
+      body.style.backgroundColor = color;
+      boton.style.display = "none";
+      console.log("El color es: " + color);
+    });
+  </script>
+</html>
