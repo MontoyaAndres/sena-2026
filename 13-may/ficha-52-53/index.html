@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>SQL: DDL, DML y Bases de Datos · Fichas 3186652 / 3186653</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #0f1419;
+        --bg-soft: #161c24;
+        --panel: #1c232d;
+        --line: #2a3340;
+        --ink: #e9ecef;
+        --ink-soft: #b0b8c1;
+        --muted: #7a8593;
+        --amber: #f5a524;
+        --amber-soft: #ffd27a;
+        --teal: #2dd4bf;
+        --coral: #f87171;
+        --violet: #a78bfa;
+        --green: #86efac;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+      }
+
+      .reveal {
+        font-family: "Inter", system-ui, sans-serif;
+        color: var(--ink);
+        font-size: 28px;
+        letter-spacing: -0.005em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 0 2.5%;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 600;
+        color: var(--ink);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+        margin: 0 0 0.5em 0;
+      }
+      .reveal h1 {
+        font-size: 2.6em;
+        font-weight: 800;
+      }
+      .reveal h2 {
+        font-size: 1.9em;
+      }
+      .reveal h3 {
+        font-size: 1.35em;
+        color: var(--amber-soft);
+        font-weight: 600;
+      }
+      .reveal h4 {
+        font-size: 1.05em;
+        color: var(--teal);
+      }
+
+      .reveal p {
+        line-height: 1.55;
+        margin: 0.5em 0;
+      }
+      .reveal strong {
+        color: var(--amber-soft);
+        font-weight: 600;
+      }
+      .reveal em {
+        color: var(--teal);
+        font-style: normal;
+        font-weight: 500;
+      }
+
+      .reveal a {
+        color: var(--teal);
+      }
+
+      /* --- code blocks --- */
+      .reveal pre {
+        width: 100%;
+        margin: 0.6em 0;
+        box-shadow:
+          0 18px 40px rgba(0, 0, 0, 0.45),
+          0 2px 0 rgba(255, 255, 255, 0.04) inset;
+        border-radius: 14px;
+        font-size: 0.62em;
+        background: #11161c;
+        overflow: hidden;
+      }
+      .reveal pre code {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        padding: 1.1em 1.3em;
+        border-radius: 14px;
+        max-height: none;
+        background: transparent;
+      }
+      .reveal code:not(pre code) {
+        font-family: "JetBrains Mono", monospace;
+        background: rgba(245, 165, 36, 0.12);
+        color: var(--amber-soft);
+        padding: 0.08em 0.4em;
+        border-radius: 6px;
+        font-size: 0.9em;
+      }
+
+      /* --- layout helpers --- */
+      .eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--amber);
+        margin-bottom: 1em;
+        display: inline-block;
+      }
+      .eyebrow::before {
+        content: "// ";
+        opacity: 0.6;
+      }
+
+      .lede {
+        font-size: 1.05em;
+        color: var(--ink-soft);
+        max-width: 28ch;
+        line-height: 1.5;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6em;
+        align-items: start;
+      }
+      .three-col {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1em;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1.1em 1.2em;
+      }
+      .card h4 {
+        margin-top: 0;
+      }
+      .card p {
+        font-size: 0.9em;
+        color: var(--ink-soft);
+        margin: 0.3em 0 0;
+      }
+
+      ul.clean {
+        list-style: none;
+        padding: 0;
+        margin: 0.5em 0;
+      }
+      ul.clean li {
+        padding: 0.45em 0 0.45em 1.8em;
+        position: relative;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.92em;
+        color: var(--ink-soft);
+      }
+      ul.clean li:last-child {
+        border-bottom: 0;
+      }
+      ul.clean li::before {
+        content: "→";
+        position: absolute;
+        left: 0.2em;
+        color: var(--amber);
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .step-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.3em;
+        height: 2.3em;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--amber), #ff8a3d);
+        color: #1a1208;
+        font-weight: 800;
+        font-family: "Fraunces", serif;
+        font-size: 1.1em;
+        margin-right: 0.6em;
+        vertical-align: middle;
+        box-shadow: 0 6px 18px rgba(245, 165, 36, 0.35);
+      }
+
+      .tag {
+        display: inline-block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.08em;
+        padding: 0.3em 0.75em;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--ink-soft);
+        margin-right: 0.4em;
+      }
+      .tag.amber {
+        color: var(--amber);
+        border-color: rgba(245, 165, 36, 0.35);
+        background: rgba(245, 165, 36, 0.08);
+      }
+      .tag.teal {
+        color: var(--teal);
+        border-color: rgba(45, 212, 191, 0.35);
+        background: rgba(45, 212, 191, 0.08);
+      }
+      .tag.violet {
+        color: var(--violet);
+        border-color: rgba(167, 139, 250, 0.35);
+        background: rgba(167, 139, 250, 0.08);
+      }
+      .tag.coral {
+        color: var(--coral);
+        border-color: rgba(248, 113, 113, 0.35);
+        background: rgba(248, 113, 113, 0.08);
+      }
+
+      /* --- cover slide --- */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        padding: 4% 4% 3% !important;
+        background:
+          radial-gradient(
+            ellipse at top right,
+            rgba(245, 165, 36, 0.15),
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse at bottom left,
+            rgba(45, 212, 191, 0.12),
+            transparent 55%
+          );
+      }
+      .cover .meta-top {
+        display: flex;
+        justify-content: space-between;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        color: var(--muted);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .cover h1 {
+        font-size: 3.4em;
+        line-height: 0.98;
+        margin: 0.3em 0;
+      }
+      .cover h1 .accent {
+        background: linear-gradient(135deg, var(--amber), #ff7e5f);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-style: italic;
+      }
+      .cover .sub {
+        font-size: 1em;
+        color: var(--ink-soft);
+        max-width: 30ch;
+      }
+      .cover .meta-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        color: var(--muted);
+      }
+      .cover .ev-list span {
+        display: block;
+        margin-bottom: 0.3em;
+      }
+      .cover .ev-list .ev-num {
+        color: var(--amber);
+        margin-right: 0.6em;
+      }
+
+      /* --- section divider --- */
+      .divider {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        padding: 0 6% !important;
+        background: radial-gradient(
+          circle at 80% 30%,
+          rgba(245, 165, 36, 0.1),
+          transparent 50%
+        );
+      }
+      .divider .num {
+        font-family: "Fraunces", serif;
+        font-size: 5em;
+        font-weight: 800;
+        font-style: italic;
+        background: linear-gradient(135deg, var(--amber), #ff7e5f);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        line-height: 1;
+      }
+      .divider h2 {
+        font-size: 2.4em;
+        max-width: 16ch;
+      }
+      .divider .lede {
+        font-size: 1em;
+        max-width: 36ch;
+        margin-top: 0.8em;
+      }
+
+      /* --- step header --- */
+      .step-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.4em;
+      }
+      .step-header .step-badge {
+        font-size: 0.9em;
+      }
+      .step-header h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.6em;
+      }
+
+      .note {
+        margin-top: 0.7em;
+        padding: 0.8em 1em;
+        border-left: 3px solid var(--teal);
+        background: rgba(45, 212, 191, 0.06);
+        border-radius: 0 8px 8px 0;
+        font-size: 0.85em;
+        color: var(--ink-soft);
+      }
+      .note strong {
+        color: var(--teal);
+      }
+
+      .warn {
+        border-left-color: var(--coral);
+        background: rgba(248, 113, 113, 0.06);
+      }
+      .warn strong {
+        color: var(--coral);
+      }
+
+      /* --- nav controls --- */
+      .reveal .controls {
+        color: var(--amber);
+      }
+      .reveal .progress {
+        color: var(--amber);
+        height: 4px;
+      }
+
+      /* --- slide number --- */
+      .reveal .slide-number {
+        font-family: "JetBrains Mono", monospace;
+        background: transparent;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* --- footer brand on every slide --- */
+      .brand-foot {
+        position: absolute;
+        bottom: 12px;
+        left: 3%;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        pointer-events: none;
+      }
+
+      table.compare {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.78em;
+        margin-top: 0.6em;
+      }
+      table.compare th,
+      table.compare td {
+        text-align: left;
+        padding: 0.7em 0.9em;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      table.compare th {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75em;
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+      }
+      table.compare tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .checklist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .checklist li {
+        padding: 0.5em 0 0.5em 2em;
+        position: relative;
+        font-size: 0.9em;
+        color: var(--ink-soft);
+      }
+      .checklist li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        width: 1.4em;
+        height: 1.4em;
+        background: rgba(134, 239, 172, 0.15);
+        color: var(--green);
+        border-radius: 6px;
+        text-align: center;
+        font-weight: 700;
+        line-height: 1.4em;
+        font-size: 0.85em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============== COVER ============== -->
+        <section class="cover">
+          <div class="meta-top">
+            <span>SENA · Fichas 3186652 / 3186653</span>
+            <span>GA6-220501096-AA2</span>
+          </div>
+
+          <div>
+            <span class="eyebrow">Sesión de aprendizaje</span>
+            <h1>
+              SQL <span class="accent">en práctica</span><br />DDL, DML &amp;
+              Bases de Datos
+            </h1>
+            <p class="sub">
+              Aprendamos a crear, modificar y consultar bases de datos
+              relacionales — paso a paso, con ejemplos reales.
+            </p>
+          </div>
+
+          <div class="meta-bottom">
+            <div class="ev-list">
+              <span><span class="ev-num">EV01</span> Sentencias DDL y DML</span>
+              <span><span class="ev-num">EV02</span> Estructura de la BD</span>
+              <span><span class="ev-num">EV03</span> Script de la BD</span>
+            </div>
+            <div>
+              Pulsa <strong style="color: var(--amber)">→</strong> para empezar
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== AGENDA ============== -->
+        <section>
+          <span class="eyebrow">Lo que veremos hoy</span>
+          <h2>
+            Tres evidencias, un mismo objetivo:<br />dominar tu base de datos.
+          </h2>
+
+          <div class="three-col" style="margin-top: 1.2em">
+            <div class="card">
+              <span class="tag amber">EV01</span>
+              <h4 style="margin-top: 0.6em">Taller "Libreta"</h4>
+              <p>
+                Crear tablas, insertar, consultar y actualizar datos con SQL
+                puro.
+              </p>
+            </div>
+            <div class="card">
+              <span class="tag teal">EV02</span>
+              <h4 style="margin-top: 0.6em">Estructura &amp; restricciones</h4>
+              <p>
+                Diseñar la BD del proyecto formativo con llaves primarias y
+                foráneas.
+              </p>
+            </div>
+            <div class="card">
+              <span class="tag violet">EV03</span>
+              <h4 style="margin-top: 0.6em">Script de la BD</h4>
+              <p>Generar y exportar el modelo físico desde MySQL Workbench.</p>
+            </div>
+          </div>
+
+          <p class="lede" style="margin-top: 1.5em; max-width: 40ch">
+            Duración total: <strong>32 horas</strong>. Hoy abrimos el camino.
+          </p>
+        </section>
+
+        <!-- ============== ¿QUÉ ES SQL? ============== -->
+        <section>
+          <span class="eyebrow">Antes de empezar</span>
+          <h2>¿Qué es SQL?</h2>
+
+          <div class="two-col" style="margin-top: 0.8em">
+            <div>
+              <p>
+                SQL (<em>Structured Query Language</em>) es el
+                <strong>idioma</strong> con el que le hablamos a una base de
+                datos.
+              </p>
+              <p>Con SQL podemos:</p>
+              <ul class="clean">
+                <li>Crear tablas y definir su forma</li>
+                <li>Guardar información (insertar)</li>
+                <li>Buscar y filtrar datos</li>
+                <li>Modificar o eliminar registros</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Piensa en SQL como…</h4>
+              <p style="font-size: 0.95em; color: var(--ink)">
+                Una
+                <strong
+                  >conversación con una bibliotecaria muy organizada</strong
+                >: tú le pides "muéstrame todos los libros de terror publicados
+                después de 2010" y ella te trae la lista exacta.
+              </p>
+              <p style="margin-top: 0.8em">
+                La diferencia: en vez de hablar, escribimos comandos.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== DDL vs DML ============== -->
+        <section>
+          <span class="eyebrow">Dos familias de comandos</span>
+          <h2>DDL vs DML</h2>
+
+          <table class="compare">
+            <thead>
+              <tr>
+                <th style="width: 18%">Familia</th>
+                <th style="width: 32%">¿Para qué sirve?</th>
+                <th>Comandos típicos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong style="color: var(--amber)">DDL</strong><br /><span
+                    style="font-size: 0.85em; color: var(--muted)"
+                    >Data Definition Language</span
+                  >
+                </td>
+                <td>
+                  Define la <em>estructura</em>: crea y modifica tablas,
+                  columnas y restricciones.
+                </td>
+                <td>
+                  <code>CREATE</code> &nbsp; <code>ALTER</code> &nbsp;
+                  <code>DROP</code> &nbsp; <code>TRUNCATE</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong style="color: var(--teal)">DML</strong><br /><span
+                    style="font-size: 0.85em; color: var(--muted)"
+                    >Data Manipulation Language</span
+                  >
+                </td>
+                <td>
+                  Manipula los <em>datos</em> que están dentro de las tablas.
+                </td>
+                <td>
+                  <code>INSERT</code> &nbsp; <code>SELECT</code> &nbsp;
+                  <code>UPDATE</code> &nbsp; <code>DELETE</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="note" style="margin-top: 1.2em">
+            <strong>Regla mental:</strong> DDL cambia el <em>edificio</em>; DML
+            cambia los <em>muebles</em> dentro del edificio.
+          </div>
+        </section>
+
+        <!-- ============== DIVIDER EV01 ============== -->
+        <section class="divider">
+          <div class="num">01</div>
+          <span class="eyebrow" style="margin-top: 0.5em"
+            >Evidencia GA6-220501096-AA2-EV01</span
+          >
+          <h2>Destrezas con DDL y DML: el taller "Libreta"</h2>
+          <p class="lede">
+            Vamos a construir, llenar y consultar una pequeña agenda de
+            contactos. Ocho pasos, ocho comandos clave.
+          </p>
+        </section>
+
+        <!-- ============== PASO 1 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">1</span>
+            <h3>Crear la tabla <code>libreta</code></h3>
+          </div>
+          <p class="lede" style="margin-bottom: 0.4em">
+            Tres columnas: nombre, domicilio y teléfono.
+          </p>
+
+          <pre><code class="language-sql" data-trim>
+CREATE TABLE libreta (
+  nombre    VARCHAR(20),
+  domicilio VARCHAR(30),
+  telefono  VARCHAR(11)
+);
+</code></pre>
+
+          <div class="note">
+            <strong>VARCHAR(n)</strong> significa "texto de hasta
+            <em>n</em> caracteres". Se usa para nombres, direcciones, etc. El
+            teléfono va como texto porque no vamos a hacer matemáticas con él.
+          </div>
+          <span class="tag amber">DDL</span
+          ><span class="tag">CREATE TABLE</span>
+        </section>
+
+        <!-- ============== PASO 2 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">2</span>
+            <h3>Ver las tablas existentes</h3>
+          </div>
+          <p class="lede" style="margin-bottom: 0.4em">
+            Confirmamos que <code>libreta</code> se creó bien.
+          </p>
+
+          <pre><code class="language-sql" data-trim>
+SHOW TABLES;
+</code></pre>
+
+          <p style="color: var(--ink-soft); font-size: 0.9em">
+            Resultado esperado: aparece <code>libreta</code> en el listado de
+            tablas de la base de datos.
+          </p>
+          <span class="tag">MySQL</span
+          ><span class="tag teal">Verificación</span>
+        </section>
+
+        <!-- ============== PASO 3 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">3</span>
+            <h3>Describir la estructura</h3>
+          </div>
+          <p class="lede" style="margin-bottom: 0.4em">
+            ¿Qué columnas tiene? ¿De qué tipo? ¿Aceptan nulos?
+          </p>
+
+          <pre><code class="language-sql" data-trim>
+DESCRIBE libreta;
+</code></pre>
+
+          <div class="note">
+            <strong>DESCRIBE</strong> nos muestra una "radiografía" de la tabla:
+            cada columna, su tipo, si admite NULL, si tiene llave primaria,
+            valor por defecto, etc.
+          </div>
+          <span class="tag">DESCRIBE</span
+          ><span class="tag teal">Metadatos</span>
+        </section>
+
+        <!-- ============== PASO 4 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">4</span>
+            <h3>Insertar los primeros registros</h3>
+          </div>
+
+          <pre><code class="language-sql" data-trim>
+INSERT INTO libreta (nombre, domicilio, telefono)
+VALUES ('Alberto Mores', 'Colon 123',      '4234567');
+
+INSERT INTO libreta (nombre, domicilio, telefono)
+VALUES ('Juan Torres',   'Avellaneda 135', '4458787');
+</code></pre>
+
+          <div class="note">
+            Cada <code>INSERT</code> guarda <em>una fila</em>. Fíjate en el
+            <strong>orden</strong>: los valores deben corresponder a las
+            columnas que listamos arriba.
+          </div>
+          <span class="tag teal">DML</span><span class="tag">INSERT</span>
+        </section>
+
+        <!-- ============== PASO 5 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">5</span>
+            <h3>Mostrar todos los registros</h3>
+          </div>
+
+          <pre><code class="language-sql" data-trim>
+SELECT * FROM libreta;
+</code></pre>
+
+          <p
+            style="color: var(--ink-soft); font-size: 0.92em; margin-top: 0.6em"
+          >
+            El asterisco <code>*</code> significa "<em>todas las columnas</em>".
+            Es la consulta más usada del mundo.
+          </p>
+
+          <div class="note warn">
+            <strong>Tip de profesional:</strong> en producción evitamos
+            <code>SELECT *</code> y pedimos solo las columnas necesarias. Es más
+            rápido y más claro.
+          </div>
+          <span class="tag teal">DML</span><span class="tag">SELECT</span>
+        </section>
+
+        <!-- ============== PASO 6 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">6</span>
+            <h3>Actualizar los datos insertados</h3>
+          </div>
+
+          <pre><code class="language-sql" data-trim>
+UPDATE libreta
+SET    domicilio = 'Colon 456'
+WHERE  nombre = 'Alberto Mores';
+
+UPDATE libreta
+SET    telefono = '4400000'
+WHERE  nombre = 'Juan Torres';
+</code></pre>
+
+          <div class="note warn">
+            <strong>¡Atención!</strong> Un <code>UPDATE</code> sin
+            <code>WHERE</code> modifica <em>todas</em> las filas de la tabla.
+            Siempre, siempre, siempre: filtra con <code>WHERE</code>.
+          </div>
+          <span class="tag teal">DML</span><span class="tag">UPDATE</span>
+        </section>
+
+        <!-- ============== PASO 7 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">7</span>
+            <h3>Insertar 5 registros más</h3>
+          </div>
+
+          <pre><code class="language-sql" data-trim>
+INSERT INTO libreta (nombre, domicilio, telefono) VALUES
+  ('María López',    'Bolívar 78',     '4112233'),
+  ('Carlos Ruiz',    'San Martín 12',  '4778899'),
+  ('Lucía Gómez',    'Sarmiento 540',  '4334455'),
+  ('Diego Pérez',    'Mitre 901',      '4556677'),
+  ('Sofía Castro',   'Belgrano 230',   '4998877');
+</code></pre>
+
+          <div class="note">
+            <strong>Tip:</strong> con
+            <code>INSERT INTO ... VALUES (...), (...), (...)</code> podemos
+            insertar varias filas en un solo comando. Más rápido que cinco
+            INSERT separados.
+          </div>
+          <span class="tag teal">DML</span
+          ><span class="tag">INSERT múltiple</span>
+        </section>
+
+        <!-- ============== PASO 8 ============== -->
+        <section>
+          <div class="step-header">
+            <span class="step-badge">8</span>
+            <h3>Contar cuántos registros hay</h3>
+          </div>
+
+          <pre><code class="language-sql" data-trim>
+SELECT COUNT(*) AS total_contactos
+FROM   libreta;
+</code></pre>
+
+          <p
+            style="color: var(--ink-soft); font-size: 0.92em; margin-top: 0.6em"
+          >
+            Si hicimos todo bien, el resultado debería ser
+            <strong style="color: var(--amber-soft)">7</strong>: los 2 iniciales
+            + los 5 nuevos.
+          </p>
+
+          <div class="note">
+            <code>COUNT(*)</code> es una <strong>función de agregación</strong>:
+            en vez de devolver filas, devuelve un número. Veremos más (SUM, AVG,
+            MAX, MIN) en próximas sesiones.
+          </div>
+          <span class="tag teal">DML</span><span class="tag">Agregación</span>
+        </section>
+
+        <!-- ============== ENTREGA EV01 ============== -->
+        <section>
+          <span class="eyebrow">Entrega · EV01</span>
+          <h2>¿Qué tengo que entregar?</h2>
+
+          <div class="two-col" style="margin-top: 0.8em">
+            <div>
+              <h4>Producto</h4>
+              <ul class="checklist">
+                <li>Informe técnico en <strong>PDF</strong></li>
+                <li>Portada, introducción y objetivo</li>
+                <li>Cada punto del taller resuelto con su sentencia SQL</li>
+                <li>Capturas de pantalla son bienvenidas</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Espacio de envío</h4>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.78em;
+                  color: var(--amber-soft);
+                "
+              >
+                GA6-220501096-AA2-EV01
+              </p>
+              <p>
+                Extensión libre — lo que importa es la
+                <strong>claridad</strong> y que cada respuesta esté justificada
+                con su comando.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== DIVIDER EV02 ============== -->
+        <section class="divider">
+          <div class="num">02</div>
+          <span class="eyebrow" style="margin-top: 0.5em"
+            >Evidencia GA6-220501096-AA2-EV02</span
+          >
+          <h2>Diseñar la estructura de la BD del proyecto</h2>
+          <p class="lede">
+            Ahora pensamos en tu proyecto formativo: ¿qué tablas necesita?,
+            ¿cómo se relacionan?, ¿qué reglas debe respetar?
+          </p>
+        </section>
+
+        <!-- ============== TIPOS DE DATOS ============== -->
+        <section>
+          <span class="eyebrow">Bloque 1 · Tipos de datos</span>
+          <h2>Elige el tipo correcto para cada columna</h2>
+
+          <table class="compare" style="margin-top: 0.6em">
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Para qué sirve</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>INT</code></td>
+                <td>Números enteros (edades, cantidades, IDs)</td>
+                <td><code>edad INT</code></td>
+              </tr>
+              <tr>
+                <td><code>DECIMAL(p,e)</code></td>
+                <td>Números con decimales exactos (dinero, precios)</td>
+                <td><code>precio DECIMAL(10,2)</code></td>
+              </tr>
+              <tr>
+                <td><code>VARCHAR(n)</code></td>
+                <td>Texto de longitud variable (nombres, correos)</td>
+                <td><code>nombre VARCHAR(50)</code></td>
+              </tr>
+              <tr>
+                <td><code>TEXT</code></td>
+                <td>Textos largos (descripciones, comentarios)</td>
+                <td><code>descripcion TEXT</code></td>
+              </tr>
+              <tr>
+                <td><code>DATE</code></td>
+                <td>Fechas (año-mes-día)</td>
+                <td><code>fecha_nac DATE</code></td>
+              </tr>
+              <tr>
+                <td><code>DATETIME</code></td>
+                <td>Fechas con hora</td>
+                <td><code>creado_en DATETIME</code></td>
+              </tr>
+              <tr>
+                <td><code>BOOLEAN</code></td>
+                <td>Verdadero/Falso (activo, eliminado, etc.)</td>
+                <td><code>activo BOOLEAN</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ============== LLAVE PRIMARIA ============== -->
+        <section>
+          <span class="eyebrow">Bloque 2 · Restricciones</span>
+          <h2>Llave Primaria <em>(PRIMARY KEY)</em></h2>
+
+          <div class="two-col">
+            <div>
+              <p>
+                Es el <strong>identificador único</strong> de cada fila. Como tu
+                número de cédula:
+              </p>
+              <ul class="clean">
+                <li>No se puede repetir</li>
+                <li>No puede ser NULL</li>
+                <li>Solo hay una por tabla</li>
+              </ul>
+            </div>
+            <div>
+              <pre><code class="language-sql" data-trim>
+CREATE TABLE estudiante (
+  id_estudiante INT PRIMARY KEY AUTO_INCREMENT,
+  nombre        VARCHAR(60) NOT NULL,
+  correo        VARCHAR(80) UNIQUE
+);
+</code></pre>
+            </div>
+          </div>
+
+          <div class="note">
+            <strong>AUTO_INCREMENT</strong> hace que la base de datos genere el
+            ID automáticamente: 1, 2, 3, 4… sin que tú te preocupes.
+          </div>
+        </section>
+
+        <!-- ============== LLAVE FORÁNEA ============== -->
+        <section>
+          <span class="eyebrow">Bloque 2 · Restricciones</span>
+          <h2>Llave Foránea <em>(FOREIGN KEY)</em></h2>
+
+          <p class="lede" style="max-width: 50ch">
+            Conecta dos tablas. Es como decir: "esta matrícula
+            <strong>pertenece a</strong> ese estudiante".
+          </p>
+
+          <pre><code class="language-sql" data-trim>
+CREATE TABLE matricula (
+  id_matricula  INT PRIMARY KEY AUTO_INCREMENT,
+  id_estudiante INT NOT NULL,
+  curso         VARCHAR(80),
+  fecha         DATE,
+
+  CONSTRAINT fk_matricula_estudiante
+    FOREIGN KEY (id_estudiante)
+    REFERENCES estudiante(id_estudiante)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+</code></pre>
+
+          <div class="note">
+            La FK garantiza la <strong>integridad referencial</strong>: no
+            puedes matricular a un estudiante que no existe.
+          </div>
+        </section>
+
+        <!-- ============== OTRAS RESTRICCIONES ============== -->
+        <section>
+          <span class="eyebrow">Bloque 2 · Restricciones</span>
+          <h2>Otras restricciones útiles</h2>
+
+          <div class="three-col" style="margin-top: 0.6em">
+            <div class="card">
+              <h4><code>NOT NULL</code></h4>
+              <p>
+                La columna <strong>no puede</strong> quedar vacía. Útil para
+                datos obligatorios.
+              </p>
+            </div>
+            <div class="card">
+              <h4><code>UNIQUE</code></h4>
+              <p>
+                El valor no se puede repetir, pero <em>sí</em> puede ser NULL.
+                Ideal para correos.
+              </p>
+            </div>
+            <div class="card">
+              <h4><code>DEFAULT</code></h4>
+              <p>
+                Si no envías valor, usa uno por defecto. Ej:
+                <code>activo BOOLEAN DEFAULT TRUE</code>.
+              </p>
+            </div>
+            <div class="card">
+              <h4><code>CHECK</code></h4>
+              <p>
+                Valida una condición. Ej: <code>CHECK (edad &gt;= 0)</code>.
+              </p>
+            </div>
+            <div class="card">
+              <h4><code>AUTO_INCREMENT</code></h4>
+              <p>
+                Genera IDs automáticos. Casi siempre va junto a la llave
+                primaria.
+              </p>
+            </div>
+            <div class="card">
+              <h4><code>INDEX</code></h4>
+              <p>
+                Acelera las búsquedas en columnas que se consultan con
+                frecuencia.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== MYSQL WORKBENCH ============== -->
+        <section>
+          <span class="eyebrow">Herramienta del proyecto</span>
+          <h2>MySQL Workbench: tu mesa de trabajo</h2>
+
+          <div class="two-col">
+            <div>
+              <p>
+                Es un programa <strong>gratuito</strong> de Oracle que te
+                permite:
+              </p>
+              <ul class="clean">
+                <li>
+                  Diseñar bases de datos con diagramas visuales (modelo E-R)
+                </li>
+                <li>Conectarte a un servidor MySQL local o remoto</li>
+                <li>Ejecutar consultas SQL con resaltado de sintaxis</li>
+                <li>
+                  Hacer <strong>ingeniería directa</strong>: convertir tu
+                  diagrama en script SQL real
+                </li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Flujo recomendado</h4>
+              <p style="color: var(--ink)">
+                <strong>1.</strong> Dibuja el diagrama E-R<br />
+                <strong>2.</strong> Define tipos y restricciones<br />
+                <strong>3.</strong> Conecta las tablas con FKs<br />
+                <strong>4.</strong> Genera el script con
+                <em>Forward Engineer</em><br />
+                <strong>5.</strong> Exporta y entrega
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== EJEMPLO MINI BD ============== -->
+        <section>
+          <span class="eyebrow">Mini ejemplo completo</span>
+          <h2>Una BD pequeña con sus restricciones</h2>
+
+          <pre><code class="language-sql" data-trim>
+CREATE TABLE categoria (
+  id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+  nombre       VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE producto (
+  id_producto  INT PRIMARY KEY AUTO_INCREMENT,
+  nombre       VARCHAR(80) NOT NULL,
+  precio       DECIMAL(10,2) NOT NULL CHECK (precio >= 0),
+  stock        INT DEFAULT 0,
+  id_categoria INT NOT NULL,
+  creado_en    DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT fk_producto_categoria
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+);
+</code></pre>
+
+          <p
+            style="font-size: 0.85em; color: var(--ink-soft); margin-top: 0.4em"
+          >
+            Aquí tienes: PK, FK, NOT NULL, UNIQUE, DEFAULT y CHECK — todo en
+            menos de 15 líneas.
+          </p>
+        </section>
+
+        <!-- ============== ENTREGA EV02 ============== -->
+        <section>
+          <span class="eyebrow">Entrega · EV02</span>
+          <h2>¿Qué tengo que entregar?</h2>
+
+          <div class="two-col">
+            <div>
+              <h4>Producto</h4>
+              <ul class="checklist">
+                <li>
+                  Documento en <strong>Word</strong>: portada, introducción,
+                  objetivo y descripción de la estructura
+                </li>
+                <li>
+                  Archivo <strong>.mwb</strong> de MySQL Workbench con el diseño
+                  E-R
+                </li>
+                <li>Todo dentro de un <strong>archivo ZIP</strong></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Debe incluir</h4>
+              <ul class="checklist" style="font-size: 0.95em">
+                <li>Lista de entidades / tablas</li>
+                <li>Atributos con tipo de dato</li>
+                <li>Llaves primarias y foráneas</li>
+                <li>Restricciones aplicadas</li>
+              </ul>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.75em;
+                  color: var(--amber-soft);
+                  margin-top: 0.6em;
+                "
+              >
+                GA6-220501096-AA2-EV02
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== DIVIDER EV03 ============== -->
+        <section class="divider">
+          <div class="num">03</div>
+          <span class="eyebrow" style="margin-top: 0.5em"
+            >Evidencia GA6-220501096-AA2-EV03</span
+          >
+          <h2>Generar el script final de tu base de datos</h2>
+          <p class="lede">
+            Convertimos el diseño visual en código SQL ejecutable: el "modelo
+            físico" listo para correr en un servidor.
+          </p>
+        </section>
+
+        <!-- ============== MODELO FÍSICO ============== -->
+        <section>
+          <span class="eyebrow">Concepto clave</span>
+          <h2>Modelo conceptual → lógico → físico</h2>
+
+          <div class="three-col">
+            <div class="card">
+              <span class="tag violet">1</span>
+              <h4 style="margin-top: 0.5em">Conceptual</h4>
+              <p>
+                ¿Qué entidades hay? ¿Cómo se relacionan? Aún sin pensar en SQL.
+              </p>
+            </div>
+            <div class="card">
+              <span class="tag teal">2</span>
+              <h4 style="margin-top: 0.5em">Lógico</h4>
+              <p>
+                Tablas, atributos, llaves… pero sin un motor específico todavía.
+              </p>
+            </div>
+            <div class="card">
+              <span class="tag amber">3</span>
+              <h4 style="margin-top: 0.5em">Físico</h4>
+              <p>
+                Código SQL real, listo para MySQL: tipos de datos exactos, motor
+                InnoDB, charset, etc.
+              </p>
+            </div>
+          </div>
+
+          <div class="note" style="margin-top: 1em">
+            La <strong>EV03</strong> te pide exactamente el modelo físico — un
+            archivo <code>.sql</code> que cualquiera pueda ejecutar para
+            reconstruir tu base de datos desde cero.
+          </div>
+        </section>
+
+        <!-- ============== EXPORTAR SCRIPT ============== -->
+        <section>
+          <span class="eyebrow">Paso a paso en Workbench</span>
+          <h2>Cómo generar y exportar el script</h2>
+
+          <ul class="clean" style="font-size: 1em">
+            <li>Abre tu diagrama E-R en <strong>MySQL Workbench</strong></li>
+            <li>Menú <em>Database</em> → <em>Forward Engineer…</em></li>
+            <li>
+              Selecciona las opciones: <code>DROP objects before CREATE</code>,
+              generar inserts si los tienes
+            </li>
+            <li>
+              Revisa el script generado y <em>copia o guarda</em> como archivo
+              <code>.sql</code>
+            </li>
+            <li>
+              Comprime ese <code>.sql</code> en un <strong>ZIP</strong> y
+              entrégalo
+            </li>
+          </ul>
+
+          <div class="note">
+            <strong>Tip:</strong> abre el <code>.sql</code> en un editor de
+            texto antes de entregarlo y verifica que tenga
+            <code>CREATE DATABASE</code>, todos los <code>CREATE TABLE</code> y
+            las <code>FOREIGN KEY</code>.
+          </div>
+        </section>
+
+        <!-- ============== EJEMPLO SCRIPT ============== -->
+        <section>
+          <span class="eyebrow">Así se ve un script exportado</span>
+          <h2>Fragmento de ejemplo</h2>
+
+          <pre><code class="language-sql" data-trim>
+-- -----------------------------------------------------
+-- Schema proyecto_formativo
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `proyecto_formativo`
+  DEFAULT CHARACTER SET utf8mb4;
+USE `proyecto_formativo`;
+
+-- -----------------------------------------------------
+-- Table `categoria`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `categoria` (
+  `id_categoria` INT NOT NULL AUTO_INCREMENT,
+  `nombre`       VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id_categoria`),
+  UNIQUE INDEX `uq_categoria_nombre` (`nombre` ASC)
+) ENGINE = InnoDB;
+</code></pre>
+
+          <p style="font-size: 0.85em; color: var(--ink-soft)">
+            Workbench te genera todos los comentarios, los
+            <code>IF NOT EXISTS</code> y el motor — tú solo lo entregas.
+          </p>
+        </section>
+
+        <!-- ============== ENTREGA EV03 ============== -->
+        <section>
+          <span class="eyebrow">Entrega · EV03</span>
+          <h2>¿Qué tengo que entregar?</h2>
+
+          <div class="two-col">
+            <div>
+              <h4>Producto</h4>
+              <ul class="checklist">
+                <li>Archivo <strong>.sql</strong> con el modelo físico</li>
+                <li>Comprimido en un archivo <strong>ZIP</strong></li>
+                <li>Debe poder ejecutarse sin errores</li>
+                <li>Coherente con tu proyecto formativo</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Lista rápida</h4>
+              <ul class="checklist" style="font-size: 0.95em">
+                <li>CREATE DATABASE / SCHEMA</li>
+                <li>Todas las CREATE TABLE</li>
+                <li>PRIMARY KEY en cada tabla</li>
+                <li>FOREIGN KEY donde aplica</li>
+                <li>Tipos de datos correctos</li>
+              </ul>
+              <p
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  font-size: 0.75em;
+                  color: var(--amber-soft);
+                  margin-top: 0.6em;
+                "
+              >
+                GA6-220501096-AA2-EV03
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== RESUMEN ============== -->
+        <section>
+          <span class="eyebrow">Resumen</span>
+          <h2>Lo que ahora puedes hacer</h2>
+
+          <div class="three-col" style="margin-top: 0.8em">
+            <div class="card">
+              <span class="tag amber">DDL</span>
+              <p style="margin-top: 0.5em; color: var(--ink)">
+                Crear, modificar y eliminar tablas con <code>CREATE</code>,
+                <code>ALTER</code> y <code>DROP</code>.
+              </p>
+            </div>
+            <div class="card">
+              <span class="tag teal">DML</span>
+              <p style="margin-top: 0.5em; color: var(--ink)">
+                Insertar, consultar, actualizar y borrar datos con seguridad.
+              </p>
+            </div>
+            <div class="card">
+              <span class="tag violet">Diseño</span>
+              <p style="margin-top: 0.5em; color: var(--ink)">
+                Pensar la estructura, aplicar restricciones y generar el script
+                final.
+              </p>
+            </div>
+          </div>
+
+          <p class="lede" style="margin-top: 1.5em; max-width: 50ch">
+            Una base de datos bien diseñada es
+            <strong>la columna vertebral</strong> de cualquier software
+            profesional. Lo que aprendiste hoy te acompañará el resto de tu
+            carrera.
+          </p>
+        </section>
+
+        <!-- ============== CIERRE ============== -->
+        <section class="cover">
+          <div class="meta-top">
+            <span>Gracias por la sesión</span>
+            <span>SENA · 2026</span>
+          </div>
+
+          <div>
+            <span class="eyebrow">Siguiente paso</span>
+            <h1>¿Preguntas?<br /><span class="accent">A practicar.</span></h1>
+            <p class="sub">
+              El mejor SQL se aprende escribiendo SQL. Abre tu Workbench y
+              empieza por el taller "Libreta".
+            </p>
+          </div>
+
+          <div class="meta-bottom">
+            <div>Fichas 3186652 / 3186653 · GA6-220501096-AA2</div>
+            <div>
+              Pulsa <strong style="color: var(--amber)">ESC</strong> para ver el
+              índice
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: false,
+        width: 1280,
+        height: 800,
+        margin: 0.06,
+        minScale: 0.3,
+        maxScale: 2.0,
+        plugins: [RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
