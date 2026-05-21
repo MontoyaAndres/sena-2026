@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Contenido, planeación digital y derechos de autor</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css" id="theme">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0F1419;
+  --bg-2:#161C24;
+  --paper:#F4EFE6;
+  --ink:#0F1419;
+  --lime:#D4FF3A;
+  --amber:#FFB547;
+  --rose:#FF7AA8;
+  --sky:#7AD7FF;
+  --muted:#8A8F99;
+}
+
+.reveal{
+  font-family:'Manrope', sans-serif;
+  font-weight:400;
+  font-size:30px;
+  color:var(--paper);
+  background:var(--bg);
+}
+.reveal .slides{ text-align:left; }
+
+.reveal h1, .reveal h2, .reveal h3{
+  font-family:'Instrument Serif', serif;
+  color:var(--paper);
+  letter-spacing:-0.01em;
+  text-transform:none;
+  font-weight:400;
+  line-height:1.0;
+  margin-bottom:0.4em;
+}
+.reveal h1{ font-size:3.4em; }
+.reveal h2{ font-size:2.4em; }
+.reveal h3{ font-size:1.3em; font-family:'Manrope',sans-serif; font-weight:700; }
+
+.reveal h1 em, .reveal h2 em{
+  font-style:italic; color:var(--lime);
+}
+
+.reveal p{ line-height:1.55; font-size:0.95em;}
+.reveal strong{ color:var(--lime); font-weight:600;}
+
+.reveal ul, .reveal ol{
+  margin-left:0; padding-left:0; list-style:none;
+}
+.reveal ul li{
+  position:relative; padding-left:1.8em; margin-bottom:0.65em;
+  font-size:0.9em; line-height:1.45;
+}
+.reveal ul li::before{
+  content:"→"; position:absolute; left:0; top:0;
+  color:var(--lime); font-weight:700; font-family:'JetBrains Mono', monospace;
+}
+
+/* TAG MONO */
+.tag{
+  display:inline-block; font-family:'JetBrains Mono', monospace;
+  font-size:0.55em; font-weight:500; color:var(--lime);
+  border:1px solid var(--lime); padding:6px 12px; border-radius:4px;
+  letter-spacing:0.05em; margin-bottom:24px;
+  text-transform:uppercase;
+}
+.tag.amber{ color:var(--amber); border-color:var(--amber);}
+.tag.rose{ color:var(--rose); border-color:var(--rose);}
+.tag.sky{ color:var(--sky); border-color:var(--sky);}
+.tag.solid{ background:var(--lime); color:var(--ink); border-color:var(--lime);}
+
+/* PORTADA */
+.cover{
+  background:radial-gradient(ellipse at top right, rgba(212,255,58,0.08), transparent 60%),
+             radial-gradient(ellipse at bottom left, rgba(255,122,168,0.06), transparent 60%),
+             var(--bg);
+  padding:60px !important;
+  position:relative;
+}
+.cover-meta-top{
+  font-family:'JetBrains Mono', monospace; font-size:0.45em;
+  color:var(--muted); letter-spacing:0.15em; text-transform:uppercase;
+  display:flex; justify-content:space-between; margin-bottom:80px;
+}
+.cover-meta-top .star{ color:var(--lime);}
+.cover h1{
+  font-size:5em; line-height:0.92;
+  font-family:'Instrument Serif',serif; font-weight:400;
+  max-width:90%;
+}
+.cover h1 em{ color:var(--amber); }
+.cover h1 .rose{ color:var(--rose); font-style:italic;}
+.cover .sub{
+  margin-top:40px; max-width:600px; font-size:0.85em; color:#C9C5BD;
+  border-left:3px solid var(--lime); padding-left:18px;
+}
+.cover-bottom{
+  position:absolute; bottom:50px; left:60px; right:60px;
+  display:flex; justify-content:space-between; align-items:flex-end;
+  font-family:'JetBrains Mono', monospace; font-size:0.45em;
+  color:var(--muted); letter-spacing:0.1em;
+}
+.cover-bottom .big-num{
+  font-family:'Instrument Serif',serif; font-size:7em;
+  color:var(--lime); line-height:0.9; letter-spacing:-0.05em;
+}
+
+/* SECCIÓN */
+.section-slide{
+  background:var(--bg);
+  display:flex !important; align-items:center; padding:60px !important;
+  border-left:6px solid var(--lime);
+}
+.section-slide .num{
+  font-family:'JetBrains Mono', monospace; font-size:0.55em;
+  color:var(--lime); letter-spacing:0.2em; margin-bottom:20px;
+  text-transform:uppercase;
+}
+.section-slide h1{ font-size:5em; max-width:85%;}
+.section-slide .desc{
+  margin-top:30px; max-width:600px; color:var(--muted); font-size:0.85em;
+}
+
+/* GRID DE TIPOS */
+.types-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  gap:14px; margin-top:20px;
+}
+.type-card{
+  background:var(--bg-2); border:1px solid #2A323D;
+  border-radius:10px; padding:22px;
+  position:relative; overflow:hidden;
+}
+.type-card .ico{
+  font-size:1.8em; color:var(--lime); margin-bottom:14px;
+}
+.type-card:nth-child(2) .ico{ color:var(--amber);}
+.type-card:nth-child(3) .ico{ color:var(--rose);}
+.type-card:nth-child(4) .ico{ color:var(--sky);}
+.type-card:nth-child(5) .ico{ color:var(--lime);}
+.type-card:nth-child(6) .ico{ color:var(--amber);}
+.type-card h3{
+  font-size:0.95em; margin:0 0 6px 0; color:var(--paper);
+}
+.type-card p{
+  font-size:0.6em; color:var(--muted); margin:0; line-height:1.4;
+}
+.type-card .label{
+  position:absolute; top:14px; right:14px;
+  font-family:'JetBrains Mono', monospace; font-size:0.4em;
+  color:var(--muted); letter-spacing:0.1em;
+}
+
+/* CARACTERÍSTICAS */
+.feat-list{
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:14px; margin-top:18px;
+}
+.feat{
+  display:flex; gap:16px; align-items:flex-start;
+  padding:14px 18px; background:var(--bg-2); border-radius:8px;
+}
+.feat .num{
+  font-family:'Instrument Serif', serif; font-size:2em;
+  color:var(--lime); line-height:1;
+}
+.feat:nth-child(2) .num{ color:var(--amber);}
+.feat:nth-child(3) .num{ color:var(--rose);}
+.feat:nth-child(4) .num{ color:var(--sky);}
+.feat:nth-child(5) .num{ color:var(--lime);}
+.feat:nth-child(6) .num{ color:var(--amber);}
+.feat h3{ margin:0 0 4px 0; font-size:0.85em;}
+.feat p{ font-size:0.6em; color:var(--muted); margin:0; line-height:1.4;}
+
+/* PASOS */
+.steps{
+  display:grid; grid-template-columns:repeat(5,1fr);
+  gap:10px; margin-top:20px;
+}
+.step{
+  background:var(--bg-2); border-radius:10px; padding:18px 14px;
+  border-top:3px solid var(--lime); text-align:left;
+}
+.step:nth-child(2){ border-top-color:var(--amber);}
+.step:nth-child(3){ border-top-color:var(--rose);}
+.step:nth-child(4){ border-top-color:var(--sky);}
+.step:nth-child(5){ border-top-color:var(--lime);}
+.step .num{
+  font-family:'JetBrains Mono',monospace; font-size:0.55em;
+  color:var(--lime); letter-spacing:0.1em; margin-bottom:8px;
+}
+.step:nth-child(2) .num{ color:var(--amber);}
+.step:nth-child(3) .num{ color:var(--rose);}
+.step:nth-child(4) .num{ color:var(--sky);}
+.step:nth-child(5) .num{ color:var(--lime);}
+.step h3{ font-size:0.7em; margin:0 0 8px 0; line-height:1.2;}
+.step p{ font-size:0.5em; color:var(--muted); margin:0; line-height:1.4;}
+
+/* SMART */
+.smart-grid{
+  display:grid; grid-template-columns:repeat(5,1fr);
+  gap:10px; margin:25px 0 15px;
+}
+.smart-box{
+  background:var(--bg-2); padding:18px 14px; border-radius:8px;
+  text-align:center;
+}
+.smart-box .letter{
+  font-family:'Instrument Serif',serif; font-size:3em;
+  line-height:1; color:var(--lime);
+}
+.smart-box:nth-child(2) .letter{ color:var(--amber);}
+.smart-box:nth-child(3) .letter{ color:var(--rose);}
+.smart-box:nth-child(4) .letter{ color:var(--sky);}
+.smart-box:nth-child(5) .letter{ color:#B8B5FF;}
+.smart-box .word{
+  font-size:0.6em; margin-top:8px; font-weight:600;
+}
+.smart-box .desc{
+  font-size:0.45em; color:var(--muted); margin-top:6px; line-height:1.3;
+}
+
+/* COPYRIGHT BIG */
+.copyright-hero{
+  display:grid; grid-template-columns:1fr 1.2fr; gap:50px; align-items:center;
+}
+.copyright-hero .sym{
+  font-family:'Instrument Serif',serif; font-size:14em;
+  color:var(--lime); line-height:0.85; text-align:center;
+  border:4px solid var(--lime); border-radius:50%;
+  width:280px; height:280px; display:flex;
+  align-items:center; justify-content:center;
+  margin:0 auto;
+}
+.copyright-hero h2{ font-size:2.2em;}
+.copyright-hero p{ font-size:0.85em; color:#C9C5BD;}
+
+/* LICENCIAS CC */
+.cc-grid{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:12px; margin-top:18px;
+}
+.cc{
+  background:var(--bg-2); border-radius:8px; padding:18px 14px;
+  border-left:4px solid var(--lime);
+}
+.cc:nth-child(2){ border-left-color:var(--amber);}
+.cc:nth-child(3){ border-left-color:var(--rose);}
+.cc:nth-child(4){ border-left-color:var(--sky);}
+.cc:nth-child(5){ border-left-color:#B8B5FF;}
+.cc:nth-child(6){ border-left-color:var(--lime);}
+.cc .code{
+  font-family:'JetBrains Mono',monospace; font-size:0.6em;
+  color:var(--lime); letter-spacing:0.05em; margin-bottom:6px;
+}
+.cc:nth-child(2) .code{ color:var(--amber);}
+.cc:nth-child(3) .code{ color:var(--rose);}
+.cc:nth-child(4) .code{ color:var(--sky);}
+.cc:nth-child(5) .code{ color:#B8B5FF;}
+.cc h3{ font-size:0.75em; margin:0 0 6px 0;}
+.cc p{ font-size:0.55em; color:var(--muted); margin:0; line-height:1.4;}
+
+/* DO/DONT */
+.do-dont{
+  display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px;
+}
+.do, .dont{
+  background:var(--bg-2); padding:24px; border-radius:12px;
+}
+.do{ border-top:4px solid var(--lime);}
+.dont{ border-top:4px solid var(--rose);}
+.do h3, .dont h3{
+  font-family:'Manrope',sans-serif; font-size:0.95em;
+  display:flex; align-items:center; gap:10px; margin:0 0 12px 0;
+}
+.do h3 i{ color:var(--lime);}
+.dont h3 i{ color:var(--rose);}
+.do ul li, .dont ul li{ font-size:0.7em; margin-bottom:6px;}
+.do ul li::before{ color:var(--lime);}
+.dont ul li::before{ content:"×"; color:var(--rose);}
+
+/* PULL QUOTE */
+.pull-quote{
+  background:linear-gradient(135deg, var(--bg-2), var(--bg));
+  padding:50px;
+  border-radius:14px;
+  margin-top:20px;
+  position:relative;
+}
+.pull-quote::before{
+  content:"“"; position:absolute; top:-30px; left:30px;
+  font-family:'Instrument Serif',serif; font-size:10em;
+  color:var(--lime); line-height:1;
+}
+.pull-quote p{
+  font-family:'Instrument Serif',serif; font-size:1.8em;
+  font-style:italic; line-height:1.2; color:var(--paper);
+  margin:0;
+}
+.pull-quote .cite{
+  font-family:'JetBrains Mono',monospace; font-size:0.5em;
+  color:var(--muted); letter-spacing:0.1em; margin-top:18px;
+  text-transform:uppercase;
+}
+
+/* QUIZ */
+.quiz-slide{
+  background:var(--bg);
+}
+.quiz-options{ margin-top:20px;}
+.quiz-options .opt{
+  background:var(--bg-2); border:1px solid #2A323D;
+  padding:14px 20px; margin-bottom:10px;
+  border-radius:8px; font-size:0.8em;
+  display:flex; align-items:center; gap:14px;
+}
+.quiz-options .opt .letter{
+  background:var(--lime); color:var(--ink);
+  width:32px; height:32px; border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;
+}
+.quiz-answer{
+  margin-top:18px; padding:14px 20px;
+  background:rgba(212,255,58,0.1); border-left:3px solid var(--lime);
+  font-size:0.7em; color:var(--paper); border-radius:4px;
+}
+
+/* CALLOUT */
+.callout{
+  background:var(--bg-2); padding:22px 26px; border-radius:10px;
+  border-left:4px solid var(--amber); margin-top:20px;
+  font-size:0.8em;
+}
+.callout strong{ color:var(--amber);}
+
+/* CIERRE */
+.closing{
+  background:var(--bg);
+  display:flex !important; align-items:center; justify-content:center;
+  flex-direction:column; text-align:center;
+  position:relative;
+}
+.closing h1{ font-size:5em; max-width:85%;}
+.closing h1 em{ color:var(--amber);}
+.closing .lime-line{
+  width:60px; height:3px; background:var(--lime);
+  margin:30px auto;
+}
+.closing p{
+  font-size:0.85em; color:var(--muted); max-width:560px;
+}
+.closing .meta{
+  position:absolute; bottom:40px;
+  font-family:'JetBrains Mono', monospace; font-size:0.5em;
+  color:var(--muted); letter-spacing:0.15em; text-transform:uppercase;
+}
+
+/* CORNER MARK */
+.corner{
+  position:absolute; bottom:25px; right:30px;
+  font-family:'JetBrains Mono',monospace; font-size:0.45em;
+  color:var(--muted); letter-spacing:0.15em; text-transform:uppercase;
+}
+
+.lead{
+  font-size:1.05em !important; color:#D9D5CC; line-height:1.5;
+}
+
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- PORTADA -->
+<section class="cover">
+  <div class="cover-meta-top">
+    <span><span class="star">★</span> SENA · Ficha 3515981</span>
+    <span>Actividad AA1 · 16 horas</span>
+  </div>
+  <h1>Contenido,<br>planeación <em>digital</em><br>y derechos<br>de <span class="rose">autor</span></h1>
+  <div class="sub">
+    Una introducción simple y clara para construir contenido digital con criterio,
+    estrategia y respeto a la creación de los demás.
+  </div>
+  <div class="cover-bottom">
+    <div>Construcción de contenido digital<br>Habilidades digitales</div>
+    <div class="big-num">AA1</div>
+  </div>
+</section>
+
+<!-- BIENVENIDA -->
+<section>
+  <span class="tag">¡Hola, aprendiz!</span>
+  <h2>¿De qué va esta sesión?</h2>
+  <p class="lead">
+    Hoy vas a aprender los <strong>fundamentos</strong> para crear contenido digital con
+    cabeza: qué es, cómo planearlo y qué reglas respetar al usar el trabajo de otras personas.
+  </p>
+  <ul style="margin-top:18px;">
+    <li>Características básicas del <strong>contenido digital</strong>.</li>
+    <li>Cómo <strong>definir objetivos</strong> claros antes de crear.</li>
+    <li>Pasos de la <strong>planeación digital</strong>.</li>
+    <li>Qué son los <strong>derechos de autor</strong> y las licencias <strong>Creative Commons</strong>.</li>
+    <li>Cómo prepararte para la evidencia <strong>AA1-EV01</strong>.</li>
+  </ul>
+  <div class="corner">01 · Introducción</div>
+</section>
+
+<!-- SECCIÓN 1 -->
+<section class="section-slide">
+  <div>
+    <div class="num">— Parte 01 / 04</div>
+    <h1>Contenido<br><em>digital</em></h1>
+    <div class="desc">Antes de crear cualquier cosa, hay que entender qué estamos creando.</div>
+  </div>
+</section>
+
+<!-- DEFINICIÓN -->
+<section>
+  <span class="tag">Definición</span>
+  <h2>¿Qué es <em>contenido digital</em>?</h2>
+  <p class="lead">
+    Es <strong>cualquier información</strong> creada, almacenada y compartida en formato digital,
+    es decir, que se puede ver o usar a través de un dispositivo electrónico.
+  </p>
+  <div class="pull-quote">
+    <p>Si lo puedes ver, leer, escuchar o tocar en una pantalla… probablemente es contenido digital.</p>
+    <div class="cite">— Definición práctica</div>
+  </div>
+</section>
+
+<!-- TIPOS -->
+<section>
+  <span class="tag amber">Formatos</span>
+  <h2>Tipos de contenido digital</h2>
+  <div class="types-grid">
+    <div class="type-card">
+      <span class="label">01</span>
+      <i class="fa-solid fa-align-left ico"></i>
+      <h3>Texto</h3>
+      <p>Artículos, posts, ebooks, blogs, mensajes.</p>
+    </div>
+    <div class="type-card">
+      <span class="label">02</span>
+      <i class="fa-solid fa-image ico"></i>
+      <h3>Imagen</h3>
+      <p>Fotografías, ilustraciones, infografías, memes.</p>
+    </div>
+    <div class="type-card">
+      <span class="label">03</span>
+      <i class="fa-solid fa-video ico"></i>
+      <h3>Video</h3>
+      <p>Clips, tutoriales, reels, documentales.</p>
+    </div>
+    <div class="type-card">
+      <span class="label">04</span>
+      <i class="fa-solid fa-music ico"></i>
+      <h3>Audio</h3>
+      <p>Podcasts, música, audiolibros, efectos de sonido.</p>
+    </div>
+    <div class="type-card">
+      <span class="label">05</span>
+      <i class="fa-solid fa-hand-pointer ico"></i>
+      <h3>Interactivo</h3>
+      <p>Juegos, quizzes, simuladores, apps.</p>
+    </div>
+    <div class="type-card">
+      <span class="label">06</span>
+      <i class="fa-solid fa-layer-group ico"></i>
+      <h3>Multimedia</h3>
+      <p>Combinaciones: presentaciones, sitios web, cursos virtuales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CARACTERÍSTICAS -->
+<section>
+  <span class="tag rose">Características</span>
+  <h2>¿Qué hace especial al contenido digital?</h2>
+  <div class="feat-list">
+    <div class="feat">
+      <div class="num">01</div>
+      <div>
+        <h3>Es reproducible</h3>
+        <p>Se puede copiar muchas veces sin perder calidad.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="num">02</div>
+      <div>
+        <h3>Es interactivo</h3>
+        <p>El usuario puede participar, hacer clic, comentar.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="num">03</div>
+      <div>
+        <h3>Es accesible</h3>
+        <p>Llega a millones de personas desde cualquier lugar.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="num">04</div>
+      <div>
+        <h3>Es actualizable</h3>
+        <p>Se puede editar y mejorar después de publicado.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="num">05</div>
+      <div>
+        <h3>Es medible</h3>
+        <p>Se puede saber cuántas personas lo vieron o usaron.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="num">06</div>
+      <div>
+        <h3>Es portable</h3>
+        <p>Se almacena y comparte sin papel ni espacio físico.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN 2 -->
+<section class="section-slide">
+  <div>
+    <div class="num">— Parte 02 / 04</div>
+    <h1>Planeación<br><em>digital</em></h1>
+    <div class="desc">El secreto de un buen contenido no está en el resultado: está en lo que ocurre antes de crearlo.</div>
+  </div>
+</section>
+
+<!-- POR QUÉ PLANEAR -->
+<section>
+  <span class="tag">¿Por qué planear?</span>
+  <h2>Crear sin plan = perder tiempo</h2>
+  <p class="lead">
+    Planear contenido digital significa <strong>pensar antes de hacer</strong>: definir qué quieres
+    lograr, a quién hablarle, qué decir y cómo medirlo. Sin plan, el contenido se vuelve confuso,
+    aburrido o invisible.
+  </p>
+  <div class="callout">
+    <strong>Recuerda →</strong> Una buena planeación ahorra horas de trabajo, evita errores y multiplica
+    el impacto de lo que publicas.
+  </div>
+</section>
+
+<!-- LOS 5 PASOS -->
+<section>
+  <span class="tag amber">Metodología</span>
+  <h2>5 pasos para planear contenido</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="num">PASO 01</div>
+      <h3>Definir el objetivo</h3>
+      <p>¿Qué quiero lograr? Informar, enseñar, vender, entretener.</p>
+    </div>
+    <div class="step">
+      <div class="num">PASO 02</div>
+      <h3>Conocer al público</h3>
+      <p>¿A quién le hablo? Edad, intereses, necesidades.</p>
+    </div>
+    <div class="step">
+      <div class="num">PASO 03</div>
+      <h3>Elegir el formato</h3>
+      <p>¿Texto, video, podcast, infografía? Según el mensaje.</p>
+    </div>
+    <div class="step">
+      <div class="num">PASO 04</div>
+      <h3>Crear y publicar</h3>
+      <p>Producir el contenido y elegir el canal (red, blog, plataforma).</p>
+    </div>
+    <div class="step">
+      <div class="num">PASO 05</div>
+      <h3>Medir y ajustar</h3>
+      <p>Revisar resultados y mejorar para la próxima vez.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OBJETIVOS SMART -->
+<section>
+  <span class="tag rose">Objetivos</span>
+  <h2>Objetivos <em>SMART</em></h2>
+  <p class="lead">Para que un objetivo sirva de verdad, debe cumplir 5 condiciones:</p>
+  <div class="smart-grid">
+    <div class="smart-box">
+      <div class="letter">S</div>
+      <div class="word">Específico</div>
+      <div class="desc">Claro y concreto.</div>
+    </div>
+    <div class="smart-box">
+      <div class="letter">M</div>
+      <div class="word">Medible</div>
+      <div class="desc">Se puede contar.</div>
+    </div>
+    <div class="smart-box">
+      <div class="letter">A</div>
+      <div class="word">Alcanzable</div>
+      <div class="desc">Realista con tus recursos.</div>
+    </div>
+    <div class="smart-box">
+      <div class="letter">R</div>
+      <div class="word">Relevante</div>
+      <div class="desc">Tiene sentido para ti o tu público.</div>
+    </div>
+    <div class="smart-box">
+      <div class="letter">T</div>
+      <div class="word">Temporal</div>
+      <div class="desc">Con fecha límite.</div>
+    </div>
+  </div>
+  <div class="callout">
+    <strong>Ejemplo →</strong> "Publicar 4 videos sobre cocina saludable en mi canal de YouTube
+    durante el próximo mes para alcanzar 1.000 suscriptores."
+  </div>
+</section>
+
+<!-- BUENAS PRÁCTICAS -->
+<section>
+  <span class="tag sky">Buenas prácticas</span>
+  <h2>Antes de publicar, pregúntate…</h2>
+  <ul>
+    <li>¿El mensaje es <strong>claro</strong> y fácil de entender?</li>
+    <li>¿Le sirve <strong>realmente</strong> a quien va dirigido?</li>
+    <li>¿El formato es el más adecuado para ese mensaje?</li>
+    <li>¿La calidad (imagen, sonido, redacción) está cuidada?</li>
+    <li>¿Verifiqué que la <strong>información sea cierta</strong>?</li>
+    <li>¿Respeté los <strong>derechos de autor</strong> de las imágenes, música y textos que usé?</li>
+  </ul>
+</section>
+
+<!-- SECCIÓN 3 -->
+<section class="section-slide">
+  <div>
+    <div class="num">— Parte 03 / 04</div>
+    <h1>Derechos<br>de <em>autor</em></h1>
+    <div class="desc">Todo lo que se crea tiene un dueño. Saber esto te protege a ti y respeta a los demás.</div>
+  </div>
+</section>
+
+<!-- QUÉ ES COPYRIGHT -->
+<section>
+  <div class="copyright-hero">
+    <div class="sym">©</div>
+    <div>
+      <span class="tag">Definición</span>
+      <h2>¿Qué son los derechos de autor?</h2>
+      <p>
+        Son el <strong>conjunto de leyes</strong> que protegen a quien crea una obra
+        (texto, imagen, música, video, software…). Le dan al autor el control sobre cómo
+        se usa, copia, distribuye o modifica su creación.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- DOS TIPOS DE DERECHO -->
+<section>
+  <span class="tag amber">Dos caras</span>
+  <h2>El derecho de autor tiene dos partes</h2>
+  <div class="do-dont" style="margin-top:18px;">
+    <div class="do" style="border-top-color:var(--amber);">
+      <h3 style="color:var(--amber);"><i class="fa-solid fa-user" style="color:var(--amber);"></i> Derecho moral</h3>
+      <ul>
+        <li>Reconoce al autor como creador.</li>
+        <li>Su obra no puede modificarse sin permiso.</li>
+        <li>Es <strong>permanente</strong> y no se vende.</li>
+      </ul>
+    </div>
+    <div class="dont" style="border-top-color:var(--sky);">
+      <h3 style="color:var(--sky);"><i class="fa-solid fa-coins" style="color:var(--sky);"></i> Derecho patrimonial</h3>
+      <ul style="color:var(--paper);">
+        <li>Permite ganar dinero con la obra.</li>
+        <li>Se puede ceder, vender o licenciar.</li>
+        <li>Tiene <strong>duración limitada</strong>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CREATIVE COMMONS -->
+<section>
+  <span class="tag rose">Licencias abiertas</span>
+  <h2>Creative Commons (CC)</h2>
+  <p class="lead">
+    Son licencias que permiten a los autores compartir sus obras
+    indicando <strong>qué se puede y qué no se puede</strong> hacer con ellas.
+  </p>
+  <div class="cc-grid">
+    <div class="cc">
+      <div class="code">CC BY</div>
+      <h3>Atribución</h3>
+      <p>Puedes usarla si das crédito al autor.</p>
+    </div>
+    <div class="cc">
+      <div class="code">CC BY-SA</div>
+      <h3>Compartir igual</h3>
+      <p>Debes mantener la misma licencia al compartir.</p>
+    </div>
+    <div class="cc">
+      <div class="code">CC BY-ND</div>
+      <h3>Sin derivadas</h3>
+      <p>No puedes modificar la obra.</p>
+    </div>
+    <div class="cc">
+      <div class="code">CC BY-NC</div>
+      <h3>No comercial</h3>
+      <p>No puedes usarla para ganar dinero.</p>
+    </div>
+    <div class="cc">
+      <div class="code">CC0</div>
+      <h3>Dominio público</h3>
+      <p>Uso totalmente libre, sin restricciones.</p>
+    </div>
+    <div class="cc">
+      <div class="code">© ALL</div>
+      <h3>Derechos reservados</h3>
+      <p>Necesitas permiso explícito para usarla.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUE PUEDO Y QUE NO -->
+<section>
+  <span class="tag">Reglas básicas</span>
+  <h2>Lo que puedes y lo que no</h2>
+  <div class="do-dont">
+    <div class="do">
+      <h3><i class="fa-solid fa-circle-check"></i> Puedes hacer</h3>
+      <ul>
+        <li>Usar obras con licencia <strong>Creative Commons</strong> dando crédito.</li>
+        <li>Citar fragmentos breves de textos mencionando la fuente.</li>
+        <li>Usar imágenes y música de bancos gratuitos (Pixabay, Unsplash, Pexels).</li>
+        <li>Compartir contenido propio o con permiso del autor.</li>
+        <li>Crear obras inspiradas, no copiadas.</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h3><i class="fa-solid fa-circle-xmark"></i> NO puedes hacer</h3>
+      <ul>
+        <li>Descargar y publicar imágenes de Google sin verificar la licencia.</li>
+        <li>Usar canciones completas sin autorización.</li>
+        <li>Copiar textos sin citar la fuente original (plagio).</li>
+        <li>Modificar obras protegidas sin permiso.</li>
+        <li>Hacerte pasar como autor de algo que no creaste.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PLAGIO -->
+<section>
+  <span class="tag rose">Cuidado</span>
+  <h2>El plagio es un <em>delito</em></h2>
+  <p class="lead">
+    Plagio es <strong>presentar como propio</strong> el trabajo de otra persona, sin permiso
+    ni reconocimiento. Aplica para textos, imágenes, ideas, código y música.
+  </p>
+  <div class="pull-quote">
+    <p>Citar bien no te hace ver menos: te hace ver profesional y honesto.</p>
+    <div class="cite">— Regla de oro de la creación digital</div>
+  </div>
+</section>
+
+<!-- SECCIÓN 4 -->
+<section class="section-slide">
+  <div>
+    <div class="num">— Parte 04 / 04</div>
+    <h1>Repasemos<br><em>juntos</em></h1>
+    <div class="desc">Dos preguntas rápidas para fijar ideas antes del cuestionario AA1-EV01.</div>
+  </div>
+</section>
+
+<!-- QUIZ 1 -->
+<section class="quiz-slide">
+  <span class="tag solid">Pregunta 01</span>
+  <h2>Un objetivo SMART debe ser…</h2>
+  <div class="quiz-options">
+    <div class="opt"><span class="letter">A</span> Específico, medible, alcanzable, relevante y temporal.</div>
+    <div class="opt"><span class="letter">B</span> Sencillo, motivador, alegre, rentable y técnico.</div>
+    <div class="opt"><span class="letter">C</span> Subjetivo, masivo, abierto, repetible y total.</div>
+    <div class="opt"><span class="letter">D</span> Solo medible y temporal.</div>
+  </div>
+  <div class="quiz-answer">
+    <strong>Respuesta: A.</strong> Las siglas SMART vienen del inglés y describen los 5 criterios de un buen objetivo.
+  </div>
+</section>
+
+<!-- QUIZ 2 -->
+<section class="quiz-slide">
+  <span class="tag solid">Pregunta 02</span>
+  <h2>¿Qué significa la licencia CC BY?</h2>
+  <div class="quiz-options">
+    <div class="opt"><span class="letter">A</span> No puedes usar la obra para nada.</div>
+    <div class="opt"><span class="letter">B</span> Puedes usar la obra solo si pagas al autor.</div>
+    <div class="opt"><span class="letter">C</span> Puedes usar la obra dando crédito al autor.</div>
+    <div class="opt"><span class="letter">D</span> Es una marca registrada.</div>
+  </div>
+  <div class="quiz-answer">
+    <strong>Respuesta: C.</strong> CC BY (Atribución) te permite usar la obra siempre que reconozcas la autoría.
+  </div>
+</section>
+
+<!-- RESUMEN -->
+<section>
+  <span class="tag amber">Resumen</span>
+  <h2>Lo que NO se te puede olvidar</h2>
+  <ul>
+    <li>El <strong>contenido digital</strong> es información creada en formato digital: texto, imagen, video, audio o interactivo.</li>
+    <li>Sus características clave: <strong>reproducible, interactivo, accesible, actualizable, medible y portable</strong>.</li>
+    <li>La <strong>planeación digital</strong> se basa en 5 pasos: objetivo → público → formato → publicación → medición.</li>
+    <li>Los objetivos deben ser <strong>SMART</strong>.</li>
+    <li>Los <strong>derechos de autor</strong> protegen las creaciones; el derecho moral es permanente, el patrimonial puede cederse.</li>
+    <li>Las licencias <strong>Creative Commons</strong> indican cómo se puede usar una obra.</li>
+    <li>El <strong>plagio</strong> está prohibido: siempre cita y respeta al autor original.</li>
+  </ul>
+</section>
+
+<!-- PRÓXIMOS PASOS -->
+<section>
+  <span class="tag sky">Para continuar</span>
+  <h2>¿Qué sigue ahora?</h2>
+  <ul>
+    <li>Revisa el componente formativo <em>“Contenido, planeación digital y derechos de autor”</em>.</li>
+    <li>Lee con calma la Guía de aprendizaje y el Cronograma.</li>
+    <li>Preséntate en el <strong>foro social</strong>.</li>
+    <li>Realiza el <strong>sondeo de conocimientos previos</strong>.</li>
+    <li>Resuelve la evidencia <strong>AA1-EV01</strong>: Cuestionario - Contenido, planeación digital y derechos de autor.</li>
+  </ul>
+  <div class="callout">
+    <strong>Tip →</strong> Distribuye las 16 horas a lo largo de varios días. Aprender con tiempo se queda; aprender corriendo se olvida.
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="closing">
+  <h1>Crea con <em>cabeza</em>,<br>publica con <em>respeto</em>.</h1>
+  <div class="lime-line"></div>
+  <p>Ahora tienes las bases para producir contenido digital con intención, planificación y ética. El resto es práctica.</p>
+  <div class="meta">SENA · Ficha 3515981 · AA1</div>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash:true,
+  controls:true,
+  progress:true,
+  slideNumber:'c/t',
+  transition:'fade',
+  transitionSpeed:'default',
+  width:1280,
+  height:760,
+  margin:0.04,
+  minScale:0.2,
+  maxScale:2.0
+});
+</script>
+
+</body>
+</html>

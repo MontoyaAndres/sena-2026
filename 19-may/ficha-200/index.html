@@ -1,0 +1,1312 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GA6-220501096-AA3 · Interfaces Gráficas de Usuario</title>
+
+    <!-- Reveal.js core -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css"
+    />
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #0e0d0b;
+        --bg-elev: #161412;
+        --ink: #f3ecde;
+        --ink-muted: #c5bba5;
+        --ink-dim: #8a8170;
+        --accent: #ff6a3d;
+        --accent-2: #f5c14e;
+        --accent-3: #6ec6c0;
+        --line: #2a2620;
+        --serif: "Fraunces", "Times New Roman", serif;
+        --sans: "Manrope", system-ui, sans-serif;
+        --mono: "JetBrains Mono", monospace;
+      }
+
+      /* ====== Base reveal overrides ====== */
+      .reveal {
+        font-family: var(--sans);
+        font-weight: 400;
+        color: var(--ink);
+        letter-spacing: -0.005em;
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 0 4%;
+        height: 100%;
+      }
+
+      /* Fondo global con textura */
+      html,
+      body,
+      .reveal-viewport {
+        background: var(--bg);
+      }
+      body {
+        background-image:
+          radial-gradient(
+            circle at 18% 12%,
+            rgba(255, 106, 61, 0.1),
+            transparent 42%
+          ),
+          radial-gradient(
+            circle at 84% 88%,
+            rgba(110, 198, 192, 0.07),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 70% 20%,
+            rgba(245, 193, 78, 0.05),
+            transparent 50%
+          );
+      }
+
+      /* Grano sutil */
+      .reveal-viewport::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.05;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' /></filter><rect width='100%' height='100%' filter='url(%23n)' /></svg>");
+        z-index: 9999;
+      }
+
+      /* ====== Tipografía ====== */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: var(--serif);
+        font-weight: 500;
+        color: var(--ink);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+        margin: 0 0 0.4em 0;
+      }
+      .reveal h1 {
+        font-size: 5.2rem;
+        font-weight: 400;
+        font-style: italic;
+      }
+      .reveal h2 {
+        font-size: 3.2rem;
+      }
+      .reveal h3 {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+      .reveal h4 {
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+      .reveal p,
+      .reveal li {
+        font-size: 1.25rem;
+        line-height: 1.55;
+        color: var(--ink-muted);
+      }
+      .reveal strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .reveal em {
+        font-style: italic;
+        color: var(--accent-2);
+      }
+
+      /* ====== Elementos comunes ====== */
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 28px;
+        height: 1px;
+        background: var(--accent);
+        display: inline-block;
+      }
+
+      .ficha-tag {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink-dim);
+        letter-spacing: 0.1em;
+      }
+
+      .reveal ul,
+      .reveal ol {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .reveal ul li,
+      .reveal ol li {
+        padding-left: 1.6rem;
+        position: relative;
+        margin-bottom: 0.55rem;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.7em;
+        width: 8px;
+        height: 1px;
+        background: var(--accent);
+      }
+      .reveal ol {
+        counter-reset: olc;
+      }
+      .reveal ol li {
+        counter-increment: olc;
+        padding-left: 2.4rem;
+      }
+      .reveal ol li::before {
+        content: counter(olc, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      /* Progress bar */
+      .reveal .progress {
+        color: var(--accent);
+        height: 3px;
+      }
+
+      /* ====== Slide 1: portada ====== */
+      .slide-cover {
+        display: grid !important;
+        grid-template-rows: auto 1fr auto;
+        height: 100%;
+        width: 100%;
+        padding: 5vh 5vw !important;
+      }
+      .cover-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.15em;
+        color: var(--ink-dim);
+        text-transform: uppercase;
+      }
+      .cover-center {
+        align-self: center;
+      }
+      .cover-center .code {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--accent);
+        letter-spacing: 0.12em;
+        margin-bottom: 1.5rem;
+      }
+      .cover-center h1 {
+        font-size: 6.5rem;
+        line-height: 0.95;
+        margin-bottom: 1rem;
+      }
+      .cover-center h1 .accent {
+        color: var(--accent);
+        font-style: italic;
+      }
+      .cover-center .subtitle {
+        font-family: var(--sans);
+        font-size: 1.3rem;
+        color: var(--ink-muted);
+        max-width: 680px;
+        font-weight: 300;
+      }
+      .cover-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        color: var(--ink-dim);
+        text-transform: uppercase;
+      }
+
+      /* ====== Slide split layout ====== */
+      .split {
+        display: grid !important;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 4rem;
+        align-items: center;
+        height: 100%;
+      }
+      .split-left,
+      .split-right {
+        align-self: center;
+      }
+
+      /* ====== Mapa de evidencias (slide overview) ====== */
+      .roadmap {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .roadmap-card {
+        background: var(--bg-elev);
+        border: 1px solid var(--line);
+        padding: 1.8rem 1.4rem;
+        border-radius: 2px;
+        position: relative;
+        transition:
+          transform 0.3s ease,
+          border-color 0.3s ease;
+      }
+      .roadmap-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent);
+      }
+      .roadmap-card .num {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--accent);
+        letter-spacing: 0.15em;
+        margin-bottom: 0.8rem;
+      }
+      .roadmap-card h4 {
+        font-family: var(--serif);
+        font-size: 1.5rem;
+        font-weight: 500;
+        font-style: italic;
+        color: var(--ink);
+        margin-bottom: 0.6rem;
+      }
+      .roadmap-card p {
+        font-size: 0.95rem;
+        color: var(--ink-muted);
+        margin: 0;
+      }
+      .roadmap-card .icon {
+        position: absolute;
+        top: 1.4rem;
+        right: 1.4rem;
+        width: 28px;
+        height: 28px;
+        opacity: 0.5;
+      }
+
+      /* ====== Boxes para herramientas ====== */
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-top: 1.8rem;
+      }
+      .tool-chip {
+        background: var(--bg-elev);
+        border: 1px solid var(--line);
+        padding: 1.1rem 0.9rem;
+        text-align: center;
+        border-radius: 2px;
+      }
+      .tool-chip .name {
+        font-family: var(--serif);
+        font-size: 1.15rem;
+        font-style: italic;
+        color: var(--ink);
+        display: block;
+        margin-bottom: 0.3rem;
+      }
+      .tool-chip .type {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        color: var(--accent);
+        text-transform: uppercase;
+      }
+
+      /* ====== Bloque de "entrega" ====== */
+      .deliverable {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 106, 61, 0.08),
+          rgba(245, 193, 78, 0.04)
+        );
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        padding: 1.4rem 1.6rem;
+        margin-top: 1.5rem;
+        border-radius: 2px;
+      }
+      .deliverable .label {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.6rem;
+      }
+      .deliverable code {
+        font-family: var(--mono);
+        background: rgba(255, 106, 61, 0.12);
+        color: var(--accent-2);
+        padding: 0.15em 0.5em;
+        border-radius: 2px;
+        font-size: 0.9em;
+      }
+
+      /* ====== Tabla comparativa ====== */
+      .compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5rem;
+        font-size: 0.95rem;
+      }
+      .compare-table th,
+      .compare-table td {
+        text-align: left;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      .compare-table th {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 500;
+        border-bottom: 1px solid var(--accent);
+      }
+      .compare-table td:first-child {
+        font-family: var(--serif);
+        font-style: italic;
+        font-weight: 500;
+        color: var(--ink);
+        font-size: 1.05rem;
+      }
+      .compare-table td {
+        color: var(--ink-muted);
+      }
+
+      /* ====== Slide cita/grande ====== */
+      .pullquote {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+      .pullquote .big {
+        font-family: var(--serif);
+        font-size: 4.5rem;
+        line-height: 1.05;
+        color: var(--ink);
+        font-style: italic;
+        font-weight: 400;
+        max-width: 95%;
+      }
+      .pullquote .big .accent {
+        color: var(--accent);
+      }
+      .pullquote .attr {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        margin-top: 2rem;
+      }
+
+      /* ====== Footer del slide ====== */
+      .slide-footer {
+        position: absolute;
+        bottom: 24px;
+        left: 4%;
+        right: 4%;
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+      }
+
+      /* ====== Tips finales (cards) ====== */
+      .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+        margin-top: 1.6rem;
+      }
+      .tip {
+        padding: 1.2rem 1.4rem;
+        background: var(--bg-elev);
+        border-radius: 2px;
+        border-left: 2px solid var(--accent-3);
+      }
+      .tip .num {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        color: var(--accent-3);
+        margin-bottom: 0.4rem;
+      }
+      .tip p {
+        font-size: 0.95rem;
+        margin: 0;
+        color: var(--ink-muted);
+      }
+      .tip strong {
+        color: var(--ink);
+      }
+
+      /* ====== Final slide ====== */
+      .end-slide {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100%;
+      }
+      .end-slide h2 {
+        font-size: 7rem;
+        font-style: italic;
+        margin-bottom: 1rem;
+      }
+      .end-slide h2 .accent {
+        color: var(--accent);
+      }
+      .end-slide p {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        color: var(--ink-dim);
+        text-transform: uppercase;
+      }
+
+      /* Línea decorativa */
+      .divider {
+        width: 60px;
+        height: 1px;
+        background: var(--accent);
+        margin: 1.5rem 0;
+      }
+
+      /* dual columna en algunos slides */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .info-block {
+        padding: 1.2rem 0;
+      }
+      .info-block .k {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 0.6rem;
+      }
+      .info-block .v {
+        font-family: var(--serif);
+        font-size: 1.6rem;
+        color: var(--ink);
+        font-style: italic;
+      }
+
+      /* SVG icon style */
+      .icon-svg {
+        stroke: var(--accent);
+        stroke-width: 1.4;
+        fill: none;
+      }
+
+      /* utility */
+      .mt-2 {
+        margin-top: 1.2rem;
+      }
+      .mt-3 {
+        margin-top: 1.8rem;
+      }
+      .text-mono {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--ink-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- =================== SLIDE 1: PORTADA =================== -->
+        <section class="slide-cover" data-transition="fade">
+          <div class="cover-top">
+            <span>SENA · Análisis y Desarrollo de Software</span>
+            <span>Fichas 3186652 · 3186653</span>
+          </div>
+
+          <div class="cover-center">
+            <div class="code">GA6 — 220501096 — AA3</div>
+            <h1>
+              Interfaces<br /><span class="accent">gráficas</span><br />de
+              usuario.
+            </h1>
+            <p class="subtitle">
+              Diseño y prototipado para aplicaciones de escritorio, web y
+              móviles. Tres evidencias para llevar tu proyecto del wireframe al
+              producto.
+            </p>
+          </div>
+
+          <div class="cover-bottom">
+            <span>Sesión · 3 evidencias</span>
+            <span>Duración 48 horas →</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 2: AGENDA / ¿qué veremos? =================== -->
+        <section>
+          <div class="eyebrow">Agenda de la sesión</div>
+          <h2>¿Qué vamos a ver hoy?</h2>
+          <p style="max-width: 780px">
+            En esta actividad recorreremos las
+            <strong>tres evidencias</strong> que conforman la creación de
+            interfaces gráficas de usuario para aplicaciones modernas. Cada una
+            construye sobre la anterior.
+          </p>
+
+          <div class="roadmap">
+            <div class="roadmap-card">
+              <div class="num">EV01</div>
+              <h4>Herramientas de prototipado</h4>
+              <p>
+                Seleccionar la herramienta y probar sus funcionalidades con un
+                ejemplo real.
+              </p>
+            </div>
+            <div class="roadmap-card">
+              <div class="num">EV02</div>
+              <h4>Mockups con navegación</h4>
+              <p>
+                Diseñar las pantallas y la navegación del software a
+                desarrollar.
+              </p>
+            </div>
+            <div class="roadmap-card">
+              <div class="num">EV03</div>
+              <h4>Interfaz gráfica final</h4>
+              <p>
+                Implementar el diseño con HTML, CSS, JS o tecnologías móviles.
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>01 · Agenda</span>
+            <span>GA6-AA3</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 3: Info general =================== -->
+        <section>
+          <div class="eyebrow">Información general</div>
+          <h2 style="max-width: 900px">
+            Una actividad, <em>tres entregas</em>, 48 horas de trabajo.
+          </h2>
+
+          <div class="two-col mt-3">
+            <div>
+              <div class="info-block">
+                <div class="k">Código</div>
+                <div class="v">GA6-220501096-AA3</div>
+              </div>
+              <div class="info-block">
+                <div class="k">Duración</div>
+                <div class="v">48 horas</div>
+              </div>
+              <div class="info-block">
+                <div class="k">Formato de entrega</div>
+                <div class="v">Archivo .zip</div>
+              </div>
+            </div>
+
+            <div>
+              <div
+                class="k"
+                style="
+                  font-family: var(--mono);
+                  font-size: 0.7rem;
+                  letter-spacing: 0.15em;
+                  color: var(--accent);
+                  text-transform: uppercase;
+                  margin-bottom: 0.8rem;
+                "
+              >
+                Materiales a consultar
+              </div>
+              <ul>
+                <li>Arquitectura de aplicaciones móviles nativas</li>
+                <li>Herramientas para el diseño y desarrollo móvil híbrido</li>
+                <li>Desarrollo web con HTML, CSS y JavaScript</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>02 · Contexto</span>
+            <span>GA6-AA3</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 4: TRANSICIÓN EV01 =================== -->
+        <section class="pullquote" data-transition="slide">
+          <div class="ficha-tag">Evidencia 01 — GA6-220501096-AA3-EV01</div>
+          <div class="divider"></div>
+          <p class="big">
+            Antes de diseñar,<br />elige tu
+            <span class="accent">caja de herramientas</span>.
+          </p>
+          <p class="attr">— Selección herramientas para prototipado</p>
+        </section>
+
+        <!-- =================== SLIDE 5: EV01 ¿qué se pide? =================== -->
+        <section>
+          <div class="eyebrow">EV01 · ¿Qué tienes que hacer?</div>
+          <h2>Seleccionar una herramienta y <em>experimentar</em>.</h2>
+
+          <div class="two-col">
+            <div>
+              <p>
+                Vas a <strong>elegir una herramienta de prototipado</strong> y
+                demostrar que sabes usarla. No basta con instalarla: tienes que
+                probar sus <strong>funcionalidades principales</strong> y crear
+                un <strong>ejemplo de interfaz</strong> con varios elementos.
+              </p>
+            </div>
+            <div>
+              <h4
+                style="
+                  color: var(--accent-2);
+                  font-family: var(--mono);
+                  font-size: 0.75rem;
+                  letter-spacing: 0.18em;
+                  text-transform: uppercase;
+                  font-style: normal;
+                  font-weight: 500;
+                "
+              >
+                Estructura del documento
+              </h4>
+              <ol>
+                <li>Portada</li>
+                <li>Introducción</li>
+                <li>Objetivo</li>
+                <li>Pantallazos de las funciones principales</li>
+                <li>Pantallazos del ejemplo creado</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>03 · Evidencia 01</span>
+            <span>EV01</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 6: EV01 herramientas populares =================== -->
+        <section>
+          <div class="eyebrow">EV01 · Caja de herramientas</div>
+          <h2>Algunas opciones para prototipar.</h2>
+          <p style="max-width: 720px">
+            Hay muchas herramientas; escoge la que se ajuste a tu proyecto. Las
+            más comunes en la industria son:
+          </p>
+
+          <div class="tools-grid">
+            <div class="tool-chip">
+              <span class="name">Figma</span
+              ><span class="type">Web · Colaborativa</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">Adobe XD</span
+              ><span class="type">Escritorio</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">Balsamiq</span
+              ><span class="type">Wireframes</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">Marvel</span
+              ><span class="type">Web · Móvil</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">InVision</span
+              ><span class="type">Prototipo interactivo</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">Justinmind</span
+              ><span class="type">Alta fidelidad</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">Sketch</span><span class="type">macOS</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">Mockplus</span
+              ><span class="type">Colaborativa</span>
+            </div>
+          </div>
+
+          <div class="deliverable">
+            <div class="label">Tip de selección</div>
+            <p style="margin: 0; font-size: 1rem">
+              Si trabajas en equipo y necesitas algo gratuito →
+              <strong>Figma</strong>. Si vas a hacer wireframes rápidos →
+              <strong>Balsamiq</strong>. Si quieres prototipos interactivos de
+              alta fidelidad → <strong>Adobe XD</strong> o
+              <strong>Justinmind</strong>.
+            </p>
+          </div>
+
+          <div class="slide-footer">
+            <span>04 · Evidencia 01</span>
+            <span>EV01</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 7: EV01 entrega =================== -->
+        <section>
+          <div class="eyebrow">EV01 · Entrega</div>
+          <h2>¿Cómo se entrega?</h2>
+
+          <div class="two-col">
+            <div>
+              <ul>
+                <li>
+                  Un <strong>documento en Word</strong> con la estructura
+                  completa
+                </li>
+                <li>
+                  El <strong>archivo del prototipado</strong> que hiciste en la
+                  herramienta
+                </li>
+                <li>Todo dentro de una <strong>carpeta comprimida</strong></li>
+              </ul>
+            </div>
+            <div class="deliverable">
+              <div class="label">Formato</div>
+              <p style="margin: 0; font-size: 1.05rem">
+                Extensión: <code>.zip</code><br /><br />Espacio de envío:
+                <em
+                  >Selección herramientas para prototipado ·
+                  GA6-220501096-AA3-EV01</em
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>05 · Evidencia 01</span>
+            <span>EV01</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 8: TRANSICIÓN EV02 =================== -->
+        <section class="pullquote" data-transition="slide">
+          <div class="ficha-tag">Evidencia 02 — GA6-220501096-AA3-EV02</div>
+          <div class="divider"></div>
+          <p class="big">
+            Ahora,<br />diseña <span class="accent">la navegación</span><br />de
+            tu software.
+          </p>
+          <p class="attr">— Mockups con su navegación</p>
+        </section>
+
+        <!-- =================== SLIDE 9: EV02 ¿qué se pide? =================== -->
+        <section>
+          <div class="eyebrow">EV02 · ¿Qué tienes que hacer?</div>
+          <h2>Crear los <em>mockups</em> de tu aplicación.</h2>
+
+          <p style="max-width: 820px">
+            Usando la herramienta que elegiste en la EV01, vas a diseñar los
+            <strong>mockups de navegación</strong> de tu aplicación web o móvil,
+            cumpliendo con los requerimientos del software que estás
+            desarrollando.
+          </p>
+
+          <div class="two-col mt-3">
+            <div>
+              <h4
+                style="
+                  color: var(--accent-2);
+                  font-family: var(--mono);
+                  font-size: 0.75rem;
+                  letter-spacing: 0.18em;
+                  text-transform: uppercase;
+                  font-style: normal;
+                  font-weight: 500;
+                "
+              >
+                ¿Wireframe o Mockup?
+              </h4>
+              <ul>
+                <li>
+                  <strong>Wireframe:</strong> bocetos en baja fidelidad,
+                  estructura
+                </li>
+                <li>
+                  <strong>Mockup:</strong> diseño visual con estilos y color
+                </li>
+                <li>
+                  <strong>Prototipo:</strong> mockup con interacciones y
+                  navegación
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4
+                style="
+                  color: var(--accent-2);
+                  font-family: var(--mono);
+                  font-size: 0.75rem;
+                  letter-spacing: 0.18em;
+                  text-transform: uppercase;
+                  font-style: normal;
+                  font-weight: 500;
+                "
+              >
+                Estructura del documento
+              </h4>
+              <ol>
+                <li>Portada</li>
+                <li>Introducción</li>
+                <li>Objetivo</li>
+                <li>Pantallazos de los mockups</li>
+                <li>Descripción de cada interfaz</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>06 · Evidencia 02</span>
+            <span>EV02</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 10: EV02 requisito clave =================== -->
+        <section>
+          <div class="eyebrow">EV02 · Requisito clave</div>
+          <h2 style="max-width: 900px">
+            El prototipo debe tener <em>navegación funcional</em>.
+          </h2>
+
+          <p style="max-width: 780px; margin-top: 1rem">
+            No basta con mostrar pantallas sueltas. El usuario debe poder
+            <strong>navegar entre ellas</strong> como lo haría en la aplicación
+            real. Cada interfaz necesita una <strong>descripción</strong> que
+            explique su propósito.
+          </p>
+
+          <div class="deliverable mt-3">
+            <div class="label">Checklist antes de entregar</div>
+            <ul style="margin: 0">
+              <li>Las pantallas reflejan los requerimientos del software</li>
+              <li>Hay enlaces/botones que conectan unas pantallas con otras</li>
+              <li>Cada mockup tiene una descripción escrita</li>
+              <li>Se entiende el flujo de uso completo</li>
+            </ul>
+          </div>
+
+          <div class="slide-footer">
+            <span>07 · Evidencia 02</span>
+            <span>EV02</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 11: EV02 entrega =================== -->
+        <section>
+          <div class="eyebrow">EV02 · Entrega</div>
+          <h2>¿Cómo se entrega?</h2>
+
+          <div class="two-col">
+            <div>
+              <ul>
+                <li>
+                  Un <strong>documento en Word</strong> con portada,
+                  introducción, objetivo, pantallazos y descripciones
+                </li>
+                <li>
+                  El <strong>archivo del prototipo</strong> con la navegación
+                  funcional
+                </li>
+                <li>Todo dentro de una <strong>carpeta comprimida</strong></li>
+              </ul>
+            </div>
+            <div class="deliverable">
+              <div class="label">Formato</div>
+              <p style="margin: 0; font-size: 1.05rem">
+                Extensión: <code>.zip</code><br /><br />Espacio de envío:
+                <em
+                  >Crear el diseño del sitio web y/o móviles ·
+                  GA6-220501096-AA3-EV02</em
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>08 · Evidencia 02</span>
+            <span>EV02</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 12: TRANSICIÓN EV03 =================== -->
+        <section class="pullquote" data-transition="slide">
+          <div class="ficha-tag">Evidencia 03 — GA6-220501096-AA3-EV03</div>
+          <div class="divider"></div>
+          <p class="big">
+            Del prototipo<br />al <span class="accent">código real</span>.
+          </p>
+          <p class="attr">— Interfaces gráficas según requerimientos</p>
+        </section>
+
+        <!-- =================== SLIDE 13: EV03 ¿qué se pide? =================== -->
+        <section>
+          <div class="eyebrow">EV03 · ¿Qué tienes que hacer?</div>
+          <h2>Implementar la <em>interfaz real</em> de tu software.</h2>
+
+          <p style="max-width: 850px">
+            Tomando como referencia el prototipo de la EV02, ahora vas a
+            <strong>construir la interfaz gráfica</strong> usando las
+            tecnologías que viste en los componentes formativos.
+          </p>
+
+          <div
+            class="tools-grid mt-3"
+            style="grid-template-columns: repeat(3, 1fr)"
+          >
+            <div class="tool-chip">
+              <span class="name">HTML</span><span class="type">Estructura</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">CSS</span
+              ><span class="type">Estilos · color</span>
+            </div>
+            <div class="tool-chip">
+              <span class="name">JavaScript</span
+              ><span class="type">Interactividad</span>
+            </div>
+          </div>
+
+          <p
+            class="mt-3"
+            style="font-size: 1rem; color: var(--ink-dim); max-width: 800px"
+          >
+            Si tu proyecto es móvil, también aplican las tecnologías híbridas o
+            nativas vistas en el componente correspondiente.
+          </p>
+
+          <div class="slide-footer">
+            <span>09 · Evidencia 03</span>
+            <span>EV03</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 14: EV03 elementos a definir =================== -->
+        <section>
+          <div class="eyebrow">EV03 · Lo que debes definir</div>
+          <h2>Cuatro decisiones de diseño.</h2>
+
+          <div
+            class="roadmap"
+            style="grid-template-columns: repeat(4, 1fr); margin-top: 2.5rem"
+          >
+            <div class="roadmap-card">
+              <div class="num">01</div>
+              <h4>Colores</h4>
+              <p>Paleta coherente que represente la identidad de tu app.</p>
+            </div>
+            <div class="roadmap-card">
+              <div class="num">02</div>
+              <h4>Usabilidad</h4>
+              <p>Que cualquier usuario pueda navegar sin confundirse.</p>
+            </div>
+            <div class="roadmap-card">
+              <div class="num">03</div>
+              <h4>Estilos</h4>
+              <p>Tipografías, espaciados, botones y consistencia visual.</p>
+            </div>
+            <div class="roadmap-card">
+              <div class="num">04</div>
+              <h4>Menús</h4>
+              <p>Navegación clara que conecte todas las funcionalidades.</p>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>10 · Evidencia 03</span>
+            <span>EV03</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 15: EV03 entrega =================== -->
+        <section>
+          <div class="eyebrow">EV03 · Entrega</div>
+          <h2>¿Cómo se entrega?</h2>
+
+          <div class="two-col">
+            <div>
+              <ul>
+                <li>
+                  La <strong>interfaz gráfica</strong> del software desarrollada
+                </li>
+                <li>
+                  Todos los <strong>archivos del proyecto</strong> (HTML, CSS,
+                  JS, imágenes, etc.)
+                </li>
+                <li>Comprimido en una <strong>carpeta única</strong></li>
+              </ul>
+            </div>
+            <div class="deliverable">
+              <div class="label">Formato</div>
+              <p style="margin: 0; font-size: 1.05rem">
+                Extensión: <code>.zip</code><br /><br />Espacio de envío:
+                <em
+                  >Interfaces gráficas según requerimientos del proyecto ·
+                  GA6-220501096-AA3-EV03</em
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>11 · Evidencia 03</span>
+            <span>EV03</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 16: TABLA COMPARATIVA =================== -->
+        <section>
+          <div class="eyebrow">Vista panorámica</div>
+          <h2>Las tres evidencias, lado a lado.</h2>
+
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Evidencia</th>
+                <th>¿Qué entregas?</th>
+                <th>¿Qué demuestras?</th>
+                <th>Formato</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EV01</td>
+                <td>Word + archivo de prototipado con un ejemplo</td>
+                <td>Que dominas una herramienta de prototipado</td>
+                <td>.zip</td>
+              </tr>
+              <tr>
+                <td>EV02</td>
+                <td>Word + prototipo con navegación</td>
+                <td>Que sabes diseñar el flujo de tu software</td>
+                <td>.zip</td>
+              </tr>
+              <tr>
+                <td>EV03</td>
+                <td>Código fuente de la interfaz</td>
+                <td>Que sabes implementar lo que diseñaste</td>
+                <td>.zip</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="slide-footer">
+            <span>12 · Resumen</span>
+            <span>GA6-AA3</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 17: CRONOGRAMA SUGERIDO =================== -->
+        <section>
+          <div class="eyebrow">Cronograma sugerido</div>
+          <h2>Cómo distribuir las <em>48 horas</em>.</h2>
+
+          <table class="compare-table mt-3">
+            <thead>
+              <tr>
+                <th>Bloque</th>
+                <th>Actividad</th>
+                <th>Horas aprox.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bloque 1</td>
+                <td>
+                  Investigar herramientas, instalar, hacer ejemplo y documento
+                  EV01
+                </td>
+                <td>12 h</td>
+              </tr>
+              <tr>
+                <td>Bloque 2</td>
+                <td>Diseñar mockups, agregar navegación y documentar EV02</td>
+                <td>18 h</td>
+              </tr>
+              <tr>
+                <td>Bloque 3</td>
+                <td>Codificar HTML/CSS/JS y entregar EV03</td>
+                <td>18 h</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="text-mono mt-3" style="opacity: 0.7">
+            // Este es un reparto sugerido, ajústalo a tu ritmo de trabajo.
+          </p>
+
+          <div class="slide-footer">
+            <span>13 · Cronograma</span>
+            <span>GA6-AA3</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 18: TIPS FINALES =================== -->
+        <section>
+          <div class="eyebrow">Antes de cerrar</div>
+          <h2>Cinco consejos para sacarle el jugo.</h2>
+
+          <div class="tips-grid">
+            <div class="tip">
+              <div class="num">TIP 01</div>
+              <p>
+                <strong>Empieza por los requerimientos.</strong> No abras Figma
+                sin saber qué hace tu software. El diseño viene después de
+                entender el problema.
+              </p>
+            </div>
+            <div class="tip">
+              <div class="num">TIP 02</div>
+              <p>
+                <strong>Toma muchos pantallazos.</strong> Las tres evidencias
+                los piden. Documenta mientras avanzas, no al final.
+              </p>
+            </div>
+            <div class="tip">
+              <div class="num">TIP 03</div>
+              <p>
+                <strong>La navegación es lo que se evalúa.</strong> En EV02 no
+                entregues pantallas sueltas; conecta los botones.
+              </p>
+            </div>
+            <div class="tip">
+              <div class="num">TIP 04</div>
+              <p>
+                <strong>Reutiliza el prototipo.</strong> En EV03 no diseñes
+                desde cero: implementa lo que ya hiciste en EV02.
+              </p>
+            </div>
+            <div class="tip">
+              <div class="num">TIP 05</div>
+              <p>
+                <strong>Revisa la carpeta antes de comprimir.</strong> Que el
+                .zip tenga TODO lo que pide la guía. No olvides la portada del
+                documento.
+              </p>
+            </div>
+            <div class="tip">
+              <div class="num">TIP 06</div>
+              <p>
+                <strong>Apóyate en los materiales.</strong> Los componentes
+                formativos están ahí para resolver dudas técnicas: úsalos.
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span>14 · Consejos</span>
+            <span>GA6-AA3</span>
+          </div>
+        </section>
+
+        <!-- =================== SLIDE 19: CIERRE =================== -->
+        <section class="end-slide">
+          <div class="ficha-tag">GA6-220501096-AA3</div>
+          <h2>¿Manos a la <span class="accent">obra</span>?</h2>
+          <p>Tres evidencias · 48 horas · una sola visión de diseño</p>
+
+          <div
+            style="
+              margin-top: 4rem;
+              display: flex;
+              gap: 3rem;
+              font-family: var(--mono);
+              font-size: 0.75rem;
+              letter-spacing: 0.14em;
+              color: var(--ink-dim);
+              text-transform: uppercase;
+            "
+          >
+            <span>Fichas 3186652 / 3186653</span>
+            <span>SENA · ADSO</span>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Reveal.js scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        controls: true,
+        controlsTutorial: false,
+        progress: true,
+        slideNumber: false,
+        transition: "slide",
+        transitionSpeed: "default",
+        backgroundTransition: "fade",
+        width: 1280,
+        height: 800,
+        margin: 0.04,
+        minScale: 0.2,
+        maxScale: 1.6,
+      });
+    </script>
+  </body>
+</html>
