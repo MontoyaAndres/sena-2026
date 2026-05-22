@@ -10,10 +10,12 @@ const { MongoClient } = require("mongodb");
 //    Reemplaza los valores con los datos de tu cuenta de MongoDB Atlas.
 //    Estos datos los encuentras en: Atlas -> Database -> Connect -> Drivers
 const USUARIO = "andresmontoyadev_db_user"; // Usuario que creaste en Atlas
-const CONTRASENA = "SnaxE7TedBmEtFof"; // Contrasena del usuario
-const CLUSTER = "sena-ficha-52-53.lfggcwn.mongodb.net"; // Direccion del cluster (sin mongodb+srv://)
-const NOMBRE_APP = "sena-ficha-52-53"; // Nombre de la app (lo da Atlas)
+const CONTRASENA = "eBtYY4skMnQS9Sqm"; // Contrasena del usuario
+const CLUSTER = "estudiantes-sena.ug02gre.mongodb.net"; // Direccion del cluster (sin mongodb+srv://)
+const NOMBRE_APP = "estudiantes-sena"; // Nombre de la app (lo da Atlas)
 const NOMBRE_BASE_DATOS = "sena"; // Nombre de la base de datos
+
+// mongodb+srv://andresmontoyadev_db_user:eBtYY4skMnQS9Sqm@estudiantes-sena.ug02gre.mongodb.net/?appName=estudiantes-sena
 
 // 3. Armamos la URL de conexion para MongoDB Atlas
 //    Formato: mongodb+srv://USUARIO:CONTRASENA@CLUSTER/?appName=NOMBRE_APP
