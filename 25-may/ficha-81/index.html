@@ -1,0 +1,1573 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Planeación de Contenidos Digitales · AA1-EV02</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter+Tight:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --ink: #1a1714;
+        --paper: #f4ede1;
+        --paper-2: #ebe1cf;
+        --rule: #1a1714;
+        --accent: #c8472a; /* vermillion */
+        --accent-2: #2c5e4a; /* forest */
+        --accent-3: #d4a017; /* mustard */
+        --muted: #6e6357;
+      }
+
+      .reveal-viewport {
+        background: var(--paper);
+        background-image:
+          radial-gradient(rgba(26, 23, 20, 0.045) 1px, transparent 1px),
+          radial-gradient(rgba(26, 23, 20, 0.03) 1px, transparent 1px);
+        background-size:
+          3px 3px,
+          7px 7px;
+        background-position:
+          0 0,
+          1px 1px;
+      }
+
+      .reveal {
+        font-family: "Inter Tight", sans-serif;
+        font-weight: 400;
+        color: var(--ink);
+        font-size: 20px;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 0 40px;
+        height: 100%;
+      }
+
+      /* ---------- Typography ---------- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: "Fraunces", serif;
+        color: var(--ink);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        line-height: 1.02;
+        margin: 0 0 0.4em 0;
+        font-weight: 600;
+      }
+      .reveal h1 {
+        font-size: 3em;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+      .reveal h2 {
+        font-size: 2em;
+        font-weight: 600;
+      }
+      .reveal h3 {
+        font-size: 1.4em;
+        font-weight: 600;
+      }
+      .reveal p,
+      .reveal li {
+        line-height: 1.45;
+      }
+      .reveal em {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        color: var(--accent);
+        font-weight: 400;
+      }
+      .reveal strong {
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      /* eyebrow / kicker label */
+      .kicker {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.5em;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .kicker::before {
+        content: "";
+        width: 36px;
+        height: 1px;
+        background: var(--accent);
+        display: inline-block;
+      }
+
+      /* page header rule */
+      .page-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 14px;
+        margin-bottom: 36px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .page-head .right {
+        color: var(--muted);
+      }
+
+      /* page footer */
+      .page-foot {
+        position: absolute;
+        bottom: 24px;
+        left: 40px;
+        right: 40px;
+        display: flex;
+        justify-content: space-between;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-top: 1px solid rgba(26, 23, 20, 0.2);
+        padding-top: 12px;
+      }
+
+      /* ---------- COVER SLIDE ---------- */
+      .cover {
+        height: 100% !important;
+        display: grid !important;
+        grid-template-rows: auto 1fr auto;
+        padding: 30px 40px !important;
+      }
+      .cover-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+      .cover-mid {
+        align-self: center;
+        position: relative;
+      }
+      .cover-mid h1 {
+        font-size: 4em;
+        line-height: 0.92;
+        margin: 0;
+      }
+      .cover-mid h1 .underline-word {
+        display: inline-block;
+        position: relative;
+      }
+      .cover-mid h1 .underline-word::after {
+        content: "";
+        position: absolute;
+        left: -4px;
+        right: -4px;
+        bottom: 0.12em;
+        height: 0.22em;
+        background: var(--accent);
+        z-index: -1;
+        opacity: 0.85;
+      }
+      .cover-mid .subtitle {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-size: 1.3em;
+        color: var(--muted);
+        margin-top: 0.6em;
+        max-width: 18ch;
+        line-height: 1.2;
+      }
+      .cover-decoration {
+        position: absolute;
+        top: 30px;
+        right: 0;
+        width: 240px;
+        opacity: 0.9;
+      }
+      .cover-bot {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+        border-top: 1px solid var(--ink);
+        padding-top: 16px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.48em;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .cover-bot .cell .label {
+        color: var(--muted);
+        display: block;
+        margin-bottom: 6px;
+      }
+      .cover-bot .cell .val {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ---------- TWO-COLUMN ---------- */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: start;
+      }
+      .two-col.uneven {
+        grid-template-columns: 0.9fr 1.1fr;
+      }
+
+      /* numbered chapter heading */
+      .chapter-num {
+        font-family: "Fraunces", serif;
+        font-size: 6em;
+        font-weight: 300;
+        color: var(--accent);
+        line-height: 0.85;
+        font-feature-settings: "lnum";
+      }
+      .chapter-num small {
+        display: block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.13em;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 18px;
+      }
+
+      /* cards */
+      .card {
+        background: var(--paper-2);
+        border: 1px solid var(--ink);
+        padding: 24px 26px;
+        position: relative;
+      }
+      .card .card-tag {
+        position: absolute;
+        top: -10px;
+        left: 18px;
+        background: var(--paper);
+        padding: 0 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.45em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .card h4 {
+        font-size: 1.3em;
+        margin-bottom: 0.4em;
+      }
+      .card p {
+        font-size: 0.88em;
+        color: var(--muted);
+        margin: 0;
+      }
+
+      /* question prompt */
+      .prompt {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-size: 1.25em;
+        line-height: 1.3;
+        color: var(--ink);
+        border-left: 3px solid var(--accent);
+        padding-left: 24px;
+        margin: 30px 0;
+      }
+
+      /* dashed list */
+      .dash-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .dash-list li {
+        padding: 14px 0;
+        border-bottom: 1px dashed rgba(26, 23, 20, 0.25);
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        gap: 14px;
+        align-items: baseline;
+      }
+      .dash-list li:last-child {
+        border-bottom: none;
+      }
+      .dash-list li .marker {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+      }
+      .dash-list li .text strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+      .dash-list li .text span {
+        color: var(--muted);
+        font-size: 0.9em;
+      }
+
+      /* big quote */
+      .big-quote {
+        font-family: "Fraunces", serif;
+        font-size: 2.4em;
+        line-height: 1.05;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+      }
+      .big-quote .accent {
+        color: var(--accent);
+        font-style: italic;
+      }
+
+      /* tags */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .tag {
+        display: inline-block;
+        padding: 5px 12px;
+        border: 1px solid var(--ink);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .tag.filled {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .tag.accent {
+        background: var(--accent);
+        color: var(--paper);
+        border-color: var(--accent);
+      }
+
+      /* table */
+      .ed-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.7em;
+        margin-top: 24px;
+      }
+      .ed-table th,
+      .ed-table td {
+        border: 1px solid var(--ink);
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .ed-table th {
+        background: var(--ink);
+        color: var(--paper);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .ed-table tbody tr:nth-child(even) {
+        background: var(--paper-2);
+      }
+      .ed-table td .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85em;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--paper);
+        border-radius: 0;
+      }
+      .pill.ig {
+        background: #c8472a;
+      }
+      .pill.fb {
+        background: #2c5e4a;
+      }
+      .pill.tk {
+        background: #1a1714;
+      }
+      .pill.bl {
+        background: #d4a017;
+        color: var(--ink);
+      }
+
+      /* channels grid */
+      .channel-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 24px;
+      }
+      .channel {
+        border: 1px solid var(--ink);
+        padding: 20px 18px;
+        position: relative;
+        background: var(--paper-2);
+      }
+      .channel .icon {
+        font-family: "Fraunces", serif;
+        font-size: 2.2em;
+        color: var(--accent);
+        line-height: 1;
+        font-weight: 600;
+      }
+      .channel .name {
+        font-family: "Fraunces", serif;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin: 10px 0 4px;
+      }
+      .channel .desc {
+        font-size: 0.7em;
+        color: var(--muted);
+        line-height: 1.3;
+      }
+
+      /* copyright warning box */
+      .warning-box {
+        border: 2px solid var(--ink);
+        background: var(--paper-2);
+        padding: 28px;
+        position: relative;
+        margin: 24px 0;
+      }
+      .warning-box::before {
+        content: "©";
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        font-family: "Fraunces", serif;
+        font-size: 2em;
+        background: var(--paper);
+        padding: 0 12px;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* deliverable */
+      .deliverable-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 30px;
+      }
+      .deliverable {
+        border: 1px solid var(--ink);
+        padding: 26px;
+        background: var(--paper-2);
+        position: relative;
+      }
+      .deliverable .format {
+        display: inline-block;
+        background: var(--accent);
+        color: var(--paper);
+        padding: 4px 12px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.15em;
+        margin-bottom: 14px;
+      }
+      .deliverable.alt .format {
+        background: var(--accent-2);
+      }
+      .deliverable h4 {
+        font-size: 1.3em;
+        margin-bottom: 6px;
+      }
+      .deliverable p {
+        font-size: 0.8em;
+        color: var(--muted);
+        margin: 0;
+      }
+
+      /* progress bar */
+      .progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: transparent;
+        z-index: 50;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--accent);
+        width: 0;
+        transition: width 0.4s ease;
+      }
+
+      /* decorative SVG line */
+      .squiggle {
+        width: 100%;
+        height: 16px;
+        margin: 14px 0;
+      }
+
+      /* Final slide */
+      .final {
+        display: grid !important;
+        place-content: center;
+        text-align: center !important;
+        height: 100% !important;
+      }
+      .final .kicker {
+        justify-content: center;
+      }
+      .final .kicker::after {
+        content: "";
+        width: 36px;
+        height: 1px;
+        background: var(--accent);
+        display: inline-block;
+      }
+      .final h1 {
+        font-size: 3em;
+        max-width: 14ch;
+        margin: 0 auto;
+      }
+      .final p {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-size: 1.2em;
+        color: var(--muted);
+        margin-top: 1em;
+      }
+
+      /* hide reveal default controls styling tweaks */
+      .reveal .controls {
+        color: var(--ink);
+      }
+      .reveal .progress {
+        color: var(--accent);
+      }
+
+      /* utility */
+      .mt-1 {
+        margin-top: 14px;
+      }
+      .mt-2 {
+        margin-top: 24px;
+      }
+      .mt-3 {
+        margin-top: 36px;
+      }
+      .text-muted {
+        color: var(--muted);
+      }
+      .text-accent {
+        color: var(--accent);
+      }
+      .text-accent2 {
+        color: var(--accent-2);
+      }
+      .small {
+        font-size: 0.75em;
+      }
+      .micro {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1. COVER -->
+        <section class="cover">
+          <div class="cover-top">
+            <span>SENA · Ficha 81 · AA1-EV02</span>
+            <span>Vol. 01 / Mayo 2026</span>
+          </div>
+
+          <div class="cover-mid">
+            <svg
+              class="cover-decoration"
+              viewBox="0 0 240 200"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="180"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#1a1714"
+                stroke-width="1"
+              />
+              <circle cx="180" cy="50" r="28" fill="#c8472a" />
+              <line
+                x1="20"
+                y1="100"
+                x2="220"
+                y2="100"
+                stroke="#1a1714"
+                stroke-width="1"
+              />
+              <line
+                x1="20"
+                y1="115"
+                x2="160"
+                y2="115"
+                stroke="#1a1714"
+                stroke-width="1"
+              />
+              <line
+                x1="20"
+                y1="130"
+                x2="200"
+                y2="130"
+                stroke="#1a1714"
+                stroke-width="1"
+              />
+              <line
+                x1="20"
+                y1="145"
+                x2="120"
+                y2="145"
+                stroke="#1a1714"
+                stroke-width="1"
+              />
+              <rect x="20" y="165" width="50" height="25" fill="#2c5e4a" />
+              <rect
+                x="78"
+                y="165"
+                width="50"
+                height="25"
+                fill="none"
+                stroke="#1a1714"
+              />
+              <rect x="136" y="165" width="50" height="25" fill="#d4a017" />
+            </svg>
+            <h1>
+              Planear<br />
+              <span class="underline-word">antes</span><br />
+              de publicar.
+            </h1>
+            <p class="subtitle">
+              Una guía para crear contenidos digitales con intención.
+            </p>
+          </div>
+
+          <div class="cover-bot">
+            <div class="cell">
+              <span class="label">Curso</span>
+              <span class="val">Contenidos Digitales</span>
+            </div>
+            <div class="cell">
+              <span class="label">Evidencia</span>
+              <span class="val">AA1-EV02</span>
+            </div>
+            <div class="cell">
+              <span class="label">Producto</span>
+              <span class="val">Calendario editorial</span>
+            </div>
+            <div class="cell">
+              <span class="label">Formato</span>
+              <span class="val">PDF + Excel</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. INTRO / WHY -->
+        <section>
+          <div class="page-head">
+            <span>00 · Apertura</span>
+            <span class="right">Por qué planear</span>
+          </div>
+
+          <div class="two-col uneven">
+            <div>
+              <div class="kicker">Punto de partida</div>
+              <h2>El contenido<br />que improvisa,<br />se olvida.</h2>
+              <svg
+                class="squiggle"
+                viewBox="0 0 400 16"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M0,8 Q25,0 50,8 T100,8 T150,8 T200,8 T250,8 T300,8 T350,8 T400,8"
+                  stroke="#c8472a"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <div>
+              <p class="prompt">
+                Planificar es el primer paso para crear contenidos que
+                <em>conecten</em>, <em>conviertan</em> y <em>perduren</em>.
+              </p>
+              <p class="text-muted small mt-2">
+                En esta evidencia construirás una propuesta inicial usando un
+                <strong>Calendario Editorial</strong> en Excel, considerando
+                objetivos, audiencia, formato, copy, fechas y derechos de autor.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-foot">
+            <span>AA1-EV02</span>
+            <span>02</span>
+          </div>
+        </section>
+
+        <!-- 3. ROADMAP -->
+        <section>
+          <div class="page-head">
+            <span>Índice</span>
+            <span class="right">06 estaciones</span>
+          </div>
+          <div class="kicker">El recorrido</div>
+
+          <ol class="dash-list">
+            <li>
+              <span class="marker">01 →</span>
+              <span class="text"
+                ><strong>Definición de objetivos</strong>
+                <span>¿Para qué publicas? ¿Qué quieres lograr?</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">02 →</span>
+              <span class="text"
+                ><strong>Identificación de la audiencia</strong>
+                <span>¿A quién le hablas y cómo prefiere consumir?</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">03 →</span>
+              <span class="text"
+                ><strong>Selección de canales</strong>
+                <span>¿Dónde está esa audiencia esperándote?</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">04 →</span>
+              <span class="text"
+                ><strong>Calendario editorial</strong>
+                <span>El instrumento concreto de tu planeación.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">05 →</span>
+              <span class="text"
+                ><strong>Derechos de autor</strong>
+                <span>Crear con respeto a la propiedad intelectual.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">06 →</span>
+              <span class="text"
+                ><strong>Entrega y formato</strong>
+                <span>Cómo presentas tu evidencia.</span></span
+              >
+            </li>
+          </ol>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>03</span></div>
+        </section>
+
+        <!-- 4. CHAPTER 01 - OBJETIVOS -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 01</span>
+            <span class="right">Objetivos</span>
+          </div>
+
+          <div class="two-col uneven">
+            <div>
+              <div class="chapter-num">
+                01
+                <small>Define el propósito</small>
+              </div>
+            </div>
+            <div>
+              <h2>¿Qué quieres<br />que pase después?</h2>
+              <p class="text-muted">
+                Todo contenido digital debe responder a una intención clara. Sin
+                objetivo, no hay medición ni mejora posible.
+              </p>
+
+              <div class="tags mt-2">
+                <span class="tag accent">Liderazgo de pensamiento</span>
+                <span class="tag">Conversión de usuarios</span>
+                <span class="tag filled">Reconocimiento de marca</span>
+                <span class="tag">Educación</span>
+                <span class="tag">Comunidad</span>
+              </div>
+
+              <p class="prompt mt-3">
+                No basta con saber <em>qué</em> publicar.<br />
+                Pregúntate <em>qué acción</em> esperas de tu audiencia.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>04</span></div>
+        </section>
+
+        <!-- 5. CHAPTER 01 - examples -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 01 · Ejemplos</span>
+            <span class="right">Del objetivo a la acción</span>
+          </div>
+
+          <div class="kicker">Casos prácticos</div>
+          <h3 class="mt-1">
+            Un objetivo bien escrito tiene <em>verbo</em>, <em>sujeto</em> y
+            <em>resultado</em>.
+          </h3>
+
+          <div class="channel-grid mt-3">
+            <div class="channel">
+              <div class="icon">↗</div>
+              <div class="name">Reconocimiento</div>
+              <div class="desc">
+                "Que 500 personas nuevas conozcan nuestra marca este mes a
+                través de Reels."
+              </div>
+            </div>
+            <div class="channel">
+              <div class="icon">✱</div>
+              <div class="name">Conversión</div>
+              <div class="desc">
+                "Lograr 30 inscripciones al curso desde el enlace del post."
+              </div>
+            </div>
+            <div class="channel">
+              <div class="icon">◐</div>
+              <div class="name">Autoridad</div>
+              <div class="desc">
+                "Posicionar al docente como referente publicando 4 artículos al
+                mes."
+              </div>
+            </div>
+          </div>
+
+          <p class="text-muted small mt-3">
+            <strong>Tip:</strong> usa la fórmula
+            <em>verbo + métrica + plazo</em>. Eso convierte un deseo en un
+            objetivo medible.
+          </p>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>05</span></div>
+        </section>
+
+        <!-- 6. CHAPTER 02 - AUDIENCIA -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 02</span>
+            <span class="right">Audiencia</span>
+          </div>
+
+          <div class="two-col uneven">
+            <div>
+              <div class="chapter-num">
+                02
+                <small>Conoce a quién hablas</small>
+              </div>
+            </div>
+            <div>
+              <h2>
+                No escribas para todos.<br />Escribe para <em>alguien</em>.
+              </h2>
+              <p class="text-muted">
+                La audiencia no es una multitud anónima. Es un perfil concreto
+                con hábitos, dolores y formatos que prefiere.
+              </p>
+
+              <ul class="dash-list mt-2">
+                <li>
+                  <span class="marker">01</span
+                  ><span class="text"
+                    ><strong>Demografía</strong
+                    ><span>Edad, ubicación, ocupación, idioma.</span></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">02</span
+                  ><span class="text"
+                    ><strong>Comportamiento digital</strong
+                    ><span
+                      >Qué redes usan, en qué horarios, en qué formatos.</span
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">03</span
+                  ><span class="text"
+                    ><strong>Nivel de conocimiento</strong
+                    ><span
+                      >¿Son principiantes, intermedios o expertos en el
+                      tema?</span
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">04</span
+                  ><span class="text"
+                    ><strong>Necesidad o dolor</strong
+                    ><span>¿Qué problema resuelves para ellos?</span></span
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>06</span></div>
+        </section>
+
+        <!-- 7. CHAPTER 02 - PERSONA EXAMPLE -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 02 · Buyer persona</span>
+            <span class="right">Ejemplo</span>
+          </div>
+
+          <div class="kicker">Ficha de audiencia</div>
+
+          <div class="two-col">
+            <div class="card">
+              <span class="card-tag">Perfil A · Estudiantes</span>
+              <h4>"Camila, 21 años"</h4>
+              <p>
+                Estudia comunicación, vive en Bogotá, consume TikTok e Instagram
+                principalmente en la noche. Le gustan los formatos rápidos, con
+                humor y datos concretos. Busca aprender sin sentirse en clase.
+              </p>
+              <div class="tags mt-2">
+                <span class="tag">Tiktok</span>
+                <span class="tag">Reels</span>
+                <span class="tag">Carruseles</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <span class="card-tag">Perfil B · Docentes</span>
+              <h4>"Andrés, 38 años"</h4>
+              <p>
+                Profesor de bachillerato, busca herramientas para enseñar mejor.
+                Lee newsletters los domingos, prefiere artículos largos y guarda
+                referencias en Pinterest. Aprecia las fuentes verificadas.
+              </p>
+              <div class="tags mt-2">
+                <span class="tag">Newsletter</span>
+                <span class="tag">Blog</span>
+                <span class="tag">LinkedIn</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-muted small mt-3">
+            <strong>Cada perfil exige un canal y un tono distintos.</strong>
+            La planeación cambia con la audiencia.
+          </p>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>07</span></div>
+        </section>
+
+        <!-- 8. CHAPTER 03 - CANALES -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 03</span>
+            <span class="right">Canales</span>
+          </div>
+
+          <div class="two-col uneven">
+            <div>
+              <div class="chapter-num">
+                03
+                <small>Elige dónde publicar</small>
+              </div>
+            </div>
+            <div>
+              <h2>El mejor canal<br />es donde ya está<br />tu audiencia.</h2>
+              <p class="text-muted">
+                No persigas todas las plataformas. Elige aquellas donde tu
+                mensaje y tu público se cruzan de forma natural.
+              </p>
+            </div>
+          </div>
+
+          <div class="channel-grid">
+            <div class="channel">
+              <div class="icon">◉</div>
+              <div class="name">Redes sociales</div>
+              <div class="desc">
+                Instagram, TikTok, Facebook, LinkedIn, X. Alcance amplio, vida
+                corta.
+              </div>
+            </div>
+            <div class="channel">
+              <div class="icon">▤</div>
+              <div class="name">Blog / Web</div>
+              <div class="desc">
+                Contenido evergreen, SEO, profundidad. Construye autoridad.
+              </div>
+            </div>
+            <div class="channel">
+              <div class="icon">✉</div>
+              <div class="name">Newsletter</div>
+              <div class="desc">
+                Audiencia propia, relación directa, sin algoritmos.
+              </div>
+            </div>
+            <div class="channel">
+              <div class="icon">▶</div>
+              <div class="name">YouTube</div>
+              <div class="desc">
+                Video largo, búsquedas, tutoriales. Inversión alta y duradera.
+              </div>
+            </div>
+            <div class="channel">
+              <div class="icon">♫</div>
+              <div class="name">Podcast</div>
+              <div class="desc">
+                Audiencia leal, formato íntimo, ideal para tiempos muertos.
+              </div>
+            </div>
+            <div class="channel">
+              <div class="icon">⌗</div>
+              <div class="name">Mensajería</div>
+              <div class="desc">
+                WhatsApp, Telegram. Comunidad cercana y conversación directa.
+              </div>
+            </div>
+          </div>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>08</span></div>
+        </section>
+
+        <!-- 9. CHAPTER 04 - CALENDARIO -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 04</span>
+            <span class="right">Calendario editorial</span>
+          </div>
+
+          <div class="two-col uneven">
+            <div>
+              <div class="chapter-num">
+                04
+                <small>El instrumento</small>
+              </div>
+            </div>
+            <div>
+              <h2>
+                El calendario:<br />donde la estrategia<br />se vuelve
+                <em>plan</em>.
+              </h2>
+              <p class="text-muted">
+                Es el documento operativo de la planeación. Convierte ideas
+                sueltas en una secuencia ordenada y publicable.
+              </p>
+              <div class="tags mt-2">
+                <span class="tag accent">Archivo Excel</span>
+                <span class="tag">Formato anexo</span>
+                <span class="tag filled">6 columnas mínimas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>09</span></div>
+        </section>
+
+        <!-- 10. CALENDARIO - COLUMNAS -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 04 · Estructura</span>
+            <span class="right">Columnas del calendario</span>
+          </div>
+
+          <div class="kicker">Los 6 campos esenciales</div>
+
+          <ul class="dash-list">
+            <li>
+              <span class="marker">A · Red social</span>
+              <span class="text"
+                ><strong>Plataforma donde se publicará el contenido.</strong>
+                <span>Ej. Instagram, TikTok, Blog, LinkedIn.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">B · Objetivo</span>
+              <span class="text"
+                ><strong>Qué quieres comunicar con esa pieza.</strong>
+                <span
+                  >Relacionado con el objetivo general del proyecto.</span
+                ></span
+              >
+            </li>
+            <li>
+              <span class="marker">C · Tipo</span>
+              <span class="text"
+                ><strong>Formato del contenido.</strong>
+                <span
+                  >Video, reel, infografía, artículo, carrusel, story.</span
+                ></span
+              >
+            </li>
+            <li>
+              <span class="marker">D · Guion / Copy</span>
+              <span class="text"
+                ><strong>Mensaje o texto central.</strong>
+                <span>Lo que el usuario va a leer o escuchar.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">E · Fecha</span>
+              <span class="text"
+                ><strong>Cuándo se publica.</strong>
+                <span>Día, hora y zona horaria si aplica.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">F · Observaciones</span>
+              <span class="text"
+                ><strong>Detalles relevantes.</strong>
+                <span
+                  >Hashtags, créditos, recursos pendientes, responsable.</span
+                ></span
+              >
+            </li>
+          </ul>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>10</span></div>
+        </section>
+
+        <!-- 11. CALENDARIO - EJEMPLO -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 04 · Ejemplo</span>
+            <span class="right">Una semana de contenido</span>
+          </div>
+
+          <div class="kicker">Calendario editorial · muestra</div>
+          <h3>Así se ve un plan semanal <em>bien armado</em>.</h3>
+
+          <table class="ed-table">
+            <thead>
+              <tr>
+                <th>Red</th>
+                <th>Objetivo</th>
+                <th>Tipo</th>
+                <th>Copy</th>
+                <th>Fecha</th>
+                <th>Observaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill ig">Instagram</span></td>
+                <td>Reconocimiento</td>
+                <td>Reel</td>
+                <td>"3 errores al planear tu contenido."</td>
+                <td>Lun · 7pm</td>
+                <td>Audio en tendencia</td>
+              </tr>
+              <tr>
+                <td><span class="pill tk">TikTok</span></td>
+                <td>Educación</td>
+                <td>Video</td>
+                <td>"¿Qué es un calendario editorial?"</td>
+                <td>Mié · 6pm</td>
+                <td>Guion 45 seg</td>
+              </tr>
+              <tr>
+                <td><span class="pill bl">Blog</span></td>
+                <td>Autoridad / SEO</td>
+                <td>Artículo</td>
+                <td>"Guía 2026 para planear contenidos."</td>
+                <td>Jue · 9am</td>
+                <td>Imagen de portada propia</td>
+              </tr>
+              <tr>
+                <td><span class="pill fb">Facebook</span></td>
+                <td>Comunidad</td>
+                <td>Carrusel</td>
+                <td>"5 plantillas para tu calendario."</td>
+                <td>Vie · 5pm</td>
+                <td>Enlace al blog</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>11</span></div>
+        </section>
+
+        <!-- 12. CHAPTER 05 - DERECHOS DE AUTOR -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 05</span>
+            <span class="right">Derechos de autor</span>
+          </div>
+
+          <div class="two-col uneven">
+            <div>
+              <div class="chapter-num">
+                05
+                <small>Crea con respeto</small>
+              </div>
+            </div>
+            <div>
+              <h2>
+                Lo que publicas<br />también <em>pertenece</em><br />a alguien.
+              </h2>
+              <p class="text-muted">
+                Toda imagen, música, texto o video tiene un autor. Usarlo sin
+                permiso o sin atribución puede traer consecuencias legales y
+                éticas.
+              </p>
+            </div>
+          </div>
+
+          <div class="warning-box">
+            <p class="micro text-accent" style="margin: 0 0 12px 0">
+              Regla básica
+            </p>
+            <p
+              style="
+                margin: 0;
+                font-family: &quot;Fraunces&quot;, serif;
+                font-size: 1.3em;
+                line-height: 1.3;
+              "
+            >
+              Si no lo creaste tú y no tienes permiso explícito,
+              <em>asume que está protegido</em> por derechos de autor.
+            </p>
+          </div>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>12</span></div>
+        </section>
+
+        <!-- 13. DERECHOS - BUENAS PRACTICAS -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 05 · Buenas prácticas</span>
+            <span class="right">Cómo proteger y respetar</span>
+          </div>
+
+          <div class="kicker">Recursos seguros</div>
+
+          <div class="two-col">
+            <div>
+              <h3>Usa fuentes <em>libres</em>.</h3>
+              <ul class="dash-list">
+                <li>
+                  <span class="marker">✓</span
+                  ><span class="text"
+                    ><strong>Bancos gratuitos</strong
+                    ><span
+                      >Unsplash, Pexels, Pixabay, Freepik (revisar
+                      licencia).</span
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">✓</span
+                  ><span class="text"
+                    ><strong>Creative Commons</strong
+                    ><span
+                      >Verifica el tipo de licencia (CC0, BY, BY-SA,
+                      etc.).</span
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">✓</span
+                  ><span class="text"
+                    ><strong>Música libre</strong
+                    ><span
+                      >YouTube Audio Library, Free Music Archive.</span
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">✓</span
+                  ><span class="text"
+                    ><strong>Contenido propio</strong
+                    ><span
+                      >Tus fotos, tus videos, tus textos: lo más seguro.</span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3>Da <em>crédito</em> siempre.</h3>
+              <ul class="dash-list">
+                <li>
+                  <span class="marker">→</span
+                  ><span class="text"
+                    ><strong>Nombre del autor</strong
+                    ><span>Foto: @autor / Música: Artista — Canción</span></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">→</span
+                  ><span class="text"
+                    ><strong>Fuente original</strong
+                    ><span
+                      >Enlace o mención de la plataforma de origen.</span
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">→</span
+                  ><span class="text"
+                    ><strong>Tipo de licencia</strong
+                    ><span
+                      >Indica si es CC BY, dominio público, etc.</span
+                    ></span
+                  >
+                </li>
+                <li>
+                  <span class="marker">→</span
+                  ><span class="text"
+                    ><strong>Consulta la OMPI</strong
+                    ><span
+                      >Organización Mundial de la Propiedad Intelectual.</span
+                    ></span
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>13</span></div>
+        </section>
+
+        <!-- 14. CHAPTER 06 - ENTREGA -->
+        <section>
+          <div class="page-head">
+            <span>Capítulo 06</span>
+            <span class="right">Entrega</span>
+          </div>
+
+          <div class="two-col uneven">
+            <div>
+              <div class="chapter-num">
+                06
+                <small>Cómo se presenta</small>
+              </div>
+            </div>
+            <div>
+              <h2>
+                El cierre:<br />tu propuesta<br /><em>lista para entregar</em>.
+              </h2>
+              <p class="text-muted">
+                Completa el formato anexo y envíalo por el espacio
+                <strong>"Planeación de contenidos digitales. AA1-EV02"</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div class="deliverable-grid">
+            <div class="deliverable">
+              <span class="format">.xlsx</span>
+              <h4>Archivo Excel</h4>
+              <p>
+                El calendario editorial completado con todas las columnas: red,
+                objetivo, tipo, copy, fecha y observaciones.
+              </p>
+            </div>
+            <div class="deliverable alt">
+              <span class="format">.pdf</span>
+              <h4>Versión PDF</h4>
+              <p>
+                Exporta el mismo calendario como PDF para asegurar legibilidad y
+                conservar el formato visual original.
+              </p>
+            </div>
+          </div>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>14</span></div>
+        </section>
+
+        <!-- 15. CHECKLIST FINAL -->
+        <section>
+          <div class="page-head">
+            <span>Lista de verificación</span>
+            <span class="right">Antes de enviar</span>
+          </div>
+
+          <div class="kicker">Checklist final</div>
+          <h3>Revisa cada punto antes de subir tu evidencia.</h3>
+
+          <ul class="dash-list mt-2">
+            <li>
+              <span class="marker">☐ 01</span
+              ><span class="text"
+                ><strong>¿Definí objetivos claros y medibles?</strong
+                ><span>Verbo + métrica + plazo.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">☐ 02</span
+              ><span class="text"
+                ><strong>¿Describí mi audiencia con detalle?</strong
+                ><span>Demografía, comportamiento y necesidades.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">☐ 03</span
+              ><span class="text"
+                ><strong>¿Elegí canales coherentes con esa audiencia?</strong
+                ><span>Donde están y donde consumen.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">☐ 04</span
+              ><span class="text"
+                ><strong>¿Completé las 6 columnas del calendario?</strong
+                ><span
+                  >Red, objetivo, tipo, copy, fecha, observaciones.</span
+                ></span
+              >
+            </li>
+            <li>
+              <span class="marker">☐ 05</span
+              ><span class="text"
+                ><strong>¿Respeté los derechos de autor?</strong
+                ><span>Recursos con licencia y créditos correctos.</span></span
+              >
+            </li>
+            <li>
+              <span class="marker">☐ 06</span
+              ><span class="text"
+                ><strong>¿Exporté en Excel y PDF?</strong
+                ><span>Ambos formatos como pide la guía.</span></span
+              >
+            </li>
+          </ul>
+
+          <div class="page-foot"><span>AA1-EV02</span><span>15</span></div>
+        </section>
+
+        <!-- 16. FINAL -->
+        <section class="final">
+          <div class="kicker">Fin del recorrido</div>
+          <h1>
+            Planea con<br /><em>intención.</em><br />Publica con
+            <em>claridad</em>.
+          </h1>
+          <p>
+            Tu calendario editorial es el mapa.<br />El resto del semestre es el
+            viaje.
+          </p>
+
+          <svg
+            width="200"
+            height="40"
+            viewBox="0 0 200 40"
+            style="margin-top: 40px"
+          >
+            <line
+              x1="0"
+              y1="20"
+              x2="80"
+              y2="20"
+              stroke="#1a1714"
+              stroke-width="1"
+            />
+            <circle cx="100" cy="20" r="6" fill="#c8472a" />
+            <line
+              x1="120"
+              y1="20"
+              x2="200"
+              y2="20"
+              stroke="#1a1714"
+              stroke-width="1"
+            />
+          </svg>
+
+          <p
+            class="micro mt-3"
+            style="
+              color: var(--muted);
+              font-style: normal;
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+            "
+          >
+            SENA · Ficha 81 · Evidencia AA1-EV02
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script>
+      const deck = new Reveal({
+        hash: true,
+        controls: true,
+        progress: false,
+        center: false,
+        transition: "slide",
+        transitionSpeed: "default",
+        width: 1280,
+        height: 760,
+        margin: 0.04,
+      });
+      deck.initialize().then(() => {
+        const fill = document.getElementById("progressFill");
+        const update = () => {
+          const idx = deck.getIndices();
+          const total = deck.getTotalSlides();
+          const current = deck.getSlidePastCount() + 1;
+          fill.style.width = (current / total) * 100 + "%";
+        };
+        deck.on("slidechanged", update);
+        update();
+      });
+    </script>
+  </body>
+</html>
