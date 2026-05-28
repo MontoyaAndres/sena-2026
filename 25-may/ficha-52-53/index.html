@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>GA6-220501096-AA4 | Front-end HTML, CSS y JS</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+    <style>
+      :root {
+        --sena: #39a900;
+        --dark: #102018;
+        --soft: #eef8ee;
+        --blue: #0e6bcb;
+        --orange: #ff9f1c;
+        --gray: #5f6b66;
+      }
+      .reveal {
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--dark);
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--dark);
+        text-transform: none;
+      }
+      .reveal h1 {
+        font-size: 1.95em;
+      }
+      .reveal h2 {
+        font-size: 1.42em;
+      }
+      .reveal h3 {
+        font-size: 0.95em;
+        color: var(--sena);
+      }
+      .reveal p,
+      .reveal li {
+        font-size: 0.62em;
+        line-height: 1.28;
+      }
+      .reveal small {
+        font-size: 0.72em;
+        color: var(--gray);
+      }
+      .brand {
+        color: var(--sena);
+      }
+      .tag {
+        display: inline-block;
+        background: var(--soft);
+        border: 2px solid rgba(57, 169, 0, 0.25);
+        border-radius: 999px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.38em;
+        font-weight: 700;
+        margin: 0.18rem;
+        color: #205d14;
+      }
+      .grid {
+        display: grid;
+        gap: 18px;
+      }
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .card {
+        background: #fff;
+        border: 2px solid #e4eee4;
+        border-radius: 22px;
+        padding: 22px;
+        box-shadow: 0 12px 28px rgba(16, 32, 24, 0.08);
+        text-align: left;
+      }
+      .card h3 {
+        margin: 0 0 8px 0;
+      }
+      .card p {
+        margin: 0.35rem 0;
+      }
+      .num {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: var(--sena);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        font-size: 0.95em;
+        margin-bottom: 12px;
+      }
+      .hero {
+        min-height: 600px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
+        position: relative;
+      }
+      .hero:after {
+        content: "</>";
+        position: absolute;
+        right: 25px;
+        bottom: 20px;
+        font-size: 3.8em;
+        font-weight: 900;
+        color: rgba(57, 169, 0, 0.12);
+      }
+      .big-code {
+        font-family: Consolas, monospace;
+        font-weight: 800;
+        font-size: 1.05em;
+        background: #102018;
+        color: #fff;
+        border-radius: 22px;
+        padding: 24px;
+        text-align: left;
+      }
+      .big-code span {
+        color: #7ee787;
+      }
+      .flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .step {
+        background: var(--soft);
+        border: 2px solid rgba(57, 169, 0, 0.25);
+        border-radius: 20px;
+        padding: 20px;
+        min-width: 180px;
+        font-weight: 800;
+      }
+      .arrow {
+        font-size: 1.55em;
+        color: var(--sena);
+        font-weight: 900;
+      }
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: 25px;
+      }
+      .time {
+        background: #fff;
+        border-left: 8px solid var(--sena);
+        border-radius: 18px;
+        padding: 16px;
+        text-align: left;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      }
+      .time strong {
+        display: block;
+        color: var(--sena);
+        font-size: 0.72em;
+      }
+      .time span {
+        font-size: 0.5em;
+        color: var(--gray);
+      }
+      .check li {
+        list-style: none;
+        margin: 0.55rem 0;
+      }
+      .check li:before {
+        content: "✓";
+        color: #fff;
+        background: var(--sena);
+        border-radius: 50%;
+        font-weight: 900;
+        display: inline-grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+        font-size: 0.65em;
+      }
+      .warn {
+        background: #fff7e8;
+        border: 2px solid #ffd18a;
+        border-radius: 18px;
+        padding: 16px;
+        text-align: left;
+      }
+      .ok {
+        background: #effbea;
+        border: 2px solid #b7e8a9;
+        border-radius: 18px;
+        padding: 16px;
+        text-align: left;
+      }
+      .footer {
+        position: absolute;
+        bottom: 12px;
+        left: 30px;
+        font-size: 0.34em;
+        color: #789087;
+      }
+      .accent {
+        background: linear-gradient(135deg, #39a900, #8fd14f);
+        color: white;
+        border-radius: 28px;
+        padding: 26px;
+      }
+      .accent h2,
+      .accent h3,
+      .accent p,
+      .accent li {
+        color: white;
+      }
+      .center {
+        text-align: center;
+      }
+      .deliverable {
+        font-family: Consolas, monospace;
+        background: #f5f7f5;
+        border: 1px solid #d7dfd7;
+        border-radius: 12px;
+        padding: 10px;
+        font-size: 0.48em;
+        display: block;
+      }
+      table.rubrica {
+        font-size: 0.42em;
+        border-collapse: collapse;
+        width: 100%;
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+      }
+      table.rubrica th {
+        background: var(--sena);
+        color: white;
+      }
+      table.rubrica th,
+      table.rubrica td {
+        padding: 12px;
+        border: 1px solid #dce6dc;
+        text-align: left;
+        vertical-align: top;
+      }
+      @media print {
+        .reveal .slides section {
+          height: 720px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <div class="hero">
+            <span class="tag">Fichas 3186652 y 3186653</span>
+            <h1>
+              Actividad de aprendizaje
+              <span class="brand">GA6-220501096-AA4</span>
+            </h1>
+            <h2>Generar plantillas y estilos de acuerdo con el diseño</h2>
+            <p>
+              Sesión de trabajo: fundamentos, componentes y diseño front-end con
+              HTML, CSS y JavaScript.
+            </p>
+            <small
+              >ADSO - Front-end para aplicaciones web y móviles | Duración de la
+              actividad: 48 horas</small
+            >
+          </div>
+        </section>
+
+        <section>
+          <h2>Objetivo de la sesión</h2>
+          <div class="grid grid-3">
+            <div class="card">
+              <div class="num">1</div>
+              <h3>Comprender</h3>
+              <p>Qué son HTML, CSS y JavaScript dentro de una interfaz web.</p>
+            </div>
+            <div class="card">
+              <div class="num">2</div>
+              <h3>Organizar</h3>
+              <p>
+                Cómo estructurar componentes front-end para el proyecto
+                formativo.
+              </p>
+            </div>
+            <div class="card">
+              <div class="num">3</div>
+              <h3>Construir</h3>
+              <p>
+                Un diseño front-end usable que responda a los requerimientos del
+                proyecto.
+              </p>
+            </div>
+          </div>
+          <div class="footer">
+            Meta: que cada aprendiz sepa qué entregar en EV01, EV02 y EV03.
+          </div>
+        </section>
+
+        <section>
+          <h2>Ruta de aprendizaje de la actividad</h2>
+          <div class="flow">
+            <div class="step">
+              Fundamentos<br /><small>HTML, CSS, JS</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step">
+              Componentes<br /><small>estructura del software</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step">
+              Diseño final<br /><small>interfaz usable</small>
+            </div>
+          </div>
+          <div class="timeline">
+            <div class="time">
+              <strong>Inicio</strong><span>Conceptos y ejemplos básicos</span>
+            </div>
+            <div class="time">
+              <strong>Práctica 1</strong
+              ><span>Página tutorial con HTML/CSS</span>
+            </div>
+            <div class="time">
+              <strong>Práctica 2</strong><span>Documento de componentes</span>
+            </div>
+            <div class="time">
+              <strong>Cierre</strong><span>Diseño front-end del proyecto</span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>¿Qué es front-end?</h2>
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>Es la parte visible del software</h3>
+              <p>
+                Incluye pantallas, menús, botones, formularios, colores, textos,
+                imágenes y comportamientos que usa el usuario.
+              </p>
+              <p>
+                Un buen front-end no solo “se ve bonito”: también debe ser
+                claro, fácil de usar y coherente con el proyecto.
+              </p>
+            </div>
+            <div class="big-code">
+              <span>&lt;html&gt;</span> estructura<br />
+              <span>.css</span> presentación<br />
+              <span>JS()</span> interacción
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>HTML, CSS y JavaScript en una sola idea</h2>
+          <div class="grid grid-3">
+            <div class="card">
+              <h3>HTML</h3>
+              <p><strong>Define la estructura.</strong></p>
+              <p>
+                Títulos, párrafos, listas, enlaces, imágenes, formularios y
+                secciones.
+              </p>
+            </div>
+            <div class="card">
+              <h3>CSS</h3>
+              <p><strong>Define la apariencia.</strong></p>
+              <p>
+                Colores, tamaños, márgenes, tipografía, diseño responsive y
+                distribución.
+              </p>
+            </div>
+            <div class="card">
+              <h3>JavaScript</h3>
+              <p><strong>Define la interacción.</strong></p>
+              <p>
+                Validaciones, botones, menús, cambios dinámicos y eventos del
+                usuario.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Evidencia 1: GA6-220501096-AA4-EV01</h2>
+          <h3>Fundamentos en la implementación de componentes front-end</h3>
+          <div class="grid grid-2">
+            <div class="card">
+              <p>
+                <strong>Reto:</strong> elaborar una página web tipo tutorial
+                sobre un tema de gusto del aprendiz.
+              </p>
+              <ul class="check">
+                <li>Título principal del tutorial.</li>
+                <li>Lista ordenada con los conceptos.</li>
+                <li>Enlaces hacia cada tema.</li>
+                <li>Cada tema con título, imagen y descripción.</li>
+                <li>Estilos CSS aplicados.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Entrega</h3>
+              <p>Producto: carpeta comprimida en ZIP.</p>
+              <code class="deliverable"
+                >/EV01_tutorial_frontend<br />
+                ├── index.html<br />
+                ├── styles.css<br />
+                └── /img</code
+              >
+              <p>
+                <small
+                  >El archivo principal debe abrir correctamente en el
+                  navegador.</small
+                >
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Ejemplo de estructura para EV01</h2>
+          <pre><code data-trim data-line-numbers class="language-html">
+&lt;header&gt;
+  &lt;h1&gt;Tutorial: Cómo cuidar una base de datos&lt;/h1&gt;
+&lt;/header&gt;
+
+&lt;nav&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href="#concepto1"&gt;¿Qué es una tabla?&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#concepto2"&gt;Llaves primarias&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+
+&lt;section id="concepto1"&gt;
+  &lt;h2&gt;¿Qué es una tabla?&lt;/h2&gt;
+  &lt;img src="img/tabla.png" alt="Ejemplo de tabla"&gt;
+  &lt;p&gt;Descripción clara del tema...&lt;/p&gt;
+&lt;/section&gt;
+  </code></pre>
+        </section>
+
+        <section>
+          <h2>Evidencia 2: GA6-220501096-AA4-EV02</h2>
+          <h3>Establecer los componentes front-end de la aplicación web</h3>
+          <div class="grid grid-2">
+            <div class="card">
+              <p>
+                <strong>Reto:</strong> realizar un documento donde se
+                especifique la estructura de componentes que usará el software
+                del proyecto.
+              </p>
+              <ul class="check">
+                <li>Portada.</li>
+                <li>Introducción.</li>
+                <li>Objetivo.</li>
+                <li>Definición de elementos HTML.</li>
+                <li>Componentes necesarios para el diseño front-end.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Ejemplos de componentes</h3>
+              <p>
+                <span class="tag">Header</span> <span class="tag">Menú</span>
+                <span class="tag">Formulario</span>
+              </p>
+              <p>
+                <span class="tag">Tarjetas</span> <span class="tag">Tabla</span>
+                <span class="tag">Footer</span>
+              </p>
+              <p>
+                <span class="tag">Login</span>
+                <span class="tag">Dashboard</span>
+                <span class="tag">Botones</span>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Cómo describir un componente</h2>
+          <table class="rubrica">
+            <thead>
+              <tr>
+                <th>Componente</th>
+                <th>Función</th>
+                <th>Elementos HTML</th>
+                <th>Estilos/Interacción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Barra de navegación</td>
+                <td>Permite moverse entre secciones</td>
+                <td>&lt;nav&gt;, &lt;ul&gt;, &lt;a&gt;</td>
+                <td>Menú responsive, hover, activo</td>
+              </tr>
+              <tr>
+                <td>Formulario de registro</td>
+                <td>Captura datos del usuario</td>
+                <td>
+                  &lt;form&gt;, &lt;input&gt;, &lt;label&gt;, &lt;button&gt;
+                </td>
+                <td>Validación con JS, mensajes de error</td>
+              </tr>
+              <tr>
+                <td>Tarjeta de producto</td>
+                <td>Muestra información resumida</td>
+                <td>&lt;article&gt;, &lt;img&gt;, &lt;h3&gt;, &lt;p&gt;</td>
+                <td>Grid, sombra, botón de acción</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Evidencia 3: GA6-220501096-AA4-EV03</h2>
+          <h3>
+            Diseño front-end que cumpla con los requerimientos del proyecto
+          </h3>
+          <div class="grid grid-2">
+            <div class="card">
+              <p>
+                <strong>Reto:</strong> construir el diseño front-end del
+                proyecto, aplicando lo visto en las evidencias anteriores.
+              </p>
+              <ul class="check">
+                <li>Aplicar HTML, CSS y JS.</li>
+                <li>Respetar los requerimientos del proyecto.</li>
+                <li>Usar criterios de usabilidad.</li>
+                <li>Organizar los archivos en una carpeta.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Entrega</h3>
+              <code class="deliverable"
+                >/EV03_diseno_frontend<br />
+                ├── index.html<br />
+                ├── /pages<br />
+                ├── /css<br />
+                ├── /js<br />
+                └── /assets</code
+              >
+              <p><small>Formato de entrega: archivo ZIP.</small></p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Usabilidad: que el usuario entienda sin sufrir</h2>
+          <div class="grid grid-2">
+            <div class="ok">
+              <h3>Buenas prácticas</h3>
+              <ul class="check">
+                <li>Textos claros y botones visibles.</li>
+                <li>Menú fácil de encontrar.</li>
+                <li>Colores coherentes y buen contraste.</li>
+                <li>Diseño adaptable a celular y computador.</li>
+                <li>Mensajes de error comprensibles.</li>
+              </ul>
+            </div>
+            <div class="warn">
+              <h3>Evitar</h3>
+              <ul>
+                <li>Páginas desordenadas.</li>
+                <li>Textos pequeños o difíciles de leer.</li>
+                <li>Botones sin función.</li>
+                <li>Imágenes pesadas o sin relación.</li>
+                <li>Archivos sueltos sin carpeta organizada.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Checklist antes de entregar</h2>
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>Revisión técnica</h3>
+              <ul class="check">
+                <li>El ZIP abre correctamente.</li>
+                <li>El index.html funciona.</li>
+                <li>Las imágenes cargan.</li>
+                <li>El CSS está enlazado.</li>
+                <li>El JS no genera errores visibles.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Revisión formativa</h3>
+              <ul class="check">
+                <li>La evidencia corresponde al código solicitado.</li>
+                <li>Se entiende el propósito del diseño.</li>
+                <li>Hay relación con el proyecto.</li>
+                <li>Se aplican conceptos de usabilidad.</li>
+                <li>La presentación es ordenada.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Actividad rápida en clase</h2>
+          <div class="accent">
+            <h2>Trabajo por equipos</h2>
+            <p>
+              En 20 minutos, cada equipo define una pantalla principal del
+              proyecto y responde:
+            </p>
+            <div class="grid grid-3">
+              <div>
+                <h3>1. ¿Qué verá el usuario?</h3>
+                <p>Secciones, títulos, imágenes y formularios.</p>
+              </div>
+              <div>
+                <h3>2. ¿Qué componentes necesita?</h3>
+                <p>Menú, tarjetas, botones, tablas, login, etc.</p>
+              </div>
+              <div>
+                <h3>3. ¿Qué interacción tendrá?</h3>
+                <p>Validaciones, alertas, cambios de estado o navegación.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Mini rúbrica de revisión</h2>
+          <table class="rubrica">
+            <thead>
+              <tr>
+                <th>Criterio</th>
+                <th>Básico</th>
+                <th>Adecuado</th>
+                <th>Destacado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Estructura HTML</td>
+                <td>Usa etiquetas mínimas</td>
+                <td>Organiza secciones claras</td>
+                <td>Usa etiquetas semánticas correctamente</td>
+              </tr>
+              <tr>
+                <td>CSS</td>
+                <td>Aplica estilos simples</td>
+                <td>Diseño limpio y coherente</td>
+                <td>Responsive y con buena jerarquía visual</td>
+              </tr>
+              <tr>
+                <td>JavaScript</td>
+                <td>Interacción mínima</td>
+                <td>Eventos funcionales</td>
+                <td>Validación y experiencia de usuario clara</td>
+              </tr>
+              <tr>
+                <td>Entrega</td>
+                <td>Archivos incompletos</td>
+                <td>ZIP organizado</td>
+                <td>Proyecto completo, claro y verificable</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Cierre</h2>
+          <div class="grid grid-3">
+            <div class="card">
+              <div class="num">EV01</div>
+              <h3>Página tutorial</h3>
+              <p>Practica fundamentos de HTML y CSS.</p>
+            </div>
+            <div class="card">
+              <div class="num">EV02</div>
+              <h3>Documento de componentes</h3>
+              <p>Planea la estructura front-end del proyecto.</p>
+            </div>
+            <div class="card">
+              <div class="num">EV03</div>
+              <h3>Diseño front-end</h3>
+              <p>
+                Construye la interfaz aplicando usabilidad y requerimientos.
+              </p>
+            </div>
+          </div>
+          <p>
+            <strong>Pregunta final:</strong> ¿qué componente de su proyecto
+            necesita más atención para que el usuario lo entienda fácilmente?
+          </p>
+        </section>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        transition: "slide",
+        plugins: [RevealNotes, RevealHighlight],
+      });
+    </script>
+  </body>
+</html>
