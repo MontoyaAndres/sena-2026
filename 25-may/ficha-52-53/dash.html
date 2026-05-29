@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard de usuarios</title>
+    <style>
+      :root {
+        --sena: #39a900;
+        --dark: #102018;
+        --gray: #5f6b66;
+        --line: #e4eee4;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--dark);
+        background: #f5f7f5;
+        margin: 0;
+        padding: 24px;
+      }
+      h1 {
+        margin: 0 0 4px;
+      }
+      .sub {
+        color: var(--gray);
+        margin: 0 0 20px;
+      }
+      .total {
+        display: inline-block;
+        background: var(--sena);
+        color: #fff;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 999px;
+        margin-bottom: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      }
+      th {
+        background: var(--sena);
+        color: #fff;
+        text-align: left;
+        padding: 12px;
+      }
+      td {
+        padding: 12px;
+        border-top: 1px solid var(--line);
+      }
+      tr:hover td {
+        background: #f0f8f0;
+      }
+      .badge {
+        font-size: 0.8em;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 999px;
+      }
+      .activo {
+        background: #e6f6e0;
+        color: #226a0c;
+      }
+      .inactivo {
+        background: #fdeaea;
+        color: #b3261e;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Dashboard de usuarios</h1>
+    <p class="sub">Lista de usuarios registrados y su información.</p>
+    <span class="total">Total de usuarios: 3</span>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Edad</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Ana Torres</td>
+          <td>ana@correo.com</td>
+          <td>Administrador</td>
+          <td>28</td>
+          <td><span class="badge activo">Activo</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Luis Gómez</td>
+          <td>luis@correo.com</td>
+          <td>Aprendiz</td>
+          <td>21</td>
+          <td><span class="badge activo">Activo</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>María Ruiz</td>
+          <td>maria@correo.com</td>
+          <td>Instructor</td>
+          <td>35</td>
+          <td><span class="badge inactivo">Inactivo</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
