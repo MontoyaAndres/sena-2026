@@ -1,0 +1,1130 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navegadores y buscadores · AA2 · Ficha 3515991</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --paper: #eaecf2;
+        --paper-2: #e1e4ec;
+        --ink: #14161e;
+        --ink-soft: #4d5260;
+        --blue: #2f5cf0;
+        --green: #1a8f5e;
+        --amber: #d9871b;
+        --coral: #e23d4b;
+        --line: rgba(20, 22, 30, 0.14);
+      }
+
+      .reveal {
+        font-family: "Hanken Grotesk", sans-serif;
+        font-size: 30px;
+        color: var(--ink);
+        font-weight: 400;
+      }
+      .reveal-viewport {
+        background: var(--paper);
+        background-image:
+          radial-gradient(
+            circle at 15% 10%,
+            rgba(47, 92, 240, 0.08),
+            transparent 42%
+          ),
+          radial-gradient(
+            circle at 85% 90%,
+            rgba(217, 135, 27, 0.07),
+            transparent 44%
+          );
+      }
+      .reveal-viewport::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.045;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Bricolage Grotesque", sans-serif;
+        color: var(--ink);
+        font-weight: 700;
+        line-height: 1.03;
+        letter-spacing: -0.02em;
+        text-transform: none;
+        margin: 0 0 0.35em;
+      }
+      .reveal h1 {
+        font-size: 2.5em;
+      }
+      .reveal h2 {
+        font-size: 1.62em;
+      }
+      .reveal h3 {
+        font-size: 1.12em;
+      }
+      .reveal p {
+        line-height: 1.45;
+      }
+      .reveal strong {
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      .kicker {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.52em;
+        font-weight: 500;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--blue);
+        display: inline-block;
+        margin-bottom: 1em;
+      }
+      .lead {
+        font-size: 0.9em;
+        color: var(--ink-soft);
+        max-width: 22em;
+        line-height: 1.5;
+      }
+      .rule {
+        height: 3px;
+        width: 60px;
+        background: var(--blue);
+        border: 0;
+        margin: 0.2em 0 1em;
+      }
+      .muted {
+        color: var(--ink-soft);
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .reveal .slide-number {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        background: transparent;
+        color: var(--ink-soft);
+        right: 24px;
+        bottom: 18px;
+      }
+      .corner {
+        position: absolute;
+        left: 0;
+        bottom: -14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.42em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+      }
+
+      /* cover */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+      .cover .ficha {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-bottom: 1.5em;
+        display: flex;
+        gap: 0.8em;
+        align-items: center;
+      }
+      .cover .ficha b {
+        color: var(--blue);
+        font-weight: 700;
+      }
+      .cover h1 {
+        font-size: 3.1em;
+        max-width: 13em;
+      }
+      .cover h1 .it {
+        color: var(--blue);
+      }
+      .cover .sub {
+        margin-top: 1em;
+        font-size: 0.85em;
+        color: var(--ink-soft);
+        max-width: 23em;
+        line-height: 1.5;
+      }
+      .urlbar {
+        margin-top: 2.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        max-width: 20em;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.55em 1em;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        color: var(--ink-soft);
+        box-shadow: 0 8px 24px rgba(20, 22, 30, 0.07);
+      }
+      .urlbar .lock {
+        color: var(--green);
+      }
+      .urlbar b {
+        color: var(--ink);
+        font-weight: 500;
+      }
+
+      /* divider */
+      .divider {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+      .divider .big-num {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: 8em;
+        line-height: 0.8;
+        font-weight: 300;
+        color: transparent;
+        -webkit-text-stroke: 2px var(--ink);
+        opacity: 0.85;
+      }
+      .divider h2 {
+        font-size: 2.3em;
+        margin-top: 0.1em;
+      }
+      .divider .lead {
+        margin-top: 0.55em;
+      }
+
+      /* cards / grids */
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1em;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.9em;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 0.95em 1.05em;
+      }
+      .card .n {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        color: var(--blue);
+        letter-spacing: 0.1em;
+      }
+      .card h3 {
+        margin: 0.2em 0 0.25em;
+        font-size: 1em;
+      }
+      .card p {
+        font-size: 0.66em;
+        color: var(--ink-soft);
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      /* vs split */
+      .vs {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 1.2em;
+        align-items: stretch;
+        margin-top: 0.3em;
+      }
+      .vs .panel {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1.1em 1.2em;
+      }
+      .vs .panel.b {
+        border-color: rgba(47, 92, 240, 0.4);
+      }
+      .vs .panel h3 {
+        font-size: 1.15em;
+      }
+      .vs .panel .tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--blue);
+      }
+      .vs .panel ul {
+        margin: 0.6em 0 0;
+        padding-left: 1.1em;
+      }
+      .vs .panel li {
+        font-size: 0.7em;
+        line-height: 1.45;
+        color: var(--ink-soft);
+        margin-bottom: 0.3em;
+      }
+      .vs .mid {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Bricolage Grotesque";
+        font-weight: 700;
+        font-size: 1.3em;
+        color: var(--ink-soft);
+      }
+
+      /* bar chart */
+      .bars {
+        margin-top: 0.5em;
+      }
+      .bar-row {
+        display: flex;
+        align-items: center;
+        gap: 0.8em;
+        margin-bottom: 0.7em;
+        font-size: 0.72em;
+      }
+      .bar-row .lbl {
+        width: 5.6em;
+        text-align: right;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+      .bar-track {
+        flex: 1;
+        background: rgba(20, 22, 30, 0.07);
+        border-radius: 6px;
+        height: 1.5em;
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 0.6em;
+        color: #fff;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        font-weight: 700;
+      }
+
+      /* operator chips */
+      .op {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.5em;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 0.5em 0.8em;
+        color: #fff;
+      }
+      .op.and {
+        background: var(--blue);
+      }
+      .op.or {
+        background: var(--green);
+      }
+      .op.not {
+        background: var(--coral);
+      }
+      .op.trunc {
+        background: var(--amber);
+      }
+      .code {
+        font-family: "JetBrains Mono", monospace;
+        background: rgba(20, 22, 30, 0.06);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0.15em 0.5em;
+        font-size: 0.85em;
+      }
+
+      .steps {
+        list-style: none;
+        margin: 0.3em 0 0;
+        padding: 0;
+        counter-reset: s;
+      }
+      .steps li {
+        counter-increment: s;
+        position: relative;
+        padding: 0.5em 0 0.5em 2.3em;
+        border-top: 1px solid var(--line);
+        font-size: 0.8em;
+        line-height: 1.4;
+      }
+      .steps li:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .steps li::before {
+        content: counter(s, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 0.5em;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        color: var(--blue);
+        font-weight: 700;
+      }
+      .steps b {
+        color: var(--ink);
+      }
+
+      .checklist {
+        list-style: none;
+        margin: 0.3em 0 0;
+        padding: 0;
+      }
+      .checklist li {
+        font-size: 0.78em;
+        padding: 0.42em 0;
+        border-bottom: 1px dashed var(--line);
+        display: flex;
+        gap: 0.6em;
+      }
+      .checklist li::before {
+        content: "→";
+        color: var(--blue);
+        font-weight: 700;
+      }
+
+      .pill {
+        display: inline-block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.58em;
+        letter-spacing: 0.06em;
+        border: 1px solid var(--ink);
+        border-radius: 999px;
+        padding: 0.35em 0.8em;
+        margin: 0.25em 0.35em 0.25em 0;
+      }
+      .pill.solid {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .two {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 1.8em;
+        align-items: center;
+      }
+      .reveal .progress {
+        color: var(--blue);
+        height: 4px;
+      }
+      .reveal .controls {
+        color: var(--ink-soft);
+      }
+      .reveal .fragment {
+        transition: all 0.35s ease;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 · COVER -->
+        <section data-background-color="#eaecf2">
+          <div class="cover">
+            <div class="ficha">
+              <span>SENA</span><span>·</span><span>Ficha <b>3515991</b></span
+              ><span>·</span><span>AA2</span>
+            </div>
+            <h1>Navegadores y <span class="it">buscadores</span></h1>
+            <p class="sub">
+              Conceptos y procedimientos para buscar información en la web de
+              forma rápida, precisa y confiable.
+            </p>
+            <div class="urlbar">
+              <span class="lock">🔒</span><b>https://</b>www.buscar-mejor.co
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · AGENDA -->
+        <section data-background-color="#e1e4ec">
+          <span class="kicker">Ruta de la sesión</span>
+          <h2>Lo que vamos a recorrer</h2>
+          <hr class="rule" />
+          <div class="grid3" style="margin-top: 0.5em">
+            <div class="card">
+              <div class="n">01</div>
+              <h3>Conceptos base</h3>
+              <p>Diferencia entre navegador y buscador.</p>
+            </div>
+            <div class="card">
+              <div class="n">02</div>
+              <h3>Navegadores</h3>
+              <p>Chrome, Firefox, Edge, Safari y Opera.</p>
+            </div>
+            <div class="card">
+              <div class="n">03</div>
+              <h3>Buscadores</h3>
+              <p>Google y Bing, con datos de uso.</p>
+            </div>
+            <div class="card">
+              <div class="n">04</div>
+              <h3>Búsqueda avanzada</h3>
+              <p>Truncamientos y operadores booleanos.</p>
+            </div>
+            <div class="card">
+              <div class="n">05</div>
+              <h3>Práctica</h3>
+              <p>Ejemplos para buscar mejor.</p>
+            </div>
+            <div class="card">
+              <div class="n">06</div>
+              <h3>Evidencias</h3>
+              <p>Cuestionario e infografía interactiva.</p>
+            </div>
+          </div>
+          <span class="corner">Duración · 16 horas</span>
+        </section>
+
+        <!-- 3 · DIVIDER 1 -->
+        <section data-background-color="#eaecf2">
+          <div class="divider">
+            <div class="big-num">01</div>
+            <h2>Conceptos base</h2>
+            <p class="lead">
+              Dos herramientas distintas que solemos confundir.
+            </p>
+          </div>
+        </section>
+
+        <!-- 4 · NAVEGADOR VS BUSCADOR -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">La diferencia clave</span>
+          <h2>Navegador ≠ Buscador</h2>
+          <hr class="rule" />
+          <div class="vs">
+            <div class="panel">
+              <span class="tag">Navegador</span>
+              <h3>El vehículo</h3>
+              <ul>
+                <li>
+                  Programa que <strong>abre y muestra</strong> páginas web.
+                </li>
+                <li>
+                  Interpreta el código (HTML, CSS) y lo convierte en lo que ves.
+                </li>
+                <li>Ej.: Chrome, Firefox, Edge, Safari, Opera.</li>
+              </ul>
+            </div>
+            <div class="mid">+</div>
+            <div class="panel b">
+              <span class="tag">Buscador</span>
+              <h3>El mapa</h3>
+              <ul>
+                <li>
+                  Sitio web que <strong>encuentra y ordena</strong> información
+                  en Internet.
+                </li>
+                <li>Indexa millones de páginas y responde a tus consultas.</li>
+                <li>Ej.: Google, Bing, DuckDuckGo, Yandex.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 · ANALOGIA -->
+        <section data-background-color="#e1e4ec">
+          <span class="kicker">Cómo trabajan juntos</span>
+          <h2>El navegador te lleva; el buscador te guía</h2>
+          <hr class="rule" />
+          <p style="font-size: 0.86em; max-width: 26em; line-height: 1.5">
+            Abres el <strong>navegador</strong> (Chrome), escribes una consulta
+            en el <strong>buscador</strong> (Google), eliges un resultado y el
+            navegador <strong>carga esa página</strong>. Uno es el medio de
+            transporte; el otro, el sistema de orientación.
+          </p>
+          <div class="urlbar" style="margin-top: 1.4em">
+            <span class="lock">🔒</span><b>Navegador</b
+            ><span style="color: var(--blue)">▸ abre ▸</span><b>Buscador</b
+            ><span style="color: var(--blue)">▸ encuentra ▸</span><b>Página</b>
+          </div>
+        </section>
+
+        <!-- 6 · DIVIDER 2 -->
+        <section data-background-color="#eaecf2">
+          <div class="divider">
+            <div class="big-num">02</div>
+            <h2>Navegadores</h2>
+            <p class="lead">Los más usados y por qué la gente los elige.</p>
+          </div>
+        </section>
+
+        <!-- 7 · CUOTA NAVEGADORES -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">Cuota de mercado · todos los dispositivos</span>
+          <h2>¿Quién usa qué?</h2>
+          <hr class="rule" />
+          <div class="bars">
+            <div class="bar-row">
+              <span class="lbl">Chrome</span>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 90%; background: var(--blue)"
+                >
+                  ≈65%
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <span class="lbl">Safari</span>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 26%; background: var(--ink-soft)"
+                >
+                  ≈18%
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <span class="lbl">Edge</span>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 9%; background: var(--green)"
+                >
+                  ≈5%
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <span class="lbl">Firefox</span>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 6%; background: var(--amber)"
+                >
+                  ≈2.5%
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <span class="lbl">Opera</span>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 5%; background: var(--coral)"
+                >
+                  ≈2%
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.6em; margin-top: 0.6em">
+            Datos aproximados · StatCounter, inicio de 2026. Las cifras varían
+            cada mes y por dispositivo.
+          </p>
+        </section>
+
+        <!-- 8 · NAVEGADORES CARDS 1 -->
+        <section data-background-color="#e1e4ec">
+          <span class="kicker">Perfil de cada uno · 1 de 2</span>
+          <h2>Chrome · Firefox · Edge</h2>
+          <hr class="rule" />
+          <div class="grid3" style="margin-top: 0.3em">
+            <div class="card">
+              <h3 style="color: var(--blue)">Google Chrome</h3>
+              <p>
+                <strong>Por qué se usa:</strong> rápido, gran compatibilidad y
+                sincronización con la cuenta de Google. Es el predeterminado en
+                Android.
+              </p>
+            </div>
+            <div class="card">
+              <h3 style="color: var(--amber)">Mozilla Firefox</h3>
+              <p>
+                <strong>Por qué se usa:</strong> de código abierto, enfocado en
+                la privacidad y muy personalizable mediante extensiones.
+              </p>
+            </div>
+            <div class="card">
+              <h3 style="color: var(--green)">Microsoft Edge</h3>
+              <p>
+                <strong>Por qué se usa:</strong> integrado en Windows, eficiente
+                en recursos e incluye el asistente Copilot.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9 · NAVEGADORES CARDS 2 -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">Perfil de cada uno · 2 de 2</span>
+          <h2>Safari · Opera</h2>
+          <hr class="rule" />
+          <div class="grid2" style="margin-top: 0.3em">
+            <div class="card">
+              <h3 style="color: var(--ink-soft)">Safari</h3>
+              <p>
+                <strong>Por qué se usa:</strong> es el navegador de Apple.
+                Rápido y eficiente en batería, perfectamente integrado con
+                iPhone, iPad y Mac.
+              </p>
+            </div>
+            <div class="card">
+              <h3 style="color: var(--coral)">Opera</h3>
+              <p>
+                <strong>Por qué se usa:</strong> trae funciones extra de
+                fábrica: VPN gratuita, bloqueador de anuncios y mensajería en la
+                barra lateral.
+              </p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.66em; margin-top: 1em">
+            Casi todos (excepto Firefox) usan el motor
+            <span class="mono">Chromium</span>, por eso se ven y funcionan de
+            forma parecida.
+          </p>
+        </section>
+
+        <!-- 10 · DIVIDER 3 -->
+        <section data-background-color="#e1e4ec">
+          <div class="divider">
+            <div class="big-num">03</div>
+            <h2>Buscadores</h2>
+            <p class="lead">Cómo se reparte el mundo de las búsquedas.</p>
+          </div>
+        </section>
+
+        <!-- 11 · GOOGLE VS BING -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">Cuota de búsqueda · todos los dispositivos</span>
+          <h2>Google domina; Bing persiste</h2>
+          <hr class="rule" />
+          <div class="two" style="align-items: start">
+            <div class="bars" style="margin-top: 0.2em">
+              <div class="bar-row">
+                <span class="lbl">Google</span>
+                <div class="bar-track">
+                  <div
+                    class="bar-fill"
+                    style="width: 97%; background: var(--blue)"
+                  >
+                    ≈90%
+                  </div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <span class="lbl">Bing</span>
+                <div class="bar-track">
+                  <div
+                    class="bar-fill"
+                    style="width: 10%; background: var(--green)"
+                  >
+                    ≈4%
+                  </div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <span class="lbl">Yandex</span>
+                <div class="bar-track">
+                  <div
+                    class="bar-fill"
+                    style="width: 6%; background: var(--ink-soft)"
+                  >
+                    ≈1.8%
+                  </div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <span class="lbl">Otros</span>
+                <div class="bar-track">
+                  <div
+                    class="bar-fill"
+                    style="width: 8%; background: var(--amber)"
+                  >
+                    ≈3%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <h3>Datos llamativos</h3>
+                <p style="font-size: 0.74em">
+                  · Google procesa <strong>~8.500 millones</strong> de búsquedas
+                  al día.<br />· En computadores de escritorio, Bing sube a
+                  <strong>~10-12%</strong>.<br />· Bing impulsa también a Yahoo!
+                  y a Copilot.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.58em; margin-top: 0.5em">
+            Datos aproximados · StatCounter, inicio de 2026.
+          </p>
+        </section>
+
+        <!-- 12 · DIVIDER 4 -->
+        <section data-background-color="#eaecf2">
+          <div class="divider">
+            <div class="big-num">04</div>
+            <h2>Búsqueda avanzada</h2>
+            <p class="lead">Trucos para que el buscador te entienda mejor.</p>
+          </div>
+        </section>
+
+        <!-- 13 · TRUNCAMIENTOS -->
+        <section data-background-color="#e1e4ec">
+          <span class="kicker">Truncamientos · comodines</span>
+          <h2>El asterisco que multiplica</h2>
+          <hr class="rule" />
+          <div class="two" style="align-items: start">
+            <p style="font-size: 0.84em; line-height: 1.5">
+              Un <strong>truncamiento</strong> usa un comodín —normalmente
+              <span class="op trunc">*</span>— para reemplazar parte de una
+              palabra y encontrar todas sus variantes de una sola vez.
+            </p>
+            <div class="card">
+              <h3>Ejemplo</h3>
+              <p style="font-size: 0.8em">
+                <span class="code">educ*</span> encuentra:
+              </p>
+              <p style="font-size: 0.74em; margin-top: 0.4em">
+                educa<strong>ción</strong> · educa<strong>tivo</strong> ·
+                educa<strong>dor</strong> · educa<strong>r</strong>
+              </p>
+              <p
+                style="
+                  font-size: 0.66em;
+                  margin-top: 0.5em;
+                  color: var(--ink-soft);
+                "
+              >
+                Útil cuando no sabes la terminación exacta o quieres cubrir
+                varias formas.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 14 · BOOLEANOS -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">Operadores booleanos</span>
+          <h2>AND · OR · NOT</h2>
+          <hr class="rule" />
+          <div class="grid3" style="margin-top: 0.3em">
+            <div class="card">
+              <span class="op and">AND</span>
+              <p style="font-size: 0.72em; margin-top: 0.6em">
+                Exige <strong>ambos</strong> términos.
+                <em>Reduce</em> resultados.
+              </p>
+              <p
+                class="code"
+                style="display: block; margin-top: 0.5em; font-size: 0.62em"
+              >
+                energía AND solar
+              </p>
+            </div>
+            <div class="card">
+              <span class="op or">OR</span>
+              <p style="font-size: 0.72em; margin-top: 0.6em">
+                Acepta <strong>cualquiera</strong>. <em>Amplía</em> resultados.
+              </p>
+              <p
+                class="code"
+                style="display: block; margin-top: 0.5em; font-size: 0.62em"
+              >
+                perros OR gatos
+              </p>
+            </div>
+            <div class="card">
+              <span class="op not">NOT</span>
+              <p style="font-size: 0.72em; margin-top: 0.6em">
+                <strong>Excluye</strong> un término. <em>Filtra</em> ruido.
+              </p>
+              <p
+                class="code"
+                style="display: block; margin-top: 0.5em; font-size: 0.62em"
+              >
+                jaguar NOT carro
+              </p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.64em; margin-top: 0.9em">
+            En Google se escriben en MAYÚSCULAS.
+            <span class="mono">NOT</span> también funciona con un guion:
+            <span class="code">jaguar -carro</span>.
+          </p>
+        </section>
+
+        <!-- 15 · OTROS OPERADORES -->
+        <section data-background-color="#e1e4ec">
+          <span class="kicker">Más herramientas de precisión</span>
+          <h2>Otros operadores útiles</h2>
+          <hr class="rule" />
+          <div class="grid2" style="margin-top: 0.2em">
+            <div class="card">
+              <h3 class="mono" style="color: var(--blue)">"frase exacta"</h3>
+              <p>
+                Las comillas buscan las palabras juntas y en ese orden.
+                <span class="code">"energía renovable"</span>
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="mono" style="color: var(--green)">site:</h3>
+              <p>
+                Limita la búsqueda a un sitio.
+                <span class="code">reciclaje site:sena.edu.co</span>
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="mono" style="color: var(--amber)">filetype:</h3>
+              <p>
+                Busca un tipo de archivo.
+                <span class="code">informe filetype:pdf</span>
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="mono" style="color: var(--coral)">-palabra</h3>
+              <p>
+                Excluye un término del resultado.
+                <span class="code">manzana -fruta</span>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 16 · EJEMPLO PRACTICO -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">Práctica · ¡combina!</span>
+          <h2>De una búsqueda vaga a una precisa</h2>
+          <hr class="rule" />
+          <div style="margin-top: 0.4em">
+            <p
+              style="
+                font-size: 0.72em;
+                margin-bottom: 0.4em;
+                color: var(--ink-soft);
+              "
+            >
+              Búsqueda imprecisa:
+            </p>
+            <p class="code" style="display: inline-block; font-size: 0.8em">
+              energía solar colombia
+            </p>
+            <p style="font-size: 1.4em; color: var(--blue); margin: 0.4em 0">
+              ↓
+            </p>
+            <p
+              style="
+                font-size: 0.72em;
+                margin-bottom: 0.4em;
+                color: var(--ink-soft);
+              "
+            >
+              Búsqueda optimizada:
+            </p>
+            <p
+              class="code"
+              style="display: inline-block; font-size: 0.8em; line-height: 1.6"
+            >
+              "energía solar" AND colombia -venta filetype:pdf
+            </p>
+            <p
+              class="muted"
+              style="font-size: 0.66em; margin-top: 0.9em; max-width: 26em"
+            >
+              Frase exacta + tema obligatorio + sin publicidad de ventas + solo
+              documentos PDF. Resultado: fuentes más serias y relevantes.
+            </p>
+          </div>
+        </section>
+
+        <!-- 17 · DIVIDER 5 -->
+        <section data-background-color="#e1e4ec">
+          <div class="divider">
+            <div class="big-num">05</div>
+            <h2>Evidencias de la AA2</h2>
+            <p class="lead">Un cuestionario y una infografía interactiva.</p>
+          </div>
+        </section>
+
+        <!-- 18 · EV01 -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">AA2 · EV01</span>
+          <h2>Cuestionario</h2>
+          <hr class="rule" />
+          <div class="two" style="align-items: start">
+            <p style="font-size: 0.86em; line-height: 1.5">
+              Evaluación en línea sobre conceptos y procedimientos para usar los
+              navegadores en la búsqueda de información.
+            </p>
+            <ul class="checklist">
+              <li>
+                Revisa el material del componente
+                <em>“Navegadores y buscadores”.</em>
+              </li>
+              <li>Responde la <strong>totalidad</strong> de las preguntas.</li>
+              <li>
+                Ingresa al espacio del cuestionario en el área de la actividad.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 19 · EV02 herramientas -->
+        <section data-background-color="#e1e4ec">
+          <span class="kicker">AA2 · EV02</span>
+          <h2>Infografía interactiva</h2>
+          <hr class="rule" />
+          <p class="muted" style="font-size: 0.78em; max-width: 27em">
+            Explica las características y diferencias entre navegadores y
+            buscadores, e incluye consejos sobre truncamientos y operadores
+            booleanos. Debe ser clara, atractiva e
+            <strong>interactiva</strong> (enlaces o videos).
+          </p>
+          <div
+            class="grid2"
+            style="
+              grid-template-columns: 1fr 1fr;
+              gap: 0.9em;
+              margin-top: 0.8em;
+            "
+          >
+            <div class="card">
+              <h3 style="color: var(--blue)">Herramientas sugeridas</h3>
+              <p style="font-size: 0.72em">
+                Canva · Genially · Piktochart · Visme<br /><span class="muted"
+                  >(plantillas y elementos interactivos)</span
+                >
+              </p>
+            </div>
+            <div class="card">
+              <h3 style="color: var(--amber)">Imágenes de uso libre</h3>
+              <p style="font-size: 0.72em">
+                Pixabay · Freepik · Unsplash<br /><span class="muted"
+                  >(íconos y gráficos para enriquecer)</span
+                >
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 20 · ENTREGA -->
+        <section data-background-color="#eaecf2">
+          <span class="kicker">Qué entregar</span>
+          <h2>Tu documento final</h2>
+          <hr class="rule" />
+          <div class="grid3" style="margin-top: 0.3em">
+            <div class="card">
+              <div class="n" style="color: var(--blue)">FORMATO</div>
+              <h3>Word o PDF</h3>
+              <p>Extensión: 1 página.</p>
+            </div>
+            <div class="card">
+              <div class="n" style="color: var(--green)">ENLACE</div>
+              <h3>Link directo</h3>
+              <p>A la infografía interactiva publicada.</p>
+            </div>
+            <div class="card">
+              <div class="n" style="color: var(--amber)">CAPTURAS</div>
+              <h3>Pantallazos</h3>
+              <p>De cada parte, por si el enlace falla.</p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.74em; margin-top: 1em">
+            Envíalo en el espacio
+            <em>Infografía sobre navegadores y buscadores · AA2-EV02</em>.
+          </p>
+        </section>
+
+        <!-- 21 · CIERRE -->
+        <section data-background-color="#14161e">
+          <div class="cover" style="color: var(--paper)">
+            <div class="ficha" style="color: #8a90a3">
+              <span>SENA</span><span>·</span><span>Ficha 3515991</span
+              ><span>·</span><span>AA2 · EV02</span>
+            </div>
+            <h1 style="color: var(--paper); font-size: 2.6em; max-width: 14em">
+              Buscar bien es una
+              <span class="it" style="color: #6f93ff">habilidad</span>, no
+              suerte.
+            </h1>
+            <p class="sub" style="color: #8a90a3; max-width: 24em">
+              El navegador correcto, el buscador adecuado y unos cuantos
+              operadores convierten horas de búsqueda en minutos de resultados
+              útiles.
+            </p>
+            <div
+              class="urlbar"
+              style="
+                margin-top: 1.8em;
+                background: #1e212c;
+                border-color: #2a2e3b;
+                color: #8a90a3;
+              "
+            >
+              <span class="lock">🔒</span
+              ><b style="color: #cfd3df">"energía solar"</b> AND colombia -venta
+              filetype:pdf
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: false,
+        margin: 0.08,
+        width: 1280,
+        height: 720,
+        plugins: [RevealNotes],
+      });
+    </script>
+  </body>
+</html>

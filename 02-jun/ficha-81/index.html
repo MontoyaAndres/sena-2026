@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Diseño y herramientas para la construcción de contenido digital · AA2
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..800&family=Spline+Sans:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --paper: #f3ecdf;
+        --paper-2: #ece2d0;
+        --ink: #1d1812;
+        --ink-soft: #4a4036;
+        --vermillion: #df4b27;
+        --teal: #1f6f5c;
+        --ochre: #c8881e;
+        --line: rgba(29, 24, 18, 0.16);
+      }
+
+      /* ---------- base ---------- */
+      .reveal {
+        font-family: "Spline Sans", sans-serif;
+        font-size: 30px;
+        color: var(--ink);
+        font-weight: 400;
+      }
+      .reveal-viewport {
+        background: var(--paper);
+        background-image:
+          radial-gradient(
+            circle at 18% 12%,
+            rgba(223, 75, 39, 0.06),
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 82% 88%,
+            rgba(31, 111, 92, 0.07),
+            transparent 42%
+          );
+      }
+      /* paper grain */
+      .reveal-viewport::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Fraunces", serif;
+        color: var(--ink);
+        font-weight: 600;
+        line-height: 1.02;
+        letter-spacing: -0.015em;
+        text-transform: none;
+        margin: 0 0 0.35em;
+      }
+      .reveal h1 {
+        font-size: 2.5em;
+        font-weight: 640;
+      }
+      .reveal h2 {
+        font-size: 1.62em;
+      }
+      .reveal h3 {
+        font-size: 1.15em;
+      }
+      .reveal p {
+        line-height: 1.45;
+      }
+      .reveal strong {
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .reveal em {
+        font-style: italic;
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      /* ---------- helpers ---------- */
+      .kicker {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.52em;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--vermillion);
+        display: inline-block;
+        margin-bottom: 1.1em;
+      }
+      .lead {
+        font-size: 0.92em;
+        color: var(--ink-soft);
+        max-width: 21em;
+        line-height: 1.5;
+      }
+      .rule {
+        height: 3px;
+        width: 64px;
+        background: var(--ink);
+        border: 0;
+        margin: 0.2em 0 1em;
+      }
+      .muted {
+        color: var(--ink-soft);
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* footer chrome on every slide */
+      .reveal .slide-number {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        background: transparent;
+        color: var(--ink-soft);
+        right: 24px;
+        bottom: 18px;
+      }
+      .corner {
+        position: absolute;
+        left: 0;
+        bottom: -14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.42em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- cover ---------- */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        position: relative;
+      }
+      .cover .ficha {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-bottom: 1.6em;
+        display: flex;
+        gap: 0.8em;
+        align-items: center;
+      }
+      .cover .ficha b {
+        color: var(--vermillion);
+        font-weight: 700;
+      }
+      .cover h1 {
+        font-size: 3.05em;
+        font-weight: 600;
+        max-width: 13.5em;
+      }
+      .cover h1 .it {
+        font-style: italic;
+        color: var(--vermillion);
+        font-weight: 500;
+      }
+      .cover .sub {
+        margin-top: 1.1em;
+        font-size: 0.86em;
+        color: var(--ink-soft);
+        max-width: 22em;
+        line-height: 1.5;
+      }
+      .cover .tools {
+        margin-top: 2.2em;
+        display: flex;
+        gap: 1.4em;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.52em;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .cover .tools span {
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+      }
+      .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .dot.fig {
+        background: var(--vermillion);
+      }
+      .dot.aud {
+        background: var(--teal);
+      }
+      .dot.cap {
+        background: var(--ochre);
+      }
+
+      /* ---------- section divider ---------- */
+      .divider {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+      .divider .big-num {
+        font-family: "Fraunces", serif;
+        font-size: 8.2em;
+        line-height: 0.8;
+        font-weight: 300;
+        color: transparent;
+        -webkit-text-stroke: 2px var(--ink);
+        opacity: 0.85;
+      }
+      .divider h2 {
+        font-size: 2.4em;
+        margin-top: 0.1em;
+      }
+      .divider .lead {
+        margin-top: 0.6em;
+      }
+
+      /* ---------- grids / cards ---------- */
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1em;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.9em;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.42);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 0.95em 1.05em;
+      }
+      .card .n {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.55em;
+        color: var(--vermillion);
+        letter-spacing: 0.1em;
+      }
+      .card h3 {
+        margin: 0.25em 0 0.25em;
+        font-size: 1.02em;
+      }
+      .card p {
+        font-size: 0.66em;
+        color: var(--ink-soft);
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      /* numbered steps */
+      .steps {
+        list-style: none;
+        margin: 0.4em 0 0;
+        padding: 0;
+        counter-reset: s;
+      }
+      .steps li {
+        counter-increment: s;
+        position: relative;
+        padding: 0.55em 0 0.55em 2.4em;
+        border-top: 1px solid var(--line);
+        font-size: 0.82em;
+        line-height: 1.4;
+      }
+      .steps li:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .steps li::before {
+        content: counter(s, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7em;
+        color: var(--vermillion);
+        font-weight: 700;
+      }
+      .steps.teal li::before {
+        color: var(--teal);
+      }
+      .steps.ochre li::before {
+        color: var(--ochre);
+      }
+      .steps b {
+        color: var(--ink);
+      }
+
+      /* tool header chip */
+      .toolhead {
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        margin-bottom: 0.2em;
+      }
+      .chip {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.42em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 0.45em 0.9em;
+        border-radius: 999px;
+        color: #fff;
+        font-weight: 600;
+      }
+      .chip.fig {
+        background: var(--vermillion);
+      }
+      .chip.aud {
+        background: var(--teal);
+      }
+      .chip.cap {
+        background: var(--ochre);
+      }
+      .accent-fig .kicker {
+        color: var(--vermillion);
+      }
+      .accent-aud .kicker {
+        color: var(--teal);
+      }
+      .accent-cap .kicker {
+        color: var(--ochre);
+      }
+
+      .pill {
+        display: inline-block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6em;
+        letter-spacing: 0.08em;
+        border: 1px solid var(--ink);
+        border-radius: 999px;
+        padding: 0.35em 0.8em;
+        margin: 0.25em 0.35em 0.25em 0;
+      }
+      .pill.solid {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .two {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 2em;
+        align-items: center;
+        height: 100%;
+      }
+      .checklist {
+        list-style: none;
+        margin: 0.3em 0 0;
+        padding: 0;
+      }
+      .checklist li {
+        font-size: 0.8em;
+        padding: 0.45em 0;
+        border-bottom: 1px dashed var(--line);
+        display: flex;
+        gap: 0.6em;
+      }
+      .checklist li::before {
+        content: "→";
+        color: var(--vermillion);
+        font-weight: 700;
+      }
+
+      .reveal .progress {
+        color: var(--vermillion);
+        height: 4px;
+      }
+      .reveal .controls {
+        color: var(--ink-soft);
+      }
+
+      /* fragment fade tuned */
+      .reveal .fragment {
+        transition: all 0.35s ease;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 · COVER -->
+        <section data-background-color="#f3ecdf">
+          <div class="cover">
+            <div class="ficha">
+              <span>SENA</span><span>·</span><span>Ficha <b>3515981</b></span
+              ><span>·</span><span>AA2</span>
+            </div>
+            <h1>
+              Diseño y herramientas para la construcción de
+              <span class="it">contenido digital</span>
+            </h1>
+            <p class="sub">
+              Cómo planear, diseñar y producir una pieza gráfica, un audio y un
+              video alineados con tus objetivos de comunicación.
+            </p>
+            <div class="tools">
+              <span><i class="dot fig"></i> Figma</span>
+              <span><i class="dot aud"></i> Audacity</span>
+              <span><i class="dot cap"></i> CapCut</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · AGENDA -->
+        <section data-background-color="#ece2d0">
+          <span class="kicker">Ruta de la sesión</span>
+          <h2>Lo que vamos a recorrer</h2>
+          <hr class="rule" />
+          <div class="grid3" style="margin-top: 0.6em">
+            <div class="card">
+              <div class="n">01</div>
+              <h3>Planeación</h3>
+              <p>
+                Qué es el contenido digital y por qué se planea antes de
+                producir.
+              </p>
+            </div>
+            <div class="card">
+              <div class="n">02</div>
+              <h3>Principios de diseño</h3>
+              <p>Encuadre, unidad, balance, jerarquía y contraste.</p>
+            </div>
+            <div class="card">
+              <div class="n">03</div>
+              <h3>Pieza gráfica</h3>
+              <p>Diseño y exportación con Figma.</p>
+            </div>
+            <div class="card">
+              <div class="n">04</div>
+              <h3>Audio</h3>
+              <p>Guion, grabación y edición con Audacity.</p>
+            </div>
+            <div class="card">
+              <div class="n">05</div>
+              <h3>Video</h3>
+              <p>Storyboard y montaje con CapCut.</p>
+            </div>
+            <div class="card">
+              <div class="n">06</div>
+              <h3>Evidencias</h3>
+              <p>Qué entregar y cómo enviarlo.</p>
+            </div>
+          </div>
+          <span class="corner">Duración · 16 horas</span>
+        </section>
+
+        <!-- 3 · DIVIDER 1 -->
+        <section data-background-color="#f3ecdf">
+          <div class="divider">
+            <div class="big-num">01</div>
+            <h2>Planeación del contenido</h2>
+            <p class="lead">
+              Antes de abrir cualquier herramienta, decidimos qué queremos
+              comunicar y a quién.
+            </p>
+          </div>
+        </section>
+
+        <!-- 4 · QUE ES -->
+        <section data-background-color="#f3ecdf">
+          <span class="kicker">Concepto</span>
+          <h2>¿Qué es el contenido digital?</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto; margin-top: 0.4em">
+            <div>
+              <p style="font-size: 0.86em; line-height: 1.5">
+                Todo material —<strong>imágenes, audios, videos, textos</strong
+                >— creado para informar, persuadir o entretener a través de
+                medios y plataformas digitales.
+              </p>
+              <p style="font-size: 0.86em; line-height: 1.5; margin-top: 0.7em">
+                Su efectividad no depende solo de la herramienta, sino de una
+                <strong>intención clara</strong>: cada pieza responde a un
+                objetivo de comunicación.
+              </p>
+            </div>
+            <div>
+              <div class="card">
+                <h3 style="color: var(--vermillion)">
+                  Antes de producir, pregúntate
+                </h3>
+                <p style="font-size: 0.74em">
+                  · ¿Qué mensaje quiero transmitir?<br />
+                  · ¿A quién va dirigido?<br />
+                  · ¿En qué plataforma se publicará?<br />
+                  · ¿Qué formato y duración necesita?<br />
+                  · ¿Qué acción espero del público?
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 · FLUJO -->
+        <section data-background-color="#ece2d0">
+          <span class="kicker">Flujo de trabajo</span>
+          <h2>De la idea a la publicación</h2>
+          <hr class="rule" />
+          <div
+            class="grid2"
+            style="
+              grid-template-columns: repeat(4, 1fr);
+              gap: 0.7em;
+              margin-top: 0.5em;
+            "
+          >
+            <div class="card">
+              <div class="n">PASO 1</div>
+              <h3>Planear</h3>
+              <p>Objetivo, público, mensaje y plataforma.</p>
+            </div>
+            <div class="card">
+              <div class="n">PASO 2</div>
+              <h3>Diseñar</h3>
+              <p>Aplicar los principios visuales y el guion.</p>
+            </div>
+            <div class="card">
+              <div class="n">PASO 3</div>
+              <h3>Producir</h3>
+              <p>Crear y editar con la herramienta adecuada.</p>
+            </div>
+            <div class="card">
+              <div class="n">PASO 4</div>
+              <h3>Exportar</h3>
+              <p>Formato correcto para distribuir.</p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.7em; margin-top: 1.2em">
+            La planeación que hiciste en el componente formativo es la base de
+            los tres productos de esta actividad.
+          </p>
+        </section>
+
+        <!-- 6 · DIVIDER 2 -->
+        <section data-background-color="#f3ecdf">
+          <div class="divider">
+            <div class="big-num">02</div>
+            <h2>Principios de diseño visual</h2>
+            <p class="lead">
+              Cinco reglas que hacen que una pieza se vea ordenada, clara y
+              profesional.
+            </p>
+          </div>
+        </section>
+
+        <!-- 7 · PRINCIPIOS overview -->
+        <section data-background-color="#f3ecdf">
+          <span class="kicker">Cinco pilares</span>
+          <h2>Encuadre · Unidad · Balance · Jerarquía · Contraste</h2>
+          <hr class="rule" />
+          <p class="muted" style="font-size: 0.8em; max-width: 24em">
+            Toda pieza gráfica que diseñes en Figma debe revisarse contra estos
+            cinco principios. Veamos cada uno.
+          </p>
+          <div style="margin-top: 1em">
+            <span class="pill solid">Encuadre</span>
+            <span class="pill">Unidad</span>
+            <span class="pill">Balance</span>
+            <span class="pill">Jerarquía</span>
+            <span class="pill">Contraste</span>
+          </div>
+        </section>
+
+        <!-- 8 · ENCUADRE -->
+        <section data-background-color="#ece2d0">
+          <span class="kicker">Principio 01</span>
+          <h2>Encuadre</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto">
+            <p style="font-size: 0.9em; line-height: 1.5">
+              Es la manera de <strong>delimitar y organizar el espacio</strong>:
+              qué entra en la composición, qué se deja fuera y dónde se ubican
+              los elementos dentro del lienzo.
+            </p>
+            <div class="card">
+              <h3>En la práctica</h3>
+              <p style="font-size: 0.74em">
+                Define márgenes, deja aire alrededor del contenido y usa guías o
+                la regla de los tercios para colocar lo importante.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9 · UNIDAD -->
+        <section data-background-color="#f3ecdf">
+          <span class="kicker">Principio 02</span>
+          <h2>Unidad</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto">
+            <p style="font-size: 0.9em; line-height: 1.5">
+              Hace que todos los elementos se perciban como
+              <strong>parte de un mismo conjunto coherente</strong>, no como
+              piezas sueltas.
+            </p>
+            <div class="card">
+              <h3>En la práctica</h3>
+              <p style="font-size: 0.74em">
+                Repite una paleta de colores, una o dos tipografías y un estilo
+                gráfico consistente en toda la pieza.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10 · BALANCE -->
+        <section data-background-color="#ece2d0">
+          <span class="kicker">Principio 03</span>
+          <h2>Balance</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto">
+            <p style="font-size: 0.9em; line-height: 1.5">
+              Es la <strong>distribución del peso visual</strong>. Puede ser
+              simétrico (equilibrio formal) o asimétrico (dinámico pero
+              estable).
+            </p>
+            <div class="card">
+              <h3>En la práctica</h3>
+              <p style="font-size: 0.74em">
+                Evita acumular todo en un lado. Compensa un bloque grande con
+                varios elementos pequeños o con espacio en blanco.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11 · JERARQUIA -->
+        <section data-background-color="#f3ecdf">
+          <span class="kicker">Principio 04</span>
+          <h2>Jerarquía</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto">
+            <p style="font-size: 0.9em; line-height: 1.5">
+              Guía la mirada indicando
+              <strong>qué se lee primero, segundo y tercero</strong>. Lo más
+              importante destaca; lo secundario acompaña.
+            </p>
+            <div class="card">
+              <h3>En la práctica</h3>
+              <p style="font-size: 0.74em">
+                Usa tamaños, grosores y posición: titular grande, subtítulo
+                medio, cuerpo pequeño. No todo puede gritar a la vez.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12 · CONTRASTE -->
+        <section data-background-color="#ece2d0">
+          <span class="kicker">Principio 05</span>
+          <h2>Contraste</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto">
+            <p style="font-size: 0.9em; line-height: 1.5">
+              Resalta diferencias —<strong
+                >color, tamaño, forma o textura</strong
+              >— para crear interés y mejorar la legibilidad.
+            </p>
+            <div class="card">
+              <h3>En la práctica</h3>
+              <p style="font-size: 0.74em">
+                Texto oscuro sobre fondo claro (o al revés). Un color de acento
+                sobre una base neutra. Diferencia clara entre titular y cuerpo.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13 · DIVIDER 3 / FIGMA -->
+        <section data-background-color="#1d1812">
+          <div class="divider" style="color: var(--paper)">
+            <div
+              class="big-num"
+              style="-webkit-text-stroke: 2px var(--vermillion)"
+            >
+              03
+            </div>
+            <div class="toolhead" style="margin-top: 0.3em">
+              <span class="chip fig">Herramienta</span>
+            </div>
+            <h2 style="color: var(--paper)">Figma · pieza gráfica</h2>
+            <p class="lead" style="color: #c9bfae">
+              Diseño gráfico colaborativo en el navegador, sin instalar nada.
+            </p>
+          </div>
+        </section>
+
+        <!-- 14 · FIGMA pasos -->
+        <section data-background-color="#f3ecdf" class="accent-fig">
+          <div class="toolhead">
+            <span class="chip fig">Figma</span
+            ><span class="kicker" style="margin: 0"
+              >Producción · paso a paso</span
+            >
+          </div>
+          <h2>Diseña tu pieza gráfica</h2>
+          <ol class="steps">
+            <li>
+              <b>Accede a Figma.</b> Regístrate gratis y crea un nuevo proyecto
+              / archivo de diseño.
+            </li>
+            <li>
+              <b>Crea el diseño.</b> Ajústalo a tu planeación inicial aplicando
+              encuadre, unidad, balance, jerarquía y contraste.
+            </li>
+            <li>
+              <b>Revisa el formato.</b> Asegúrate de que las medidas son
+              adecuadas para la plataforma elegida.
+            </li>
+            <li>
+              <b>Exporta.</b> Descarga el archivo en el formato correcto según
+              el uso.
+            </li>
+          </ol>
+        </section>
+
+        <!-- 15 · FIGMA export -->
+        <section data-background-color="#ece2d0" class="accent-fig">
+          <div class="toolhead">
+            <span class="chip fig">Figma</span
+            ><span class="kicker" style="margin: 0">Exportación</span>
+          </div>
+          <h2>¿Qué formato elijo?</h2>
+          <hr class="rule" />
+          <div
+            class="grid2"
+            style="grid-template-columns: repeat(4, 1fr); gap: 0.7em"
+          >
+            <div class="card">
+              <h3 class="mono" style="color: var(--vermillion)">PNG</h3>
+              <p>Calidad alta con fondo transparente. Ideal para web.</p>
+            </div>
+            <div class="card">
+              <h3 class="mono" style="color: var(--vermillion)">JPG</h3>
+              <p>Foto comprimida, archivo ligero. Sin transparencia.</p>
+            </div>
+            <div class="card">
+              <h3 class="mono" style="color: var(--vermillion)">SVG</h3>
+              <p>Vectorial: escala sin perder nitidez. Logos e iconos.</p>
+            </div>
+            <div class="card">
+              <h3 class="mono" style="color: var(--vermillion)">PDF</h3>
+              <p>Documento listo para impresión o envío formal.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 16 · DIVIDER 4 / AUDACITY -->
+        <section data-background-color="#1d1812">
+          <div class="divider" style="color: var(--paper)">
+            <div class="big-num" style="-webkit-text-stroke: 2px var(--teal)">
+              04
+            </div>
+            <div class="toolhead" style="margin-top: 0.3em">
+              <span class="chip aud">Herramienta</span>
+            </div>
+            <h2 style="color: var(--paper)">Audacity · audio</h2>
+            <p class="lead" style="color: #c9bfae">
+              Software libre para grabar y editar sonido en varias pistas.
+            </p>
+          </div>
+        </section>
+
+        <!-- 17 · GUION audio -->
+        <section data-background-color="#f3ecdf" class="accent-aud">
+          <div class="toolhead">
+            <span class="chip aud">Audacity</span
+            ><span class="kicker" style="margin: 0">Antes de grabar</span>
+          </div>
+          <h2>Escribe el guion</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto">
+            <p style="font-size: 0.88em; line-height: 1.5">
+              Redacta un guion <strong>claro y conciso</strong>. Léelo en voz
+              alta para medir el tiempo y detectar frases enredadas antes de
+              grabar.
+            </p>
+            <div class="card">
+              <h3 style="color: var(--teal)">Tips de grabación</h3>
+              <p style="font-size: 0.72em">
+                · Graba en un lugar silencioso, con superficies que no generen
+                eco.<br />· Mantén distancia constante al micrófono.<br />·
+                Habla con buen ritmo y vocalización.<br />· Haz una prueba corta
+                antes de la toma final.
+              </p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.62em; margin-top: 0.9em">
+            Apóyate en el anexo
+            <em>Infografía – tips para grabación de audios</em>.
+          </p>
+        </section>
+
+        <!-- 18 · AUDACITY pasos -->
+        <section data-background-color="#ece2d0" class="accent-aud">
+          <div class="toolhead">
+            <span class="chip aud">Audacity</span
+            ><span class="kicker" style="margin: 0">Grabar y editar</span>
+          </div>
+          <h2>Producción del audio</h2>
+          <ol class="steps teal">
+            <li>
+              <b>Graba.</b> Captura tu voz siguiendo el guion. Repite las tomas
+              que lo necesiten.
+            </li>
+            <li>
+              <b>Edita.</b> Recorta silencios, elimina ruido y ajusta el
+              volumen.
+            </li>
+            <li>
+              <b>Prueba de calidad.</b> Escucha y ajusta el <b>tono</b> y el
+              <b>ritmo</b> hasta que suene natural.
+            </li>
+            <li>
+              <b>Exporta.</b> Guarda en <span class="mono">MP3</span> (ligero) o
+              <span class="mono">WAV</span> (sin pérdida) para máxima
+              compatibilidad.
+            </li>
+          </ol>
+        </section>
+
+        <!-- 19 · DIVIDER 5 / CAPCUT -->
+        <section data-background-color="#1d1812">
+          <div class="divider" style="color: var(--paper)">
+            <div class="big-num" style="-webkit-text-stroke: 2px var(--ochre)">
+              05
+            </div>
+            <div class="toolhead" style="margin-top: 0.3em">
+              <span class="chip cap">Herramienta</span>
+            </div>
+            <h2 style="color: var(--paper)">CapCut · video</h2>
+            <p class="lead" style="color: #c9bfae">
+              Edición de video con transiciones, efectos y audio, en móvil o
+              escritorio.
+            </p>
+          </div>
+        </section>
+
+        <!-- 20 · STORYBOARD -->
+        <section data-background-color="#f3ecdf" class="accent-cap">
+          <div class="toolhead">
+            <span class="chip cap">CapCut</span
+            ><span class="kicker" style="margin: 0">Planeación visual</span>
+          </div>
+          <h2>El storyboard</h2>
+          <hr class="rule" />
+          <p class="muted" style="font-size: 0.82em; max-width: 25em">
+            Un guion visual donde dibujas, escena por escena, qué se ve, qué se
+            escucha y cuánto dura. Es el mapa de tu video.
+          </p>
+          <div class="grid3" style="margin-top: 0.9em">
+            <div class="card">
+              <div class="n" style="color: var(--ochre)">ESCENA 1</div>
+              <h3>Apertura</h3>
+              <p>Imagen + texto que presenta el tema.</p>
+            </div>
+            <div class="card">
+              <div class="n" style="color: var(--ochre)">ESCENA 2</div>
+              <h3>Desarrollo</h3>
+              <p>Idea principal con voz o subtítulos.</p>
+            </div>
+            <div class="card">
+              <div class="n" style="color: var(--ochre)">ESCENA 3</div>
+              <h3>Cierre</h3>
+              <p>Conclusión o llamado a la acción.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 21 · CAPCUT pasos -->
+        <section data-background-color="#ece2d0" class="accent-cap">
+          <div class="toolhead">
+            <span class="chip cap">CapCut</span
+            ><span class="kicker" style="margin: 0">Grabar y editar</span>
+          </div>
+          <h2>Monta tu video</h2>
+          <ol class="steps ochre">
+            <li>
+              <b>Reúne el material.</b> Combina imágenes, clips de video y tu
+              audio en la línea de tiempo.
+            </li>
+            <li>
+              <b>Aplica efectos y transiciones.</b> Úsalos con mesura para
+              reforzar el mensaje, no para distraer.
+            </li>
+            <li>
+              <b>Ajusta la temporalidad.</b> Controla la duración de cada clip.
+              Meta total: <b>2 minutos</b>.
+            </li>
+            <li>
+              <b>Exporta.</b> Genera el archivo en
+              <span class="mono">MP4</span>, recomendado para distribución.
+            </li>
+          </ol>
+          <p class="muted" style="font-size: 0.6em; margin-top: 0.7em">
+            Tutorial del curso: grabar videos desde casa con el celular (enlace
+            en la plataforma).
+          </p>
+        </section>
+
+        <!-- 22 · DIVIDER 6 / EVIDENCIAS -->
+        <section data-background-color="#f3ecdf">
+          <div class="divider">
+            <div class="big-num">06</div>
+            <h2>Evidencias de la AA2</h2>
+            <p class="lead">
+              Dos entregas: un cuestionario y la creación de tres medios
+              digitales.
+            </p>
+          </div>
+        </section>
+
+        <!-- 23 · EV01 -->
+        <section data-background-color="#ece2d0">
+          <span class="kicker">AA2 · EV01</span>
+          <h2>Cuestionario</h2>
+          <hr class="rule" />
+          <div class="two" style="height: auto">
+            <p style="font-size: 0.88em; line-height: 1.5">
+              Evaluación en línea sobre diseño, planeación y herramientas para
+              la construcción de contenido digital.
+            </p>
+            <ul class="checklist">
+              <li>Revisa primero el material de formación del componente.</li>
+              <li>Responde la <strong>totalidad</strong> de las preguntas.</li>
+              <li>
+                Ingresa al espacio del cuestionario en el área de la actividad.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 24 · EV02 -->
+        <section data-background-color="#f3ecdf">
+          <span class="kicker">AA2 · EV02</span>
+          <h2>Creación y diseño de medios</h2>
+          <hr class="rule" />
+          <div class="grid3" style="margin-top: 0.4em">
+            <div class="card">
+              <div class="n" style="color: var(--vermillion)">PRODUCTO 1</div>
+              <h3>Pieza gráfica</h3>
+              <p>Diseñada en Figma. PNG, JPG, SVG o PDF.</p>
+            </div>
+            <div class="card">
+              <div class="n" style="color: var(--teal)">PRODUCTO 2</div>
+              <h3>Audio</h3>
+              <p>Producido en Audacity. MP3 o WAV.</p>
+            </div>
+            <div class="card">
+              <div class="n" style="color: var(--ochre)">PRODUCTO 3</div>
+              <h3>Video</h3>
+              <p>Editado en CapCut. MP4, 2 minutos.</p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.74em; margin-top: 1em">
+            Los tres productos se entregan comprimidos en un solo archivo
+            <span class="mono">.ZIP</span>, en el espacio de la actividad.
+          </p>
+        </section>
+
+        <!-- 25 · CHECKLIST -->
+        <section data-background-color="#ece2d0">
+          <span class="kicker">Antes de enviar</span>
+          <h2>Lista de verificación</h2>
+          <hr class="rule" />
+          <div class="grid2">
+            <ul class="checklist">
+              <li>La pieza gráfica aplica los 5 principios de diseño.</li>
+              <li>El audio tiene guion, buen tono y ritmo limpio.</li>
+              <li>El video dura ~2 min y exporta en MP4.</li>
+            </ul>
+            <ul class="checklist">
+              <li>Cada archivo está en el formato correcto.</li>
+              <li>Todo responde a la planeación inicial.</li>
+              <li>Los 3 productos van en un único .ZIP.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 26 · CIERRE -->
+        <section data-background-color="#1d1812">
+          <div class="cover" style="color: var(--paper)">
+            <div class="ficha" style="color: #c9bfae">
+              <span>SENA</span><span>·</span><span>Ficha 3515981</span
+              ><span>·</span><span>AA2 · EV02</span>
+            </div>
+            <h1 style="color: var(--paper); font-size: 2.7em">
+              Planea,
+              <span class="it" style="color: var(--ochre)">diseña</span> y
+              produce con intención.
+            </h1>
+            <p class="sub" style="color: #c9bfae">
+              Una buena herramienta no salva una mala idea: la planeación y los
+              principios de diseño son los que hacen que tu contenido comunique.
+            </p>
+            <div class="tools" style="margin-top: 2em">
+              <span><i class="dot fig"></i> Figma</span>
+              <span><i class="dot aud"></i> Audacity</span>
+              <span><i class="dot cap"></i> CapCut</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: false,
+        margin: 0.08,
+        width: 1280,
+        height: 720,
+        plugins: [RevealNotes],
+      });
+    </script>
+  </body>
+</html>
