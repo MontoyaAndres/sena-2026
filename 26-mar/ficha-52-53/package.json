@@ -1,0 +1,16 @@
+{
+  "name": "ficha-52-53",
+  "version": "1.0.0",
+  "description": "Este es el servidor de mis estudiantes del sena",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Andres Montoya",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
