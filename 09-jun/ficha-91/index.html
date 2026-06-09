@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Correo, redes sociales y almacenamiento en la nube · AA3</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.5/reveal.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #eef1f7;
+        --bg-2: #e6eaf3;
+        --ink: #171f33;
+        --ink-soft: #46506b;
+        --muted: #7b85a0;
+        --line: #d6dce8;
+        --white: #ffffff;
+
+        --mail: #e0731a; /* correo · mensaje */
+        --social: #d6336c; /* redes · conexión */
+        --cloud: #0f9aa6; /* nube · datos */
+        --brand: #5b3df0; /* enlace / marca */
+
+        --accent: var(--brand); /* re-asignado por pilar */
+      }
+
+      /* ---------- base ---------- */
+      .reveal {
+        font-family: "Hanken Grotesk", system-ui, sans-serif;
+        font-size: 30px;
+        color: var(--ink);
+        font-weight: 400;
+      }
+      .reveal-viewport {
+        background:
+          radial-gradient(
+            720px 460px at 88% -10%,
+            rgba(214, 51, 108, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            720px 460px at -8% 110%,
+            rgba(15, 154, 166, 0.12),
+            transparent 60%
+          ),
+          var(--bg);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Fraunces", Georgia, serif;
+        color: var(--ink);
+        line-height: 1;
+        letter-spacing: -0.01em;
+        margin: 0 0 0.35em;
+        font-weight: 800;
+      }
+      .reveal h1 {
+        font-size: 2.5em;
+        font-weight: 900;
+      }
+      .reveal h2 {
+        font-size: 1.9em;
+      }
+      .reveal h3 {
+        font-size: 1.1em;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.55em;
+        color: var(--ink-soft);
+      }
+      .reveal strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .reveal em {
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      /* ---------- shared bits ---------- */
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.46em;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 0 0 1em;
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+      }
+      .eyebrow .b {
+        width: 1.6em;
+        height: 0.5em;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .lead {
+        font-size: 1.04em;
+        color: var(--ink-soft);
+        max-width: 22em;
+      }
+
+      ul.clean {
+        list-style: none;
+        margin: 0.2em 0 0;
+        padding: 0;
+      }
+      ul.clean li {
+        position: relative;
+        padding: 0.2em 0 0.2em 1.4em;
+        line-height: 1.4;
+        font-size: 0.9em;
+        color: var(--ink-soft);
+      }
+      ul.clean li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 0.55em;
+        height: 0.55em;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+      ul.clean li b {
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      .tag {
+        display: inline-block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.42em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        padding: 0.42em 0.9em;
+        background: var(--white);
+      }
+
+      /* ---------- top tri-bar (signature, persistent) ---------- */
+      .bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 0 22px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .bar .tri {
+        display: flex;
+        gap: 4px;
+      }
+      .bar .tri i {
+        width: 18px;
+        height: 5px;
+        border-radius: 2px;
+        display: block;
+      }
+      .bar .tri i:nth-child(1) {
+        background: var(--mail);
+      }
+      .bar .tri i:nth-child(2) {
+        background: var(--social);
+      }
+      .bar .tri i:nth-child(3) {
+        background: var(--cloud);
+      }
+      .bar .spacer {
+        flex: 1;
+      }
+
+      /* ---------- cover ---------- */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+      .cover h1 {
+        max-width: 13ch;
+      }
+      .cover .meta {
+        margin-top: auto;
+        display: flex;
+        gap: 2em;
+        flex-wrap: wrap;
+        padding-top: 1.3em;
+        border-top: 1px solid var(--line);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.44em;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .cover .meta b {
+        color: var(--ink);
+        display: block;
+        margin-top: 0.4em;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+      }
+
+      /* ---------- columns ---------- */
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.4em;
+        align-items: start;
+      }
+      .cols.tilt {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      /* ---------- pillar trio (signature slide) ---------- */
+      .trio {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1em;
+        margin-top: 0.4em;
+      }
+      .col-card {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 1.1em 1em 1.1em;
+        border-top: 5px solid var(--c);
+        position: relative;
+      }
+      .col-card .n {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.44em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--c);
+        margin-bottom: 0.55em;
+      }
+      .col-card h3 {
+        color: var(--ink);
+        font-size: 1.05em;
+        margin-bottom: 0.35em;
+      }
+      .col-card p {
+        font-size: 0.74em;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      /* ---------- generic card ---------- */
+      .card {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 0.95em 1.05em;
+      }
+      .card .k {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.42em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.5em;
+      }
+      .card p {
+        font-size: 0.78em;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      /* ---------- email anatomy ---------- */
+      .mailbox {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .mailbox .row {
+        display: flex;
+        gap: 0.8em;
+        padding: 0.55em 0.9em;
+        border-bottom: 1px solid var(--line);
+        align-items: baseline;
+      }
+      .mailbox .row:last-child {
+        border-bottom: 0;
+      }
+      .mailbox .lbl {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mail);
+        width: 5.5em;
+        flex: none;
+      }
+      .mailbox .val {
+        font-size: 0.72em;
+        color: var(--ink-soft);
+      }
+      .addr b {
+        color: var(--ink);
+      }
+      .addr .at {
+        color: var(--mail);
+        font-weight: 700;
+      }
+
+      /* ---------- chips ---------- */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-top: 0.3em;
+      }
+      .chip {
+        font-size: 0.62em;
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        padding: 0.4em 0.9em;
+        color: var(--ink-soft);
+      }
+      .chip b {
+        color: var(--ink);
+      }
+
+      /* ---------- decision guide ---------- */
+      .guide {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1em;
+        margin-top: 0.4em;
+      }
+      .guide .g {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1em;
+        border-left: 5px solid var(--c);
+      }
+      .guide .need {
+        font-size: 0.74em;
+        color: var(--ink-soft);
+        line-height: 1.35;
+        margin-bottom: 0.7em;
+        min-height: 3.4em;
+      }
+      .guide .use {
+        font-family: "Fraunces", serif;
+        font-weight: 800;
+        font-size: 1em;
+        color: var(--c);
+      }
+
+      /* ---------- do/dont ---------- */
+      .dd {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.3em;
+        margin-top: 0.3em;
+      }
+      .dd .h {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.48em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.6em;
+      }
+      .dd .ok .h {
+        color: var(--cloud);
+      }
+      .dd .ok li::before {
+        background: var(--cloud);
+      }
+      .dd .no .h {
+        color: var(--social);
+      }
+      .dd .no li::before {
+        background: var(--social);
+      }
+
+      /* per-pillar accent scopes */
+      .p-mail {
+        --accent: var(--mail);
+      }
+      .p-social {
+        --accent: var(--social);
+      }
+      .p-cloud {
+        --accent: var(--cloud);
+      }
+
+      .foot {
+        position: absolute;
+        bottom: 16px;
+        left: 0;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.4em;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      /* reveal chrome */
+      .reveal .progress {
+        color: var(--brand);
+        height: 3px;
+      }
+      .reveal .controls {
+        color: var(--muted);
+      }
+      .reveal .slide-number {
+        font-family: "IBM Plex Mono", monospace;
+        background: transparent;
+        color: var(--muted);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <span class="tri"><i></i><i></i><i></i></span>
+      <span>Era digital</span>
+      <span class="spacer"></span>
+      <span>SENA · Ficha 3515991 · AA3</span>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 · PORTADA -->
+        <section data-background-color="#eef1f7">
+          <div class="cover">
+            <div class="eyebrow">
+              <span class="b"></span>Componente formativo
+            </div>
+            <h1>Correo, redes sociales y almacenamiento en la nube</h1>
+            <p class="lead" style="max-width: 25em">
+              Tres herramientas que mueven la <em>comunicación</em>, las
+              <em style="color: var(--social)">interacciones</em> y los
+              <em style="color: var(--cloud)">datos</em> de la era digital.
+            </p>
+            <div class="meta">
+              <div>Actividad<b>AA3 · EV01</b></div>
+              <div>Duración<b>16 horas</b></div>
+              <div>Ficha<b>3515991</b></div>
+              <div>Objetivo<b>Usar cada herramienta según la necesidad</b></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · OBJETIVO -->
+        <section>
+          <div class="eyebrow"><span class="b"></span>Antes de empezar</div>
+          <h2>Lo que vas a identificar</h2>
+          <div class="cols tilt">
+            <div>
+              <p class="muted" style="font-size: 0.8em">
+                Objetivo de aprendizaje
+              </p>
+              <p style="font-size: 0.96em; max-width: 13em">
+                Identificar el uso del <strong>correo electrónico</strong>, las
+                <strong>redes sociales</strong> y el
+                <strong>almacenamiento en la nube</strong>, de acuerdo con la
+                necesidad del usuario.
+              </p>
+            </div>
+            <div>
+              <ul class="clean" style="font-size: 1.02em">
+                <li>Qué es y para qué sirve cada herramienta</li>
+                <li>Cómo se usa cada una</li>
+                <li>Cuándo elegir una u otra</li>
+                <li>Cómo usarlas de forma <b>segura</b></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 · LOS TRES PILARES (signature) -->
+        <section data-background-color="#e9edf5">
+          <div class="eyebrow"><span class="b"></span>Panorama</div>
+          <h2>Tres pilares de la vida digital</h2>
+          <div class="trio">
+            <div class="col-card" style="--c: var(--mail)">
+              <div class="n">Pilar 01</div>
+              <h3>Correo electrónico</h3>
+              <p>
+                Comunicación rápida y formal: enviar y recibir mensajes y
+                archivos por Internet.
+              </p>
+            </div>
+            <div class="col-card" style="--c: var(--social)">
+              <div class="n">Pilar 02</div>
+              <h3>Redes sociales</h3>
+              <p>
+                Conectar, compartir e informarse; transforman las interacciones
+                entre personas.
+              </p>
+            </div>
+            <div class="col-card" style="--c: var(--cloud)">
+              <div class="n">Pilar 03</div>
+              <h3>Almacenamiento en la nube</h3>
+              <p>
+                Guardar y acceder a archivos desde cualquier lugar y colaborar
+                en tiempo real.
+              </p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.72em; margin-top: 1.1em">
+            Distintos, pero se complementan: hoy los usamos todos los días, casi
+            siempre juntos.
+          </p>
+        </section>
+
+        <!-- 4 · CORREO · qué es -->
+        <section class="p-mail">
+          <div class="eyebrow">
+            <span class="b"></span>Pilar 01 · Correo electrónico
+          </div>
+          <h2>¿Qué es el correo?</h2>
+          <div class="cols tilt">
+            <p class="lead">
+              Un servicio para <strong>enviar y recibir mensajes</strong> —con
+              texto y archivos adjuntos— a través de Internet. Es
+              <em>asíncrono</em>: el otro lo lee cuando puede.
+            </p>
+            <div>
+              <p class="tag" style="margin-bottom: 0.7em">Una dirección</p>
+              <p
+                class="addr"
+                style="
+                  font-family: &quot;IBM Plex Mono&quot;, monospace;
+                  font-size: 0.8em;
+                  color: var(--ink);
+                "
+              >
+                <b>usuario</b><span class="at">@</span><b>dominio</b>.com
+              </p>
+              <ul class="clean" style="font-size: 0.78em; margin-top: 0.5em">
+                <li><b>usuario</b> · tu nombre de cuenta</li>
+                <li><b>@</b> · separa cuenta y proveedor</li>
+                <li><b>dominio</b> · gmail, outlook, hotmail…</li>
+              </ul>
+            </div>
+          </div>
+          <div class="foot">Formal · profesional · queda registro</div>
+        </section>
+
+        <!-- 5 · CORREO · anatomía -->
+        <section class="p-mail">
+          <div class="eyebrow">
+            <span class="b"></span>Pilar 01 · Cómo se usa
+          </div>
+          <h2>Partes de un correo</h2>
+          <div class="cols">
+            <div class="mailbox">
+              <div class="row">
+                <span class="lbl">Para</span
+                ><span class="val">destinatario principal</span>
+              </div>
+              <div class="row">
+                <span class="lbl">CC</span
+                ><span class="val">con copia · todos la ven</span>
+              </div>
+              <div class="row">
+                <span class="lbl">CCO</span
+                ><span class="val">copia oculta · nadie la ve</span>
+              </div>
+              <div class="row">
+                <span class="lbl">Asunto</span
+                ><span class="val">de qué trata el mensaje</span>
+              </div>
+              <div class="row">
+                <span class="lbl">Cuerpo</span
+                ><span class="val">el contenido + tu firma</span>
+              </div>
+              <div class="row">
+                <span class="lbl">Adjuntos</span
+                ><span class="val">archivos que envías</span>
+              </div>
+            </div>
+            <div>
+              <p class="tag" style="margin-bottom: 0.7em">Buen uso</p>
+              <ul class="clean" style="font-size: 0.8em">
+                <li>Escribe siempre un <b>asunto claro</b></li>
+                <li>Saludo, mensaje y <b>despedida</b></li>
+                <li>Revisa el destinatario antes de enviar</li>
+                <li>Usa <b>CCO</b> para proteger correos ajenos</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 · REDES · qué son -->
+        <section class="p-social">
+          <div class="eyebrow">
+            <span class="b"></span>Pilar 02 · Redes sociales
+          </div>
+          <h2>¿Qué son las redes?</h2>
+          <p class="lead" style="max-width: 24em">
+            Plataformas para
+            <strong
+              >crear un perfil, conectar con otras personas y compartir
+              contenido</strong
+            >. Transforman cómo nos comunicamos y consumimos información.
+          </p>
+          <div class="chips" style="margin-top: 1em">
+            <span class="chip"><b>Facebook</b> · comunidad</span>
+            <span class="chip"><b>Instagram</b> · imagen y video</span>
+            <span class="chip"><b>TikTok</b> · video corto</span>
+            <span class="chip"><b>X</b> · texto y noticias</span>
+            <span class="chip"><b>LinkedIn</b> · profesional</span>
+            <span class="chip"><b>YouTube</b> · video</span>
+            <span class="chip"><b>WhatsApp</b> · mensajería</span>
+          </div>
+        </section>
+
+        <!-- 7 · REDES · usos y cuidado -->
+        <section class="p-social">
+          <div class="eyebrow">
+            <span class="b"></span>Pilar 02 · Usos y cuidados
+          </div>
+          <h2>Para qué sirven · qué cuidar</h2>
+          <div class="cols">
+            <div>
+              <p class="tag" style="margin-bottom: 0.7em">Usos</p>
+              <ul class="clean" style="font-size: 0.82em">
+                <li><b>Comunicar</b> e interactuar</li>
+                <li><b>Informarse</b> y entretenerse</li>
+                <li><b>Marca personal</b> y networking</li>
+                <li><b>Difundir</b> proyectos o negocios</li>
+              </ul>
+            </div>
+            <div>
+              <p class="tag" style="margin-bottom: 0.7em">Cuidados</p>
+              <ul class="clean" style="font-size: 0.82em">
+                <li>Configura tu <b>privacidad</b></li>
+                <li>Cuida tu <b>huella digital</b> (todo queda)</li>
+                <li><b>Verifica</b> antes de compartir</li>
+                <li>Controla el <b>tiempo de uso</b></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 · NUBE · qué es -->
+        <section class="p-cloud">
+          <div class="eyebrow">
+            <span class="b"></span>Pilar 03 · Almacenamiento en la nube
+          </div>
+          <h2>¿Qué es la nube?</h2>
+          <div class="cols tilt">
+            <p class="lead">
+              Guardar tus archivos en <strong>servidores en Internet</strong>,
+              no solo en tu equipo. Así puedes
+              <em>acceder a ellos desde cualquier dispositivo</em> y lugar.
+            </p>
+            <div>
+              <p class="tag" style="margin-bottom: 0.7em">¿Cómo funciona?</p>
+              <ul class="clean" style="font-size: 0.8em">
+                <li>Subes el archivo a tu cuenta</li>
+                <li>Se guarda en <b>servidores remotos</b></li>
+                <li>Se <b>sincroniza</b> en tus dispositivos</li>
+                <li>Lo abres con tu usuario y contraseña</li>
+              </ul>
+            </div>
+          </div>
+          <div class="foot">Tu información viaja contigo</div>
+        </section>
+
+        <!-- 9 · NUBE · ejemplos y ventajas -->
+        <section class="p-cloud">
+          <div class="eyebrow">
+            <span class="b"></span>Pilar 03 · Servicios y ventajas
+          </div>
+          <h2>Ejemplos y beneficios</h2>
+          <div class="cols">
+            <div>
+              <p class="tag" style="margin-bottom: 0.7em">Servicios comunes</p>
+              <div class="chips">
+                <span class="chip"><b>Google Drive</b></span>
+                <span class="chip"><b>OneDrive</b></span>
+                <span class="chip"><b>iCloud</b></span>
+                <span class="chip"><b>Dropbox</b></span>
+              </div>
+            </div>
+            <div>
+              <p class="tag" style="margin-bottom: 0.7em">Ventajas</p>
+              <ul class="clean" style="font-size: 0.82em">
+                <li><b>Respaldo</b>: no pierdes tus archivos</li>
+                <li><b>Acceso</b> desde cualquier lugar</li>
+                <li><b>Compartir</b> con un enlace</li>
+                <li><b>Colaborar</b> en tiempo real</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10 · CÓMO ELEGIR -->
+        <section>
+          <div class="eyebrow">
+            <span class="b"></span>El objetivo de la AA3
+          </div>
+          <h2>¿Cuál uso según la necesidad?</h2>
+          <div class="guide">
+            <div class="g" style="--c: var(--mail)">
+              <div class="need">
+                Necesito comunicarme de forma <b>formal</b> o enviar documentos
+                a una persona u organización.
+              </div>
+              <div class="use">→ Correo electrónico</div>
+            </div>
+            <div class="g" style="--c: var(--social)">
+              <div class="need">
+                Necesito <b>difundir</b>, conectar e interactuar con una
+                audiencia o comunidad.
+              </div>
+              <div class="use">→ Redes sociales</div>
+            </div>
+            <div class="g" style="--c: var(--cloud)">
+              <div class="need">
+                Necesito <b>guardar, respaldar o compartir</b> archivos y
+                colaborar en ellos.
+              </div>
+              <div class="use">→ Nube</div>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.72em; margin-top: 1em">
+            La clave no es “cuál es mejor”, sino
+            <strong>cuál resuelve mejor lo que necesitas</strong> en ese
+            momento.
+          </p>
+        </section>
+
+        <!-- 11 · SEGURIDAD -->
+        <section>
+          <div class="eyebrow">
+            <span class="b"></span>Transversal · Seguridad
+          </div>
+          <h2>Protege tus cuentas</h2>
+          <div class="cols">
+            <div class="card">
+              <div class="k">Contraseñas</div>
+              <p>
+                Largas, únicas y difíciles de adivinar. No repitas la misma en
+                todo.
+              </p>
+            </div>
+            <div class="card">
+              <div class="k">Verificación en 2 pasos</div>
+              <p>
+                Un código extra al ingresar; aunque roben tu clave, no entran.
+              </p>
+            </div>
+            <div class="card">
+              <div class="k">Phishing</div>
+              <p>
+                Desconfía de enlaces y correos que piden tus datos con urgencia.
+              </p>
+            </div>
+            <div class="card">
+              <div class="k">Sesiones</div>
+              <p>
+                Cierra sesión en equipos compartidos y revisa tu privacidad.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12 · BUENAS PRÁCTICAS -->
+        <section>
+          <div class="eyebrow"><span class="b"></span>Recomendaciones</div>
+          <h2>Hazlo bien · evita esto</h2>
+          <div class="dd">
+            <div class="ok">
+              <div class="h">✓ Buenas prácticas</div>
+              <ul class="clean" style="font-size: 0.84em">
+                <li>Elige la herramienta según la <b>necesidad</b></li>
+                <li>Respalda tus archivos en la <b>nube</b></li>
+                <li>Cuida tu <b>huella e identidad</b> digital</li>
+                <li>Usa <b>contraseñas seguras</b></li>
+              </ul>
+            </div>
+            <div class="no">
+              <div class="h">✕ Errores comunes</div>
+              <ul class="clean" style="font-size: 0.84em">
+                <li>Enviar correos sin <b>asunto</b></li>
+                <li>Compartir información <b>privada</b> en redes</li>
+                <li>Guardar todo solo en <b>un equipo</b></li>
+                <li>Usar la <b>misma contraseña</b> en todo</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13 · CIERRE / EVIDENCIA -->
+        <section data-background-color="#e9edf5">
+          <div class="cover">
+            <div class="eyebrow"><span class="b"></span>Cierre</div>
+            <h2 style="font-size: 2.1em; max-width: 15ch">
+              Tres herramientas, una sola meta: usar la correcta en el momento
+              correcto.
+            </h2>
+            <p class="lead" style="max-width: 25em">
+              Correo para comunicar, redes para conectar y la nube para guardar
+              y colaborar: todo según <strong>la necesidad del usuario</strong>.
+            </p>
+            <div class="meta">
+              <div>Tu evidencia<b>AA3-EV01 · Cuestionario</b></div>
+              <div>
+                Antes de responder<b>Revisa el material del componente</b>
+              </div>
+              <div>Recuerda<b>Responde la totalidad de las preguntas</b></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.5/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        transition: "fade",
+        transitionSpeed: "fast",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        slideNumber: "c/t",
+        width: 1280,
+        height: 720,
+        margin: 0.08,
+        minScale: 0.2,
+        maxScale: 1.6,
+      });
+    </script>
+  </body>
+</html>

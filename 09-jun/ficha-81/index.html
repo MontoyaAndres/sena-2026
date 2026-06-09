@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lanzamiento de un proyecto en plataformas digitales · AA3</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.5/reveal.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --ink: #14121f;
+        --ink-2: #1b1830;
+        --panel: #241f3a;
+        --panel-line: #3a3357;
+        --signal: #ff6b5c; /* coral · transmitir / en vivo */
+        --wave: #38e1c6; /* aqua · alcance / difusión */
+        --trace: #f5c84c; /* ámbar · datos / métricas */
+        --txt: #f1eef9;
+        --muted: #9b96b3;
+        --faint: #6f6a89;
+      }
+
+      /* ---------- base ---------- */
+      .reveal {
+        font-family: "DM Sans", system-ui, sans-serif;
+        font-size: 30px;
+        color: var(--txt);
+        font-weight: 400;
+      }
+      .reveal-viewport {
+        background:
+          radial-gradient(
+            900px 600px at 82% -8%,
+            rgba(255, 107, 92, 0.16),
+            transparent 60%
+          ),
+          radial-gradient(
+            800px 520px at -6% 108%,
+            rgba(56, 225, 198, 0.12),
+            transparent 55%
+          ),
+          var(--ink);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Bricolage Grotesque", sans-serif;
+        color: var(--txt);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.35em;
+        text-transform: none;
+        font-weight: 800;
+      }
+      .reveal h1 {
+        font-size: 2.35em;
+      }
+      .reveal h2 {
+        font-size: 1.7em;
+      }
+      .reveal h3 {
+        font-size: 1.15em;
+        font-weight: 700;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.6em;
+      }
+      .reveal strong {
+        color: #fff;
+        font-weight: 700;
+      }
+      .reveal em {
+        color: var(--wave);
+        font-style: normal;
+        font-weight: 500;
+      }
+      .reveal a {
+        color: var(--signal);
+      }
+
+      /* ---------- shared bits ---------- */
+      .eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--signal);
+        margin: 0 0 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+      }
+      .eyebrow .tdot {
+        width: 0.52em;
+        height: 0.52em;
+        border-radius: 50%;
+        background: var(--signal);
+        box-shadow: 0 0 0 0 rgba(255, 107, 92, 0.6);
+        animation: pulse 2s infinite;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .lead {
+        font-size: 1.06em;
+        color: #d8d4e6;
+        max-width: 20em;
+      }
+
+      ul.clean {
+        list-style: none;
+        margin: 0.2em 0 0;
+        padding: 0;
+      }
+      ul.clean li {
+        position: relative;
+        padding: 0.18em 0 0.18em 1.5em;
+        line-height: 1.4;
+        font-size: 0.92em;
+      }
+      ul.clean li::before {
+        content: "›";
+        position: absolute;
+        left: 0;
+        top: 0.05em;
+        color: var(--signal);
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+      }
+      ul.clean li b {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .pill {
+        display: inline-block;
+        font-family: "Space Mono", monospace;
+        font-size: 0.42em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--wave);
+        border: 1px solid var(--panel-line);
+        border-radius: 100px;
+        padding: 0.45em 0.9em;
+        background: rgba(56, 225, 198, 0.06);
+      }
+
+      /* ---------- transmission bar (signature, persistent) ---------- */
+      .txbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 38px;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 0 22px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--faint);
+        background: linear-gradient(
+          180deg,
+          rgba(20, 18, 31, 0.92),
+          rgba(20, 18, 31, 0)
+        );
+        pointer-events: none;
+      }
+      .txbar .live {
+        color: var(--signal);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .txbar .live span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--signal);
+        box-shadow: 0 0 0 0 rgba(255, 107, 92, 0.6);
+        animation: pulse 2s infinite;
+      }
+      .txbar .spacer {
+        flex: 1;
+      }
+      .txbar .ficha {
+        color: var(--muted);
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 92, 0.55);
+        }
+        70% {
+          box-shadow: 0 0 0 9px rgba(255, 107, 92, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 92, 0);
+        }
+      }
+
+      /* ---------- title slide ---------- */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+      .cover h1 {
+        max-width: 14.5ch;
+      }
+      .cover .meta {
+        margin-top: auto;
+        display: flex;
+        gap: 2.2em;
+        flex-wrap: wrap;
+        font-family: "Space Mono", monospace;
+        font-size: 0.46em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding-top: 1.4em;
+        border-top: 1px solid var(--panel-line);
+      }
+      .cover .meta b {
+        color: var(--wave);
+        display: block;
+        font-weight: 400;
+        margin-top: 0.4em;
+        letter-spacing: 0.06em;
+      }
+
+      /* ---------- two-column layout ---------- */
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.4em;
+        align-items: start;
+      }
+      .cols.tilt {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+
+      .card {
+        background: linear-gradient(180deg, var(--panel), var(--ink-2));
+        border: 1px solid var(--panel-line);
+        border-radius: 16px;
+        padding: 0.95em 1.05em;
+      }
+      .card .k {
+        font-family: "Space Mono", monospace;
+        font-size: 0.42em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--trace);
+        margin-bottom: 0.55em;
+      }
+      .card p {
+        font-size: 0.8em;
+        margin: 0;
+        color: #d3cfe2;
+        line-height: 1.4;
+      }
+      .card.sig {
+        border-color: rgba(255, 107, 92, 0.4);
+      }
+      .card.sig .k {
+        color: var(--signal);
+      }
+      .card.wav {
+        border-color: rgba(56, 225, 198, 0.35);
+      }
+      .card.wav .k {
+        color: var(--wave);
+      }
+
+      /* ---------- launch sequence (signature slide) ---------- */
+      .seq {
+        display: flex;
+        gap: 0;
+        margin-top: 0.6em;
+      }
+      .seq .stop {
+        flex: 1;
+        position: relative;
+        padding-top: 34px;
+      }
+      .seq .stop::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--panel-line);
+      }
+      .seq .stop:first-child::before {
+        left: 50%;
+      }
+      .seq .stop:last-child::before {
+        right: 50%;
+      }
+      .seq .stop .node {
+        position: absolute;
+        top: 2px;
+        left: calc(50% - 7px);
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--ink);
+        border: 2px solid var(--wave);
+      }
+      .seq .stop.fire .node {
+        border-color: var(--signal);
+        background: var(--signal);
+        box-shadow: 0 0 14px rgba(255, 107, 92, 0.7);
+      }
+      .seq .stop.after .node {
+        border-color: var(--trace);
+      }
+      .seq .stop .t {
+        font-family: "Space Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.1em;
+        color: var(--wave);
+        text-align: center;
+        display: block;
+        margin-bottom: 0.5em;
+      }
+      .seq .stop.fire .t {
+        color: var(--signal);
+      }
+      .seq .stop.after .t {
+        color: var(--trace);
+      }
+      .seq .stop .lab {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 700;
+        font-size: 0.62em;
+        text-align: center;
+        line-height: 1.1;
+        padding: 0 0.3em;
+      }
+      .seq .stop .sub {
+        display: block;
+        font-family: "DM Sans";
+        font-weight: 400;
+        font-size: 0.7em;
+        color: var(--muted);
+        margin-top: 0.4em;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      /* ---------- platforms grid ---------- */
+      .pgrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8em;
+        margin-top: 0.4em;
+      }
+      .pf {
+        background: var(--ink-2);
+        border: 1px solid var(--panel-line);
+        border-radius: 14px;
+        padding: 0.7em 0.8em;
+      }
+      .pf .name {
+        font-family: "Bricolage Grotesque";
+        font-weight: 700;
+        font-size: 0.78em;
+      }
+      .pf .fmt {
+        font-size: 0.62em;
+        color: #d3cfe2;
+        margin: 0.3em 0 0.35em;
+        line-height: 1.3;
+      }
+      .pf .ar {
+        font-family: "Space Mono", monospace;
+        font-size: 0.52em;
+        color: var(--wave);
+        letter-spacing: 0.06em;
+      }
+
+      /* ---------- stat row (metrics slide) ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.9em;
+        margin-top: 0.5em;
+      }
+      .stat .n {
+        font-family: "Bricolage Grotesque";
+        font-weight: 800;
+        font-size: 1.5em;
+        color: var(--trace);
+        line-height: 1;
+      }
+      .stat .l {
+        font-size: 0.62em;
+        color: var(--muted);
+        margin-top: 0.45em;
+        line-height: 1.25;
+      }
+
+      /* ---------- do / dont ---------- */
+      .dd {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2em;
+        margin-top: 0.3em;
+      }
+      .dd .h {
+        font-family: "Space Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.7em;
+      }
+      .dd .ok .h {
+        color: var(--wave);
+      }
+      .dd .no .h {
+        color: var(--signal);
+      }
+
+      /* ---------- progress / controls recolor ---------- */
+      .reveal .progress {
+        color: var(--signal);
+        height: 3px;
+      }
+      .reveal .controls {
+        color: var(--muted);
+      }
+      .reveal .slide-number {
+        font-family: "Space Mono", monospace;
+        background: transparent;
+        color: var(--faint);
+        font-size: 13px;
+        letter-spacing: 0.1em;
+      }
+
+      /* footer label inside section */
+      .foot {
+        position: absolute;
+        bottom: 18px;
+        left: 0;
+        font-family: "Space Mono", monospace;
+        font-size: 0.4em;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="txbar">
+      <span class="live"><span></span>En vivo</span>
+      <span>Secuencia de lanzamiento</span>
+      <span class="spacer" style="flex: 1"></span>
+      <span class="ficha">SENA · Ficha 3515981 · AA3</span>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 · PORTADA -->
+        <section data-background-color="#14121f">
+          <div class="cover">
+            <div class="eyebrow">
+              <span class="tdot"></span>Construcción de contenido digital
+            </div>
+            <h1>Lanzamiento de un proyecto en plataformas digitales</h1>
+            <p class="lead">
+              Del concepto a la publicación: cómo producir y publicar contenido
+              para redes sociales según los <em>requerimientos del usuario</em>.
+            </p>
+            <div class="meta">
+              <div>Actividad<b>AA3 · EV01</b></div>
+              <div>Duración<b>16 horas</b></div>
+              <div>Modalidad<b>Práctica</b></div>
+              <div>Ficha<b>3515981</b></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · OBJETIVO / AGENDA -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>T-06 · Briefing de la clase
+          </div>
+          <h2>Lo que lograrás hoy</h2>
+          <div class="cols tilt">
+            <div>
+              <p class="muted" style="font-size: 0.82em">
+                Objetivo de aprendizaje
+              </p>
+              <p style="font-size: 0.95em; max-width: 14em">
+                Identificar <strong>cómo realizar el lanzamiento</strong> de un
+                proyecto en plataformas digitales, de acuerdo con los
+                requerimientos del usuario.
+              </p>
+            </div>
+            <div>
+              <ul class="clean" style="font-size: 1.02em">
+                <li>
+                  Entender qué significa <b>lanzar</b> un proyecto digital
+                </li>
+                <li>Recorrer el <b>flujo de producción</b> de contenido</li>
+                <li>Conocer la <b>secuencia de lanzamiento</b> paso a paso</li>
+                <li>Adaptar piezas a <b>cada plataforma</b></li>
+                <li>Medir resultados con <b>métricas</b></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 · QUÉ ES -->
+        <section>
+          <div class="eyebrow"><span class="tdot"></span>Concepto</div>
+          <h2>¿Qué es “lanzar” un proyecto?</h2>
+          <p class="lead" style="max-width: 24em; font-size: 1.05em">
+            No es solo <span class="muted">“subir un post”.</span> Es
+            <strong>publicar de forma planeada y estratégica</strong> un
+            conjunto de piezas de contenido en redes sociales, alineadas a un
+            <em>objetivo</em> y a las
+            <em>necesidades de un usuario o cliente</em>.
+          </p>
+          <div class="cols" style="margin-top: 1.1em">
+            <div class="card sig">
+              <div class="k">Improvisar</div>
+              <p>
+                Publicar sin objetivo, sin calendario y sin saber a quién le
+                hablas. El contenido se pierde.
+              </p>
+            </div>
+            <div class="card wav">
+              <div class="k">Lanzar</div>
+              <p>
+                Cada pieza tiene un propósito, un público, una plataforma y un
+                momento definidos.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 · FLUJO DE TRABAJO -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>El flujo de trabajo
+          </div>
+          <h2>Producción de contenido digital</h2>
+          <p class="lead" style="max-width: 25em">
+            Es un proceso <strong>completamente práctico</strong>: se
+            desarrollan distintas piezas de contenido que viajan por la misma
+            ruta antes de llegar al público.
+          </p>
+          <div class="seq" style="margin-top: 1.4em">
+            <div class="stop">
+              <span class="node"></span><span class="t">01</span>
+              <div class="lab">Idea<span class="sub">brief</span></div>
+            </div>
+            <div class="stop">
+              <span class="node"></span><span class="t">02</span>
+              <div class="lab">Producción<span class="sub">piezas</span></div>
+            </div>
+            <div class="stop">
+              <span class="node"></span><span class="t">03</span>
+              <div class="lab">Revisión<span class="sub">aprobar</span></div>
+            </div>
+            <div class="stop fire">
+              <span class="node"></span><span class="t">04</span>
+              <div class="lab">Publicación<span class="sub">en vivo</span></div>
+            </div>
+            <div class="stop after">
+              <span class="node"></span><span class="t">05</span>
+              <div class="lab">Medición<span class="sub">métricas</span></div>
+            </div>
+          </div>
+          <div class="foot">Cada pieza recorre la misma ruta</div>
+        </section>
+
+        <!-- 5 · SECUENCIA (signature) -->
+        <section data-background-color="#16121f">
+          <div class="eyebrow"><span class="tdot"></span>Hoja de ruta</div>
+          <h2>La secuencia de lanzamiento</h2>
+          <p class="muted" style="font-size: 0.82em; margin-bottom: 0.4em">
+            Una cuenta regresiva: cada parada del lanzamiento tiene una tarea
+            concreta.
+          </p>
+          <div class="seq">
+            <div class="stop">
+              <span class="node"></span><span class="t">T-05</span>
+              <div class="lab">Requerimientos</div>
+            </div>
+            <div class="stop">
+              <span class="node"></span><span class="t">T-04</span>
+              <div class="lab">Planeación</div>
+            </div>
+            <div class="stop">
+              <span class="node"></span><span class="t">T-03</span>
+              <div class="lab">Producción</div>
+            </div>
+            <div class="stop">
+              <span class="node"></span><span class="t">T-02</span>
+              <div class="lab">Revisión</div>
+            </div>
+            <div class="stop">
+              <span class="node"></span><span class="t">T-01</span>
+              <div class="lab">Programación</div>
+            </div>
+            <div class="stop fire">
+              <span class="node"></span><span class="t">T-00</span>
+              <div class="lab">Lanzamiento</div>
+            </div>
+            <div class="stop after">
+              <span class="node"></span><span class="t">T+</span>
+              <div class="lab">Análisis</div>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.72em; margin-top: 1.4em">
+            Recorreremos cada parada en las siguientes diapositivas.
+          </p>
+        </section>
+
+        <!-- 6 · T-05 -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>T-05 · Punto de partida
+          </div>
+          <h2>Requerimientos del usuario</h2>
+          <div class="cols tilt">
+            <p class="lead">
+              Todo empieza por <strong>entender al usuario o cliente</strong>.
+              El <em>brief</em> es el documento que reúne lo que necesita el
+              proyecto.
+            </p>
+            <div>
+              <p class="pill" style="margin-bottom: 0.7em">Preguntas clave</p>
+              <ul class="clean" style="font-size: 0.85em">
+                <li><b>¿Para qué?</b> objetivo del lanzamiento</li>
+                <li><b>¿Para quién?</b> público objetivo</li>
+                <li><b>¿Qué decimos?</b> mensaje y tono</li>
+                <li><b>¿Dónde?</b> plataformas</li>
+                <li><b>¿Cuándo?</b> plazos y fechas</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7 · T-04 -->
+        <section>
+          <div class="eyebrow"><span class="tdot"></span>T-04 · Estrategia</div>
+          <h2>Planeación</h2>
+          <div
+            class="pgrid"
+            style="grid-template-columns: repeat(2, 1fr); gap: 0.9em"
+          >
+            <div class="card">
+              <div class="k">Objetivo</div>
+              <p>
+                Define una meta clara y medible: dar a conocer, generar
+                interacción o vender.
+              </p>
+            </div>
+            <div class="card">
+              <div class="k">Plataformas</div>
+              <p>Elige las redes donde realmente está tu público objetivo.</p>
+            </div>
+            <div class="card">
+              <div class="k">Calendario</div>
+              <p>Organiza qué se publica, cuándo y en dónde.</p>
+            </div>
+            <div class="card">
+              <div class="k">Línea gráfica</div>
+              <p>
+                Mensaje, colores, tipografía y tono coherentes con la marca.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 · T-03 -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>T-03 · Manos a la obra
+          </div>
+          <h2>Producción de las piezas</h2>
+          <div class="cols tilt">
+            <div>
+              <p class="pill" style="margin-bottom: 0.7em">Tipos de pieza</p>
+              <ul class="clean" style="font-size: 0.82em">
+                <li><b>Post</b> imagen estática</li>
+                <li><b>Carrusel</b> varias imágenes deslizables</li>
+                <li><b>Reel / Short</b> video corto vertical</li>
+                <li><b>Historia</b> contenido temporal (24 h)</li>
+                <li><b>Video largo</b> tutoriales, lives</li>
+              </ul>
+            </div>
+            <div>
+              <p class="pill" style="margin-bottom: 0.7em">Toda pieza lleva</p>
+              <ul class="clean" style="font-size: 0.82em">
+                <li><b>Recurso visual</b> imagen o video</li>
+                <li><b>Copy</b> el texto que acompaña</li>
+                <li><b>Hashtags</b> para ampliar el alcance</li>
+                <li><b>CTA</b> llamado a la acción</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9 · ADAPTACIÓN POR PLATAFORMA -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>Misma idea, distinto formato
+          </div>
+          <h2>Adaptar a cada plataforma</h2>
+          <div class="pgrid">
+            <div class="pf">
+              <div class="name">Instagram</div>
+              <div class="fmt">Reels, carruseles e historias visuales.</div>
+              <div class="ar">9:16 · 1:1</div>
+            </div>
+            <div class="pf">
+              <div class="name">TikTok</div>
+              <div class="fmt">Video corto, vertical y dinámico.</div>
+              <div class="ar">9:16</div>
+            </div>
+            <div class="pf">
+              <div class="name">Facebook</div>
+              <div class="fmt">Posts, enlaces y comunidad amplia.</div>
+              <div class="ar">1:1 · 16:9</div>
+            </div>
+            <div class="pf">
+              <div class="name">YouTube</div>
+              <div class="fmt">Video largo y Shorts verticales.</div>
+              <div class="ar">16:9 · 9:16</div>
+            </div>
+            <div class="pf">
+              <div class="name">X (Twitter)</div>
+              <div class="fmt">Texto breve, noticias y respuestas.</div>
+              <div class="ar">16:9</div>
+            </div>
+            <div class="pf">
+              <div class="name">LinkedIn</div>
+              <div class="fmt">Contenido profesional y de marca.</div>
+              <div class="ar">1:1 · 16:9</div>
+            </div>
+          </div>
+          <div class="foot">El mensaje no cambia · el formato sí</div>
+        </section>
+
+        <!-- 10 · T-02 -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>T-02 · Control de calidad
+          </div>
+          <h2>Revisión y aprobación</h2>
+          <p class="lead" style="max-width: 24em">
+            Antes de publicar, cada pieza pasa un
+            <strong>chequeo final</strong> y la <em>aprobación del cliente</em>.
+          </p>
+          <ul
+            class="clean"
+            style="
+              font-size: 0.9em;
+              margin-top: 0.8em;
+              columns: 2;
+              column-gap: 2.4em;
+            "
+          >
+            <li>Ortografía y redacción</li>
+            <li>Coherencia con la marca</li>
+            <li>Formato y medidas correctas</li>
+            <li>Derechos de uso de imágenes y música</li>
+            <li>Enlaces y datos verificados</li>
+            <li>Visto bueno del usuario</li>
+          </ul>
+        </section>
+
+        <!-- 11 · T-01 -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>T-01 · Listos para despegar
+          </div>
+          <h2>Programación</h2>
+          <div class="cols">
+            <div class="card wav">
+              <div class="k">Herramientas</div>
+              <p>
+                Programadores como Meta Business Suite o plataformas de gestión
+                permiten dejar todo agendado.
+              </p>
+            </div>
+            <div class="card wav">
+              <div class="k">Momento</div>
+              <p>
+                Publica en los horarios de mayor actividad de tu público y
+                mantén una frecuencia constante.
+              </p>
+            </div>
+          </div>
+          <p class="muted" style="font-size: 0.78em; margin-top: 1em">
+            Programar evita publicar a destiempo y asegura que la secuencia
+            salga como se planeó.
+          </p>
+        </section>
+
+        <!-- 12 · T-00 -->
+        <section data-background-color="#1c1320">
+          <div class="eyebrow"><span class="tdot"></span>T-00 · ¡En vivo!</div>
+          <h2>Lanzamiento</h2>
+          <p class="lead" style="max-width: 23em; font-size: 1.1em">
+            El contenido está
+            <strong style="color: var(--signal)">publicado</strong>. El trabajo
+            no termina: ahora se <em>acompaña</em>.
+          </p>
+          <ul class="clean" style="font-size: 0.9em; margin-top: 0.6em">
+            <li>Verifica que todo se publicó correctamente</li>
+            <li>
+              Responde comentarios y mensajes <b>(community management)</b>
+            </li>
+            <li>Observa las primeras reacciones del público</li>
+          </ul>
+        </section>
+
+        <!-- 13 · T+ MÉTRICAS -->
+        <section>
+          <div class="eyebrow">
+            <span class="tdot"></span>T+ · Después del lanzamiento
+          </div>
+          <h2>Medición y análisis</h2>
+          <p class="muted" style="font-size: 0.8em; margin-bottom: 0.3em">
+            Los datos dicen si cumpliste el objetivo y qué mejorar.
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <div class="n">Alcance</div>
+              <div class="l">cuántas personas vieron el contenido</div>
+            </div>
+            <div class="stat">
+              <div class="n">Engagement</div>
+              <div class="l">likes, comentarios y compartidos</div>
+            </div>
+            <div class="stat">
+              <div class="n">Clics</div>
+              <div class="l">tráfico hacia tu enlace o sitio</div>
+            </div>
+            <div class="stat">
+              <div class="n">Conversión</div>
+              <div class="l">acciones logradas: ventas, registros</div>
+            </div>
+          </div>
+          <p
+            class="lead"
+            style="margin-top: 1.2em; max-width: 26em; font-size: 0.9em"
+          >
+            Compara los resultados con el <em>objetivo inicial</em> → aprende →
+            <strong>optimiza el próximo lanzamiento</strong>.
+          </p>
+        </section>
+
+        <!-- 14 · BUENAS PRÁCTICAS -->
+        <section>
+          <div class="eyebrow"><span class="tdot"></span>Recomendaciones</div>
+          <h2>Hazlo bien · evita esto</h2>
+          <div class="dd">
+            <div class="ok">
+              <div class="h">✓ Buenas prácticas</div>
+              <ul class="clean" style="font-size: 0.82em">
+                <li>Parte siempre del <b>objetivo</b> y el público</li>
+                <li><b>Adapta</b> cada pieza a su plataforma</li>
+                <li>Sé <b>constante</b> con el calendario</li>
+                <li><b>Mide</b> y ajusta con los datos</li>
+              </ul>
+            </div>
+            <div class="no">
+              <div class="h">✕ Errores comunes</div>
+              <ul class="clean" style="font-size: 0.82em">
+                <li>Publicar sin <b>estrategia</b></li>
+                <li>El <b>mismo formato</b> en todas las redes</li>
+                <li>Ignorar comentarios del público</li>
+                <li>No revisar las <b>métricas</b></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 15 · CIERRE / EVIDENCIA -->
+        <section data-background-color="#14121f">
+          <div class="cover">
+            <div class="eyebrow">
+              <span class="tdot"></span>Cierre de la secuencia
+            </div>
+            <h2 style="font-size: 1.9em; max-width: 15ch">
+              De los requerimientos a los resultados, en una sola ruta.
+            </h2>
+            <p class="lead" style="max-width: 25em">
+              Planear, producir, adaptar, publicar y medir: ese es el
+              <strong>lanzamiento de un proyecto</strong> en plataformas
+              digitales.
+            </p>
+            <div class="meta">
+              <div>Tu evidencia<b>AA3-EV01 · Cuestionario</b></div>
+              <div>
+                Antes de responder<b>Revisa el material del componente</b>
+              </div>
+              <div>Dónde<b>Espacio del cuestionario en la actividad</b></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.5/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        transition: "fade",
+        transitionSpeed: "fast",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        slideNumber: "c/t",
+        width: 1280,
+        height: 720,
+        margin: 0.08,
+        minScale: 0.2,
+        maxScale: 1.6,
+      });
+    </script>
+  </body>
+</html>
