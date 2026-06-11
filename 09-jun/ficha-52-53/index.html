@@ -1,0 +1,1197 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control de versiones y estándares de codificación · Guía 7</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --ink: #0c1520;
+        --ink-2: #0a1018;
+        --surface: #14202e;
+        --surface-2: #1a2a3b;
+        --paper: #e6ecf2;
+        --muted: #7d90a6;
+        --line: rgba(143, 165, 191, 0.16);
+        --local: #ffa94d; /* Git local  = cálido */
+        --remote: #38d9c8; /* Git remoto = frío   */
+        --accent: #ffa94d;
+      }
+
+      .reveal {
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+        font-size: 30px;
+        color: var(--paper);
+        font-weight: 400;
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      /* ---------- Backgrounds ---------- */
+      .reveal-viewport {
+        background:
+          radial-gradient(
+            1200px 700px at 82% -10%,
+            rgba(56, 217, 200, 0.07),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 0% 110%,
+            rgba(255, 169, 77, 0.07),
+            transparent 55%
+          ),
+          var(--ink);
+      }
+
+      /* ---------- Typography ---------- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--paper);
+        text-transform: none;
+        letter-spacing: -0.01em;
+        line-height: 1.08;
+        margin: 0 0 0.35em;
+        font-weight: 700;
+      }
+      .reveal h1 {
+        font-size: 2.05em;
+      }
+      .reveal h2 {
+        font-size: 1.5em;
+      }
+      .reveal h3 {
+        font-size: 1.05em;
+      }
+      .reveal p {
+        line-height: 1.5;
+        margin: 0 0 0.6em;
+      }
+      .reveal strong {
+        color: #fff;
+        font-weight: 600;
+      }
+      .reveal a {
+        color: var(--remote);
+      }
+
+      /* eyebrow / branch label */
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .eyebrow .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(255, 169, 77, 0.18);
+      }
+      .eyebrow.remote .dot {
+        background: var(--remote);
+        box-shadow: 0 0 0 4px rgba(56, 217, 200, 0.18);
+      }
+
+      /* ---------- Lists ---------- */
+      .reveal ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding: 0.18em 0 0.18em 1.5em;
+        line-height: 1.45;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.72em;
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background: var(--accent);
+        transform: rotate(45deg);
+      }
+      .reveal ul.remote li::before {
+        background: var(--remote);
+      }
+      .reveal .small {
+        font-size: 0.78em;
+        color: var(--muted);
+      }
+
+      /* ---------- Code ---------- */
+      .reveal pre {
+        width: 100%;
+        box-shadow: none;
+        margin: 0.4em 0;
+        font-size: 0.62em;
+      }
+      .reveal pre code {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        padding: 1em 1.2em;
+        background: var(--ink-2) !important;
+        font-family: "IBM Plex Mono", monospace;
+        line-height: 1.55;
+        max-height: none;
+      }
+      .reveal code.inline {
+        font-family: "IBM Plex Mono", monospace;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0.05em 0.4em;
+        font-size: 0.85em;
+        color: var(--local);
+      }
+
+      /* ---------- Tables ---------- */
+      .reveal table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.62em;
+        margin-top: 0.4em;
+      }
+      .reveal table th,
+      .reveal table td {
+        text-align: left;
+        padding: 0.6em 0.8em;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      .reveal table th {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.82em;
+        color: var(--muted);
+      }
+      .reveal table td code {
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--local);
+        font-size: 0.94em;
+      }
+      .reveal table.cmp td:nth-child(2) {
+        color: var(--local);
+      }
+      .reveal table.cmp td:nth-child(3) {
+        color: var(--remote);
+      }
+
+      /* ---------- Layout helpers ---------- */
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6rem;
+        align-items: start;
+      }
+      .cols-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.1rem;
+      }
+
+      .card {
+        background: linear-gradient(180deg, var(--surface), var(--ink-2));
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1.1rem 1.2rem;
+      }
+      .card h3 {
+        margin-bottom: 0.35rem;
+      }
+      .card .num {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .card.is-remote {
+        border-color: rgba(56, 217, 200, 0.32);
+      }
+      .card.is-remote .num {
+        color: var(--remote);
+      }
+      .card.is-local {
+        border-color: rgba(255, 169, 77, 0.32);
+      }
+
+      .pill {
+        display: inline-block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.3em 0.7em;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+      }
+      .pill.local {
+        color: var(--local);
+        border-color: rgba(255, 169, 77, 0.4);
+      }
+      .pill.remote {
+        color: var(--remote);
+        border-color: rgba(56, 217, 200, 0.4);
+      }
+
+      /* ---------- Section divider ---------- */
+      .section-slide h1 {
+        font-size: 2.6em;
+      }
+      .section-index {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 5.5em;
+        line-height: 1;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 169, 77, 0.5);
+        margin-bottom: 0.1em;
+      }
+      .commit-rail {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin: 1.4rem 0 0;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .commit-rail .node {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid var(--muted);
+      }
+      .commit-rail .node.on {
+        background: var(--accent);
+        border-color: var(--accent);
+        box-shadow: 0 0 18px rgba(255, 169, 77, 0.5);
+      }
+      .commit-rail .edge {
+        width: 46px;
+        height: 2px;
+        background: var(--line);
+      }
+
+      /* ---------- Title slide ---------- */
+      .title-slide .meta {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.62em;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+        line-height: 1.7;
+        margin-top: 1.4rem;
+        border-top: 1px solid var(--line);
+        padding-top: 1.1rem;
+      }
+      .title-slide .meta b {
+        color: var(--paper);
+        font-weight: 600;
+      }
+      .gradient-word {
+        background: linear-gradient(100deg, var(--local), var(--remote));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* ---------- Flow diagram ---------- */
+      .flow {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin-top: 1rem;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .flow .stage {
+        flex: 1;
+        text-align: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 0.9rem 0.5rem;
+      }
+      .flow .stage .lbl {
+        font-size: 0.56em;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.4rem;
+      }
+      .flow .stage .cmd {
+        font-size: 0.62em;
+        color: var(--local);
+      }
+      .flow .arrow {
+        display: flex;
+        align-items: center;
+        padding: 0 0.55rem;
+        color: var(--muted);
+        font-size: 0.9em;
+      }
+      .flow .stage.remote {
+        border-color: rgba(56, 217, 200, 0.32);
+      }
+      .flow .stage.remote .cmd {
+        color: var(--remote);
+      }
+
+      /* ---------- Reveal chrome ---------- */
+      .reveal .progress {
+        color: var(--accent);
+        height: 4px;
+      }
+      .reveal .controls {
+        color: var(--muted);
+      }
+      .slide-tag {
+        position: absolute;
+        bottom: 14px;
+        right: 18px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+      }
+      .slide-tag b {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      @media (max-width: 700px) {
+        .cols,
+        .cols-3 {
+          grid-template-columns: 1fr;
+        }
+        .reveal {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 · PORTADA -->
+        <section class="title-slide" data-auto-animate>
+          <p class="eyebrow">
+            <span class="dot"></span> SENA · Guía 7 · AP7 — Codificar los
+            módulos del software
+          </p>
+          <h1>
+            Control de versiones<br />&
+            <span class="gradient-word">estándares de codificación</span>
+          </h1>
+          <p class="small" style="max-width: 24ch; margin-top: 0.6rem">
+            Las herramientas y acuerdos que permiten construir software en
+            equipo, sin pisarnos el código.
+          </p>
+          <div class="meta">
+            <b>Proyecto:</b> Construcción de software integrador de tecnologías
+            orientadas a servicios<br />
+            <b>Fase:</b> Ejecución &nbsp;·&nbsp; <b>Competencia:</b> Desarrollar
+            la solución de software (220501096)<br />
+            <b>Fichas:</b> 3186652 y 3186653
+          </div>
+        </section>
+
+        <!-- 2 · CONTEXTO -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> Dónde estamos</p>
+          <h2>El lugar de esta actividad</h2>
+          <div class="cols" style="margin-top: 1rem">
+            <div>
+              <p>
+                Ya diseñamos el software. Ahora entramos a
+                <strong>construirlo y codificarlo</strong>, y para eso
+                necesitamos dos cosas antes de escribir una sola línea en serio:
+              </p>
+              <ul>
+                <li>
+                  Una forma de <strong>guardar y controlar</strong> cada cambio
+                  del código.
+                </li>
+                <li>
+                  Unas <strong>reglas comunes</strong> para que todos escribamos
+                  parecido.
+                </li>
+              </ul>
+            </div>
+            <div class="card is-local">
+              <span class="num">GA7-220501096-AA1 · 40 horas</span>
+              <h3 style="font-size: 0.95em">
+                Configurar herramientas de versionamiento para control de código
+              </h3>
+              <p class="small" style="margin-top: 0.5rem">
+                Apóyate en los componentes formativos
+                <em>“Aplicación del paradigma orientado a objetos”</em> e
+                <em>“Integración continua”</em>.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 · LAS 3 EVIDENCIAS -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> La ruta de hoy</p>
+          <h2>Tres evidencias por entregar</h2>
+          <div class="cols-3" style="margin-top: 1rem">
+            <div class="card is-local">
+              <span class="num">EV01</span>
+              <h3 style="font-size: 0.85em">
+                Informe técnico — plan de trabajo
+              </h3>
+              <p class="small">
+                Qué herramientas y tecnologías de versionamiento usaremos y por
+                qué.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">EV02</span>
+              <h3 style="font-size: 0.85em">Estándares de codificación</h3>
+              <p class="small">
+                Cómo nombrar variables, clases y métodos en nuestra plataforma.
+              </p>
+            </div>
+            <div class="card is-remote">
+              <span class="num">EV03</span>
+              <h3 style="font-size: 0.85em">Herramientas de versionamiento</h3>
+              <p class="small">
+                Tabla comparando Git <span class="pill local">local</span> vs
+                Git <span class="pill remote">remoto</span>.
+              </p>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 1.1rem">
+            Las tres se entregan en <strong>PDF</strong>, con portada,
+            introducción y objetivo. Hoy cubrimos el contenido de las tres.
+          </p>
+        </section>
+
+        <!-- 4 · SECTION 1 -->
+        <section class="section-slide" data-background-color="#0a1018">
+          <p class="eyebrow"><span class="dot"></span> Bloque 01</p>
+          <div class="section-index">01</div>
+          <h1>¿Qué es el control de versiones?</h1>
+          <div class="commit-rail">
+            <span class="node on"></span><span class="edge"></span>
+            <span class="node"></span><span class="edge"></span>
+            <span class="node"></span><span class="edge"></span>
+            <span class="node"></span>
+          </div>
+        </section>
+
+        <!-- 5 · CONCEPTO -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> Concepto</p>
+          <h2>Versionamiento = la máquina del tiempo del código</h2>
+          <p>
+            Un <strong>sistema de control de versiones</strong> (VCS) registra
+            cada cambio que haces en los archivos de un proyecto a lo largo del
+            tiempo.
+          </p>
+          <div class="cols" style="margin-top: 0.8rem">
+            <ul>
+              <li>
+                Guarda <strong>quién</strong> cambió qué,
+                <strong>cuándo</strong> y <strong>por qué</strong>.
+              </li>
+              <li>
+                Permite <strong>volver atrás</strong> a cualquier versión
+                anterior.
+              </li>
+              <li>
+                Deja que varias personas trabajen en paralelo y luego
+                <strong>unan</strong> su trabajo.
+              </li>
+            </ul>
+            <div class="card">
+              <span class="num">Sin control de versiones</span>
+              <p class="small" style="margin: 0">
+                <code class="inline">proyecto_final.zip</code><br />
+                <code class="inline">proyecto_final_v2.zip</code><br />
+                <code class="inline">proyecto_final_ahora_si.zip</code><br />
+                <code class="inline">proyecto_final_ahora_si_DEF.zip</code>
+              </p>
+              <p class="small" style="margin-top: 0.6rem; color: var(--muted)">
+                …y nadie sabe cuál es la buena.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 · QUÉ RESUELVE -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> Por qué importa</p>
+          <h2>Qué problemas resuelve</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Problema cotidiano</th>
+                <th>Con control de versiones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>“Borré algo y ya no puedo recuperarlo”</td>
+                <td>Recuperas cualquier versión anterior.</td>
+              </tr>
+              <tr>
+                <td>“Dañé el código que funcionaba”</td>
+                <td>Vuelves al último estado estable.</td>
+              </tr>
+              <tr>
+                <td>“Pisamos el trabajo del otro”</td>
+                <td>Cada quien trabaja en su rama y luego se fusiona.</td>
+              </tr>
+              <tr>
+                <td>“No sé quién hizo este cambio”</td>
+                <td>Cada cambio queda firmado con autor y fecha.</td>
+              </tr>
+              <tr>
+                <td>“Se perdió el proyecto con el computador”</td>
+                <td>Hay una copia respaldada en el servidor remoto.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 7 · CENTRALIZADO VS DISTRIBUIDO -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> Tipos de VCS</p>
+          <h2>Centralizado vs. distribuido</h2>
+          <div class="cols" style="margin-top: 0.8rem">
+            <div class="card">
+              <span class="num">Centralizado (ej. SVN)</span>
+              <ul>
+                <li>Un único servidor guarda todo el historial.</li>
+                <li>Necesitas conexión para casi todo.</li>
+                <li>Si cae el servidor, el equipo se detiene.</li>
+              </ul>
+            </div>
+            <div class="card is-remote">
+              <span class="num">Distribuido (ej. Git)</span>
+              <ul class="remote">
+                <li>
+                  Cada quien tiene una <strong>copia completa</strong> del
+                  historial.
+                </li>
+                <li>Trabajas sin internet y sincronizas después.</li>
+                <li>Más rápido y más resistente a fallos.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 0.9rem">
+            Trabajaremos con <strong>Git</strong>, el sistema distribuido más
+            usado del mundo.
+          </p>
+        </section>
+
+        <!-- 8 · GIT -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> La herramienta</p>
+          <h2>Git, en una frase</h2>
+          <p style="font-size: 1.15em; max-width: 30ch">
+            Una herramienta que toma <strong>fotografías</strong> (commits) de
+            tu proyecto y las encadena en una línea de tiempo que puedes
+            recorrer.
+          </p>
+          <div class="cols-3" style="margin-top: 1rem">
+            <div class="card">
+              <span class="num">commit</span>
+              <p class="small">
+                Una foto guardada de tus cambios, con un mensaje.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">branch / rama</span>
+              <p class="small">
+                Una línea de trabajo paralela para no afectar lo estable.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">merge</span>
+              <p class="small">Unir el trabajo de dos ramas en una sola.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9 · LOCAL VS REMOTO (núcleo EV03) -->
+        <section data-background-color="#0a1018">
+          <p class="eyebrow">
+            <span class="dot"></span> Concepto clave de la EV03
+          </p>
+          <h2>
+            Git local <span style="color: var(--muted)">vs</span> Git remoto
+          </h2>
+          <div class="cols" style="margin-top: 0.8rem">
+            <div class="card is-local">
+              <span class="num">● Git local</span>
+              <p class="small">
+                El repositorio que vive <strong>en tu computador</strong>.
+              </p>
+              <ul>
+                <li>Trabajas y guardas commits sin internet.</li>
+                <li>Solo tú lo ves.</li>
+                <li>Es tu espacio de trabajo personal.</li>
+              </ul>
+            </div>
+            <div class="card is-remote">
+              <span class="num">● Git remoto</span>
+              <p class="small remote">
+                El repositorio que vive <strong>en un servidor</strong> (GitHub,
+                GitLab…).
+              </p>
+              <ul class="remote">
+                <li>Lo comparte todo el equipo.</li>
+                <li>Requiere conexión para sincronizar.</li>
+                <li>Es el respaldo y el punto de encuentro.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10 · FLUJO -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> El flujo de trabajo</p>
+          <h2>Del archivo editado al servidor</h2>
+          <div class="flow">
+            <div class="stage">
+              <span class="lbl">Editas</span
+              ><span class="cmd">working dir</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <span class="lbl">Preparas</span><span class="cmd">git add</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <span class="lbl">Confirmas (local)</span
+              ><span class="cmd">git commit</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage remote">
+              <span class="lbl">Subes (remoto)</span
+              ><span class="cmd">git push</span>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 1rem">
+            Y para traer lo que hicieron tus compañeros desde el remoto:
+            <code class="inline">git pull</code>.
+          </p>
+        </section>
+
+        <!-- 11 · COMANDOS LOCAL -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> EV03 · Comandos</p>
+          <h2>
+            <span style="color: var(--local)">●</span> Comandos básicos — Git
+            local
+          </h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Comando</th>
+                <th>Qué hace</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>git init</code></td>
+                <td>Crea un repositorio nuevo en la carpeta actual.</td>
+              </tr>
+              <tr>
+                <td><code>git status</code></td>
+                <td>Muestra qué archivos cambiaron o están sin guardar.</td>
+              </tr>
+              <tr>
+                <td><code>git add &lt;archivo&gt;</code></td>
+                <td>Agrega cambios al área de preparación (staging).</td>
+              </tr>
+              <tr>
+                <td><code>git commit -m "..."</code></td>
+                <td>Confirma los cambios como una nueva versión.</td>
+              </tr>
+              <tr>
+                <td><code>git log</code></td>
+                <td>Muestra el historial de commits.</td>
+              </tr>
+              <tr>
+                <td><code>git branch</code></td>
+                <td>Lista, crea o elimina ramas.</td>
+              </tr>
+              <tr>
+                <td><code>git merge &lt;rama&gt;</code></td>
+                <td>Fusiona otra rama con la actual.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 12 · COMANDOS REMOTO -->
+        <section>
+          <p class="eyebrow remote">
+            <span class="dot"></span> EV03 · Comandos
+          </p>
+          <h2>
+            <span style="color: var(--remote)">●</span> Comandos básicos — Git
+            remoto
+          </h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Comando</th>
+                <th>Qué hace</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>git clone &lt;url&gt;</code></td>
+                <td>Descarga una copia completa de un repositorio remoto.</td>
+              </tr>
+              <tr>
+                <td><code>git remote add origin &lt;url&gt;</code></td>
+                <td>Conecta tu repo local con uno remoto.</td>
+              </tr>
+              <tr>
+                <td><code>git remote -v</code></td>
+                <td>Lista los repositorios remotos conectados.</td>
+              </tr>
+              <tr>
+                <td><code>git push</code></td>
+                <td>Sube tus commits locales al remoto.</td>
+              </tr>
+              <tr>
+                <td><code>git fetch</code></td>
+                <td>Descarga cambios del remoto sin fusionarlos aún.</td>
+              </tr>
+              <tr>
+                <td><code>git pull</code></td>
+                <td>Descarga y fusiona los cambios del remoto.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 13 · TABLA COMPARATIVA (entregable EV03) -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> EV03 · El entregable</p>
+          <h2>Tabla comparativa: local vs remoto</h2>
+          <table class="cmp">
+            <thead>
+              <tr>
+                <th>Característica</th>
+                <th>Git local</th>
+                <th>Git remoto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ubicación</td>
+                <td>En tu computador</td>
+                <td>En un servidor</td>
+              </tr>
+              <tr>
+                <td>Acceso</td>
+                <td>Solo el usuario local</td>
+                <td>Todo el equipo</td>
+              </tr>
+              <tr>
+                <td>Internet</td>
+                <td>No es necesario</td>
+                <td>Necesario para sincronizar</td>
+              </tr>
+              <tr>
+                <td>Comandos típicos</td>
+                <td>init, add, commit</td>
+                <td>clone, push, pull, fetch</td>
+              </tr>
+              <tr>
+                <td>Propósito</td>
+                <td>Trabajo individual e historial</td>
+                <td>Colaboración y respaldo</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small" style="margin-top: 0.9rem">
+            Esta es la tabla que deben construir y explicar en su informe de la
+            <strong>EV03</strong>.
+          </p>
+        </section>
+
+        <!-- 14 · PLATAFORMAS (EV01) -->
+        <section>
+          <p class="eyebrow">
+            <span class="dot"></span> EV01 · Herramientas y tecnologías
+          </p>
+          <h2>¿Dónde vive el repositorio remoto?</h2>
+          <div class="cols-3" style="margin-top: 0.8rem">
+            <div class="card">
+              <span class="num">GitHub</span>
+              <p class="small">
+                El más popular. Gran comunidad, integración con muchas
+                herramientas.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">GitLab</span>
+              <p class="small">
+                CI/CD integrado y opción de instalarlo en servidor propio.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">Bitbucket</span>
+              <p class="small">
+                Buena integración con el ecosistema Atlassian (Jira, Trello).
+              </p>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 1rem">
+            En la <strong>EV01</strong> deben justificar cuál eligen para el
+            proyecto y por qué se ajusta a sus características.
+          </p>
+        </section>
+
+        <!-- 15 · SECTION 2 -->
+        <section class="section-slide" data-background-color="#0a1018">
+          <p class="eyebrow"><span class="dot"></span> Bloque 02</p>
+          <div class="section-index">02</div>
+          <h1>Estándares de codificación</h1>
+          <div class="commit-rail">
+            <span class="node"></span><span class="edge"></span>
+            <span class="node"></span><span class="edge"></span>
+            <span class="node on"></span><span class="edge"></span>
+            <span class="node"></span>
+          </div>
+        </section>
+
+        <!-- 16 · QUÉ ES UN ESTÁNDAR -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> EV02 · Concepto</p>
+          <h2>Un acuerdo para escribir igual</h2>
+          <p>
+            Un <strong>estándar de codificación</strong> es un conjunto de
+            reglas sobre cómo escribir el código: nombres, espacios, mayúsculas,
+            estructura.
+          </p>
+          <div class="cols" style="margin-top: 0.6rem">
+            <ul>
+              <li>
+                El código se lee <strong>mucho más</strong> de lo que se
+                escribe.
+              </li>
+              <li>
+                Si todos escriben parecido, cualquiera entiende el código de
+                otro.
+              </li>
+              <li>Reduce errores y facilita el mantenimiento.</li>
+            </ul>
+            <div class="card">
+              <p class="small" style="margin: 0; color: var(--muted)">
+                Mismo código, dos estilos:
+              </p>
+              <pre><code class="language-java" data-trim>int x=obtenerd(a,b);   // ¿qué es?
+int distancia = obtenerDistancia(origen, destino);</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 17 · VARIABLES -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> EV02 · Nombramiento</p>
+          <h2>Variables y constantes</h2>
+          <div class="cols">
+            <ul>
+              <li>
+                <strong>Variables</strong> en
+                <code class="inline">camelCase</code>, con nombres que digan qué
+                guardan.
+              </li>
+              <li>
+                <strong>Constantes</strong> en
+                <code class="inline">MAYUSCULAS_CON_GUION</code>.
+              </li>
+              <li>
+                Nada de <code class="inline">a</code>,
+                <code class="inline">x1</code>,
+                <code class="inline">dato2</code>.
+              </li>
+            </ul>
+            <pre><code class="language-java" data-trim>// Variables → camelCase
+int numeroEstudiantes = 30;
+double promedioNotas = 4.2;
+String nombreCompleto = "Ana López";
+
+// Constantes → MAYUSCULAS
+final double VALOR_MATRICULA = 1500000;
+final int EDAD_MINIMA = 18;</code></pre>
+          </div>
+        </section>
+
+        <!-- 18 · CLASES -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> EV02 · Nombramiento</p>
+          <h2>Declaración de clases</h2>
+          <div class="cols">
+            <ul>
+              <li>
+                Clases en <code class="inline">PascalCase</code> (cada palabra
+                inicia en mayúscula).
+              </li>
+              <li>
+                Nombres en <strong>sustantivo</strong>: una clase representa una
+                cosa.
+              </li>
+              <li>Un archivo por clase, con el mismo nombre.</li>
+            </ul>
+            <pre><code class="language-java" data-trim>// Clases → PascalCase, sustantivo
+public class Estudiante {
+    private String nombre;
+    private int edad;
+}
+
+public class GestorMatriculas {
+    // ...
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- 19 · MÉTODOS -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> EV02 · Nombramiento</p>
+          <h2>Declaración de métodos</h2>
+          <div class="cols">
+            <ul>
+              <li>
+                Métodos en <code class="inline">camelCase</code> y empezando con
+                un <strong>verbo</strong>.
+              </li>
+              <li>El nombre debe decir <strong>qué hace</strong> el método.</li>
+              <li>Una sola responsabilidad por método.</li>
+            </ul>
+            <pre><code class="language-java" data-trim>// Métodos → camelCase + verbo
+public double calcularPromedio() { ... }
+
+public boolean estaMatriculado(int id) { ... }
+
+public void enviarNotificacion(String correo) { ... }</code></pre>
+          </div>
+        </section>
+
+        <!-- 20 · BUENAS PRÁCTICAS -->
+        <section>
+          <p class="eyebrow">
+            <span class="dot"></span> EV02 · Más allá de los nombres
+          </p>
+          <h2>Otras buenas prácticas</h2>
+          <div class="cols-3">
+            <div class="card">
+              <span class="num">Indentación</span>
+              <p class="small">
+                Misma sangría en todo el equipo (2 o 4 espacios). Estructura
+                visible.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">Comentarios</span>
+              <p class="small">
+                Explica el <em>por qué</em>, no el <em>qué</em> obvio. El código
+                ya dice qué hace.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">Paquetes</span>
+              <p class="small">
+                En minúscula: <code class="inline">com.empresa.proyecto</code>.
+              </p>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 1rem">
+            Lo importante no es <em>cuál</em> estándar eligen, sino que
+            <strong>todo el equipo use el mismo</strong> y lo documenten en la
+            EV02.
+          </p>
+        </section>
+
+        <!-- 21 · INTEGRACIÓN CONTINUA -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> Componente formativo</p>
+          <h2>¿Y la integración continua?</h2>
+          <p>
+            El versionamiento es la base de la
+            <strong>integración continua (CI)</strong>: cada vez que alguien
+            sube código al remoto, el sistema lo prueba automáticamente.
+          </p>
+          <div class="flow" style="margin-top: 1rem">
+            <div class="stage">
+              <span class="lbl">1. Subes</span><span class="cmd">git push</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage remote">
+              <span class="lbl">2. Se prueba</span
+              ><span class="cmd">build + tests</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage remote">
+              <span class="lbl">3. Se integra</span
+              ><span class="cmd">listo o falla</span>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 1rem">
+            Detecta errores temprano y mantiene el proyecto siempre funcionando.
+          </p>
+        </section>
+
+        <!-- 22 · SECTION 3 -->
+        <section class="section-slide" data-background-color="#0a1018">
+          <p class="eyebrow"><span class="dot"></span> Bloque 03</p>
+          <div class="section-index">03</div>
+          <h1>Cómo entregar</h1>
+          <div class="commit-rail">
+            <span class="node"></span><span class="edge"></span>
+            <span class="node"></span><span class="edge"></span>
+            <span class="node"></span><span class="edge"></span>
+            <span class="node on"></span>
+          </div>
+        </section>
+
+        <!-- 23 · ESTRUCTURA DEL INFORME -->
+        <section>
+          <p class="eyebrow"><span class="dot"></span> Las tres evidencias</p>
+          <h2>Estructura mínima de cada informe</h2>
+          <div class="cols" style="margin-top: 0.6rem">
+            <ul>
+              <li><strong>Portada</strong> — datos, ficha, nombre.</li>
+              <li>
+                <strong>Introducción</strong> — de qué trata el documento.
+              </li>
+              <li><strong>Objetivo</strong> — qué se busca lograr.</li>
+              <li><strong>Contenido</strong> — según la evidencia.</li>
+            </ul>
+            <div class="card">
+              <span class="num">Contenido por evidencia</span>
+              <p class="small">
+                <span class="pill local">EV01</span> Selección de herramientas
+                de versionamiento.
+              </p>
+              <p class="small">
+                <span class="pill">EV02</span> Estándares: variables, clases,
+                métodos.
+              </p>
+              <p class="small">
+                <span class="pill remote">EV03</span> Tablas de diferencias y
+                comandos Git.
+              </p>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 1rem">
+            Formato de entrega: <strong>PDF</strong> · Extensión libre · Cada
+            una en su espacio correspondiente.
+          </p>
+        </section>
+
+        <!-- 24 · CIERRE -->
+        <section class="title-slide" data-background-color="#0a1018">
+          <p class="eyebrow"><span class="dot"></span> En resumen</p>
+          <h1 style="font-size: 1.7em">Si recuerdan tres ideas…</h1>
+          <div class="cols-3" style="margin-top: 1.2rem">
+            <div class="card is-local">
+              <span class="num">01</span>
+              <p class="small">
+                Git guarda el historial: <strong>local</strong> en tu máquina,
+                <strong>remoto</strong> para el equipo.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">02</span>
+              <p class="small">
+                Un estándar de codificación hace el código
+                <strong>legible para todos</strong>.
+              </p>
+            </div>
+            <div class="card is-remote">
+              <span class="num">03</span>
+              <p class="small">
+                Las tres evidencias se entregan en <strong>PDF</strong> con
+                portada, intro y objetivo.
+              </p>
+            </div>
+          </div>
+          <p class="meta" style="margin-top: 1.6rem">
+            <b>¿Preguntas?</b> &nbsp; Ahora abrimos la guía 7 y empezamos.
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+    <script>
+      const deck = new Reveal({
+        hash: true,
+        slideNumber: false,
+        transition: "slide",
+        backgroundTransition: "fade",
+        plugins: [RevealHighlight, RevealNotes],
+      });
+      deck.initialize().then(() => {
+        // Etiqueta tipo "commit" en cada slide
+        const total = deck.getTotalSlides();
+        function tag() {
+          document.querySelectorAll(".slide-tag").forEach((e) => e.remove());
+          const cur = deck.getCurrentSlide();
+          if (!cur) return;
+          const i = deck.getIndices().h + 1;
+          const hash = Math.random().toString(16).slice(2, 8);
+          const el = document.createElement("div");
+          el.className = "slide-tag";
+          el.innerHTML =
+            "commit <b>" +
+            hash +
+            "</b> · " +
+            String(i).padStart(2, "0") +
+            "/" +
+            String(total).padStart(2, "0");
+          cur.appendChild(el);
+        }
+        tag();
+        deck.on("slidechanged", tag);
+      });
+    </script>
+  </body>
+</html>
