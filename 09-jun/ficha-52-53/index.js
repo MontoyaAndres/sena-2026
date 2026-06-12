@@ -1,1 +1,1 @@
-console.log("HOLA ESTUDIANTES DEL SENA");
+console.log("HOLA ESTUDIANTES DE TODA COLOMBIA");
