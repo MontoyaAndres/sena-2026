@@ -1,0 +1,1395 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control de versiones con Git y codificación de módulos</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/monokai.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --ink: #15141c;
+        --panel: #1f1d29;
+        --panel-2: #2a2738;
+        --line: #3a3548;
+        --amber: #f6a345;
+        --coral: #ff5d52;
+        --mint: #5fd0ac;
+        --sky: #7cc7e8;
+        --text: #ece9f2;
+        --muted: #9a93a8;
+        --display: "Space Grotesk", sans-serif;
+        --body: "Inter", sans-serif;
+        --mono: "JetBrains Mono", monospace;
+      }
+
+      .reveal {
+        font-family: var(--body);
+        font-size: 30px;
+        color: var(--text);
+        background: var(--ink);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      /* ---- Background grid texture ---- */
+      .reveal .backgrounds {
+        background: var(--ink);
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 64px 64px;
+        opacity: 0.06;
+      }
+
+      /* ---- Typography ---- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: var(--display);
+        color: var(--text);
+        text-transform: none;
+        letter-spacing: -0.01em;
+        line-height: 1.06;
+        margin: 0 0 0.35em;
+        font-weight: 700;
+      }
+      .reveal h1 {
+        font-size: 2.15em;
+      }
+      .reveal h2 {
+        font-size: 1.55em;
+      }
+      .reveal h3 {
+        font-size: 1.05em;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.6em;
+      }
+      .reveal strong {
+        color: #fff;
+        font-weight: 600;
+      }
+      .reveal em.k {
+        color: var(--amber);
+        font-style: normal;
+        font-family: var(--mono);
+      }
+
+      /* eyebrow / commit hash label */
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.5em;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--amber);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6em;
+        margin-bottom: 1.1em;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 0.62em;
+        height: 0.62em;
+        border-radius: 50%;
+        background: var(--amber);
+        box-shadow: 0 0 0 4px rgba(246, 163, 69, 0.18);
+      }
+      .hash {
+        color: var(--muted);
+      }
+
+      /* ---- Lists ---- */
+      .reveal ul {
+        list-style: none;
+        margin: 0.3em 0;
+        padding: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding-left: 1.4em;
+        margin: 0.42em 0;
+        line-height: 1.4;
+      }
+      .reveal ul li::before {
+        content: "›";
+        position: absolute;
+        left: 0;
+        top: -0.02em;
+        color: var(--amber);
+        font-family: var(--mono);
+        font-weight: 700;
+      }
+      .reveal ol {
+        counter-reset: step;
+        list-style: none;
+        padding-left: 0;
+      }
+      .reveal ol li {
+        counter-increment: step;
+        position: relative;
+        padding-left: 2.2em;
+        margin: 0.5em 0;
+      }
+      .reveal ol li::before {
+        content: counter(step, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 0.05em;
+        font-family: var(--mono);
+        font-size: 0.7em;
+        font-weight: 700;
+        color: var(--ink);
+        background: var(--mint);
+        width: 1.7em;
+        height: 1.7em;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ---- Code / terminal ---- */
+      .reveal pre {
+        width: 100%;
+        box-shadow: none;
+        font-size: 0.62em;
+        margin: 0.4em 0;
+      }
+      .reveal pre code {
+        font-family: var(--mono);
+        border-radius: 12px;
+        padding: 0.95em 1.1em;
+        line-height: 1.55;
+        max-height: none;
+        border: 1px solid var(--line);
+      }
+      .hljs {
+        background: var(--panel) !important;
+      }
+
+      .terminal {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 0.3em 0;
+      }
+      .terminal .bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.6em 0.9em;
+        border-bottom: 1px solid var(--line);
+        background: var(--panel-2);
+      }
+      .terminal .bar i {
+        width: 0.7em;
+        height: 0.7em;
+        border-radius: 50%;
+        display: block;
+      }
+      .terminal .bar i:nth-child(1) {
+        background: var(--coral);
+      }
+      .terminal .bar i:nth-child(2) {
+        background: var(--amber);
+      }
+      .terminal .bar i:nth-child(3) {
+        background: var(--mint);
+      }
+      .terminal .bar span {
+        font-family: var(--mono);
+        font-size: 0.55em;
+        color: var(--muted);
+        margin-left: 0.6em;
+        letter-spacing: 0.05em;
+      }
+      .terminal pre {
+        margin: 0;
+      }
+      .terminal pre code,
+      .term-body {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.6em;
+        line-height: 1.65;
+        padding: 0.95em 1.15em;
+        color: var(--text);
+        white-space: pre-wrap;
+      }
+      .prompt {
+        color: var(--text);
+      }
+      .prompt::before {
+        content: "$ ";
+        color: var(--amber);
+        font-weight: 700;
+      }
+      .comment {
+        color: var(--muted);
+      }
+      .add {
+        color: var(--mint);
+      }
+      .del {
+        color: var(--coral);
+      }
+      .out {
+        color: var(--sky);
+      }
+
+      /* ---- Layout helpers ---- */
+      .wrap {
+        padding: 0 1em;
+      }
+      .grid {
+        display: grid;
+        gap: 1.1em;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .lead {
+        font-size: 1.15em;
+        color: var(--muted);
+        max-width: 20em;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1em 1.1em;
+      }
+      .card h3 {
+        font-size: 0.95em;
+        margin-bottom: 0.3em;
+      }
+      .card p {
+        font-size: 0.72em;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.45;
+      }
+      .card .tag {
+        font-family: var(--mono);
+        font-size: 0.55em;
+        color: var(--amber);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.5em;
+      }
+
+      .chip {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.6em;
+        padding: 0.25em 0.7em;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        margin: 0.15em 0.25em 0.15em 0;
+      }
+      .chip.on {
+        color: var(--ink);
+        background: var(--mint);
+        border-color: var(--mint);
+        font-weight: 700;
+      }
+      .chip.warn {
+        color: var(--ink);
+        background: var(--amber);
+        border-color: var(--amber);
+        font-weight: 700;
+      }
+
+      .kbd {
+        font-family: var(--mono);
+        font-size: 0.85em;
+        color: var(--amber);
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0.08em 0.4em;
+      }
+
+      /* ---- Section divider ---- */
+      .divider .eyebrow {
+        font-size: 0.6em;
+      }
+      .divider h1 {
+        font-size: 2.6em;
+      }
+      .divider .meta {
+        font-family: var(--mono);
+        font-size: 0.62em;
+        color: var(--muted);
+        margin-top: 1.1em;
+        line-height: 1.7;
+      }
+      .divider .meta b {
+        color: var(--mint);
+        font-weight: 500;
+      }
+
+      /* ---- Title slide ---- */
+      .cover .eyebrow {
+        font-size: 0.62em;
+      }
+      .cover h1 {
+        font-size: 2.5em;
+        max-width: 13em;
+      }
+      .cover .sub {
+        font-size: 0.95em;
+        color: var(--muted);
+        max-width: 24em;
+        margin-top: 0.2em;
+      }
+      .cover .foot {
+        font-family: var(--mono);
+        font-size: 0.55em;
+        color: var(--muted);
+        margin-top: 2.2em;
+        letter-spacing: 0.08em;
+        border-top: 1px solid var(--line);
+        padding-top: 1em;
+      }
+      .cover .foot b {
+        color: var(--amber);
+        font-weight: 500;
+      }
+
+      /* commit graph svg */
+      .graph {
+        position: absolute;
+        right: 4%;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.95;
+      }
+      @media (max-width: 900px) {
+        .graph {
+          display: none;
+        }
+      }
+
+      /* deliverable banner */
+      .deliver {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        background: linear-gradient(
+          90deg,
+          rgba(95, 208, 172, 0.12),
+          transparent
+        );
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--mint);
+        border-radius: 10px;
+        padding: 0.8em 1.1em;
+        margin-top: 0.5em;
+      }
+      .deliver .ico {
+        font-family: var(--mono);
+        color: var(--mint);
+        font-size: 1.1em;
+      }
+      .deliver p {
+        margin: 0;
+        font-size: 0.72em;
+        color: var(--text);
+      }
+      .deliver p b {
+        color: var(--mint);
+      }
+
+      /* footer brand */
+      .reveal .slide-number {
+        font-family: var(--mono);
+        color: var(--muted);
+        background: transparent;
+        font-size: 14px;
+      }
+      .brandmark {
+        position: fixed;
+        left: 24px;
+        bottom: 18px;
+        z-index: 30;
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        pointer-events: none;
+      }
+      .brandmark b {
+        color: var(--amber);
+      }
+
+      .reveal .progress {
+        color: var(--amber);
+        height: 4px;
+      }
+
+      /* flow diagram */
+      .flow {
+        display: flex;
+        align-items: stretch;
+        gap: 0.5em;
+        flex-wrap: wrap;
+      }
+      .flow .node {
+        flex: 1;
+        min-width: 130px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 0.8em;
+        text-align: center;
+      }
+      .flow .node .t {
+        font-family: var(--mono);
+        font-size: 0.55em;
+        color: var(--amber);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .flow .node .n {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 0.9em;
+        margin-top: 0.2em;
+      }
+      .flow .node .d {
+        font-size: 0.62em;
+        color: var(--muted);
+        margin-top: 0.3em;
+        line-height: 1.35;
+      }
+      .flow .arrow {
+        display: flex;
+        align-items: center;
+        color: var(--amber);
+        font-family: var(--mono);
+        font-weight: 700;
+      }
+
+      .small {
+        font-size: 0.72em;
+        color: var(--muted);
+      }
+      .note {
+        font-size: 0.62em;
+        color: var(--muted);
+        border-left: 2px solid var(--amber);
+        padding-left: 0.8em;
+        margin-top: 0.6em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brandmark">git&nbsp;log&nbsp;·&nbsp;<b>aprendizaje</b></div>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ COVER ============ -->
+        <section data-background-color="#15141c">
+          <div class="wrap cover">
+            <div class="eyebrow">
+              <span class="hash">commit a1c0de</span> · GA7-220501096
+            </div>
+            <h1>Control de versiones con Git y codificación de módulos</h1>
+            <p class="sub">
+              De instalar Git a conectar tu repositorio remoto y escribir un
+              módulo con conexión a base de datos. Tres evidencias, un solo
+              flujo de trabajo.
+            </p>
+            <p class="foot">
+              FICHA <b>3186652</b> · <b>3186653</b> &nbsp;|&nbsp; ADSO
+              &nbsp;|&nbsp; Integración continua · Codificación
+            </p>
+          </div>
+          <svg
+            class="graph"
+            width="180"
+            height="380"
+            viewBox="0 0 180 380"
+            fill="none"
+          >
+            <line
+              x1="40"
+              y1="20"
+              x2="40"
+              y2="360"
+              stroke="#3a3548"
+              stroke-width="2"
+            />
+            <path
+              d="M40 200 C40 150, 120 150, 120 110"
+              stroke="#f6a345"
+              stroke-width="2"
+              fill="none"
+            />
+            <path
+              d="M120 200 C120 250, 40 250, 40 300"
+              stroke="#5fd0ac"
+              stroke-width="2"
+              fill="none"
+            />
+            <circle
+              cx="40"
+              cy="40"
+              r="9"
+              fill="#15141c"
+              stroke="#5fd0ac"
+              stroke-width="3"
+            />
+            <circle
+              cx="40"
+              cy="120"
+              r="9"
+              fill="#15141c"
+              stroke="#f6a345"
+              stroke-width="3"
+            />
+            <circle cx="120" cy="110" r="9" fill="#f6a345" />
+            <circle
+              cx="40"
+              cy="200"
+              r="9"
+              fill="#15141c"
+              stroke="#ece9f2"
+              stroke-width="3"
+            />
+            <circle
+              cx="120"
+              cy="200"
+              r="9"
+              fill="#15141c"
+              stroke="#5fd0ac"
+              stroke-width="3"
+            />
+            <circle cx="40" cy="300" r="9" fill="#5fd0ac" />
+            <circle
+              cx="40"
+              cy="360"
+              r="9"
+              fill="#15141c"
+              stroke="#ff5d52"
+              stroke-width="3"
+            />
+          </svg>
+          <aside class="notes">
+            Bienvenida. Explica que las tres evidencias no son temas sueltos:
+            son etapas de un mismo flujo profesional. Hoy lo recorremos
+            completo.
+          </aside>
+        </section>
+
+        <!-- ============ AGENDA ============ -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow">
+              <span class="hash">git log --oneline</span>
+            </div>
+            <h2>Lo que vamos a recorrer</h2>
+            <div class="grid g3" style="margin-top: 0.8em">
+              <div class="card">
+                <span class="tag">EV04 · AA1</span>
+                <h3>Instalar y configurar Git</h3>
+                <p>
+                  Control de versiones local y remoto. Entregable: documento
+                  PDF.
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">EV05 · AA1</span>
+                <h3>Conectar local ↔ remoto</h3>
+                <p>
+                  Comandos de Git, push a GitHub y el ejercicio kotlin.txt.
+                  Entregable: video.
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">EV01 · AA2</span>
+                <h3>Codificar un módulo</h3>
+                <p>
+                  Estándares de codificación + conexión JDBC con CRUD.
+                  Entregable: ZIP.
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              Cada evidencia construye sobre la anterior. Versionas, conectas, y
+              luego desarrollas dentro de ese repositorio.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ SECTION 1 DIVIDER ============ -->
+        <section data-background-color="#1a1822">
+          <div class="wrap divider">
+            <div class="eyebrow"><span class="hash">a1c0de</span> · EV04</div>
+            <h1>01 — Control de<br />versiones</h1>
+            <div class="meta">
+              Instalar Git · configurarlo · entender <b>local</b> vs
+              <b>remoto</b><br />
+              Producto final: <b>documento PDF de instalación</b>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHY VERSION CONTROL -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">¿por qué?</span></div>
+            <h2>¿Qué es el control de versiones?</h2>
+            <div class="grid g2" style="margin-top: 0.5em">
+              <div>
+                <p>
+                  Es un sistema que <strong>guarda el historial</strong> de
+                  cambios de tu código. Te deja volver atrás, ver quién cambió
+                  qué y trabajar en equipo sin pisarse.
+                </p>
+                <ul>
+                  <li>Vuelves a cualquier versión anterior</li>
+                  <li>
+                    Sabes <em class="k">qué</em>, <em class="k">quién</em> y
+                    <em class="k">cuándo</em> cambió
+                  </li>
+                  <li>Varias personas, un mismo proyecto</li>
+                </ul>
+              </div>
+              <div class="card">
+                <span class="tag">Git en una frase</span>
+                <p
+                  style="
+                    font-size: 0.85em;
+                    color: var(--text);
+                    line-height: 1.5;
+                  "
+                >
+                  Git toma "fotos" (commits) de tu proyecto. Tú decides cuándo,
+                  y siempre puedes regresar a una foto anterior.
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Analogía: como guardar partidas en un videojuego. Cada commit es
+              una partida guardada a la que puedes volver.
+            </aside>
+          </div>
+        </section>
+
+        <!-- LOCAL VS REMOTE -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">local vs remoto</span></div>
+            <h2>Dos lugares, un mismo proyecto</h2>
+            <div class="grid g2" style="margin-top: 0.5em">
+              <div class="card" style="border-left: 3px solid var(--mint)">
+                <span class="tag" style="color: var(--mint)"
+                  >Repositorio local</span
+                >
+                <h3>En tu computador</h3>
+                <p>
+                  Vive en tu máquina. Aquí trabajas, haces commits y guardas tu
+                  historial aunque no tengas internet.
+                </p>
+              </div>
+              <div class="card" style="border-left: 3px solid var(--coral)">
+                <span class="tag" style="color: var(--coral)"
+                  >Repositorio remoto</span
+                >
+                <h3>En la nube (GitHub / GitLab)</h3>
+                <p>
+                  Una copia en internet. Sirve de respaldo y es el punto donde
+                  el equipo se sincroniza.
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              La evidencia EV04 pide instalar y configurar
+              <strong>ambos</strong>: tu Git local y el repositorio remoto.
+            </p>
+          </div>
+        </section>
+
+        <!-- INSTALL -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">paso 1</span></div>
+            <h2>Instalar Git</h2>
+            <div class="grid g3" style="margin-top: 0.4em; font-size: 0.8em">
+              <div class="card">
+                <span class="tag">Windows</span>
+                <p>
+                  Descarga el instalador desde <strong>git-scm.com</strong> y
+                  sigue el asistente. Incluye <em class="k">Git Bash</em>.
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">Linux (Debian/Ubuntu)</span>
+                <p>
+                  Instálalo desde la terminal con el gestor de paquetes
+                  <em class="k">apt</em>.
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">macOS</span>
+                <p>
+                  Con <em class="k">Homebrew</em> o instalando las Command Line
+                  Tools.
+                </p>
+              </div>
+            </div>
+            <div class="terminal" style="margin-top: 0.6em">
+              <div class="bar">
+                <i></i><i></i><i></i><span>bash — instalación</span>
+              </div>
+              <div class="term-body">
+                <span class="comment"># Linux Debian / Ubuntu</span>
+                <span class="prompt">sudo apt update</span>
+                <span class="prompt">sudo apt install git</span>
+
+                <span class="comment"># macOS con Homebrew</span>
+                <span class="prompt">brew install git</span>
+              </div>
+            </div>
+            <aside class="notes">
+              En Windows, recuérdales que el instalador trae "Git Bash", la
+              terminal donde ejecutarán todos los comandos.
+            </aside>
+          </div>
+        </section>
+
+        <!-- VERIFY + CONFIG -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">paso 2</span></div>
+            <h2>Verificar y configurar</h2>
+            <p class="small">
+              Comprueba que quedó instalado y dile a Git quién eres. Esos datos
+              firman cada commit.
+            </p>
+            <div class="terminal">
+              <div class="bar">
+                <i></i><i></i><i></i><span>bash — configuración global</span>
+              </div>
+              <div class="term-body">
+                <span class="comment"># ¿Quedó instalado?</span>
+                <span class="prompt">git --version</span>
+                <span class="out">git version 2.43.0</span>
+
+                <span class="comment"># Tu identidad (firma tus commits)</span>
+                <span class="prompt"
+                  >git config --global user.name "Tu Nombre"</span
+                >
+                <span class="prompt"
+                  >git config --global user.email "tucorreo@ejemplo.com"</span
+                >
+
+                <span class="comment"># Revisar la configuración</span>
+                <span class="prompt">git config --list</span>
+              </div>
+            </div>
+            <p class="note">
+              <em class="k">--global</em> aplica esa configuración a todos tus
+              proyectos del equipo. Sin ella, los commits no tienen autor.
+            </p>
+          </div>
+        </section>
+
+        <!-- INIT LOCAL REPO -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">paso 3</span></div>
+            <h2>Crear tu repositorio local</h2>
+            <p class="small">
+              Dentro de la carpeta de tu proyecto, inicializas Git y haces tu
+              primer commit.
+            </p>
+            <div class="terminal">
+              <div class="bar">
+                <i></i><i></i><i></i><span>bash — repositorio local</span>
+              </div>
+              <div class="term-body">
+                <span class="prompt">cd mi-proyecto</span>
+                <span class="prompt">git init</span>
+                <span class="comment"># crea el repositorio local</span>
+                <span class="prompt">git status</span>
+                <span class="comment"># ver el estado de los archivos</span>
+                <span class="prompt">git add .</span>
+                <span class="add"># prepara TODOS los cambios</span>
+                <span class="prompt">git commit -m "Primer commit"</span>
+                <span class="comment"># guarda la "foto"</span>
+              </div>
+            </div>
+            <div class="deliver">
+              <span class="ico">📄</span>
+              <p>
+                <b>Entregable EV04 —</b> documento en <b>PDF</b> con portada,
+                introducción, objetivo y el paso a paso con
+                <b>pantallazos</b> de la instalación (local y remota).
+              </p>
+            </div>
+            <aside class="notes">
+              Pídeles que tomen captura de cada comando funcionando: esas
+              capturas son literalmente la evidencia EV04.
+            </aside>
+          </div>
+        </section>
+
+        <!-- ============ SECTION 2 DIVIDER ============ -->
+        <section data-background-color="#1a1822">
+          <div class="wrap divider">
+            <div class="eyebrow"><span class="hash">e5e405</span> · EV05</div>
+            <h1>02 — Conectar<br />local y remoto</h1>
+            <div class="meta">
+              El flujo de Git · <b>git remote</b> · <b>git push</b> · ejercicio
+              <b>kotlin.txt</b><br />
+              Producto final: <b>video MP4</b> explicando cada paso
+            </div>
+          </div>
+        </section>
+
+        <!-- FLOW -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">el flujo</span></div>
+            <h2>Cómo viaja un cambio en Git</h2>
+            <div class="flow" style="margin-top: 0.8em">
+              <div class="node">
+                <div class="t">tu carpeta</div>
+                <div class="n">Working dir</div>
+                <div class="d">Editas tus archivos</div>
+              </div>
+              <div class="arrow">add →</div>
+              <div class="node">
+                <div class="t">preparado</div>
+                <div class="n">Staging</div>
+                <div class="d">Cambios listos</div>
+              </div>
+              <div class="arrow">commit →</div>
+              <div class="node">
+                <div class="t">local</div>
+                <div class="n">Repositorio</div>
+                <div class="d">Foto guardada</div>
+              </div>
+              <div class="arrow">push →</div>
+              <div class="node" style="border-color: var(--coral)">
+                <div class="t" style="color: var(--coral)">nube</div>
+                <div class="n">Remoto</div>
+                <div class="d">GitHub / GitLab</div>
+              </div>
+            </div>
+            <p class="note">
+              <em class="k">add</em> prepara · <em class="k">commit</em> guarda
+              en local · <em class="k">push</em> sube al remoto. Memoriza estos
+              tres verbos.
+            </p>
+            <aside class="notes">
+              Este diagrama es la columna vertebral de toda la sección. Si los
+              estudiantes entienden estos cuatro estados, el resto son detalles.
+            </aside>
+          </div>
+        </section>
+
+        <!-- STEP 1: CREATE & CONNECT -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow">
+              <span class="hash">paso 1 del ejercicio</span>
+            </div>
+            <h2>Crear el remoto y conectarlo</h2>
+            <ol style="font-size: 0.78em; margin-bottom: 0.3em">
+              <li>
+                Crea un repositorio <strong>público</strong> en GitHub llamado
+                <em class="k">Programa-Git</em>
+              </li>
+              <li>
+                Añádelo a tu repositorio local con
+                <em class="k">git remote add</em>
+              </li>
+              <li>
+                Lista los remotos configurados con
+                <em class="k">git remote -v</em>
+              </li>
+            </ol>
+            <div class="terminal">
+              <div class="bar">
+                <i></i><i></i><i></i><span>bash — conectar remoto</span>
+              </div>
+              <div class="term-body">
+                <span class="comment"
+                  ># copia la URL https del repo creado en GitHub</span
+                >
+                <span class="prompt"
+                  >git remote add github
+                  https://github.com/usuario/Programa-Git.git</span
+                >
+                <span class="prompt">git remote -v</span>
+                <span class="out"
+                  >github https://github.com/usuario/Programa-Git.git
+                  (fetch)</span
+                >
+                <span class="out"
+                  >github https://github.com/usuario/Programa-Git.git
+                  (push)</span
+                >
+              </div>
+            </div>
+            <p class="note">
+              <em class="k">github</em> es solo el apodo del remoto. Lo usarás
+              luego en el push.
+            </p>
+          </div>
+        </section>
+
+        <!-- STEP 2: PUSH -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow">
+              <span class="hash">paso 2 del ejercicio</span>
+            </div>
+            <h2>Subir los cambios al remoto</h2>
+            <p class="small">
+              Envías tus commits locales a GitHub y compruebas el historial de
+              versiones en la web.
+            </p>
+            <div class="terminal">
+              <div class="bar">
+                <i></i><i></i><i></i><span>bash — push</span>
+              </div>
+              <div class="term-body">
+                <span class="prompt">git push github master</span>
+                <span class="out">Enumerating objects... done.</span>
+                <span class="out"
+                  >To https://github.com/usuario/Programa-Git.git</span
+                >
+                <span class="add"> * [new branch] master -> master</span>
+              </div>
+            </div>
+            <p class="note">
+              Luego entra a GitHub y revisa la pestaña de commits: ahí verás el
+              <strong>historial de versiones</strong> que pide la evidencia.
+            </p>
+            <div class="note" style="border-color: var(--mint)">
+              Hoy muchos repos usan la rama <em class="k">main</em> en vez de
+              <em class="k">master</em>. El ejercicio usa
+              <em class="k">master</em>; usa el nombre que muestre tu
+              repositorio.
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3: kotlin.txt -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow">
+              <span class="hash">paso 3 del ejercicio</span>
+            </div>
+            <h2>El ejercicio kotlin.txt</h2>
+            <ol style="font-size: 0.72em; margin-bottom: 0.2em">
+              <li>
+                Crea <em class="k">kotlin.txt</em> con tu nombre y tu correo
+              </li>
+              <li>
+                Agrega los cambios y haz commit con el mensaje
+                <em class="k">"Añadido datos"</em>
+              </li>
+              <li>Sube los cambios al repositorio remoto</li>
+            </ol>
+            <div class="terminal">
+              <div class="bar">
+                <i></i><i></i><i></i><span>bash — kotlin.txt</span>
+              </div>
+              <div class="term-body">
+                <span class="prompt"
+                  >echo "Nombre Apellido - correo@ejemplo.com" >
+                  kotlin.txt</span
+                >
+                <span class="prompt">git add .</span>
+                <span class="prompt">git commit -m "Añadido datos."</span>
+                <span class="add"> 1 file changed, 1 insertion(+)</span>
+                <span class="prompt">git push origin master</span>
+              </div>
+            </div>
+            <div class="deliver">
+              <span class="ico">🎥</span>
+              <p>
+                <b>Entregable EV05 —</b> un <b>video MP4</b> con tu presentación
+                (nombre + ejercicios) <b>explicando cada comando</b> mientras lo
+                ejecutas.
+              </p>
+            </div>
+            <aside class="notes">
+              El guion del video es exactamente esta secuencia. Recuérdales
+              narrar el "qué" y el "para qué" de cada comando, no solo
+              escribirlo.
+            </aside>
+          </div>
+        </section>
+
+        <!-- CHEAT SHEET -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow">
+              <span class="hash">referencia rápida</span>
+            </div>
+            <h2>Comandos que debes dominar</h2>
+            <div class="grid g2" style="font-size: 0.7em; margin-top: 0.4em">
+              <div class="card">
+                <span class="tag">empezar</span>
+                <p style="color: var(--text)">
+                  <em class="k">git init</em> · <em class="k">git clone</em> ·
+                  <em class="k">git config</em>
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">cambios</span>
+                <p style="color: var(--text)">
+                  <em class="k">git status</em> · <em class="k">git add</em> ·
+                  <em class="k">git commit -m</em>
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">remoto</span>
+                <p style="color: var(--text)">
+                  <em class="k">git remote add</em> ·
+                  <em class="k">git remote -v</em> · <em class="k">git push</em>
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">historial</span>
+                <p style="color: var(--text)">
+                  <em class="k">git log</em> · <em class="k">git pull</em> ·
+                  <em class="k">git diff</em>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ SECTION 3 DIVIDER ============ -->
+        <section data-background-color="#1a1822">
+          <div class="wrap divider">
+            <div class="eyebrow">
+              <span class="hash">c0d1f9</span> · EV01 · AA2
+            </div>
+            <h1>03 — Codificar<br />el módulo</h1>
+            <div class="meta">
+              Estándares de codificación · conexión <b>JDBC</b> · operaciones
+              <b>CRUD</b><br />
+              Producto final: <b>carpeta ZIP</b> con el proyecto y el enlace del
+              repositorio
+            </div>
+          </div>
+        </section>
+
+        <!-- ARTIFACTS -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow">
+              <span class="hash">antes de codificar</span>
+            </div>
+            <h2>Parte de los artefactos del diseño</h2>
+            <p class="small">
+              No codificas en el vacío. El módulo se construye a partir de lo
+              que ya diseñaste.
+            </p>
+            <div style="margin-top: 0.6em">
+              <span class="chip">diagrama de clases</span>
+              <span class="chip">casos de uso</span>
+              <span class="chip">historias de usuario</span>
+              <span class="chip">prototipos</span>
+              <span class="chip">plan de trabajo</span>
+            </div>
+            <p class="note">
+              Y todo el proyecto vive en un <strong>repositorio</strong> Git,
+              justo el que configuraste en las secciones 1 y 2.
+            </p>
+          </div>
+        </section>
+
+        <!-- CODING STANDARDS -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">legibilidad</span></div>
+            <h2>Estándares de nombramiento</h2>
+            <p class="small">
+              Nombres claros = código que cualquiera entiende. En Java se usan
+              estas convenciones:
+            </p>
+            <pre><code data-trim data-noescape class="language-java">// Paquetes: minúsculas, sin guiones
+package co.edu.sena.proyecto.dao;
+
+// Clases: PascalCase (primera letra mayúscula)
+public class UsuarioDAO {
+
+    // Variables y atributos: camelCase
+    private String nombreCompleto;
+    private int totalRegistros;
+
+    // Métodos: camelCase, empiezan con verbo
+    public void registrarUsuario() { ... }
+    public Usuario consultarPorId(int id) { ... }
+}</code></pre>
+            <aside class="notes">
+              Refuerza la lógica: clases nombran cosas (sustantivos), métodos
+              hacen cosas (empiezan con verbo).
+            </aside>
+          </div>
+        </section>
+
+        <!-- JDBC CONNECTION -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">conexión</span></div>
+            <h2>Conectarse a la base de datos con JDBC</h2>
+            <p class="small">
+              JDBC es el puente entre tu código Java y la base de datos. Cuatro
+              pasos: cargar driver, abrir conexión, ejecutar, cerrar.
+            </p>
+            <pre><code data-trim data-noescape class="language-java">String url  = "jdbc:mysql://localhost:3306/mi_basededatos";
+String user = "root";
+String pass = "1234";
+
+// Abrir conexión (try-with-resources la cierra sola)
+try (Connection con = DriverManager.getConnection(url, user, pass)) {
+    System.out.println("Conexión exitosa");
+} catch (SQLException e) {
+    System.out.println("Error: " + e.getMessage());
+}</code></pre>
+            <p class="note">
+              Recuerda agregar el <strong>conector JDBC</strong> (el .jar de
+              MySQL) a las dependencias de tu proyecto.
+            </p>
+          </div>
+        </section>
+
+        <!-- CRUD intro -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">CRUD</span></div>
+            <h2>Las cuatro operaciones del módulo</h2>
+            <div class="grid g2" style="font-size: 0.8em; margin-top: 0.5em">
+              <div class="card" style="border-left: 3px solid var(--mint)">
+                <span class="tag" style="color: var(--mint)">Create</span>
+                <h3>Insertar</h3>
+                <p>Agregar nuevos registros — <em class="k">INSERT</em></p>
+              </div>
+              <div class="card" style="border-left: 3px solid var(--sky)">
+                <span class="tag" style="color: var(--sky)">Read</span>
+                <h3>Consultar</h3>
+                <p>Leer registros — <em class="k">SELECT</em></p>
+              </div>
+              <div class="card" style="border-left: 3px solid var(--amber)">
+                <span class="tag" style="color: var(--amber)">Update</span>
+                <h3>Actualizar</h3>
+                <p>Modificar registros — <em class="k">UPDATE</em></p>
+              </div>
+              <div class="card" style="border-left: 3px solid var(--coral)">
+                <span class="tag" style="color: var(--coral)">Delete</span>
+                <h3>Eliminar</h3>
+                <p>Borrar registros — <em class="k">DELETE</em></p>
+              </div>
+            </div>
+            <p class="note">
+              La evidencia exige las <strong>cuatro</strong> funcionalidades
+              funcionando en el módulo.
+            </p>
+          </div>
+        </section>
+
+        <!-- CRUD code: insert + read -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">create + read</span></div>
+            <h2>Insertar y consultar</h2>
+            <pre><code data-trim data-noescape class="language-java">// CREATE — usa PreparedStatement para evitar inyección SQL
+String sql = "INSERT INTO usuario (nombre, correo) VALUES (?, ?)";
+PreparedStatement ps = con.prepareStatement(sql);
+ps.setString(1, "Ana");
+ps.setString(2, "ana@correo.com");
+ps.executeUpdate();
+
+// READ — recorrer los resultados
+ResultSet rs = con.createStatement()
+                  .executeQuery("SELECT * FROM usuario");
+while (rs.next()) {
+    System.out.println(rs.getInt("id") + " - " + rs.getString("nombre"));
+}</code></pre>
+            <aside class="notes">
+              Explica por qué PreparedStatement con "?" es más seguro que
+              concatenar strings: previene inyección SQL.
+            </aside>
+          </div>
+        </section>
+
+        <!-- CRUD code: update + delete -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">update + delete</span></div>
+            <h2>Actualizar y eliminar</h2>
+            <pre><code data-trim data-noescape class="language-java">// UPDATE
+String sql = "UPDATE usuario SET correo = ? WHERE id = ?";
+PreparedStatement ps = con.prepareStatement(sql);
+ps.setString(1, "nuevo@correo.com");
+ps.setInt(2, 1);
+ps.executeUpdate();
+
+// DELETE
+String del = "DELETE FROM usuario WHERE id = ?";
+PreparedStatement pd = con.prepareStatement(del);
+pd.setInt(1, 1);
+pd.executeUpdate();</code></pre>
+            <p class="note">
+              Patrón repetido: preparar la consulta → asignar parámetros →
+              ejecutar. Domínalo una vez y lo aplicas a todo.
+            </p>
+          </div>
+        </section>
+
+        <!-- DELIVERABLE EV01 -->
+        <section data-background-color="#15141c">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">entrega</span></div>
+            <h2>Cómo se entrega la EV01</h2>
+            <div
+              class="deliver"
+              style="
+                border-left-color: var(--amber);
+                background: linear-gradient(
+                  90deg,
+                  rgba(246, 163, 69, 0.12),
+                  transparent
+                );
+              "
+            >
+              <span class="ico" style="color: var(--amber)">🗜️</span>
+              <p>
+                Carpeta
+                <b style="color: var(--amber)">comprimida (ZIP / RAR)</b> con
+                los archivos del proyecto y un archivo con el
+                <b style="color: var(--amber)">enlace del repositorio</b>.
+              </p>
+            </div>
+            <div class="terminal" style="margin-top: 0.7em">
+              <div class="bar">
+                <i></i><i></i><i></i><span>nombre del archivo</span>
+              </div>
+              <div class="term-body">
+                <span class="comment"
+                  ># nombre del aprendiz + número de la evidencia</span
+                >
+                <span class="add">NOMBREAPELLIDO_AA2_EV01.zip</span>
+              </div>
+            </div>
+            <ul style="font-size: 0.72em; margin-top: 0.5em">
+              <li>
+                Proyecto creado con
+                <strong>herramientas de versionamiento</strong> (tu repo Git)
+              </li>
+              <li>Cumple estándares de nombramiento</li>
+              <li>
+                Tiene
+                <strong>insertar, consultar, actualizar y eliminar</strong>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============ CLOSING ============ -->
+        <section data-background-color="#1a1822">
+          <div class="wrap">
+            <div class="eyebrow"><span class="hash">git log --stat</span></div>
+            <h2>Tu historial de hoy</h2>
+            <div class="terminal" style="margin-top: 0.5em">
+              <div class="bar">
+                <i></i><i></i><i></i><span>resumen de evidencias</span>
+              </div>
+              <div class="term-body">
+                <span class="add">a1c0de</span> EV04 · Git instalado y
+                configurado (local + remoto) <span class="comment">→ PDF</span>
+                <span class="add">e5e405</span> EV05 · Local conectado al remoto
+                · kotlin.txt <span class="comment">→ MP4</span>
+                <span class="add">c0d1f9</span> EV01 · Módulo codificado con
+                JDBC y CRUD <span class="comment">→ ZIP</span>
+              </div>
+            </div>
+            <p class="lead" style="margin-top: 1em; font-size: 1em">
+              Versionas, conectas y desarrollas: el flujo real de un equipo de
+              software.
+            </p>
+            <p
+              class="foot"
+              style="
+                font-family: var(--mono);
+                font-size: 0.55em;
+                color: var(--muted);
+                border-top: 1px solid var(--line);
+                padding-top: 1em;
+                margin-top: 1.2em;
+              "
+            >
+              FICHA 3186652 · 3186653 &nbsp;|&nbsp; GA7-220501096 &nbsp;|&nbsp;
+              <span style="color: var(--amber)">¿Preguntas?</span>
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "fast",
+        width: 1280,
+        height: 720,
+        margin: 0.055,
+        minScale: 0.2,
+        maxScale: 1.6,
+        plugins: [RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
