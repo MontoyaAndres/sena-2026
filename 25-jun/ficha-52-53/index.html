@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codificación y pruebas de módulos de software · SENA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+
+    <style>
+      :root {
+        --bg: #0c0e2a;
+        --bg-2: #11143a;
+        --surface: #191d4d;
+        --surface-2: #222766;
+        --ink: #eef0ff;
+        --muted: #9ea3d6;
+        --faint: #6b709f;
+        --line: rgba(255, 255, 255, 0.1);
+        --line-strong: rgba(255, 255, 255, 0.18);
+        /* color por evidencia */
+        --amber: #ffc46b; /* EV1 · web/servlets */
+        --teal: #52e0c4; /* EV2 · frameworks   */
+        --coral: #ff839b; /* EV3 · pruebas/doc  */
+      }
+
+      /* ---------- Lienzo ---------- */
+      .reveal {
+        font-family: "Inter", system-ui, sans-serif;
+        color: var(--ink);
+        font-weight: 400;
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+        padding: 54px 64px;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+      }
+      .reveal-viewport {
+        background:
+          radial-gradient(
+            1200px 800px at 82% -8%,
+            rgba(82, 224, 196, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 700px at -5% 105%,
+            rgba(255, 131, 155, 0.1),
+            transparent 55%
+          ),
+          linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
+      }
+      /* rejilla tipo blueprint, muy sutil */
+      .reveal-viewport::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 46px 46px;
+        opacity: 0.25;
+        mask-image: radial-gradient(
+          circle at 50% 40%,
+          #000 55%,
+          transparent 100%
+        );
+      }
+
+      /* ---------- Tipografía ---------- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--ink);
+        font-weight: 600;
+        line-height: 1.04;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.35em;
+        text-transform: none;
+      }
+      .reveal h1 {
+        font-size: 3rem;
+      }
+      .reveal h2 {
+        font-size: 2.15rem;
+      }
+      .reveal h3 {
+        font-size: 1.32rem;
+      }
+      .reveal p {
+        line-height: 1.5;
+        margin: 0 0 0.6em;
+      }
+      .reveal strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .reveal em {
+        color: var(--amber);
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      /* etiqueta mono — encode: esto trata de código */
+      .eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5ch;
+        margin-bottom: 1.1rem;
+      }
+      .eyebrow::before {
+        content: "//";
+        color: var(--accent, var(--teal));
+        font-weight: 700;
+      }
+
+      /* ---------- Portada ---------- */
+      #cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      #cover .ficha {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--faint);
+        letter-spacing: 0.04em;
+        margin-bottom: 2.2rem;
+      }
+      #cover h1 {
+        font-size: 3.7rem;
+        max-width: 18ch;
+      }
+      #cover .sub {
+        color: var(--muted);
+        font-size: 1.25rem;
+        max-width: 40ch;
+        margin-top: 0.4rem;
+      }
+      #cover .chips {
+        display: flex;
+        gap: 0.6rem;
+        margin-top: 2.4rem;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        padding: 0.42rem 0.8rem;
+        border-radius: 999px;
+        border: 1px solid var(--line-strong);
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      /* ---------- Agenda ---------- */
+      .agenda {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.1rem;
+        margin-top: 1.4rem;
+      }
+      .ev-card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.015)
+        );
+        padding: 1.5rem 1.4rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .ev-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--accent);
+      }
+      .ev-card .num {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 2.6rem;
+        color: var(--accent);
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .ev-card .code {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--faint);
+        margin: 0.55rem 0 0.9rem;
+        display: block;
+        word-break: break-all;
+      }
+      .ev-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.35rem;
+      }
+      .ev-card p {
+        font-size: 0.92rem;
+        color: var(--muted);
+        margin: 0;
+      }
+
+      /* ---------- Cabecera de sección por evidencia ---------- */
+      .section-head .tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        padding: 0.35rem 0.7rem;
+        border-radius: 8px;
+        display: inline-block;
+        margin-bottom: 1.2rem;
+        background: color-mix(in srgb, var(--accent) 12%, transparent);
+      }
+      .section-head .big-num {
+        position: absolute;
+        right: 48px;
+        top: 30px;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 11rem;
+        color: var(--accent);
+        opacity: 0.1;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+      .section-head h2 {
+        max-width: 20ch;
+      }
+      .section-head .lead {
+        color: var(--muted);
+        font-size: 1.18rem;
+        max-width: 46ch;
+      }
+
+      /* ---------- Listas ---------- */
+      .reveal ul {
+        list-style: none;
+        margin: 0.4rem 0;
+        padding: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding-left: 1.6rem;
+        margin: 0.55rem 0;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: var(--accent);
+        transform: rotate(45deg);
+      }
+      .reveal ul li strong {
+        color: var(--ink);
+      }
+
+      /* ---------- Editor de código ---------- */
+      .editor {
+        border: 1px solid var(--line-strong);
+        border-radius: 14px;
+        overflow: hidden;
+        background: #0a0c24;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      }
+      .editor .bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1rem;
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid var(--line);
+      }
+      .editor .bar .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+      }
+      .editor .bar .dot:nth-child(1) {
+        background: #ff5f57;
+      }
+      .editor .bar .dot:nth-child(2) {
+        background: #febc2e;
+      }
+      .editor .bar .dot:nth-child(3) {
+        background: #28c840;
+      }
+      .editor .bar .file {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.74rem;
+        color: var(--faint);
+        margin-left: 0.6rem;
+      }
+      .editor pre {
+        margin: 0;
+        padding: 1.1rem 1.3rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.82rem;
+        line-height: 1.62;
+        color: #d7d9f5;
+        overflow: auto;
+      }
+      .editor pre .c {
+        color: #6b709f;
+        font-style: italic;
+      } /* comentario */
+      .editor pre .k {
+        color: var(--coral);
+      } /* keyword    */
+      .editor pre .t {
+        color: var(--teal);
+      } /* tipo/clase */
+      .editor pre .s {
+        color: var(--amber);
+      } /* string     */
+      .editor pre .a {
+        color: #c9a6ff;
+      } /* anotación  */
+
+      /* ---------- Dos columnas ---------- */
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.8rem;
+        align-items: start;
+      }
+      .cols.tilt {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+
+      /* ---------- Tarjetas concepto ---------- */
+      .concept {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1.1rem 1.2rem;
+        background: rgba(255, 255, 255, 0.025);
+        margin-bottom: 0.9rem;
+      }
+      .concept .kw {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--accent);
+        letter-spacing: 0.03em;
+        display: block;
+        margin-bottom: 0.3rem;
+      }
+      .concept p {
+        margin: 0;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      /* ---------- Entregables (caja) ---------- */
+      .deliver {
+        border: 1px dashed var(--accent);
+        border-radius: 14px;
+        padding: 1.2rem 1.4rem;
+        background: color-mix(in srgb, var(--accent) 7%, transparent);
+      }
+      .deliver .h {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        margin-bottom: 0.7rem;
+      }
+      .deliver .name {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.92rem;
+        color: var(--ink);
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0.45rem 0.7rem;
+        display: inline-block;
+        margin-top: 0.4rem;
+      }
+
+      /* ---------- Tabla comparativa ---------- */
+      .cmp {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.86rem;
+        margin-top: 1rem;
+      }
+      .cmp th,
+      .cmp td {
+        text-align: left;
+        padding: 0.75rem 0.9rem;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      .cmp thead th {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--faint);
+        font-weight: 500;
+      }
+      .cmp tbody th {
+        color: var(--ink);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 600;
+      }
+      .cmp td {
+        color: var(--muted);
+      }
+      .cmp .e1 {
+        color: var(--amber);
+      }
+      .cmp .e2 {
+        color: var(--teal);
+      }
+      .cmp .e3 {
+        color: var(--coral);
+      }
+
+      /* ---------- Cierre ---------- */
+      #close {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      #close h2 {
+        font-size: 2.6rem;
+        max-width: 22ch;
+      }
+      #close .meta {
+        font-family: "JetBrains Mono", monospace;
+        color: var(--faint);
+        font-size: 0.85rem;
+        margin-top: 1.6rem;
+      }
+
+      /* ---------- Controles reveal ---------- */
+      .reveal .progress {
+        color: var(--teal);
+        height: 3px;
+      }
+      .reveal .controls {
+        color: var(--muted);
+      }
+      .reveal .slide-number {
+        background: transparent;
+        color: var(--faint);
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+      .small {
+        font-size: 0.9rem;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal .slides section {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ===== PORTADA ===== -->
+        <section id="cover" data-auto-animate>
+          <div class="ficha">
+            FICHA 3186652 · 3186653 &nbsp;|&nbsp; GA7-220501096
+          </div>
+          <span class="eyebrow" style="--accent: var(--teal)"
+            >guía de la semana</span
+          >
+          <h1>Codificación y pruebas de módulos de software</h1>
+          <p class="sub">
+            De los artefactos del diseño al código que funciona: web con
+            servlets, frameworks de Java y pruebas documentadas.
+          </p>
+          <div class="chips">
+            <span class="chip">3 evidencias</span>
+            <span class="chip">Java · Web · Móvil</span>
+            <span class="chip">Servlets · JSP · Frameworks</span>
+            <span class="chip">Git</span>
+          </div>
+        </section>
+
+        <!-- ===== AGENDA ===== -->
+        <section>
+          <span class="eyebrow" style="--accent: var(--teal)"
+            >lo que veremos</span
+          >
+          <h2>Tres entregas, un mismo proyecto</h2>
+          <p class="muted">
+            Cada evidencia construye sobre la anterior. Van en orden: primero
+            codificas, luego aplicas un framework, y al final pruebas y
+            documentas.
+          </p>
+          <div class="agenda">
+            <div class="ev-card" style="--accent: var(--amber)">
+              <div class="num">01</div>
+              <span class="code">AA2 · EV02</span>
+              <h3>Módulos codificados y probados</h3>
+              <p>
+                Codificar el módulo enfocado a
+                <strong>web con servlets</strong>: formularios HTML, GET/POST y
+                JSP.
+              </p>
+            </div>
+            <div class="ev-card" style="--accent: var(--teal)">
+              <div class="num">02</div>
+              <span class="code">AA3 · EV01</span>
+              <h3>Codificación con frameworks</h3>
+              <p>
+                Codificar el módulo (web o móvil) aplicando un
+                <strong>framework de Java</strong>, con buenas prácticas.
+              </p>
+            </div>
+            <div class="ev-card" style="--accent: var(--coral)">
+              <div class="num">03</div>
+              <span class="code">AA3 · EV02</span>
+              <h3>Pruebas y documentación</h3>
+              <p>
+                Ejecutar <strong>pruebas</strong> sobre lo construido y entregar
+                documento Word + video.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== BASE COMÚN ===== -->
+        <section>
+          <span class="eyebrow" style="--accent: var(--teal)"
+            >punto de partida</span
+          >
+          <h2>No empezamos de cero</h2>
+          <div class="cols">
+            <div>
+              <p class="muted">
+                Las tres evidencias parten de los
+                <strong>artefactos del ciclo de software</strong> que ya
+                construiste. El código debe ser fiel a ese diseño, no una
+                improvisación.
+              </p>
+              <ul>
+                <li><strong>Diagrama de clases</strong> y casos de uso</li>
+                <li>
+                  <strong>Historias de usuario</strong> con sus requisitos
+                </li>
+                <li><strong>Diseños y prototipos</strong> de la interfaz</li>
+                <li>
+                  <strong>Informe técnico</strong> del plan de trabajo y
+                  tecnologías
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div class="concept" style="--accent: var(--teal)">
+                <span class="kw">git · obligatorio en las 3</span>
+                <p>
+                  Todo se trabaja con
+                  <strong>herramientas de versionamiento</strong>. El
+                  repositorio es parte de la entrega, no un extra.
+                </p>
+              </div>
+              <div class="editor">
+                <div class="bar">
+                  <span class="dot"></span><span class="dot"></span
+                  ><span class="dot"></span><span class="file">terminal</span>
+                </div>
+                <pre><span class="c"># iniciar y subir el proyecto</span>
+git init
+git add .
+git commit -m <span class="s">"feat: módulo de login"</span>
+git remote add origin &lt;url-del-repo&gt;
+git push -u origin main</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== EVIDENCIA 1 · PORTADA ===== -->
+        <section class="section-head" style="--accent: var(--amber)">
+          <div class="big-num">01</div>
+          <span class="tag">GA7-220501096-AA2-EV02</span>
+          <h2>Módulos de software codificados y probados</h2>
+          <p class="lead">
+            Codifica el módulo enfocado a la <em>web con servlets</em>, según
+            las características del software a desarrollar.
+          </p>
+        </section>
+
+        <!-- ===== EV1 · CONCEPTOS ===== -->
+        <section style="--accent: var(--amber)">
+          <span class="eyebrow" style="--accent: var(--amber)"
+            >¿de qué hablamos?</span
+          >
+          <h2>Las piezas de la web con Java</h2>
+          <div class="cols">
+            <div>
+              <div class="concept" style="--accent: var(--amber)">
+                <span class="kw">Servlet</span>
+                <p>
+                  Clase Java que vive en el servidor y responde a las peticiones
+                  del navegador. Es la "lógica" detrás de cada pantalla.
+                </p>
+              </div>
+              <div class="concept" style="--accent: var(--amber)">
+                <span class="kw">GET vs POST</span>
+                <p>
+                  <strong>GET</strong> pide datos y los manda visibles en la
+                  URL. <strong>POST</strong> envía datos en el cuerpo: ideal
+                  para formularios y contraseñas.
+                </p>
+              </div>
+            </div>
+            <div>
+              <div class="concept" style="--accent: var(--amber)">
+                <span class="kw">JSP — JavaServer Pages</span>
+                <p>
+                  Páginas que mezclan HTML con código Java. Sirven para mostrar
+                  al usuario la respuesta que prepara el servlet.
+                </p>
+              </div>
+              <div class="concept" style="--accent: var(--amber)">
+                <span class="kw">Formulario HTML</span>
+                <p>
+                  La puerta de entrada de los datos. Su
+                  <code>action</code> apunta al servlet y su
+                  <code>method</code> define GET o POST.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== EV1 · CÓDIGO ===== -->
+        <section style="--accent: var(--amber)">
+          <span class="eyebrow" style="--accent: var(--amber)"
+            >cómo se ve en código</span
+          >
+          <h2>Del formulario al servlet</h2>
+          <div class="cols">
+            <div class="editor">
+              <div class="bar">
+                <span class="dot"></span><span class="dot"></span
+                ><span class="dot"></span
+                ><span class="file">registro.html</span>
+              </div>
+              <pre><span class="k">&lt;form</span> action=<span class="s">"registro"</span> method=<span class="s">"post"</span><span class="k">&gt;</span>
+  <span class="k">&lt;input</span> type=<span class="s">"text"</span> name=<span class="s">"nombre"</span><span class="k">&gt;</span>
+  <span class="k">&lt;input</span> type=<span class="s">"email"</span> name=<span class="s">"correo"</span><span class="k">&gt;</span>
+  <span class="k">&lt;button&gt;</span>Registrar<span class="k">&lt;/button&gt;</span>
+<span class="k">&lt;/form&gt;</span></pre>
+            </div>
+            <div class="editor">
+              <div class="bar">
+                <span class="dot"></span><span class="dot"></span
+                ><span class="dot"></span
+                ><span class="file">RegistroServlet.java</span>
+              </div>
+              <pre><span class="a">@WebServlet</span>(<span class="s">"/registro"</span>)
+<span class="k">public class</span> <span class="t">RegistroServlet</span> <span class="k">extends</span> <span class="t">HttpServlet</span> {
+  <span class="c">// recibe el envío POST del formulario</span>
+  <span class="k">protected void</span> doPost(<span class="t">HttpServletRequest</span> req,
+                         <span class="t">HttpServletResponse</span> resp) {
+    <span class="t">String</span> nombre = req.getParameter(<span class="s">"nombre"</span>);
+    req.setAttribute(<span class="s">"nombre"</span>, nombre);
+    req.getRequestDispatcher(<span class="s">"ok.jsp"</span>)
+       .forward(req, resp);
+  }
+}</pre>
+            </div>
+          </div>
+          <p class="small muted" style="margin-top: 1.1rem">
+            El proyecto debe crearse con <strong>versionamiento</strong> y
+            combinar formularios HTML, servlets (GET y POST) y elementos JSP.
+          </p>
+        </section>
+
+        <!-- ===== EV1 · ENTREGA ===== -->
+        <section style="--accent: var(--amber)">
+          <span class="eyebrow" style="--accent: var(--amber)"
+            >qué se entrega</span
+          >
+          <h2>Entregables — AA2-EV02</h2>
+          <div class="cols tilt">
+            <div>
+              <ul>
+                <li>
+                  <strong>Archivos del proyecto</strong> (código fuente
+                  completo)
+                </li>
+                <li><strong>Archivo con el enlace</strong> del repositorio</li>
+                <li>
+                  Todo en una <strong>carpeta comprimida</strong> · ZIP o RAR
+                </li>
+              </ul>
+              <p class="muted small" style="margin-top: 1rem">
+                Se envía en el espacio:
+                <em>Módulos de software codificados y probados</em>.
+              </p>
+            </div>
+            <div class="deliver" style="--accent: var(--amber)">
+              <div class="h">Nombre del archivo</div>
+              <p class="muted small">
+                Carpeta comprimida con tu nombre y el número de evidencia:
+              </p>
+              <span class="name">NOMBREAPELLIDO_AA2_EV02</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== EVIDENCIA 2 · PORTADA ===== -->
+        <section class="section-head" style="--accent: var(--teal)">
+          <div class="big-num">02</div>
+          <span class="tag">GA7-220501096-AA3-EV01</span>
+          <h2>Codificación de módulos: stand-alone, web y móvil</h2>
+          <p class="lead">
+            Codifica el módulo (web o móvil) aplicando alguno de los
+            <em>frameworks de Java</em> vistos para el desarrollo ágil.
+          </p>
+        </section>
+
+        <!-- ===== EV2 · CONCEPTO FRAMEWORK ===== -->
+        <section style="--accent: var(--teal)">
+          <span class="eyebrow" style="--accent: var(--teal)"
+            >la idea clave</span
+          >
+          <h2>¿Qué es un framework?</h2>
+          <div class="cols tilt">
+            <div>
+              <p class="muted">
+                Es una <strong>estructura base</strong> que ya resuelve lo
+                repetitivo —rutas, peticiones, conexión a datos— para que te
+                concentres en la lógica de tu módulo. Escribes menos y más
+                ordenado.
+              </p>
+              <div class="concept" style="--accent: var(--teal)">
+                <span class="kw">se apoya en…</span>
+                <p>
+                  Desarrollo de aplicaciones web con Java · Construcción de API
+                  · Servicios web con PHP.
+                </p>
+              </div>
+              <ul>
+                <li>El código debe llevar <strong>comentarios</strong></li>
+                <li>
+                  Debe cumplir <strong>estándares de codificación</strong>
+                </li>
+                <li>Proyecto con <strong>versionamiento</strong></li>
+              </ul>
+            </div>
+            <div class="editor">
+              <div class="bar">
+                <span class="dot"></span><span class="dot"></span
+                ><span class="dot"></span
+                ><span class="file">UsuarioController.java</span>
+              </div>
+              <pre><span class="a">@RestController</span>
+<span class="k">public class</span> <span class="t">UsuarioController</span> {
+
+  <span class="c">// expone la lista de usuarios como API</span>
+  <span class="a">@GetMapping</span>(<span class="s">"/api/usuarios"</span>)
+  <span class="k">public</span> <span class="t">List</span>&lt;<span class="t">Usuario</span>&gt; listar() {
+    <span class="k">return</span> servicio.obtenerTodos();
+  }
+}</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== EV2 · ENTREGA ===== -->
+        <section style="--accent: var(--teal)">
+          <span class="eyebrow" style="--accent: var(--teal)"
+            >qué se entrega</span
+          >
+          <h2>Entregables — AA3-EV01</h2>
+          <div class="cols tilt">
+            <div>
+              <ul>
+                <li>
+                  <strong>Archivos del proyecto</strong> con el framework
+                  aplicado
+                </li>
+                <li><strong>Archivo con el enlace</strong> del repositorio</li>
+                <li>Código <strong>comentado</strong> y con estándares</li>
+                <li>Carpeta comprimida · ZIP o RAR</li>
+              </ul>
+              <p class="muted small" style="margin-top: 1rem">
+                Espacio de envío:
+                <em
+                  >Codificación de módulos del software stand-alone, web y
+                  móvil</em
+                >.
+              </p>
+            </div>
+            <div class="deliver" style="--accent: var(--teal)">
+              <div class="h">Nombre del archivo</div>
+              <p class="muted small">
+                Carpeta comprimida con tu nombre y la evidencia:
+              </p>
+              <span class="name">NOMBRE_APELLIDO_AA3_EV01</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== EVIDENCIA 3 · PORTADA ===== -->
+        <section class="section-head" style="--accent: var(--coral)">
+          <div class="big-num">03</div>
+          <span class="tag">GA7-220501096-AA3-EV02</span>
+          <h2>Módulos codificados y probados</h2>
+          <p class="lead">
+            Sobre el código de la EV01, ejecuta las <em>pruebas</em> según los
+            requisitos de las historias de usuario o casos de uso, y
+            documéntalo.
+          </p>
+        </section>
+
+        <!-- ===== EV3 · EL DOCUMENTO ===== -->
+        <section style="--accent: var(--coral)">
+          <span class="eyebrow" style="--accent: var(--coral)"
+            >el documento en word</span
+          >
+          <h2>Cómo se arma la evidencia</h2>
+          <div class="cols">
+            <div>
+              <p class="muted">
+                Sigue las normas de un documento escrito. Como mínimo debe
+                incluir:
+              </p>
+              <ul>
+                <li><strong>Portada</strong>, introducción y objetivo</li>
+                <li>
+                  Por <strong>cada requisito</strong> de una historia de usuario
+                  / caso de uso: descríbelo y debajo pon el
+                  <strong>pantallazo</strong> de la interfaz
+                </li>
+                <li>
+                  Documenta las <strong>pruebas de validación</strong>: fechas,
+                  números, textos, caracteres especiales, longitudes…
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div class="concept" style="--accent: var(--coral)">
+                <span class="kw">+ video obligatorio</span>
+                <p>
+                  Un video mostrando <strong>toda la funcionalidad</strong> del
+                  módulo con sus validaciones en acción.
+                </p>
+              </div>
+              <div class="concept" style="--accent: var(--coral)">
+                <span class="kw">validar = probar el límite</span>
+                <p>
+                  ¿Qué pasa si dejo un campo vacío? ¿Si escribo letras donde van
+                  números? Una buena prueba busca romper, no solo confirmar.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== EV3 · ENTREGA ===== -->
+        <section style="--accent: var(--coral)">
+          <span class="eyebrow" style="--accent: var(--coral)"
+            >qué se entrega</span
+          >
+          <h2>Entregables — AA3-EV02</h2>
+          <div class="cols tilt">
+            <div>
+              <ul>
+                <li><strong>Archivos del proyecto</strong></li>
+                <li><strong>Documento en Word</strong> con las pruebas</li>
+                <li><strong>Video</strong> de la funcionalidad</li>
+                <li><strong>Enlace del repositorio</strong></li>
+                <li>Carpeta comprimida · ZIP o RAR</li>
+              </ul>
+              <p class="muted small" style="margin-top: 1rem">
+                Espacio:
+                <em
+                  >Módulos de software stand-alone, web y móvil codificados y
+                  probados</em
+                >.
+              </p>
+            </div>
+            <div class="deliver" style="--accent: var(--coral)">
+              <div class="h">Nombre del archivo</div>
+              <p class="muted small">
+                Carpeta comprimida con tu nombre y la evidencia:
+              </p>
+              <span class="name">NOMBRE_APELLIDO_AA3_EV02</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== COMPARATIVA ===== -->
+        <section>
+          <span class="eyebrow" style="--accent: var(--teal)"
+            >vista rápida</span
+          >
+          <h2>Las tres de un vistazo</h2>
+          <table class="cmp">
+            <thead>
+              <tr>
+                <th>&nbsp;</th>
+                <th class="e1">01 · AA2-EV02</th>
+                <th class="e2">02 · AA3-EV01</th>
+                <th class="e3">03 · AA3-EV02</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Foco</th>
+                <td>Web con servlets</td>
+                <td>Framework de Java</td>
+                <td>Pruebas + documentación</td>
+              </tr>
+              <tr>
+                <th>Lo nuevo</th>
+                <td>HTML, GET/POST, JSP</td>
+                <td>Comentarios y estándares</td>
+                <td>Validaciones y evidencia escrita</td>
+              </tr>
+              <tr>
+                <th>Entrega</th>
+                <td>Proyecto + repo</td>
+                <td>Proyecto + repo</td>
+                <td>Proyecto + Word + video + repo</td>
+              </tr>
+              <tr>
+                <th>Versionamiento</th>
+                <td>Sí</td>
+                <td>Sí</td>
+                <td>Sí</td>
+              </tr>
+              <tr>
+                <th>Formato</th>
+                <td>ZIP / RAR</td>
+                <td>ZIP / RAR</td>
+                <td>ZIP / RAR</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small muted" style="margin-top: 1.1rem">
+            Ojo con el nombre del archivo: cópialo
+            <strong>exactamente</strong> como pide cada evidencia (la 01 va sin
+            guion entre nombre y apellido).
+          </p>
+        </section>
+
+        <!-- ===== CHECKLIST ===== -->
+        <section>
+          <span class="eyebrow" style="--accent: var(--coral)"
+            >antes de enviar</span
+          >
+          <h2>Lista de chequeo</h2>
+          <div class="cols">
+            <ul>
+              <li>
+                ¿El código <strong>refleja</strong> el diagrama de clases y las
+                historias de usuario?
+              </li>
+              <li>
+                ¿Está el <strong>enlace del repositorio</strong> en un archivo
+                dentro de la carpeta?
+              </li>
+              <li>
+                ¿El proyecto <strong>compila y corre</strong> sin errores?
+              </li>
+            </ul>
+            <ul>
+              <li>
+                ¿El nombre de la carpeta es <strong>exactamente</strong> el del
+                formato?
+              </li>
+              <li>¿El archivo es <strong>ZIP o RAR</strong>?</li>
+              <li>
+                ¿Subiste al <strong>espacio correcto</strong> de cada evidencia?
+              </li>
+            </ul>
+          </div>
+          <p class="muted" style="margin-top: 1.2rem">
+            Una entrega ordenada empieza por leer el lineamiento dos veces. La
+            calidad del software también se ve en cómo lo presentas.
+          </p>
+        </section>
+
+        <!-- ===== CIERRE ===== -->
+        <section id="close">
+          <span class="eyebrow" style="--accent: var(--teal)">a programar</span>
+          <h2>Del diseño al código que funciona y se prueba.</h2>
+          <p class="muted" style="font-size: 1.15rem; max-width: 42ch">
+            Manos al teclado: codifica, aplica el framework, prueba, documenta y
+            sube tu repositorio.
+          </p>
+          <div class="meta">
+            FICHA 3186652 · 3186653 &nbsp;|&nbsp; GA7-220501096-AA2 / AA3
+            &nbsp;|&nbsp; ¿Preguntas?
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.045,
+        minScale: 0.2,
+        maxScale: 1.6,
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        controls: true,
+        progress: true,
+      });
+    </script>
+  </body>
+</html>
