@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Componentes Front-End con React · GA7-220501096-AA4</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #0a1020;
+        --bg2: #0d1628;
+        --surface: #131f38;
+        --surface2: #1a2848;
+        --line: rgba(97, 218, 251, 0.16);
+        --react: #61dafb;
+        --coral: #ff7b9c;
+        --green: #7ee787;
+        --amber: #ffd479;
+        --text: #e6edf6;
+        --muted: #93a4c4;
+        --display: "Space Grotesk", sans-serif;
+        --body: "Inter", sans-serif;
+        --mono: "JetBrains Mono", monospace;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+      }
+
+      .reveal {
+        font-family: var(--body);
+        font-size: 30px;
+        color: var(--text);
+        font-weight: 400;
+      }
+
+      /* animated atmosphere behind slides */
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal .slides section {
+        background:
+          radial-gradient(
+            900px 500px at 85% -10%,
+            rgba(97, 218, 251, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 500px at 0% 110%,
+            rgba(255, 123, 156, 0.08),
+            transparent 55%
+          ),
+          linear-gradient(180deg, var(--bg), var(--bg2));
+        height: 100%;
+        padding: 64px 78px;
+        box-sizing: border-box;
+        border-radius: 2px;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: var(--display);
+        color: var(--text);
+        line-height: 1.08;
+        margin: 0 0 0.35em;
+        letter-spacing: -0.01em;
+        text-transform: none;
+      }
+      .reveal h1 {
+        font-size: 2.05em;
+        font-weight: 700;
+      }
+      .reveal h2 {
+        font-size: 1.5em;
+        font-weight: 600;
+      }
+      .reveal h3 {
+        font-size: 1.05em;
+        font-weight: 600;
+      }
+      .reveal p {
+        line-height: 1.5;
+        margin: 0 0 0.6em;
+      }
+      .reveal strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .reveal em {
+        color: var(--react);
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      .reveal a {
+        color: var(--react);
+      }
+
+      /* eyebrow / kicker */
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.5em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--react);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7em;
+        margin-bottom: 1.1em;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 26px;
+        height: 2px;
+        background: var(--react);
+        display: inline-block;
+        box-shadow: 0 0 12px var(--react);
+      }
+      .eyebrow.coral {
+        color: var(--coral);
+      }
+      .eyebrow.coral::before {
+        background: var(--coral);
+        box-shadow: 0 0 12px var(--coral);
+      }
+      .eyebrow.green {
+        color: var(--green);
+      }
+      .eyebrow.green::before {
+        background: var(--green);
+        box-shadow: 0 0 12px var(--green);
+      }
+
+      .lead {
+        font-size: 1.12em;
+        color: var(--muted);
+        max-width: 20ch;
+      }
+      .muted {
+        color: var(--muted);
+      }
+
+      /* cards */
+      .grid {
+        display: grid;
+        gap: 20px;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .card {
+        background: linear-gradient(
+          180deg,
+          var(--surface),
+          rgba(19, 31, 56, 0.5)
+        );
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 26px 28px;
+      }
+      .card h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+      .card p {
+        color: var(--muted);
+        font-size: 0.82em;
+        margin: 0;
+      }
+
+      .tag {
+        font-family: var(--mono);
+        font-size: 0.58em;
+        letter-spacing: 0.06em;
+        color: var(--react);
+        background: rgba(97, 218, 251, 0.1);
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        padding: 0.35em 0.8em;
+        display: inline-block;
+      }
+
+      /* numbered pills for evidences */
+      .ev-num {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.35em;
+        width: 1.9em;
+        height: 1.9em;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: rgba(97, 218, 251, 0.12);
+        border: 1px solid var(--line);
+        color: var(--react);
+        flex: none;
+      }
+      .ev-num.c {
+        background: rgba(255, 123, 156, 0.12);
+        color: var(--coral);
+        border-color: rgba(255, 123, 156, 0.22);
+      }
+      .ev-num.g {
+        background: rgba(126, 231, 135, 0.12);
+        color: var(--green);
+        border-color: rgba(126, 231, 135, 0.22);
+      }
+
+      ul {
+        margin: 0.2em 0;
+        padding: 0;
+        list-style: none;
+      }
+      ul li {
+        position: relative;
+        padding: 0.28em 0 0.28em 1.5em;
+        line-height: 1.42;
+      }
+      ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.72em;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: var(--react);
+        transform: rotate(45deg);
+      }
+      ul.coral li::before {
+        background: var(--coral);
+      }
+      ul.green li::before {
+        background: var(--green);
+      }
+
+      /* code blocks */
+      pre.code {
+        background: #0b1426;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px 24px;
+        font-family: var(--mono);
+        font-size: 0.66em;
+        line-height: 1.7;
+        color: #c7d3ea;
+        overflow: hidden;
+        box-shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.9);
+      }
+      pre.code .c {
+        color: #5f7196;
+      } /* comment */
+      pre.code .k {
+        color: var(--coral);
+      } /* keyword */
+      pre.code .t {
+        color: var(--react);
+      } /* tag / type */
+      pre.code .s {
+        color: var(--green);
+      } /* string */
+      pre.code .f {
+        color: var(--amber);
+      } /* function */
+      pre.code .dim {
+        color: #8fa0bf;
+      }
+
+      .win-dots {
+        display: flex;
+        gap: 7px;
+        margin-bottom: 14px;
+      }
+      .win-dots i {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .win-dots i:nth-child(1) {
+        background: #ff5f57;
+      }
+      .win-dots i:nth-child(2) {
+        background: #febc2e;
+      }
+      .win-dots i:nth-child(3) {
+        background: #28c840;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 26px;
+        align-items: center;
+      }
+      .split.wide-left {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+
+      .callout {
+        border-left: 3px solid var(--react);
+        background: rgba(97, 218, 251, 0.06);
+        padding: 14px 20px;
+        border-radius: 0 12px 12px 0;
+        font-size: 0.82em;
+        color: var(--muted);
+      }
+      .callout.coral {
+        border-color: var(--coral);
+        background: rgba(255, 123, 156, 0.06);
+      }
+      .callout strong {
+        color: var(--text);
+      }
+
+      /* title slide atom */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: center;
+        gap: 40px;
+        height: 100%;
+      }
+      .atom-wrap {
+        display: grid;
+        place-items: center;
+      }
+      .atom {
+        width: 340px;
+        height: 340px;
+        filter: drop-shadow(0 0 30px rgba(97, 218, 251, 0.25));
+      }
+      .ring {
+        fill: none;
+        stroke: var(--react);
+        stroke-width: 2.4;
+        opacity: 0.55;
+      }
+      .ring.r2 {
+        stroke: var(--coral);
+      }
+      .ring.r3 {
+        stroke: var(--green);
+      }
+      .nucleus {
+        fill: var(--react);
+      }
+      .e1 {
+        fill: var(--react);
+      }
+      .e2 {
+        fill: var(--coral);
+      }
+      .e3 {
+        fill: var(--green);
+      }
+
+      .fichas {
+        font-family: var(--mono);
+        font-size: 0.62em;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+      }
+      .fichas b {
+        color: var(--react);
+        font-weight: 600;
+      }
+
+      .title-code {
+        font-family: var(--mono);
+        color: var(--react);
+        font-size: 0.6em;
+        letter-spacing: 0.12em;
+      }
+
+      /* concept map */
+      .map {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 8px;
+      }
+      .node {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px 18px;
+      }
+      .node .t {
+        font-family: var(--display);
+        font-weight: 600;
+        color: var(--react);
+        font-size: 0.9em;
+        margin-bottom: 4px;
+      }
+      .node .d {
+        color: var(--muted);
+        font-size: 0.66em;
+        line-height: 1.4;
+      }
+      .node.core {
+        grid-column: 1 / -1;
+        text-align: center;
+        background: linear-gradient(
+          180deg,
+          rgba(97, 218, 251, 0.14),
+          rgba(97, 218, 251, 0.03)
+        );
+        border-color: rgba(97, 218, 251, 0.3);
+      }
+      .node.core .t {
+        font-size: 1.3em;
+      }
+
+      .event-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        font-family: var(--mono);
+        font-size: 0.72em;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        padding: 0.5em 1em;
+        margin: 0 8px 12px 0;
+        color: var(--text);
+      }
+      .event-chip b {
+        color: var(--coral);
+      }
+
+      .deliver {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 20px;
+        margin-bottom: 12px;
+        font-size: 0.82em;
+      }
+      .deliver .ic {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        flex: none;
+        display: grid;
+        place-items: center;
+        background: rgba(97, 218, 251, 0.1);
+        color: var(--react);
+        font-family: var(--mono);
+        font-size: 0.7em;
+        font-weight: 600;
+      }
+      .deliver .ic.c {
+        background: rgba(255, 123, 156, 0.1);
+        color: var(--coral);
+      }
+      .deliver .ic.g {
+        background: rgba(126, 231, 135, 0.1);
+        color: var(--green);
+      }
+
+      /* progress + controls colors */
+      .reveal .progress {
+        color: var(--react);
+        height: 4px;
+      }
+      .reveal .controls {
+        color: var(--react);
+      }
+      .reveal .slide-number {
+        background: transparent;
+        color: var(--muted);
+        font-family: var(--mono);
+      }
+
+      .reveal .footer {
+        position: absolute;
+        bottom: 26px;
+        left: 78px;
+        font-family: var(--mono);
+        font-size: 0.5em;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      .big-q {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 2.4em;
+        color: var(--text);
+        line-height: 1.05;
+      }
+      .big-q span {
+        color: var(--react);
+      }
+
+      .checkline {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 16px;
+        font-size: 0.86em;
+      }
+      .checkline .k {
+        color: var(--green);
+        font-family: var(--mono);
+        flex: none;
+        margin-top: 2px;
+      }
+
+      @media (max-width: 900px) {
+        .reveal {
+          font-size: 22px;
+        }
+        .reveal .slides section {
+          padding: 38px 34px;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+        .atom {
+          width: 200px;
+          height: 200px;
+        }
+        .g2,
+        .g3,
+        .split,
+        .split.wide-left,
+        .map {
+          grid-template-columns: 1fr;
+        }
+        .reveal .footer {
+          left: 34px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 · PORTADA -->
+        <section data-auto-animate>
+          <div class="hero">
+            <div>
+              <div class="title-code">&lt;Frontend /&gt;</div>
+              <h1 style="margin-top: 0.25em">
+                Componentes<br />Front-End con <em>React</em>
+              </h1>
+              <p class="lead" style="margin: 0.4em 0 1.6em">
+                Aprende a construir interfaces por piezas: claras, reutilizables
+                y vivas.
+              </p>
+              <div class="fichas">
+                FICHAS <b>3186652</b> · <b>3186653</b><br />
+                GA7-220501096-AA4 &nbsp;·&nbsp; Codificar el front-end<br />
+                <span class="muted">Semana del 2 de julio</span>
+              </div>
+            </div>
+            <div class="atom-wrap">
+              <svg class="atom" viewBox="0 0 200 200" aria-hidden="true">
+                <g transform="translate(100,100) rotate(0) scale(1,.4)">
+                  <circle class="ring r1" r="80" />
+                  <g>
+                    <circle class="e1" cx="80" cy="0" r="6" />
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      from="0 0 0"
+                      to="360 0 0"
+                      dur="3.2s"
+                      repeatCount="indefinite"
+                    />
+                  </g>
+                </g>
+                <g transform="translate(100,100) rotate(60) scale(1,.4)">
+                  <circle class="ring r2" r="80" />
+                  <g>
+                    <circle class="e2" cx="80" cy="0" r="6" />
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      from="0 0 0"
+                      to="-360 0 0"
+                      dur="4.4s"
+                      repeatCount="indefinite"
+                    />
+                  </g>
+                </g>
+                <g transform="translate(100,100) rotate(120) scale(1,.4)">
+                  <circle class="ring r3" r="80" />
+                  <g>
+                    <circle class="e3" cx="80" cy="0" r="6" />
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      from="0 0 0"
+                      to="360 0 0"
+                      dur="5.6s"
+                      repeatCount="indefinite"
+                    />
+                  </g>
+                </g>
+                <circle class="nucleus" cx="100" cy="100" r="9" />
+              </svg>
+            </div>
+          </div>
+          <div class="footer">SENA · Análisis y Desarrollo de Software</div>
+        </section>
+
+        <!-- 2 · LAS 3 EVIDENCIAS -->
+        <section>
+          <span class="eyebrow">La ruta de esta semana</span>
+          <h2>Tres evidencias, un mismo objetivo</h2>
+          <p class="muted" style="max-width: 34ch; font-size: 0.86em">
+            Primero entendemos React, luego decidimos qué usar, y por último lo
+            codificamos en el proyecto.
+          </p>
+          <div class="grid g3" style="margin-top: 24px">
+            <div class="card">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 14px;
+                  margin-bottom: 12px;
+                "
+              >
+                <div class="ev-num">1</div>
+                <span class="tag">EV01</span>
+              </div>
+              <h3 style="font-size: 0.95em">Taller de conceptos</h3>
+              <p>
+                Entiende qué es React: JSX, clases, eventos y un mapa
+                conceptual.
+              </p>
+            </div>
+            <div class="card">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 14px;
+                  margin-bottom: 12px;
+                "
+              >
+                <div class="ev-num c">2</div>
+                <span
+                  class="tag"
+                  style="
+                    color: var(--coral);
+                    border-color: rgba(255, 123, 156, 0.22);
+                  "
+                  >EV02</span
+                >
+              </div>
+              <h3 style="font-size: 0.95em">Elige tus componentes</h3>
+              <p>
+                Define y justifica qué componentes de React usarás en tu
+                proyecto.
+              </p>
+            </div>
+            <div class="card">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 14px;
+                  margin-bottom: 12px;
+                "
+              >
+                <div class="ev-num g">3</div>
+                <span
+                  class="tag"
+                  style="
+                    color: var(--green);
+                    border-color: rgba(126, 231, 135, 0.22);
+                  "
+                  >EV03</span
+                >
+              </div>
+              <h3 style="font-size: 0.95em">Codifica el módulo</h3>
+              <p>
+                Programa tu front-end real con estándares y control de
+                versiones.
+              </p>
+            </div>
+          </div>
+          <div class="footer">Evidencias GA7-220501096-AA4</div>
+        </section>
+
+        <!-- 3 · ¿QUÉ ES REACT? -->
+        <section>
+          <div class="split wide-left">
+            <div>
+              <span class="eyebrow">Idea base</span>
+              <h2>¿Qué es React?</h2>
+              <p>
+                Una <strong>biblioteca de JavaScript</strong> para construir
+                interfaces de usuario dividiéndolas en <em>componentes</em>:
+                piezas pequeñas, independientes y reutilizables.
+              </p>
+              <div class="callout">
+                Piensa en <strong>bloques de LEGO</strong>: un botón, una
+                tarjeta, un menú. Los armas una vez y los reutilizas en toda la
+                app.
+              </div>
+            </div>
+            <div>
+              <pre
+                class="code"
+              ><span class="c">// Un componente = una pieza de la interfaz</span>
+<span class="k">function</span> <span class="f">Tarjeta</span>() {
+  <span class="k">return</span> (
+    <span class="t">&lt;div</span> className=<span class="s">"tarjeta"</span><span class="t">&gt;</span>
+      <span class="t">&lt;h2&gt;</span>Hola SENA<span class="t">&lt;/h2&gt;</span>
+    <span class="t">&lt;/div&gt;</span>
+  );
+}</pre>
+            </div>
+          </div>
+          <div class="footer">Componente formativo · React-JS</div>
+        </section>
+
+        <!-- 4 · REACT vs JSX -->
+        <section>
+          <span class="eyebrow coral">EV01 · Pregunta 1</span>
+          <h2>
+            React <span class="muted" style="font-weight: 400">vs</span> JSX
+          </h2>
+          <div class="split" style="margin-top: 14px">
+            <div>
+              <div class="card" style="margin-bottom: 16px">
+                <h3><span class="tag">React</span></h3>
+                <p style="font-size: 0.8em">
+                  Es la <strong style="color: var(--text)">biblioteca</strong>:
+                  la lógica que crea componentes, maneja el estado y actualiza
+                  la pantalla.
+                </p>
+              </div>
+              <div class="card" style="border-color: rgba(255, 123, 156, 0.22)">
+                <h3>
+                  <span
+                    class="tag"
+                    style="
+                      color: var(--coral);
+                      border-color: rgba(255, 123, 156, 0.22);
+                    "
+                    >JSX</span
+                  >
+                </h3>
+                <p style="font-size: 0.8em">
+                  Es la <strong style="color: var(--text)">sintaxis</strong>:
+                  una forma de escribir la interfaz que se parece a HTML, pero
+                  vive dentro de JavaScript.
+                </p>
+              </div>
+            </div>
+            <div>
+              <pre class="code"><span class="c">// JSX: se ve como HTML…</span>
+<span class="k">const</span> saludo = <span class="t">&lt;h1&gt;</span>Hola<span class="t">&lt;/h1&gt;</span>;
+
+<span class="c">// …pero por dentro es React puro:</span>
+<span class="k">const</span> saludo = <span class="t">React</span>.<span class="f">createElement</span>(
+  <span class="s">'h1'</span>, <span class="k">null</span>, <span class="s">'Hola'</span>
+);</pre>
+              <div class="callout coral" style="margin-top: 16px">
+                <strong>En una frase:</strong> React es el motor; JSX es el
+                idioma cómodo con el que le hablas.
+              </div>
+            </div>
+          </div>
+          <div class="footer">Diferencia entre React y JSX</div>
+        </section>
+
+        <!-- 5 · CLASES EN REACT -->
+        <section>
+          <span class="eyebrow">EV01 · Pregunta 2</span>
+          <h2>¿Qué son las clases en React?</h2>
+          <p class="muted" style="font-size: 0.84em; max-width: 40ch">
+            Una forma de crear componentes usando clases de JavaScript (<code
+              style="font-family: var(--mono); color: var(--react)"
+              >extends React.Component</code
+            >) con un método
+            <code style="font-family: var(--mono); color: var(--react)"
+              >render()</code
+            >
+            que devuelve la interfaz.
+          </p>
+          <div class="split" style="margin-top: 12px">
+            <div>
+              <p class="tag" style="margin-bottom: 10px">Componente de clase</p>
+              <pre
+                class="code"
+              ><span class="k">class</span> <span class="t">Boton</span> <span class="k">extends</span> <span class="t">React</span>.<span class="t">Component</span> {
+  <span class="f">render</span>() {
+    <span class="k">return</span> <span class="t">&lt;button&gt;</span>
+      {<span class="k">this</span>.props.texto}
+    <span class="t">&lt;/button&gt;</span>;
+  }
+}</pre>
+            </div>
+            <div>
+              <p
+                class="tag"
+                style="
+                  margin-bottom: 10px;
+                  color: var(--green);
+                  border-color: rgba(126, 231, 135, 0.22);
+                "
+              >
+                Estilo moderno (funciones + Hooks)
+              </p>
+              <pre
+                class="code"
+              ><span class="k">function</span> <span class="f">Boton</span>({ texto }) {
+  <span class="k">return</span> <span class="t">&lt;button&gt;</span>{texto}<span class="t">&lt;/button&gt;</span>;
+}</pre>
+              <div class="callout" style="margin-top: 16px">
+                <strong>Tip:</strong> hoy se prefieren los componentes de
+                función con Hooks, pero conocer las clases te ayuda a leer
+                código existente.
+              </div>
+            </div>
+          </div>
+          <div class="footer">Clases en React</div>
+        </section>
+
+        <!-- 6 · EVENTOS -->
+        <section>
+          <span class="eyebrow coral">EV01 · Pregunta 3</span>
+          <h2>Principales eventos de React</h2>
+          <p class="muted" style="font-size: 0.84em; max-width: 42ch">
+            Los eventos permiten
+            <strong style="color: var(--text)">reaccionar</strong> a lo que hace
+            el usuario. Se escriben en <em>camelCase</em> y reciben una función.
+          </p>
+          <div style="margin: 18px 0 6px">
+            <span class="event-chip"><b>onClick</b> — al hacer clic</span>
+            <span class="event-chip"><b>onChange</b> — al escribir</span>
+            <span class="event-chip"
+              ><b>onSubmit</b> — al enviar un formulario</span
+            >
+            <span class="event-chip"
+              ><b>onMouseOver</b> — al pasar el mouse</span
+            >
+            <span class="event-chip"
+              ><b>onKeyDown</b> — al presionar una tecla</span
+            >
+          </div>
+          <pre
+            class="code"
+            style="margin-top: 6px"
+          ><span class="k">function</span> <span class="f">Contador</span>() {
+  <span class="k">const</span> <span class="f">manejarClic</span> = () =&gt; <span class="f">alert</span>(<span class="s">'¡Hiciste clic!'</span>);
+  <span class="k">return</span> <span class="t">&lt;button</span> onClick={manejarClic}<span class="t">&gt;</span>Presióname<span class="t">&lt;/button&gt;</span>;
+}</pre>
+          <div class="footer">Eventos en React</div>
+        </section>
+
+        <!-- 7 · MAPA CONCEPTUAL -->
+        <section>
+          <span class="eyebrow green">EV01 · Pregunta 4</span>
+          <h2>Mapa conceptual de React</h2>
+          <div class="map">
+            <div class="node core">
+              <div class="t">React</div>
+              <div class="d">
+                Biblioteca de JavaScript para construir interfaces con
+                componentes
+              </div>
+            </div>
+            <div class="node">
+              <div class="t">Componentes</div>
+              <div class="d">
+                Piezas reutilizables de la interfaz (funciones o clases)
+              </div>
+            </div>
+            <div class="node">
+              <div class="t">JSX</div>
+              <div class="d">
+                Sintaxis parecida a HTML para describir la vista
+              </div>
+            </div>
+            <div class="node">
+              <div class="t">Props</div>
+              <div class="d">Datos que un componente recibe desde afuera</div>
+            </div>
+            <div class="node">
+              <div class="t">Estado (state)</div>
+              <div class="d">
+                Datos internos que cambian y redibujan la vista
+              </div>
+            </div>
+            <div class="node">
+              <div class="t">Eventos</div>
+              <div class="d">Reaccionan a las acciones del usuario</div>
+            </div>
+            <div class="node">
+              <div class="t">Virtual DOM</div>
+              <div class="d">
+                Actualiza la pantalla de forma rápida y eficiente
+              </div>
+            </div>
+          </div>
+          <div class="footer">Mapa conceptual · síntesis del framework</div>
+        </section>
+
+        <!-- 8 · ENTREGABLE EV01 -->
+        <section>
+          <div class="split wide-left">
+            <div>
+              <span class="eyebrow">Entrega · EV01</span>
+              <h2>Taller sobre<br />componentes front-end</h2>
+              <p class="muted" style="font-size: 0.84em; max-width: 26ch">
+                Un documento que responda las 4 preguntas y muestre las
+                características del framework.
+              </p>
+              <div class="callout">
+                <strong>Debe incluir:</strong> portada, introducción y objetivo.
+              </div>
+            </div>
+            <div>
+              <p class="tag" style="margin-bottom: 12px">
+                Responde en el documento
+              </p>
+              <ul>
+                <li>Diferencia entre React y JSX</li>
+                <li>¿Qué son las clases en React?</li>
+                <li>Principales eventos de React</li>
+                <li>Mapa conceptual de React</li>
+              </ul>
+              <div class="deliver" style="margin-top: 18px">
+                <div class="ic">PDF</div>
+                <div>
+                  Producto: <strong>documento en PDF</strong><br /><span
+                    class="muted"
+                    style="font-size: 0.86em"
+                    >Espacio: Taller sobre componentes front-end · EV01</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">GA7-220501096-AA4-EV01</div>
+        </section>
+
+        <!-- 9 · EV02 EXPLICA -->
+        <section>
+          <span class="eyebrow coral">Evidencia 2</span>
+          <h2>Elige y justifica tus componentes</h2>
+          <p class="muted" style="font-size: 0.84em; max-width: 44ch">
+            Según las características de
+            <strong style="color: var(--text)">tu</strong> software, describe
+            qué componentes de React usarás. Cada elección necesita su
+            <em>porqué</em>.
+          </p>
+          <div class="grid g2" style="margin-top: 20px">
+            <div class="card">
+              <h3 style="font-size: 0.9em">Ejemplos de componentes</h3>
+              <ul style="margin-top: 6px">
+                <li>Formulario de registro / login</li>
+                <li>Tabla o lista de datos</li>
+                <li>Barra de navegación (menú)</li>
+                <li>Tarjetas de producto o perfil</li>
+              </ul>
+            </div>
+            <div class="card" style="border-color: rgba(255, 123, 156, 0.22)">
+              <h3 style="font-size: 0.9em">La justificación responde…</h3>
+              <ul class="coral" style="margin-top: 6px">
+                <li>¿Qué función cumple en el proyecto?</li>
+                <li>¿Por qué es reutilizable?</li>
+                <li>¿Qué datos maneja (props / estado)?</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer">Definición de componentes front-end</div>
+        </section>
+
+        <!-- 10 · ENTREGABLE EV02 -->
+        <section>
+          <span class="eyebrow coral">Entrega · EV02</span>
+          <h2>Documento de componentes</h2>
+          <div class="split" style="margin-top: 14px">
+            <div>
+              <div class="callout coral">
+                <strong>Estructura mínima:</strong> portada, introducción,
+                objetivo y la descripción de los componentes de React que usarás
+                en el proyecto.
+              </div>
+              <ul class="coral" style="margin-top: 16px">
+                <li>Lista de componentes seleccionados</li>
+                <li>Justificación de cada uno</li>
+              </ul>
+            </div>
+            <div>
+              <div class="deliver">
+                <div class="ic c">PDF</div>
+                <div>Producto: <strong>documento en PDF</strong></div>
+              </div>
+              <div class="deliver">
+                <div class="ic c">↳</div>
+                <div>
+                  <span class="muted" style="font-size: 0.86em"
+                    >Espacio: Verificación de procedimientos… · EV02</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">GA7-220501096-AA4-EV02</div>
+        </section>
+
+        <!-- 11 · EV03 EXPLICA -->
+        <section>
+          <span class="eyebrow green">Evidencia 3</span>
+          <h2>Codifica el módulo del proyecto</h2>
+          <p class="muted" style="font-size: 0.84em; max-width: 44ch">
+            Aquí programas de verdad tu front-end (web o móvil) aplicando todo
+            lo visto.
+          </p>
+          <div class="grid g2" style="margin-top: 18px">
+            <div class="card" style="border-color: rgba(126, 231, 135, 0.22)">
+              <h3 style="font-size: 0.9em">Apóyate en tus artefactos</h3>
+              <ul class="green" style="margin-top: 6px">
+                <li>Diagrama de clases y casos de uso</li>
+                <li>Historias de usuario</li>
+                <li>Diseños y prototipos</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 style="font-size: 0.9em">Reglas del código</h3>
+              <ul style="margin-top: 6px">
+                <li>Incluye comentarios</li>
+                <li>Cumple estándares de codificación</li>
+                <li>Usa control de versiones (Git)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer">Codificación del módulo</div>
+        </section>
+
+        <!-- 12 · ENTREGABLE EV03 -->
+        <section>
+          <span class="eyebrow green">Entrega · EV03</span>
+          <h2>Proyecto codificado + repositorio</h2>
+          <div class="split wide-left" style="margin-top: 14px">
+            <div>
+              <div class="deliver">
+                <div class="ic g">ZIP</div>
+                <div>
+                  Carpeta comprimida (ZIP o RAR) con los archivos del proyecto
+                </div>
+              </div>
+              <div class="deliver">
+                <div class="ic g">🔗</div>
+                <div>
+                  Archivo con el <strong>enlace del repositorio</strong>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="callout"
+                style="
+                  border-color: var(--green);
+                  background: rgba(126, 231, 135, 0.06);
+                "
+              >
+                <strong>Nombra la carpeta así:</strong><br />
+                <code
+                  style="
+                    font-family: var(--mono);
+                    color: var(--green);
+                    font-size: 1.05em;
+                  "
+                  >NOMBRE_APELLIDO_AA4_EV03</code
+                >
+              </div>
+            </div>
+          </div>
+          <div class="footer">GA7-220501096-AA4-EV03</div>
+        </section>
+
+        <!-- 13 · CIERRE / CHECKLIST -->
+        <section data-auto-animate>
+          <span class="eyebrow">Para llevar</span>
+          <h2>Tu semana en 3 pasos</h2>
+          <div style="margin-top: 22px; max-width: 30ch">
+            <div class="checkline">
+              <span class="k">01 →</span>
+              <div><strong>Entiende</strong> React con el taller (EV01)</div>
+            </div>
+            <div class="checkline">
+              <span class="k">02 →</span>
+              <div>
+                <strong>Decide</strong> qué componentes usar y justifícalos
+                (EV02)
+              </div>
+            </div>
+            <div class="checkline">
+              <span class="k">03 →</span>
+              <div>
+                <strong>Construye</strong> tu módulo con Git y estándares (EV03)
+              </div>
+            </div>
+          </div>
+          <p
+            class="muted"
+            style="margin-top: 24px; font-size: 0.82em; max-width: 34ch"
+          >
+            Los componentes son bloques: entiéndelos, elígelos y ármalos. ¡Manos
+            al código! 🚀
+          </p>
+          <div class="footer">SENA · Codificar el front-end con framework</div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "default",
+        controls: true,
+        progress: true,
+        center: false,
+        width: 1280,
+        height: 720,
+        margin: 0.04,
+      });
+    </script>
+  </body>
+</html>
