@@ -1,0 +1,1435 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear servicios web · GA7-220501096-AA5</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --ink: #0c1b14;
+        --pine: #13261d;
+        --paper: #edf1ea;
+        --paper-2: #e1e7dd;
+        --green: #39a900;
+        --green-dark: #2c7f02;
+        --amber: #fdc300;
+        --coral: #e24e3b;
+        --slate: #5c6b62;
+        --line: rgba(12, 27, 20, 0.14);
+        --line-dark: rgba(237, 241, 234, 0.16);
+      }
+
+      .reveal {
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+        font-size: 30px;
+        color: var(--ink);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 0 10px;
+      }
+
+      /* Fondos ------------------------------------------------- */
+      .reveal-viewport {
+        background: var(--paper);
+      }
+      .reveal .slides section.dark {
+        color: var(--paper);
+      }
+      section.dark h2,
+      section.dark h3 {
+        color: var(--paper);
+      }
+
+      /* Tipografía --------------------------------------------- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Space Grotesk", sans-serif;
+        text-transform: none;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+        margin: 0 0 0.35em;
+        color: var(--ink);
+      }
+      .reveal h1 {
+        font-size: 2.5em;
+        font-weight: 700;
+      }
+      .reveal h2 {
+        font-size: 1.55em;
+        font-weight: 700;
+      }
+      .reveal h3 {
+        font-size: 1.05em;
+        font-weight: 500;
+        color: var(--slate);
+      }
+      .reveal p,
+      .reveal li {
+        line-height: 1.45;
+      }
+      .reveal ul {
+        margin-left: 1em;
+      }
+      .reveal li {
+        margin-bottom: 0.4em;
+      }
+      .reveal strong {
+        color: var(--green-dark);
+        font-weight: 600;
+      }
+      .dark strong {
+        color: var(--amber);
+      }
+      .reveal em {
+        color: var(--slate);
+        font-style: normal;
+      }
+
+      /* Eyebrow: cada tema es un endpoint de la semana ---------- */
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.5em;
+        letter-spacing: 0.06em;
+        color: var(--slate);
+        margin-bottom: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+      }
+      .dark .eyebrow {
+        color: #93a79a;
+      }
+      .eyebrow .verb {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.18em 0.55em;
+        border-radius: 3px;
+        font-weight: 600;
+      }
+      .dark .eyebrow .verb {
+        background: var(--green);
+        color: var(--ink);
+      }
+      .eyebrow .verb.get {
+        background: var(--green-dark);
+        color: #fff;
+      }
+
+      /* Chips de estado ---------------------------------------- */
+      .chip {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.62em;
+        font-weight: 600;
+        padding: 0.22em 0.6em;
+        border-radius: 99px;
+        white-space: nowrap;
+        border: 1px solid currentColor;
+      }
+      .c200 {
+        color: var(--green-dark);
+      }
+      .c201 {
+        color: var(--green-dark);
+      }
+      .c400 {
+        color: #9a6b00;
+      }
+      .c401 {
+        color: var(--coral);
+      }
+      .c409 {
+        color: #9a6b00;
+      }
+      .c500 {
+        color: var(--coral);
+      }
+      .dark .c200,
+      .dark .c201 {
+        color: #7ed321;
+      }
+      .dark .c400,
+      .dark .c409 {
+        color: var(--amber);
+      }
+
+      /* Código -------------------------------------------------- */
+      pre.code {
+        background: var(--pine);
+        color: #dce6de;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.52em;
+        line-height: 1.6;
+        padding: 0.9em 1.1em;
+        border-radius: 6px;
+        border-left: 4px solid var(--green);
+        overflow: auto;
+        max-height: 66vh;
+        margin: 0;
+        white-space: pre;
+      }
+      .dark pre.code {
+        background: #08130d;
+      }
+      pre.code .c {
+        color: #6f8878;
+        font-style: italic;
+      } /* comentario */
+      pre.code .k {
+        color: #8bd450;
+      } /* palabra clave */
+      pre.code .s {
+        color: var(--amber);
+      } /* string */
+      pre.code .n {
+        color: #7fd1e0;
+      } /* número/símbolo */
+
+      code.inline {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.85em;
+        background: var(--paper-2);
+        padding: 0.1em 0.35em;
+        border-radius: 3px;
+      }
+      .dark code.inline {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Rejillas ------------------------------------------------ */
+      .grid {
+        display: grid;
+        gap: 1em;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0.9em 1em;
+      }
+      .dark .card {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--line-dark);
+      }
+      .card h4 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 0.72em;
+        margin: 0 0 0.3em;
+        font-weight: 600;
+      }
+      .card p {
+        font-size: 0.6em;
+        margin: 0;
+        color: var(--slate);
+      }
+      .dark .card p {
+        color: #a9bbaf;
+      }
+
+      /* Tablas -------------------------------------------------- */
+      table.t {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.58em;
+      }
+      table.t th {
+        text-align: left;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 500;
+        font-size: 0.85em;
+        letter-spacing: 0.04em;
+        color: var(--slate);
+        border-bottom: 2px solid var(--ink);
+        padding: 0.5em 0.6em;
+        text-transform: uppercase;
+      }
+      table.t td {
+        padding: 0.55em 0.6em;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      .dark table.t th {
+        color: #93a79a;
+        border-bottom-color: var(--green);
+      }
+      .dark table.t td {
+        border-bottom-color: var(--line-dark);
+      }
+      table.t td.mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      /* Flujo petición / respuesta ------------------------------ */
+      .flow {
+        display: flex;
+        align-items: center;
+        gap: 0.8em;
+        margin: 1.2em 0;
+      }
+      .node {
+        flex: 1;
+        text-align: center;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 1em 0.6em;
+        background: #fff;
+      }
+      .dark .node {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--line-dark);
+      }
+      .node .big {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 0.85em;
+        font-weight: 600;
+      }
+      .node .sm {
+        font-size: 0.5em;
+        color: var(--slate);
+      }
+      .dark .node .sm {
+        color: #a9bbaf;
+      }
+      .arrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.5em;
+        text-align: center;
+        color: var(--green-dark);
+        flex: 0 0 24%;
+      }
+      .arrow div {
+        border-bottom: 1px solid var(--green);
+        padding-bottom: 0.2em;
+        margin-bottom: 0.4em;
+      }
+      .arrow div:last-child {
+        border: 0;
+        border-top: 1px solid var(--coral);
+        color: var(--coral);
+        padding-top: 0.2em;
+      }
+
+      /* Portada ------------------------------------------------- */
+      .cover .rule {
+        height: 5px;
+        background: var(--green);
+        width: 120px;
+        margin: 1.2em 0;
+      }
+      .cover .meta {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.5em;
+        color: #93a79a;
+        line-height: 1.8;
+      }
+      .kicker {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.45em;
+        letter-spacing: 0.22em;
+        color: var(--green);
+        text-transform: uppercase;
+      }
+
+      /* Checklist ----------------------------------------------- */
+      ul.check {
+        list-style: none;
+        margin-left: 0;
+      }
+      ul.check li {
+        position: relative;
+        padding-left: 1.6em;
+        font-size: 0.72em;
+      }
+      ul.check li::before {
+        content: "☐";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      .note {
+        font-size: 0.6em;
+        color: var(--slate);
+        border-left: 3px solid var(--amber);
+        padding-left: 0.8em;
+      }
+      .dark .note {
+        color: #a9bbaf;
+      }
+
+      .reveal .progress {
+        color: var(--green);
+      }
+      .reveal .controls {
+        color: var(--slate);
+      }
+      .reveal a {
+        color: var(--green-dark);
+      }
+
+      :where(a, button, .reveal .controls button):focus-visible {
+        outline: 3px solid var(--amber);
+        outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal .slides section .fragment {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ PORTADA ============ -->
+        <section class="dark cover" data-background-color="#0C1B14">
+          <div class="kicker">Fichas 3186652 · 3186653 — 9 de julio</div>
+          <div class="rule"></div>
+          <h1 style="color: var(--paper)">
+            Crear servicios web,<br />de acuerdo con el diseño.
+          </h1>
+          <p style="font-size: 0.75em; color: #a9bbaf; max-width: 22em">
+            Tres evidencias, una sola idea: aprender a construir la puerta por
+            la que entran y salen los datos de tu software.
+          </p>
+          <div class="meta" style="margin-top: 2em">
+            GA7-220501096-AA5 &nbsp;·&nbsp; 144 horas<br />
+            EV01 Caso &nbsp;/&nbsp; EV02 Testing con Postman &nbsp;/&nbsp; EV03
+            Proyecto
+          </div>
+          <aside class="notes">
+            Bienvenida. Recordar que las tres evidencias son acumulativas: la
+            EV02 prueba lo que se hizo en la EV01, y la EV03 escala lo aprendido
+            al proyecto formativo.
+          </aside>
+        </section>
+
+        <!-- ============ MAPA DE LA SEMANA ============ -->
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /semana/evidencias
+          </div>
+          <h2>Lo que vamos a entregar</h2>
+          <div class="grid g3" style="margin-top: 1.2em">
+            <div class="card fragment">
+              <h4>EV01 · Caso</h4>
+              <p>
+                Diseñas y programas un servicio web de
+                <strong>registro e inicio de sesión</strong>. Con comentarios y
+                con Git.
+              </p>
+            </div>
+            <div class="card fragment">
+              <h4>EV02 · API</h4>
+              <p>
+                Pruebas esa misma API con <strong>Postman</strong>. Video,
+                pantallazos y archivo de endpoints.
+              </p>
+            </div>
+            <div class="card fragment">
+              <h4>EV03 · Proyecto</h4>
+              <p>
+                Repites el proceso, pero con
+                <strong>los servicios reales</strong> de tu proyecto formativo,
+                documentados.
+              </p>
+            </div>
+          </div>
+          <p class="note fragment" style="margin-top: 1.4em">
+            No son tres tareas sueltas. Es una sola API que construyes, pruebas
+            y luego escalas.
+          </p>
+        </section>
+
+        <!-- ============ SECCIÓN 1: FUNDAMENTOS ============ -->
+        <section class="dark" data-background-color="#0C1B14">
+          <div class="kicker">Parte 1</div>
+          <h2 style="font-size: 2.2em; margin-top: 0.3em">Fundamentos</h2>
+          <p style="color: #a9bbaf; font-size: 0.75em">
+            Qué es una API, cómo conversan el cliente y el servidor, y por qué
+            los números importan.
+          </p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /conceptos/api
+          </div>
+          <h2>¿Qué es un servicio web?</h2>
+          <p style="font-size: 0.8em; max-width: 24em">
+            Es un programa que <strong>no tiene pantalla</strong>. Vive en un
+            servidor, espera peticiones por HTTP y devuelve datos, casi siempre
+            en JSON.
+          </p>
+
+          <div class="grid g2" style="margin-top: 1.2em">
+            <div class="card">
+              <h4>La metáfora del restaurante</h4>
+              <p>
+                Tú (el <em>cliente</em>) no entras a la cocina. Le pides al
+                mesero (la <em>API</em>), él lleva tu orden a la cocina (el
+                <em>servidor</em>) y te trae el plato (la <em>respuesta</em>).
+              </p>
+            </div>
+            <div class="card">
+              <h4>Por qué sirve</h4>
+              <p>
+                Una sola API puede alimentar la app web, la app móvil y un
+                tablero de reportes. La lógica se escribe <em>una vez</em>.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            Insistir: la API es un contrato. El cliente no sabe si por dentro
+            hay PHP, Java o Node. Solo conoce la URL, el método y el formato.
+          </aside>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow"><span class="verb">POST</span> /api/login</div>
+          <h2>Anatomía de una conversación</h2>
+          <div class="flow">
+            <div class="node">
+              <div class="big">Cliente</div>
+              <div class="sm">Navegador, app<br />o Postman</div>
+            </div>
+            <div class="arrow">
+              <div>petición ──▶</div>
+              <div>◀── respuesta</div>
+            </div>
+            <div class="node">
+              <div class="big">Servidor</div>
+              <div class="sm">Tu código<br />+ base de datos</div>
+            </div>
+          </div>
+          <div class="grid g2" style="font-size: 0.62em">
+            <div>
+              <strong>La petición lleva</strong>
+              <ul style="margin-top: 0.3em">
+                <li>Método: <code class="inline">POST</code></li>
+                <li>URL: <code class="inline">/api/login</code></li>
+                <li>
+                  Cabeceras:
+                  <code class="inline">Content-Type: application/json</code>
+                </li>
+                <li>Cuerpo: los datos en JSON</li>
+              </ul>
+            </div>
+            <div>
+              <strong>La respuesta trae</strong>
+              <ul style="margin-top: 0.3em">
+                <li>Código de estado: <code class="inline">200</code></li>
+                <li>Cabeceras</li>
+                <li>Cuerpo: el resultado en JSON</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /conceptos/metodos-http
+          </div>
+          <h2>Los verbos de HTTP</h2>
+          <p style="font-size: 0.68em; color: var(--slate)">
+            El método le dice al servidor <em>qué intención</em> tiene la
+            petición.
+          </p>
+          <table class="t" style="margin-top: 1em">
+            <tr>
+              <th>Método</th>
+              <th>Intención</th>
+              <th>Ejemplo en tu proyecto</th>
+            </tr>
+            <tr>
+              <td class="mono"><strong>GET</strong></td>
+              <td>Consultar, no modifica nada</td>
+              <td class="mono">GET /api/usuarios</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>POST</strong></td>
+              <td>Crear un recurso nuevo</td>
+              <td class="mono">POST /api/registro</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>PUT</strong></td>
+              <td>Reemplazar un recurso existente</td>
+              <td class="mono">PUT /api/usuarios/7</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>PATCH</strong></td>
+              <td>Modificar solo algunos campos</td>
+              <td class="mono">PATCH /api/usuarios/7</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>DELETE</strong></td>
+              <td>Eliminar</td>
+              <td class="mono">DELETE /api/usuarios/7</td>
+            </tr>
+          </table>
+          <p class="note" style="margin-top: 1em">
+            El login usa <code class="inline">POST</code> aunque "solo
+            consulte": la contraseña nunca debe viajar en la URL.
+          </p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /conceptos/codigos-estado
+          </div>
+          <h2>Los números importan</h2>
+          <p style="font-size: 0.68em; color: var(--slate)">
+            Devolver <code class="inline">200</code> con un mensaje de error es
+            el error más común de la evidencia.
+          </p>
+          <table class="t" style="margin-top: 0.8em">
+            <tr>
+              <th>Código</th>
+              <th>Significa</th>
+              <th>Cuándo lo usas</th>
+            </tr>
+            <tr>
+              <td><span class="chip c200">200 OK</span></td>
+              <td>Todo salió bien</td>
+              <td>Login correcto</td>
+            </tr>
+            <tr>
+              <td><span class="chip c201">201 Created</span></td>
+              <td>Se creó el recurso</td>
+              <td>Usuario registrado</td>
+            </tr>
+            <tr>
+              <td><span class="chip c400">400 Bad Request</span></td>
+              <td>Datos mal enviados</td>
+              <td>Falta la contraseña</td>
+            </tr>
+            <tr>
+              <td><span class="chip c401">401 Unauthorized</span></td>
+              <td>No autenticado</td>
+              <td>Clave incorrecta</td>
+            </tr>
+            <tr>
+              <td><span class="chip c409">409 Conflict</span></td>
+              <td>Choca con algo existente</td>
+              <td>El usuario ya está registrado</td>
+            </tr>
+            <tr>
+              <td><span class="chip c500">500 Server Error</span></td>
+              <td>Se rompió tu código</td>
+              <td>Nunca a propósito</td>
+            </tr>
+          </table>
+          <aside class="notes">
+            Regla mnemotécnica: 2xx tú lo hiciste bien; 4xx el cliente lo hizo
+            mal; 5xx yo lo hice mal.
+          </aside>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /conceptos/json
+          </div>
+          <h2>JSON: el idioma común</h2>
+          <div class="grid g2">
+            <div>
+              <p style="font-size: 0.6em; color: #a9bbaf">
+                Lo que envía el cliente
+              </p>
+              <pre class="code">{
+  <span class="s">"usuario"</span>: <span class="s">"aprendiz01"</span>,
+  <span class="s">"contrasena"</span>: <span class="s">"SENA*2026"</span>
+}</pre>
+            </div>
+            <div>
+              <p style="font-size: 0.6em; color: #a9bbaf">
+                Lo que responde el servidor
+              </p>
+              <pre class="code">{
+  <span class="s">"ok"</span>: <span class="k">true</span>,
+  <span class="s">"mensaje"</span>: <span class="s">"Autenticación satisfactoria"</span>
+}</pre>
+            </div>
+          </div>
+          <p style="font-size: 0.6em; color: #a9bbaf; margin-top: 1em">
+            Comillas dobles siempre. Sin coma después del último elemento. Sin
+            comentarios dentro del JSON.
+          </p>
+        </section>
+
+        <!-- ============ SECCIÓN 2: EV01 ============ -->
+        <section class="dark" data-background-color="#0C1B14">
+          <div class="kicker">Evidencia 01</div>
+          <h2 style="font-size: 2.2em; margin-top: 0.3em">
+            Diseño y desarrollo<br />de servicios web — caso
+          </h2>
+          <p style="color: #a9bbaf; font-size: 0.7em">GA7-220501096-AA5-EV01</p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev01/requisito
+          </div>
+          <h2>El caso, palabra por palabra</h2>
+          <ul style="font-size: 0.72em; max-width: 26em">
+            <li>
+              Un servicio web con <strong>registro</strong> e
+              <strong>inicio de sesión</strong>.
+            </li>
+            <li>
+              Recibe <strong>usuario</strong> y <strong>contraseña</strong>.
+            </li>
+            <li>
+              Si la autenticación es correcta → mensaje de
+              <em>autenticación satisfactoria</em>.
+            </li>
+            <li>Si no → <em>error en la autenticación</em>.</li>
+            <li>El código <strong>debe tener comentarios</strong>.</li>
+            <li>El proyecto <strong>debe estar en Git</strong>.</li>
+          </ul>
+          <p class="note" style="margin-top: 1.2em">
+            Los dos últimos puntos son los que más se pierden. No son
+            opcionales: son criterios de evaluación.
+          </p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev01/diseno
+          </div>
+          <h2>Primero se diseña. Después se codifica.</h2>
+          <p style="font-size: 0.68em; color: var(--slate)">
+            Antes de abrir el editor, escribe el contrato de tu API. Esto es "el
+            diseño" que pide la evidencia.
+          </p>
+          <table class="t" style="margin-top: 1em">
+            <tr>
+              <th>Método</th>
+              <th>Ruta</th>
+              <th>Entrada</th>
+              <th>Respuesta</th>
+            </tr>
+            <tr>
+              <td class="mono">POST</td>
+              <td class="mono">/api/registro</td>
+              <td class="mono">usuario, contrasena</td>
+              <td>
+                <span class="chip c201">201</span>
+                <span class="chip c400">400</span>
+                <span class="chip c409">409</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="mono">POST</td>
+              <td class="mono">/api/login</td>
+              <td class="mono">usuario, contrasena</td>
+              <td>
+                <span class="chip c200">200</span>
+                <span class="chip c400">400</span>
+                <span class="chip c401">401</span>
+              </td>
+            </tr>
+          </table>
+          <p style="font-size: 0.62em; margin-top: 1.2em">
+            Este mismo cuadro será tu <strong>archivo ENDPOINT</strong> de la
+            EV02. Trabajo hecho una vez, entregado dos veces.
+          </p>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /api/registro
+          </div>
+          <h2>La regla de oro</h2>
+          <div class="flow" style="margin: 1em 0">
+            <div class="node">
+              <div class="big">"SENA*2026"</div>
+              <div class="sm">texto plano</div>
+            </div>
+            <div class="arrow"><div>bcrypt ──▶</div></div>
+            <div class="node">
+              <div
+                class="big"
+                style="
+                  font-size: 0.5em;
+                  font-family: &quot;IBM Plex Mono&quot;, monospace;
+                  word-break: break-all;
+                "
+              >
+                $2a$10$N9qo8uLO...
+              </div>
+              <div class="sm">hash irreversible</div>
+            </div>
+          </div>
+          <p style="font-size: 0.68em; max-width: 26em">
+            La contraseña <strong>nunca</strong> se guarda tal cual. Se guarda
+            su hash. Para verificar el login no se descifra: se vuelve a
+            calcular y se comparan los hashes.
+          </p>
+          <p style="font-size: 0.6em; color: #a9bbaf; margin-top: 0.8em">
+            Si en tu base de datos puedes <em>leer</em> la contraseña de un
+            usuario, está mal hecho.
+          </p>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /ev01/codigo · 1 de 3
+          </div>
+          <h2>Preparar el servidor</h2>
+          <pre
+            class="code"
+          ><span class="c">// server.js — Servicio web de registro e inicio de sesión</span>
+<span class="c">// Ficha 3186652 · Evidencia GA7-220501096-AA5-EV01</span>
+
+<span class="k">const</span> express = <span class="k">require</span>(<span class="s">'express'</span>);   <span class="c">// Framework para manejar HTTP</span>
+<span class="k">const</span> bcrypt  = <span class="k">require</span>(<span class="s">'bcryptjs'</span>);  <span class="c">// Cifrado (hash) de contraseñas</span>
+
+<span class="k">const</span> app = express();
+app.use(express.json());  <span class="c">// Permite leer el cuerpo JSON de la petición</span>
+
+<span class="c">// "Base de datos" en memoria. En el proyecto real será MySQL.</span>
+<span class="k">const</span> usuarios = [];</pre>
+          <aside class="notes">
+            npm init -y && npm install express bcryptjs. Mostrarlo en vivo si
+            hay tiempo.
+          </aside>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /ev01/codigo · 2 de 3
+          </div>
+          <h2>Registro</h2>
+          <pre
+            class="code"
+          ><span class="c">// POST /api/registro → crea un usuario nuevo</span>
+app.post(<span class="s">'/api/registro'</span>, <span class="k">async</span> (req, res) => {
+
+  <span class="k">const</span> { usuario, contrasena } = req.body;        <span class="c">// 1. Leer los datos</span>
+
+  <span class="k">if</span> (!usuario || !contrasena)                      <span class="c">// 2. Validar</span>
+    <span class="k">return</span> res.status(<span class="n">400</span>).json({ ok: <span class="k">false</span>, mensaje: <span class="s">'Datos incompletos'</span> });
+
+  <span class="k">if</span> (usuarios.some(u => u.usuario === usuario))    <span class="c">// 3. ¿Ya existe?</span>
+    <span class="k">return</span> res.status(<span class="n">409</span>).json({ ok: <span class="k">false</span>, mensaje: <span class="s">'El usuario ya existe'</span> });
+
+  <span class="k">const</span> hash = <span class="k">await</span> bcrypt.hash(contrasena, <span class="n">10</span>); <span class="c">// 4. Nunca texto plano</span>
+  usuarios.push({ usuario, hash });                 <span class="c">// 5. Guardar</span>
+
+  res.status(<span class="n">201</span>).json({ ok: <span class="k">true</span>, mensaje: <span class="s">'Usuario registrado'</span> });
+});</pre>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /ev01/codigo · 3 de 3
+          </div>
+          <h2>Inicio de sesión</h2>
+          <pre
+            class="code"
+          ><span class="c">// POST /api/login → valida las credenciales</span>
+app.post(<span class="s">'/api/login'</span>, <span class="k">async</span> (req, res) => {
+
+  <span class="k">const</span> { usuario, contrasena } = req.body;
+
+  <span class="k">const</span> encontrado = usuarios.find(u => u.usuario === usuario);
+  <span class="k">const</span> valido = encontrado &amp;&amp; <span class="k">await</span> bcrypt.compare(contrasena, encontrado.hash);
+
+  <span class="c">// Mensaje genérico: no revelamos si falló el usuario o la contraseña</span>
+  <span class="k">if</span> (!valido)
+    <span class="k">return</span> res.status(<span class="n">401</span>).json({ ok: <span class="k">false</span>, mensaje: <span class="s">'Error en la autenticación'</span> });
+
+  res.status(<span class="n">200</span>).json({ ok: <span class="k">true</span>, mensaje: <span class="s">'Autenticación satisfactoria'</span> });
+});
+
+app.listen(<span class="n">3000</span>, () => console.log(<span class="s">'API en http://localhost:3000'</span>));</pre>
+          <aside class="notes">
+            Preguntar al grupo: ¿por qué el mismo mensaje para usuario
+            inexistente y clave errada? Respuesta: para no permitir enumerar
+            usuarios.
+          </aside>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev01/otros-lenguajes
+          </div>
+          <h2>Lo mismo, en tu lenguaje</h2>
+          <p style="font-size: 0.66em; color: var(--slate)">
+            La lógica no cambia: leer → validar → responder con el código
+            correcto.
+          </p>
+          <div class="grid g2" style="margin-top: 0.9em">
+            <div>
+              <p
+                style="
+                  font-size: 0.58em;
+                  color: var(--slate);
+                  font-family: &quot;IBM Plex Mono&quot;, monospace;
+                "
+              >
+                PHP
+              </p>
+              <pre class="code" style="font-size: 0.44em">&lt;?php
+<span class="c">// login.php — servicio de autenticación</span>
+header(<span class="s">'Content-Type: application/json'</span>);
+
+<span class="n">$datos</span> = json_decode(file_get_contents(<span class="s">'php://input'</span>), <span class="k">true</span>);
+<span class="n">$fila</span>  = buscarUsuario(<span class="n">$datos</span>[<span class="s">'usuario'</span>]);
+
+<span class="k">if</span> (!<span class="n">$fila</span> || !password_verify(<span class="n">$datos</span>[<span class="s">'contrasena'</span>], <span class="n">$fila</span>[<span class="s">'hash'</span>])) {
+  http_response_code(<span class="n">401</span>);
+  <span class="k">echo</span> json_encode([<span class="s">'mensaje'</span> => <span class="s">'Error en la autenticación'</span>]);
+  <span class="k">exit</span>;
+}
+http_response_code(<span class="n">200</span>);
+<span class="k">echo</span> json_encode([<span class="s">'mensaje'</span> => <span class="s">'Autenticación satisfactoria'</span>]);</pre>
+            </div>
+            <div>
+              <p
+                style="
+                  font-size: 0.58em;
+                  color: var(--slate);
+                  font-family: &quot;IBM Plex Mono&quot;, monospace;
+                "
+              >
+                JAVA · SPRING BOOT
+              </p>
+              <pre
+                class="code"
+                style="font-size: 0.44em"
+              ><span class="c">// LoginController.java</span>
+<span class="n">@RestController</span>
+<span class="k">public class</span> LoginController {
+
+  <span class="n">@PostMapping</span>(<span class="s">"/api/login"</span>)
+  <span class="k">public</span> ResponseEntity&lt;Respuesta&gt; login(<span class="n">@RequestBody</span> Credenciales c) {
+
+    <span class="k">if</span> (!servicio.autenticar(c))   <span class="c">// valida contra el hash</span>
+      <span class="k">return</span> ResponseEntity.status(<span class="n">401</span>)
+             .body(<span class="k">new</span> Respuesta(<span class="s">"Error en la autenticación"</span>));
+
+    <span class="k">return</span> ResponseEntity.ok(
+             <span class="k">new</span> Respuesta(<span class="s">"Autenticación satisfactoria"</span>));
+  }
+}</pre>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="eyebrow"><span class="verb">POST</span> /ev01/git</div>
+          <h2>Versionamiento: no es un extra</h2>
+          <div class="grid g2">
+            <div>
+              <pre class="code" style="font-size: 0.5em">git init
+git add .
+git commit -m <span class="s">"feat: endpoint de registro"</span>
+
+git branch -M main
+git remote add origin URL_DEL_REPO
+git push -u origin main</pre>
+              <p
+                style="
+                  font-size: 0.55em;
+                  color: var(--slate);
+                  margin-top: 0.6em;
+                "
+              >
+                Haz <em>commit</em> por cada avance, no uno solo al final. El
+                historial es parte de lo que se evalúa.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Nunca subas al repositorio</h4>
+              <p style="line-height: 1.7">
+                <code class="inline">node_modules/</code> — se reinstala<br />
+                <code class="inline">.env</code> — claves y contraseñas<br />
+                <code class="inline">*.sql</code> con datos reales
+              </p>
+              <p style="margin-top: 0.7em">
+                Usa un archivo <code class="inline">.gitignore</code>. Y
+                verifica que el repositorio quede <strong>público</strong> antes
+                de entregar el enlace.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="dark" data-background-color="#0C1B14">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /ev01/entrega
+          </div>
+          <h2>Entregable EV01</h2>
+          <ul class="check">
+            <li>Archivos del proyecto (código fuente comentado)</li>
+            <li>Archivo con el enlace del repositorio</li>
+            <li>
+              Todo comprimido en <strong>.ZIP</strong> o <strong>.RAR</strong>
+            </li>
+            <li>
+              Nombre exacto:
+              <code class="inline">NOMBRE_APELLIDO_AA5_EV01</code>
+            </li>
+          </ul>
+          <p class="note" style="margin-top: 1.4em">
+            Se envía en el espacio
+            <em
+              >Diseño y desarrollo de servicios web - caso.
+              GA7-220501096-AA5-EV01</em
+            >.
+          </p>
+        </section>
+
+        <!-- ============ SECCIÓN 3: EV02 ============ -->
+        <section class="dark" data-background-color="#0C1B14">
+          <div class="kicker">Evidencia 02</div>
+          <h2 style="font-size: 2.2em; margin-top: 0.3em">API</h2>
+          <p style="color: #a9bbaf; font-size: 0.7em">
+            GA7-220501096-AA5-EV02 · Testing con Postman
+          </p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev02/postman
+          </div>
+          <h2>¿Por qué Postman?</h2>
+          <p style="font-size: 0.72em; max-width: 26em">
+            Tu API no tiene interfaz. El navegador solo sabe hacer
+            <code class="inline">GET</code>. Postman te deja enviar cualquier
+            método, con cualquier cuerpo y cualquier cabecera, y ver la
+            respuesta cruda.
+          </p>
+          <div class="grid g3" style="margin-top: 1.2em">
+            <div class="card">
+              <h4>1. Instalar</h4>
+              <p>
+                Descárgalo de postman.com. Crea una cuenta gratuita para
+                sincronizar tu colección.
+              </p>
+            </div>
+            <div class="card">
+              <h4>2. Crear colección</h4>
+              <p>
+                Una colección por evidencia. Dentro, una petición por endpoint.
+              </p>
+            </div>
+            <div class="card">
+              <h4>3. Exportar</h4>
+              <p>
+                La colección se exporta como <code class="inline">.json</code> y
+                se adjunta a la entrega.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /ev02/peticion
+          </div>
+          <h2>Cómo se arma una petición</h2>
+          <ul style="font-size: 0.68em">
+            <li>Método: <code class="inline">POST</code></li>
+            <li>
+              URL: <code class="inline">http://localhost:3000/api/login</code>
+            </li>
+            <li>
+              Pestaña <strong>Body</strong> → <strong>raw</strong> → tipo
+              <strong>JSON</strong>
+            </li>
+          </ul>
+          <pre class="code" style="margin-top: 0.8em">{
+  <span class="s">"usuario"</span>: <span class="s">"aprendiz01"</span>,
+  <span class="s">"contrasena"</span>: <span class="s">"SENA*2026"</span>
+}</pre>
+          <p style="font-size: 0.58em; color: #a9bbaf; margin-top: 0.8em">
+            Si eliges <em>Body → form-data</em> en vez de <em>raw/JSON</em>, tu
+            servidor recibirá <code class="inline">undefined</code>. Es el 90%
+            de los "no me funciona, profe".
+          </p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev02/casos-de-prueba
+          </div>
+          <h2>Probar no es "que funcione una vez"</h2>
+          <p style="font-size: 0.66em; color: var(--slate)">
+            Documenta cada caso con su pantallazo. Estos cinco son el mínimo.
+          </p>
+          <table class="t" style="margin-top: 0.8em">
+            <tr>
+              <th>#</th>
+              <th>Caso</th>
+              <th>Datos enviados</th>
+              <th>Esperado</th>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Registro exitoso</td>
+              <td class="mono">aprendiz01 / SENA*2026</td>
+              <td><span class="chip c201">201</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Registro duplicado</td>
+              <td class="mono">aprendiz01 / SENA*2026</td>
+              <td><span class="chip c409">409</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Login correcto</td>
+              <td class="mono">aprendiz01 / SENA*2026</td>
+              <td><span class="chip c200">200</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Contraseña errada</td>
+              <td class="mono">aprendiz01 / 123456</td>
+              <td><span class="chip c401">401</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Campo faltante</td>
+              <td class="mono">aprendiz01 / —</td>
+              <td><span class="chip c400">400</span></td>
+            </tr>
+          </table>
+          <aside class="notes">
+            El caso 4 y el 5 son los que demuestran comprensión. Quien solo
+            muestra el camino feliz, no probó nada.
+          </aside>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow"><span class="verb">POST</span> /ev02/tests</div>
+          <h2>Pruebas automáticas (opcional, suma)</h2>
+          <p style="font-size: 0.62em; color: #a9bbaf">
+            Pestaña <strong>Scripts → Post-response</strong> dentro de la
+            petición.
+          </p>
+          <pre
+            class="code"
+          ><span class="c">// Verifica que el servidor respondió 200</span>
+pm.test(<span class="s">"Código de estado es 200"</span>, () => {
+  pm.response.to.have.status(<span class="n">200</span>);
+});
+
+<span class="c">// Verifica el contenido del mensaje</span>
+pm.test(<span class="s">"Mensaje de autenticación satisfactoria"</span>, () => {
+  pm.expect(pm.response.json().mensaje).to.eql(<span class="s">"Autenticación satisfactoria"</span>);
+});</pre>
+          <p style="font-size: 0.58em; color: #a9bbaf; margin-top: 0.8em">
+            Grabar el video mientras corren los tests en verde deja una
+            evidencia muy sólida.
+          </p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev02/endpoints.md
+          </div>
+          <h2>El archivo ENDPOINT</h2>
+          <p style="font-size: 0.66em; color: var(--slate)">
+            Un documento donde cualquiera pueda usar tu API sin leer tu código.
+          </p>
+          <pre class="code" style="font-size: 0.48em; margin-top: 0.8em">
+# API de autenticación — AA5
+
+Base URL: http://localhost:3000
+
+## POST /api/registro
+Crea un usuario nuevo.
+
+Cuerpo:   { "usuario": "string", "contrasena": "string" }
+Respuestas:
+  201 → { "ok": true,  "mensaje": "Usuario registrado" }
+  400 → { "ok": false, "mensaje": "Datos incompletos" }
+  409 → { "ok": false, "mensaje": "El usuario ya existe" }
+
+## POST /api/login
+Valida las credenciales.
+
+Cuerpo:   { "usuario": "string", "contrasena": "string" }
+Respuestas:
+  200 → { "ok": true,  "mensaje": "Autenticación satisfactoria" }
+  401 → { "ok": false, "mensaje": "Error en la autenticación" }</pre
+          >
+        </section>
+
+        <section class="dark" data-background-color="#0C1B14">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /ev02/entrega
+          </div>
+          <h2>Entregable EV02</h2>
+          <ul class="check">
+            <li>Archivos del proyecto</li>
+            <li><strong>Video</strong> mostrando el testing en Postman</li>
+            <li>Documento con las pruebas y sus pantallazos</li>
+            <li>Archivo <strong>ENDPOINT</strong></li>
+            <li>Archivo con el enlace del repositorio</li>
+            <li>
+              Comprimido como
+              <code class="inline">NOMBRE_APELLIDO_AA5_EV02</code>
+            </li>
+          </ul>
+          <p class="note" style="margin-top: 1.2em">
+            En el video: muestra la petición, el cuerpo, el código de estado y
+            la respuesta. Narra lo que estás haciendo.
+          </p>
+        </section>
+
+        <!-- ============ SECCIÓN 4: EV03 ============ -->
+        <section class="dark" data-background-color="#0C1B14">
+          <div class="kicker">Evidencia 03</div>
+          <h2 style="font-size: 2.2em; margin-top: 0.3em">
+            Diseño y desarrollo<br />de servicios web — proyecto
+          </h2>
+          <p style="color: #a9bbaf; font-size: 0.7em">GA7-220501096-AA5-EV03</p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev03/alcance
+          </div>
+          <h2>Del caso al proyecto</h2>
+          <p style="font-size: 0.72em; max-width: 26em">
+            Ahora los endpoints no te los doy yo:
+            <strong
+              >salen de las historias de usuario de tu proyecto
+              formativo</strong
+            >.
+          </p>
+          <div class="flow">
+            <div class="node">
+              <div class="big">Requisito</div>
+              <div class="sm">"El docente registra<br />una calificación"</div>
+            </div>
+            <div class="arrow"><div>se convierte en ──▶</div></div>
+            <div class="node">
+              <div
+                class="big"
+                style="
+                  font-family: &quot;IBM Plex Mono&quot;, monospace;
+                  font-size: 0.6em;
+                "
+              >
+                POST /api/calificaciones
+              </div>
+              <div class="sm">un endpoint</div>
+            </div>
+          </div>
+          <p style="font-size: 0.62em; color: var(--slate)">
+            Sustantivo → recurso (la URL). Verbo → método HTTP.
+          </p>
+        </section>
+
+        <section>
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev03/tabla-de-servicios
+          </div>
+          <h2>Construye tu tabla de servicios</h2>
+          <p style="font-size: 0.64em; color: var(--slate)">
+            Ejemplo con un recurso cualquiera. Repítelo para cada entidad de tu
+            modelo de datos.
+          </p>
+          <table class="t" style="margin-top: 0.8em">
+            <tr>
+              <th>Método</th>
+              <th>Ruta</th>
+              <th>Hace</th>
+              <th>Requiere token</th>
+            </tr>
+            <tr>
+              <td class="mono">GET</td>
+              <td class="mono">/api/cursos</td>
+              <td>Lista todos los cursos</td>
+              <td>Sí</td>
+            </tr>
+            <tr>
+              <td class="mono">GET</td>
+              <td class="mono">/api/cursos/:id</td>
+              <td>Trae un curso</td>
+              <td>Sí</td>
+            </tr>
+            <tr>
+              <td class="mono">POST</td>
+              <td class="mono">/api/cursos</td>
+              <td>Crea un curso</td>
+              <td>Sí (admin)</td>
+            </tr>
+            <tr>
+              <td class="mono">PUT</td>
+              <td class="mono">/api/cursos/:id</td>
+              <td>Actualiza un curso</td>
+              <td>Sí (admin)</td>
+            </tr>
+            <tr>
+              <td class="mono">DELETE</td>
+              <td class="mono">/api/cursos/:id</td>
+              <td>Elimina un curso</td>
+              <td>Sí (admin)</td>
+            </tr>
+          </table>
+          <p class="note" style="margin-top: 1em">
+            Si tu recurso se llama
+            <code class="inline">/api/obtenerCursos</code>, el verbo está en la
+            URL y en el método a la vez. Redúndante: la URL nombra cosas, el
+            método nombra acciones.
+          </p>
+        </section>
+
+        <section class="dark" data-background-color="#13261D">
+          <div class="eyebrow">
+            <span class="verb get">GET</span> /ev03/documentacion
+          </div>
+          <h2>Documentar cada servicio</h2>
+          <p style="font-size: 0.68em; max-width: 26em">
+            La evidencia lo exige explícitamente. Tienes dos caminos, ambos
+            válidos:
+          </p>
+          <div class="grid g2" style="margin-top: 1em">
+            <div class="card">
+              <h4>Manual</h4>
+              <p>
+                Un <code class="inline">ENDPOINTS.md</code> en el repositorio,
+                con la misma estructura de la EV02: ruta, método, entrada,
+                salidas posibles.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Automática — Swagger / OpenAPI</h4>
+              <p>
+                Anotas el código y se genera una página web navegable donde se
+                puede probar la API. Suma mucho en la valoración.
+              </p>
+            </div>
+          </div>
+          <p style="font-size: 0.58em; color: #a9bbaf; margin-top: 1.2em">
+            Documentar no es describir tu código. Es decirle a otra persona cómo
+            usarlo sin abrirlo.
+          </p>
+        </section>
+
+        <section class="dark" data-background-color="#0C1B14">
+          <div class="eyebrow">
+            <span class="verb">POST</span> /ev03/entrega
+          </div>
+          <h2>Entregable EV03</h2>
+          <ul class="check">
+            <li>
+              Archivos del proyecto (todos los servicios del proyecto formativo)
+            </li>
+            <li>Documentación de cada servicio</li>
+            <li>Proyecto versionado en Git</li>
+            <li>Archivo con el enlace del repositorio</li>
+            <li>
+              Comprimido como
+              <code class="inline">NOMBRE_APELLIDO_AA5_EV03</code>
+            </li>
+          </ul>
+          <p class="note" style="margin-top: 1.2em">
+            Ojo: el instructivo original repite "EV01" en el nombre del
+            comprimido de esta evidencia. Nómbrala <strong>EV03</strong>; es lo
+            correcto y así se identifica en la plataforma.
+          </p>
+        </section>
+
+        <!-- ============ CIERRE ============ -->
+        <section>
+          <div class="eyebrow">
+            <span class="verb c401">401</span> /errores/frecuentes
+          </div>
+          <h2>Lo que hace perder la evidencia</h2>
+          <div class="grid g2" style="margin-top: 0.8em">
+            <div class="card">
+              <h4>Todo responde 200</h4>
+              <p>
+                Un error con código de éxito no es un error para el cliente.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Contraseñas en texto plano</h4>
+              <p>Se ve en la base de datos y se ve en la revisión.</p>
+            </div>
+            <div class="card">
+              <h4>Código sin comentarios</h4>
+              <p>
+                Está escrito en el enunciado. Comenta el <em>por qué</em>, no el
+                <em>qué</em>.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Un solo commit: "proyecto final"</h4>
+              <p>Eso no es versionamiento, es un respaldo.</p>
+            </div>
+            <div class="card">
+              <h4>Repositorio privado</h4>
+              <p>Si el instructor no puede abrirlo, no existe.</p>
+            </div>
+            <div class="card">
+              <h4>Video sin audio ni contexto</h4>
+              <p>Explica qué envías, qué esperas y qué recibiste.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="dark cover" data-background-color="#0C1B14">
+          <div class="kicker">Cierre</div>
+          <div class="rule"></div>
+          <h2 style="font-size: 2em; color: var(--paper)">
+            Diseñar. Codificar.<br />Probar. Documentar.
+          </h2>
+          <p style="font-size: 0.7em; color: #a9bbaf; max-width: 24em">
+            En ese orden. Las tres evidencias no son tres entregas: son las
+            cuatro etapas del mismo oficio.
+          </p>
+          <div class="meta" style="margin-top: 2em">
+            Dudas → espacio de la actividad en la plataforma<br />
+            Fichas 3186652 · 3186653
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.06,
+        minScale: 0.2,
+        maxScale: 1.5,
+        hash: true,
+        slideNumber: "c/t",
+        transition: "fade",
+        transitionSpeed: "fast",
+        plugins: [RevealNotes],
+      });
+    </script>
+  </body>
+</html>
