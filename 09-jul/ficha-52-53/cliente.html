@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cliente de la API</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 380px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+      h2 {
+        margin-top: 32px;
+      }
+      input {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 8px;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        cursor: pointer;
+      }
+      #mensaje {
+        margin-top: 24px;
+        padding: 10px;
+        text-align: center;
+      }
+      .ok {
+        background: #d4edda;
+        color: #155724;
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Usuarios</h1>
+
+    <h2>Registrarse</h2>
+    <form id="formRegistro">
+      <input name="nombre" placeholder="Nombre" />
+      <input name="edad" type="number" placeholder="Edad" />
+      <input name="correo" type="email" placeholder="Correo" />
+      <input name="contrasena" type="password" placeholder="Contrasena" />
+      <button type="submit">Crear cuenta</button>
+    </form>
+
+    <h2>Iniciar sesion</h2>
+    <form id="formLogin">
+      <input name="correo" type="email" placeholder="Correo" />
+      <input name="contrasena" type="password" placeholder="Contrasena" />
+      <button type="submit">Entrar</button>
+    </form>
+
+    <div id="mensaje"></div>
+
+    <script>
+      const API = "http://localhost:8080";
+      const mensaje = document.getElementById("mensaje");
+
+      function mostrar(texto, esError) {
+        mensaje.textContent = texto;
+        mensaje.className = esError ? "error" : "ok";
+      }
+
+      async function enviar(ruta, datos) {
+        try {
+          const respuesta = await fetch(API + ruta, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(datos),
+          });
+
+          const cuerpo = await respuesta.json();
+
+          if (!respuesta.ok) {
+            return mostrar(cuerpo.error, true);
+          }
+
+          mostrar(cuerpo.message, false);
+        } catch (error) {
+          mostrar("No se pudo conectar con el servidor", true);
+        }
+      }
+
+      document.getElementById("formRegistro").addEventListener("submit", (evento) => {
+        evento.preventDefault();
+        const datos = Object.fromEntries(new FormData(evento.target));
+        datos.edad = Number(datos.edad);
+        enviar("/sign-up", datos);
+      });
+
+      document.getElementById("formLogin").addEventListener("submit", (evento) => {
+        evento.preventDefault();
+        const datos = Object.fromEntries(new FormData(evento.target));
+        enviar("/sign-in", datos);
+      });
+    </script>
+  </body>
+</html>
