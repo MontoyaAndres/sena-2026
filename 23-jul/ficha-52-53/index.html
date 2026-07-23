@@ -3,222 +3,241 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Testing de API con Postman · GA7-220501096-AA5-EV04</title>
+    <title>Testing de API y Guía 8 · Fichas 3186652 y 3186653</title>
 
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
     <style>
       :root {
-        --bg: #0b0e14;
-        --bg-elev: #141a24;
-        --bg-elev-2: #1c2430;
-        --border: #2a3342;
-        --text: #e8edf4;
-        --muted: #8a94a6;
-        --orange: #ff6c37;
-        --orange-soft: rgba(255, 108, 55, 0.12);
-        --green: #3dd68c;
-        --amber: #e7b24c;
-        --blue: #5aa9ff;
-        --red: #f2555a;
-        --purple: #b58cff;
+        --paper: #e9edf3;
+        --paper-2: #f6f8fb;
+        --ink: #151e2c;
+        --ink-soft: #5d6d84;
+        --line: #c3ccd9;
+        --signal: #2747e0; /* azul petición */
+        --alert: #c4185f; /* magenta entrega */
+        --ok: #0f7a5a; /* verde respuesta */
+        --amber: #b4690e;
+
+        --display: "Bricolage Grotesque", "Archivo", system-ui, sans-serif;
+        --body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+        --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+      }
+
+      html,
+      body {
+        background: var(--paper);
+      }
+      body {
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 34px 34px;
+        background-position: -1px -1px;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse at 50% 40%,
+          rgba(233, 237, 243, 0.25) 0%,
+          rgba(233, 237, 243, 0.92) 78%
+        );
       }
 
       .reveal {
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        font-size: 30px;
-        color: var(--text);
+        font-family: var(--body);
+        color: var(--ink);
+        font-size: 26px;
         font-weight: 400;
       }
       .reveal .slides {
         text-align: left;
       }
       .reveal .slides section {
-        height: 100%;
+        padding: 0;
       }
 
-      .reveal-viewport {
-        background:
-          radial-gradient(
-            1200px 600px at 80% -10%,
-            rgba(255, 108, 55, 0.1),
-            transparent 60%
-          ),
-          radial-gradient(
-            900px 500px at -5% 110%,
-            rgba(90, 169, 255, 0.08),
-            transparent 55%
-          ),
-          var(--bg);
-      }
-
+      /* ---------- tipografía ---------- */
       .reveal h1,
       .reveal h2,
-      .reveal h3 {
-        font-family: "Space Grotesk", sans-serif;
-        color: var(--text);
+      .reveal h3,
+      .reveal h4 {
+        font-family: var(--display);
+        color: var(--ink);
         text-transform: none;
         letter-spacing: -0.02em;
-        line-height: 1.08;
-        margin: 0 0 0.3em;
-        font-weight: 700;
+        line-height: 1.02;
+        margin: 0 0 0.35em 0;
       }
       .reveal h1 {
-        font-size: 2.15em;
+        font-size: 3.5rem;
+        font-weight: 800;
       }
       .reveal h2 {
-        font-size: 1.55em;
+        font-size: 2.15rem;
+        font-weight: 700;
       }
       .reveal h3 {
-        font-size: 1.05em;
+        font-size: 1.35rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
       }
       .reveal p {
         line-height: 1.5;
+        margin: 0 0 0.7em 0;
       }
       .reveal strong {
-        color: var(--text);
         font-weight: 600;
+        color: var(--ink);
       }
       .reveal em {
-        color: var(--orange);
-        font-style: normal;
-        font-weight: 600;
-      }
-      .reveal a {
-        color: var(--orange);
-      }
-
-      /* ---- shared bits ---- */
-      .mono {
-        font-family: "JetBrains Mono", monospace;
+        color: var(--ink-soft);
       }
 
       .eyebrow {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.6em;
+        font-family: var(--mono);
+        font-size: 0.62rem;
         letter-spacing: 0.22em;
         text-transform: uppercase;
-        color: var(--orange);
-        margin-bottom: 1.1em;
-        display: inline-block;
-      }
-      .muted {
-        color: var(--muted);
+        color: var(--ink-soft);
+        margin-bottom: 1.1rem;
+        display: block;
       }
       .lead {
-        color: var(--muted);
-        font-size: 1.05em;
-        max-width: 20ch;
+        font-size: 1.05rem;
+        color: var(--ink-soft);
+        max-width: 26ch;
+      }
+      .wide {
+        max-width: 44ch;
       }
 
-      .slide-num {
-        position: absolute;
-        top: -6px;
+      /* ---------- barra de estado (firma) ---------- */
+      .statusbar {
+        position: fixed;
+        left: 0;
         right: 0;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.5em;
-        color: var(--muted);
-        letter-spacing: 0.1em;
-      }
-
-      /* ---- request bar (signature motif) ---- */
-      .reqbar {
-        display: flex;
-        align-items: stretch;
-        gap: 0;
-        background: var(--bg-elev);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-        font-family: "JetBrains Mono", monospace;
-        max-width: 100%;
-      }
-      .reqbar .method {
+        bottom: 0;
+        height: 30px;
         display: flex;
         align-items: center;
-        gap: 0.5em;
-        padding: 0.7em 1em;
-        font-weight: 700;
-        font-size: 0.82em;
-        color: var(--green);
-        border-right: 1px solid var(--border);
-        white-space: nowrap;
+        gap: 14px;
+        padding: 0 22px;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: var(--ink-soft);
+        border-top: 1px solid var(--line);
+        background: rgba(246, 248, 251, 0.82);
+        backdrop-filter: blur(4px);
+        z-index: 40;
       }
-      .reqbar .method::after {
-        content: "▾";
-        color: var(--muted);
-        font-size: 0.8em;
+      .statusbar .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--ok);
       }
-      .reqbar .url {
+      .statusbar .grow {
         flex: 1;
-        display: flex;
-        align-items: center;
-        padding: 0.7em 1.1em;
-        font-size: 0.8em;
-        color: var(--text);
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
-      .reqbar .url .path {
-        color: var(--orange);
-      }
-      .reqbar .send {
-        display: flex;
-        align-items: center;
-        padding: 0.7em 1.6em;
-        background: var(--orange);
-        color: #1a0e07;
-        font-weight: 700;
-        font-size: 0.82em;
+      .reveal .slide-number {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-soft);
+        background: transparent;
+        right: 18px;
+        bottom: 8px;
       }
 
-      /* ---- method pills ---- */
-      .pill {
-        font-family: "JetBrains Mono", monospace;
-        font-weight: 700;
-        font-size: 0.7em;
-        letter-spacing: 0.04em;
-        padding: 0.28em 0.7em;
-        border-radius: 6px;
+      /* ---------- chips ---------- */
+      .m {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        padding: 3px 8px;
+        border-radius: 3px;
+        color: #fff;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .m.get {
+        background: var(--ok);
+      }
+      .m.post {
+        background: var(--amber);
+      }
+      .m.put {
+        background: var(--signal);
+      }
+      .m.del {
+        background: var(--alert);
+      }
+      .code-chip {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 600;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        padding: 3px 8px;
+        background: var(--paper-2);
+      }
+      .tag {
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--signal);
+        border: 1px solid var(--signal);
+        border-radius: 99px;
+        padding: 3px 11px;
         display: inline-block;
       }
-      .pill.get {
-        color: var(--green);
-        background: rgba(61, 214, 140, 0.14);
-      }
-      .pill.post {
-        color: var(--amber);
-        background: rgba(231, 178, 76, 0.14);
-      }
-      .pill.put {
-        color: var(--blue);
-        background: rgba(90, 169, 255, 0.14);
-      }
-      .pill.del {
-        color: var(--red);
-        background: rgba(242, 85, 90, 0.14);
-      }
-      .pill.patch {
-        color: var(--purple);
-        background: rgba(181, 140, 255, 0.14);
+      .tag.red {
+        color: var(--alert);
+        border-color: var(--alert);
       }
 
-      /* ---- cards / grid ---- */
+      /* ---------- divisor de sección: línea de petición ---------- */
+      .request-line {
+        font-family: var(--mono);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--ink);
+        background: var(--paper-2);
+        border: 1px solid var(--line);
+        border-left: 5px solid var(--signal);
+        padding: 20px 24px;
+        margin: 0 0 18px 0;
+        word-break: break-all;
+      }
+      .request-line .verb {
+        color: var(--alert);
+      }
+      .response-line {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--ok);
+        padding-left: 4px;
+      }
+
+      /* ---------- rejilla y tarjetas ---------- */
       .grid {
         display: grid;
-        gap: 18px;
+        gap: 16px;
       }
       .g2 {
         grid-template-columns: 1fr 1fr;
@@ -226,167 +245,189 @@
       .g3 {
         grid-template-columns: repeat(3, 1fr);
       }
-      .g4 {
-        grid-template-columns: repeat(4, 1fr);
+      .split {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 40px;
+        align-items: start;
       }
 
       .card {
-        background: var(--bg-elev);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 22px 24px;
+        background: var(--paper-2);
+        border: 1px solid var(--line);
+        padding: 18px 20px;
       }
       .card h3 {
-        margin-bottom: 0.35em;
+        margin-bottom: 0.3em;
       }
       .card p {
+        font-size: 0.82rem;
+        color: var(--ink-soft);
         margin: 0;
-        color: var(--muted);
-        font-size: 0.82em;
+        line-height: 1.45;
+      }
+      .card .k {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
+        color: var(--signal);
+        display: block;
+        margin-bottom: 0.6em;
+        text-transform: uppercase;
       }
 
-      .num-chip {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.62em;
-        font-weight: 700;
-        color: var(--orange);
-        background: var(--orange-soft);
-        border: 1px solid rgba(255, 108, 55, 0.3);
-        width: 2.1em;
-        height: 2.1em;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 0.7em;
-      }
-
-      /* ---- lists ---- */
+      /* ---------- listas ---------- */
       .reveal ul.clean {
         list-style: none;
         margin: 0;
         padding: 0;
       }
       .reveal ul.clean li {
+        font-size: 0.92rem;
+        line-height: 1.45;
+        padding: 9px 0 9px 26px;
         position: relative;
-        padding-left: 1.6em;
-        margin: 0.55em 0;
-        line-height: 1.4;
+        border-bottom: 1px solid var(--line);
+      }
+      .reveal ul.clean li:last-child {
+        border-bottom: none;
       }
       .reveal ul.clean li::before {
-        content: "→";
+        content: "";
         position: absolute;
-        left: 0;
-        color: var(--orange);
-        font-weight: 700;
+        left: 2px;
+        top: 1.05em;
+        width: 9px;
+        height: 1px;
+        background: var(--signal);
       }
       .reveal ul.check li::before {
-        content: "✓";
-        color: var(--green);
+        content: "☐";
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--alert);
+        left: 0;
+        top: 0.55em;
+        width: auto;
+        height: auto;
+        background: none;
       }
 
-      .status {
-        font-family: "JetBrains Mono", monospace;
-        font-weight: 700;
-        display: inline-flex;
-        gap: 0.5em;
+      /* ---------- tabla ---------- */
+      .reveal table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.78rem;
+      }
+      .reveal table th {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1.5px solid var(--ink);
+        font-weight: 400;
+      }
+      .reveal table td {
+        padding: 9px 10px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        line-height: 1.4;
+      }
+      .reveal table td.mono {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+      }
+
+      /* ---------- bloque de código ---------- */
+      pre.blk {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        line-height: 1.6;
+        background: var(--ink);
+        color: #dce3ee;
+        padding: 18px 20px;
+        margin: 0;
+        overflow: auto;
+        border-radius: 2px;
+      }
+      pre.blk .c {
+        color: #7a8aa3;
+      }
+      pre.blk .s {
+        color: #7fd6a9;
+      }
+      pre.blk .v {
+        color: #f2b872;
+      }
+
+      /* ---------- capas ---------- */
+      .layer {
+        border: 1px solid var(--line);
+        background: var(--paper-2);
+        padding: 13px 18px;
+        display: flex;
         align-items: baseline;
+        gap: 16px;
+        margin-bottom: 8px;
       }
-      .status .code {
-        font-size: 1.05em;
+      .layer b {
+        font-family: var(--display);
+        font-size: 0.98rem;
+        font-weight: 700;
+        min-width: 9.5ch;
       }
-      .s2 .code {
-        color: var(--green);
+      .layer span {
+        font-size: 0.78rem;
+        color: var(--ink-soft);
       }
-      .s4 .code {
-        color: var(--amber);
+      .layer.l1 {
+        border-left: 5px solid var(--signal);
       }
-      .s5 .code {
-        color: var(--red);
+      .layer.l2 {
+        border-left: 5px solid var(--amber);
       }
-
-      .tag {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.62em;
-        color: var(--muted);
-        border: 1px solid var(--border);
-        padding: 0.2em 0.6em;
-        border-radius: 999px;
+      .layer.l3 {
+        border-left: 5px solid var(--ok);
+      }
+      .layer.l4 {
+        border-left: 5px solid var(--alert);
       }
 
       .note {
-        border-left: 3px solid var(--orange);
-        background: var(--orange-soft);
-        padding: 0.9em 1.2em;
-        border-radius: 0 10px 10px 0;
-        font-size: 0.85em;
+        border-left: 3px solid var(--alert);
+        padding: 10px 0 10px 16px;
+        font-size: 0.82rem;
+        color: var(--ink-soft);
       }
-      .note strong {
-        color: var(--orange);
-      }
-
-      .filetree {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.8em;
-        line-height: 1.9;
-        background: var(--bg-elev);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 22px 26px;
-      }
-      .filetree .root {
-        color: var(--orange);
-        font-weight: 700;
-      }
-      .filetree .file {
-        color: var(--text);
-      }
-      .filetree .desc {
-        color: var(--muted);
+      .note b {
+        color: var(--alert);
       }
 
-      .reveal .progress {
-        color: var(--orange);
-        height: 4px;
-      }
-      .reveal .controls {
-        color: var(--orange);
-      }
-
-      .flex {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-      .between {
-        justify-content: space-between;
-      }
-      .center-v {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
+      /* ---------- portada ---------- */
+      .hero-fichas {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-soft);
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+        margin-top: 26px;
       }
 
-      .kicker-big {
-        font-size: 1.2em;
-        color: var(--muted);
+      .reveal .fragment.fade-up {
+        transform: translateY(10px);
       }
-      .blink {
-        animation: blink 1.1s steps(2, start) infinite;
-      }
-      @keyframes blink {
-        to {
-          visibility: hidden;
-        }
+      .reveal .fragment.fade-up.visible {
+        transform: none;
       }
 
-      @media (max-width: 900px) {
-        .g2,
-        .g3,
-        .g4 {
-          grid-template-columns: 1fr;
+      @media (prefers-reduced-motion: reduce) {
+        .reveal .fragment {
+          transition: none !important;
+          transform: none !important;
         }
       }
     </style>
@@ -394,484 +435,720 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <!-- 1 · PORTADA -->
-        <section data-auto-animate>
-          <div class="center-v">
-            <span class="eyebrow"
-              >SENA · Fichas 3186652 y 3186653 · 16 de julio</span
-            >
-            <h1 style="max-width: 16ch">
-              Testing de API<br />con <em>Postman</em>
-            </h1>
-            <p class="muted" style="margin: 0.2em 0 1.4em; font-size: 1.05em">
-              Evidencia <span class="mono">GA7-220501096-AA5-EV04</span> · «API
-              del proyecto»
-            </p>
-            <div class="reqbar" style="max-width: 760px">
-              <div class="method">GET</div>
-              <div class="url">
-                https://api.miproyecto.com<span class="path">/usuarios</span>
-              </div>
-              <div class="send">
-                Send<span class="blink" style="margin-left: 0.3em">_</span>
-              </div>
+        <!-- 01 PORTADA -->
+        <section data-transition="fade">
+          <span class="eyebrow">SENA · Análisis y Desarrollo de Software</span>
+          <h1>Probar la API,<br />integrar los módulos.</h1>
+          <p class="lead wide">
+            Cierre de la evidencia de testing con Postman y arranque de la Guía
+            8: la integración de los componentes del proyecto.
+          </p>
+          <div class="hero-fichas">
+            FICHAS 3186652 · 3186653 &nbsp;&nbsp;|&nbsp;&nbsp; GA7-AA5-EV04 →
+            GA8-AA1-EV01 · EV02
+          </div>
+        </section>
+
+        <!-- 02 AGENDA -->
+        <section>
+          <span class="eyebrow">Lo de hoy</span>
+          <h2>Dos frentes abiertos</h2>
+          <div class="grid g2" style="margin-top: 26px">
+            <div class="card">
+              <span class="k">Frente 1 · esta semana</span>
+              <h3>Testing de API con Postman</h3>
+              <p>
+                Evidencia GA7-220501096-AA5-EV04. Se apoya en lo que ya
+                construyeron en la AA5-EV03.
+              </p>
+            </div>
+            <div class="card">
+              <span class="k">Frente 2 · inicia hoy</span>
+              <h3>Guía 8 · Integrar módulos</h3>
+              <p>
+                Actividad GA8-220501096-AA1. Dos evidencias: EV01 (desarrollo) y
+                EV02 (entrega integrada).
+              </p>
             </div>
           </div>
-        </section>
-
-        <!-- 2 · AGENDA -->
-        <section>
-          <span class="slide-num mono">01</span>
-          <span class="eyebrow">Sesión de hoy</span>
-          <h2>Lo que veremos</h2>
-          <div class="grid g2" style="margin-top: 0.6em">
-            <ul class="clean">
-              <li>De dónde venimos: la <strong>EV03</strong></li>
-              <li>
-                Qué es una <strong>API</strong> y qué es
-                <strong>Postman</strong>
-              </li>
-              <li>Por qué se hace <strong>testing</strong></li>
-            </ul>
-            <ul class="clean">
-              <li>Cómo <strong>probar los endpoints</strong> paso a paso</li>
-              <li>Cómo <strong>documentar</strong> con pantallazos y video</li>
-              <li>Qué y <strong>cómo entregar</strong> la evidencia</li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- 3 · DE DÓNDE VENIMOS -->
-        <section>
-          <span class="slide-num mono">02</span>
-          <span class="eyebrow">Continuidad</span>
-          <h2>De la EV03 a la EV04</h2>
-          <div
-            class="flex between"
-            style="margin-top: 1em; gap: 26px; align-items: stretch"
+          <p
+            style="margin-top: 26px; font-size: 0.85rem; color: var(--ink-soft)"
           >
-            <div class="card" style="flex: 1">
-              <span class="tag">AA5-EV03</span>
-              <h3 style="margin-top: 0.5em">Construyeron las API</h3>
-              <p>Programaron los servicios y endpoints del proyecto.</p>
-            </div>
-            <div
-              style="
-                display: flex;
-                align-items: center;
-                font-size: 2em;
-                color: var(--orange);
-              "
-            >
-              →
-            </div>
-            <div class="card" style="flex: 1; border-color: var(--orange)">
-              <span
-                class="tag"
-                style="color: var(--orange); border-color: var(--orange)"
-                >AA5-EV04</span
-              >
-              <h3 style="margin-top: 0.5em">Ahora las prueban</h3>
-              <p>Verifican que cada endpoint funcione, usando Postman.</p>
-            </div>
-          </div>
-          <p class="muted" style="margin-top: 1.1em; font-size: 0.9em">
-            No se construye nada nuevo: se
-            <strong>prueba lo que ya existe</strong>.
+            Y sí: también avanzamos las evidencias que tengan pendientes.
           </p>
         </section>
 
-        <!-- 4 · QUÉ ES UNA API -->
+        <!-- 03 DIVISOR 1 -->
+        <section data-transition="fade">
+          <span class="eyebrow">Parte 1</span>
+          <div class="request-line">
+            <span class="verb">POST</span> /evidencias/GA7-AA5-EV04
+          </div>
+          <p class="response-line">
+            200 OK · "Testing de las API del proyecto con Postman"
+          </p>
+        </section>
+
+        <!-- 04 QUÉ ES PROBAR UNA API -->
         <section>
-          <span class="slide-num mono">03</span>
           <span class="eyebrow">Concepto</span>
-          <h2>¿Qué es una API?</h2>
-          <p class="muted" style="max-width: 34ch; margin-bottom: 1.1em">
-            Es la <strong>puerta</strong> por la que dos programas se hablan.
-            Uno envía una <em>petición</em> y recibe una <em>respuesta</em>.
-          </p>
-          <div class="reqbar" style="max-width: 720px; margin-bottom: 14px">
-            <div class="method">GET</div>
-            <div class="url">/api<span class="path">/productos/15</span></div>
-            <div class="send">Send</div>
-          </div>
-          <div class="flex" style="gap: 26px">
+          <h2>¿Qué significa probar una API?</h2>
+          <div class="split" style="margin-top: 22px">
             <div>
-              <span class="tag">Petición</span>
-              <span class="muted" style="font-size: 0.85em"
-                >método + endpoint + datos</span
-              >
+              <p style="font-size: 0.95rem">
+                No estamos probando botones ni colores. Estamos probando el
+                <strong>contrato</strong>: si yo envío estos datos a esta
+                dirección, el servidor debe devolverme exactamente esta
+                respuesta.
+              </p>
+              <p style="font-size: 0.95rem">
+                La prueba pasa cuando la respuesta es la esperada, incluso
+                cuando los datos están mal.
+              </p>
             </div>
             <div>
-              <span class="tag">Respuesta</span>
-              <span class="muted" style="font-size: 0.85em"
-                >código de estado + JSON</span
-              >
+              <pre class="blk"><span class="c"># Yo envío</span>
+POST /api/aprendices
+{
+  <span class="s">"nombre"</span>: <span class="v">"Laura Méndez"</span>,
+  <span class="s">"ficha"</span>: <span class="v">3186652</span>
+}
+
+<span class="c"># El servidor responde</span>
+201 Created
+{
+  <span class="s">"id"</span>: <span class="v">17</span>,
+  <span class="s">"nombre"</span>: <span class="v">"Laura Méndez"</span>
+}</pre>
             </div>
           </div>
         </section>
 
-        <!-- 5 · QUÉ ES POSTMAN -->
+        <!-- 05 POSTMAN -->
         <section>
-          <span class="slide-num mono">04</span>
           <span class="eyebrow">Herramienta</span>
-          <h2>¿Qué es Postman?</h2>
-          <div class="grid g2" style="margin-top: 0.6em; align-items: start">
-            <p class="muted" style="font-size: 0.95em">
-              Un cliente que <strong>envía peticiones HTTP</strong> a tu API y
-              te muestra la respuesta,
-              <strong>sin escribir código de frontend</strong>. Ideal para
-              probar cada endpoint por separado.
-            </p>
-            <ul class="clean">
-              <li>Elegir el método (GET, POST…)</li>
-              <li>Escribir la URL del endpoint</li>
-              <li>Enviar datos en el <span class="mono">Body</span></li>
-              <li>Ver la respuesta y el código de estado</li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- 6 · POR QUÉ TESTING -->
-        <section>
-          <span class="slide-num mono">05</span>
-          <span class="eyebrow">Motivación</span>
-          <h2>¿Por qué hacer <em>testing</em>?</h2>
-          <div class="grid g3" style="margin-top: 0.7em">
+          <h2>Postman</h2>
+          <p class="lead wide" style="margin-bottom: 24px">
+            Un cliente que envía peticiones HTTP a su API sin necesidad de tener
+            el frontend terminado. Reemplaza al navegador cuando el navegador no
+            alcanza.
+          </p>
+          <div class="grid g3">
             <div class="card">
-              <h3>Funciona</h3>
+              <span class="k">Paso 1</span>
               <p>
-                Confirmar que cada endpoint responde y devuelve los datos
-                esperados.
+                Descargar desde postman.com e instalar. Existe versión de
+                escritorio y versión web.
               </p>
             </div>
             <div class="card">
-              <h3>Responde bien</h3>
-              <p>Verificar los códigos de estado correctos en cada caso.</p>
-            </div>
-            <div class="card">
-              <h3>Maneja errores</h3>
+              <span class="k">Paso 2</span>
               <p>
-                Comprobar qué pasa con datos inválidos o recursos que no
-                existen.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- 7 · MÉTODOS HTTP -->
-        <section>
-          <span class="slide-num mono">06</span>
-          <span class="eyebrow">Repaso rápido</span>
-          <h2>Los métodos que van a probar</h2>
-          <div class="grid g2" style="margin-top: 0.7em; gap: 16px">
-            <div class="card flex" style="gap: 16px">
-              <span class="pill get">GET</span>
-              <p style="flex: 1">Consultar / leer datos</p>
-            </div>
-            <div class="card flex" style="gap: 16px">
-              <span class="pill post">POST</span>
-              <p style="flex: 1">Crear un nuevo registro</p>
-            </div>
-            <div class="card flex" style="gap: 16px">
-              <span class="pill put">PUT</span>
-              <p style="flex: 1">Actualizar un registro existente</p>
-            </div>
-            <div class="card flex" style="gap: 16px">
-              <span class="pill del">DELETE</span>
-              <p style="flex: 1">Eliminar un registro</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- 8 · CÓDIGOS DE ESTADO -->
-        <section>
-          <span class="slide-num mono">07</span>
-          <span class="eyebrow">Cómo leer la respuesta</span>
-          <h2>Códigos de estado</h2>
-          <div class="grid g3" style="margin-top: 0.7em">
-            <div class="card">
-              <div class="status s2"><span class="code">2xx</span></div>
-              <p style="margin-top: 0.4em">
-                <span class="mono">200</span> OK ·
-                <span class="mono">201</span> Creado. Todo salió bien.
+                Crear una <em>Collection</em> con el nombre del proyecto. Ahí
+                viven todas sus peticiones.
               </p>
             </div>
             <div class="card">
-              <div class="status s4"><span class="code">4xx</span></div>
-              <p style="margin-top: 0.4em">
-                <span class="mono">400</span> Petición mala ·
-                <span class="mono">404</span> No existe. Error del cliente.
+              <span class="k">Paso 3</span>
+              <p>
+                Agregar un <em>Request</em> por cada endpoint. Guardarlo, no
+                dejarlo en pestañas sueltas.
+              </p>
+            </div>
+          </div>
+          <div class="note" style="margin-top: 24px">
+            Una colección exportada (.json) vale más que veinte pantallazos.
+            <b>Expórtenla y anéxenla.</b>
+          </div>
+        </section>
+
+        <!-- 06 ANATOMÍA -->
+        <section>
+          <span class="eyebrow">Anatomía de una petición</span>
+          <h2>Cuatro cosas que definen cada prueba</h2>
+          <div class="grid g2" style="margin-top: 22px">
+            <div class="card">
+              <span class="k">01 · Método</span>
+              <h3>Qué quiero hacer</h3>
+              <p style="margin-top: 8px">
+                <span class="m get">GET</span> <span class="m post">POST</span>
+                <span class="m put">PUT</span> <span class="m del">DELETE</span>
               </p>
             </div>
             <div class="card">
-              <div class="status s5"><span class="code">5xx</span></div>
-              <p style="margin-top: 0.4em">
-                <span class="mono">500</span> Error interno. Falló el servidor.
+              <span class="k">02 · URL</span>
+              <h3>A dónde lo envío</h3>
+              <p>
+                <code style="font-family: var(--mono); font-size: 0.75rem"
+                  >http://localhost:8080/api/aprendices/3</code
+                >
               </p>
             </div>
-          </div>
-          <p class="muted" style="margin-top: 1em; font-size: 0.85em">
-            Cada prueba debe mostrar el código que devuelve el endpoint.
-          </p>
-        </section>
-
-        <!-- 9 · LA TAREA -->
-        <section>
-          <span class="slide-num mono">08</span>
-          <span class="eyebrow">Evidencia GA7-220501096-AA5-EV04</span>
-          <h2>Qué pide la actividad</h2>
-          <div class="grid g2" style="margin-top: 0.5em">
-            <ul class="clean">
-              <li>Instalar la herramienta <strong>Postman</strong></li>
-              <li>Hacer un <strong>video</strong> mostrando el testing</li>
-            </ul>
-            <ul class="clean">
-              <li>Documentar con <strong>pantallazos</strong></li>
-              <li>Entregar los <strong>endpoints</strong> de las API</li>
-            </ul>
-          </div>
-          <div class="note" style="margin-top: 1.2em">
-            Se prueban las API construidas en la <strong>AA5-EV03</strong>.
+            <div class="card">
+              <span class="k">03 · Headers</span>
+              <h3>Cómo lo envío</h3>
+              <p>
+                <code style="font-family: var(--mono); font-size: 0.75rem"
+                  >Content-Type: application/json</code
+                ><br /><code
+                  style="font-family: var(--mono); font-size: 0.75rem"
+                  >Authorization: Bearer &lt;token&gt;</code
+                >
+              </p>
+            </div>
+            <div class="card">
+              <span class="k">04 · Body</span>
+              <h3>Qué le mando</h3>
+              <p>El JSON con los datos. Solo aplica en POST, PUT y PATCH.</p>
+            </div>
           </div>
         </section>
 
-        <!-- 10 · PASO 1 -->
+        <!-- 07 MÉTODOS Y CÓDIGOS -->
         <section>
-          <span class="slide-num mono">09</span>
-          <span class="num-chip">1</span>
-          <h2>Instalar Postman</h2>
-          <ul class="clean" style="margin-top: 0.3em">
-            <li>
-              Descargar desde el sitio oficial
-              <span class="mono muted">postman.com/downloads</span>
-            </li>
-            <li>Instalar la versión para tu sistema (Windows / Mac / Linux)</li>
-            <li>Abrir y crear una cuenta gratuita o usar sin conexión</li>
-          </ul>
-          <p class="muted" style="margin-top: 1em; font-size: 0.85em">
-            Deja lista una captura de la herramienta ya instalada y abierta.
-          </p>
-        </section>
-
-        <!-- 11 · PASO 2 -->
-        <section>
-          <span class="slide-num mono">10</span>
-          <span class="num-chip">2</span>
-          <h2>Probar cada endpoint</h2>
-          <ul class="clean" style="margin-top: 0.3em">
-            <li>
-              Selecciona el <strong>método</strong> y pega la
-              <strong>URL</strong> del endpoint
-            </li>
-            <li>
-              En <span class="mono">POST</span>/<span class="mono">PUT</span>,
-              envía datos en el <span class="mono">Body → raw → JSON</span>
-            </li>
-            <li>
-              Pulsa <strong>Send</strong> y revisa la respuesta y el código de
-              estado
-            </li>
-            <li>
-              Repite con <span class="pill get">GET</span>
-              <span class="pill post">POST</span>
-              <span class="pill put">PUT</span>
-              <span class="pill del">DELETE</span>
-            </li>
-          </ul>
-          <div class="reqbar" style="max-width: 720px; margin-top: 1.1em">
-            <div class="method" style="color: var(--amber)">POST</div>
-            <div class="url">/api<span class="path">/usuarios</span></div>
-            <div class="send">Send</div>
-          </div>
-        </section>
-
-        <!-- 12 · PASO 3 -->
-        <section>
-          <span class="slide-num mono">11</span>
-          <span class="num-chip">3</span>
-          <h2>Documentar con pantallazos</h2>
-          <p class="muted" style="max-width: 36ch; margin-bottom: 0.9em">
-            Cada prueba se registra en un documento. Un pantallazo por endpoint
-            probado.
-          </p>
-          <ul class="clean check">
-            <li>Se ve el método y la URL usada</li>
-            <li>Se ven los datos enviados (si aplica)</li>
-            <li>Se ve la respuesta y el código de estado</li>
-          </ul>
-        </section>
-
-        <!-- 13 · PASO 4 + VIDEO -->
-        <section>
-          <span class="slide-num mono">12</span>
-          <div class="grid g2" style="align-items: start; gap: 26px">
+          <span class="eyebrow">Referencia rápida</span>
+          <h2>Métodos y códigos de respuesta</h2>
+          <div class="split" style="gap: 34px; margin-top: 20px">
             <div>
-              <span class="num-chip">4</span>
-              <h3>Archivo de endpoints</h3>
-              <p class="muted" style="font-size: 0.85em; margin-top: 0.4em">
-                Lista todas las URL probadas, con su método:
-              </p>
-              <div
-                class="filetree"
-                style="margin-top: 0.6em; font-size: 0.72em"
-              >
-                <div>
-                  <span class="pill get" style="font-size: 0.7em">GET</span>
-                  /api/usuarios
-                </div>
-                <div>
-                  <span class="pill post" style="font-size: 0.7em">POST</span>
-                  /api/usuarios
-                </div>
-                <div>
-                  <span class="pill put" style="font-size: 0.7em">PUT</span>
-                  /api/usuarios/:id
-                </div>
-                <div>
-                  <span class="pill del" style="font-size: 0.7em">DEL</span>
-                  /api/usuarios/:id
-                </div>
-              </div>
+              <table>
+                <tr>
+                  <td style="width: 80px"><span class="m get">GET</span></td>
+                  <td>Consultar. No modifica nada.</td>
+                </tr>
+                <tr>
+                  <td><span class="m post">POST</span></td>
+                  <td>Crear un registro nuevo.</td>
+                </tr>
+                <tr>
+                  <td><span class="m put">PUT</span></td>
+                  <td>Actualizar un registro existente.</td>
+                </tr>
+                <tr>
+                  <td><span class="m del">DEL</span></td>
+                  <td>Eliminar un registro.</td>
+                </tr>
+              </table>
             </div>
             <div>
-              <span class="num-chip">▶</span>
-              <h3>El video</h3>
-              <ul class="clean" style="font-size: 0.9em">
-                <li>Graba tu pantalla mientras pruebas</li>
-                <li>Muestra Postman enviando y respondiendo</li>
-                <li>Explica brevemente cada prueba</li>
+              <table>
+                <tr>
+                  <td class="mono" style="width: 70px; color: var(--ok)">
+                    200
+                  </td>
+                  <td>OK. Salió bien.</td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--ok)">201</td>
+                  <td>Created. Se creó el recurso.</td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--amber)">400</td>
+                  <td>Datos mal formados.</td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--amber)">401 / 403</td>
+                  <td>Sin credenciales o sin permiso.</td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--alert)">404</td>
+                  <td>La ruta o el registro no existe.</td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--alert)">500</td>
+                  <td>Se rompió el servidor. Revise la consola.</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 08 QUÉ PROBAR -->
+        <section>
+          <span class="eyebrow">Criterio</span>
+          <h2>Por cada endpoint, tres pruebas</h2>
+          <div class="grid g3" style="margin-top: 24px">
+            <div class="card" style="border-left: 4px solid var(--ok)">
+              <span class="k">Camino feliz</span>
+              <p>
+                Datos válidos. Debe responder 200 o 201 con la información
+                correcta.
+              </p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--amber)">
+              <span class="k">Datos inválidos</span>
+              <p>
+                Campo obligatorio vacío, tipo de dato equivocado, correo mal
+                escrito. Debe responder 400, no 500.
+              </p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--alert)">
+              <span class="k">No existe</span>
+              <p>
+                Pedir el id 9999. Debe responder 404 con un mensaje claro, no
+                una pantalla de error.
+              </p>
+            </div>
+          </div>
+          <p style="margin-top: 26px; font-size: 0.9rem">
+            Un testing que solo muestra el camino feliz
+            <strong>no es un testing</strong>: es una demostración.
+          </p>
+        </section>
+
+        <!-- 09 ARCHIVO ENDPOINT -->
+        <section>
+          <span class="eyebrow">Entregable</span>
+          <h2>El archivo ENDPOINT</h2>
+          <p class="lead wide" style="margin-bottom: 20px">
+            Es el mapa de su API. Quien lo lea debe poder consumirla sin abrir
+            su código.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Ruta</th>
+                <th>Descripción</th>
+                <th>Body / Params</th>
+                <th>Respuesta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="m get">GET</span></td>
+                <td class="mono">/api/aprendices</td>
+                <td>Lista todos los aprendices</td>
+                <td>—</td>
+                <td class="mono">200 · array</td>
+              </tr>
+              <tr>
+                <td><span class="m get">GET</span></td>
+                <td class="mono">/api/aprendices/{id}</td>
+                <td>Consulta uno por id</td>
+                <td class="mono">id (path)</td>
+                <td class="mono">200 / 404</td>
+              </tr>
+              <tr>
+                <td><span class="m post">POST</span></td>
+                <td class="mono">/api/aprendices</td>
+                <td>Registra un aprendiz</td>
+                <td class="mono">{nombre, ficha}</td>
+                <td class="mono">201 / 400</td>
+              </tr>
+              <tr>
+                <td><span class="m del">DEL</span></td>
+                <td class="mono">/api/aprendices/{id}</td>
+                <td>Elimina un aprendiz</td>
+                <td class="mono">id (path)</td>
+                <td class="mono">204 / 404</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note" style="margin-top: 22px">
+            Incluyan la <b>URL base</b> del ambiente donde probaron: local,
+            servidor de pruebas o despliegue.
+          </div>
+        </section>
+
+        <!-- 10 VIDEO Y DOCUMENTO -->
+        <section>
+          <span class="eyebrow">Entregables</span>
+          <h2>El video y el documento de pruebas</h2>
+          <div class="split" style="margin-top: 20px; gap: 34px">
+            <div>
+              <h3 style="color: var(--signal)">Video</h3>
+              <ul class="clean">
+                <li>Diga su nombre, ficha y número de evidencia al iniciar.</li>
+                <li>
+                  Muestre Postman en ejecución, no diapositivas del proceso.
+                </li>
+                <li>
+                  Recorra cada endpoint: envíe, muestre la respuesta y el código
+                  de estado.
+                </li>
+                <li>
+                  Incluya al menos un caso de error y explique por qué la
+                  respuesta es correcta.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="color: var(--alert)">Documento con pruebas</h3>
+              <ul class="clean">
+                <li>
+                  Un pantallazo por prueba, legible y sin recortar la respuesta.
+                </li>
+                <li>
+                  Debajo de cada imagen: qué se probó, qué se esperaba y qué
+                  ocurrió.
+                </li>
+                <li>
+                  Marque resultado: aprobada o fallida. Las fallidas también se
+                  documentan.
+                </li>
+                <li>Cierre con una tabla resumen de pruebas ejecutadas.</li>
               </ul>
             </div>
           </div>
         </section>
 
-        <!-- 14 · PRODUCTOS A ENTREGAR -->
+        <!-- 11 ENTREGA -->
         <section>
-          <span class="slide-num mono">13</span>
-          <span class="eyebrow">Entrega</span>
-          <h2>La carpeta comprimida</h2>
-          <div class="filetree" style="margin-top: 0.6em">
-            <div class="root">📦 NOMBRE_APELLIDO_AA5_EV04.zip</div>
-            <div><span class="file">├─ Archivos del proyecto</span></div>
+          <span class="eyebrow">Lineamientos de entrega · GA7-AA5-EV04</span>
+          <h2>Cómo se entrega</h2>
+          <div class="split" style="margin-top: 20px; gap: 34px">
             <div>
-              <span class="file">├─ Video</span>
-              <span class="desc">— testing en Postman</span>
+              <ul class="clean check">
+                <li>Archivos del proyecto</li>
+                <li>Video del testing</li>
+                <li>Documento con pruebas y pantallazos</li>
+                <li>Archivo ENDPOINT</li>
+                <li>Archivo con el enlace del repositorio</li>
+              </ul>
             </div>
             <div>
-              <span class="file">├─ Documento con pruebas</span>
-              <span class="desc">— pantallazos</span>
-            </div>
-            <div>
-              <span class="file">├─ Archivo ENDPOINT</span>
-              <span class="desc">— lista de URLs</span>
-            </div>
-            <div><span class="file">└─ Enlace del repositorio</span></div>
-          </div>
-          <p class="muted" style="margin-top: 0.9em; font-size: 0.85em">
-            Extensión: <span class="mono">.ZIP</span> o
-            <span class="mono">.RAR</span>
-          </p>
-        </section>
-
-        <!-- 15 · NOMBRE + NOTA -->
-        <section>
-          <span class="slide-num mono">14</span>
-          <span class="eyebrow">Nombre del archivo</span>
-          <h2>Cómo nombrar la carpeta</h2>
-          <div
-            class="card"
-            style="
-              text-align: center;
-              margin: 0.4em 0 1em;
-              border-color: var(--orange);
-            "
-          >
-            <span class="mono" style="font-size: 1.15em; color: var(--orange)"
-              >NOMBRE_APELLIDO_AA5_EV04</span
-            >
-          </div>
-          <div class="note">
-            <strong>Ojo:</strong> la guía trae un ejemplo con
-            <span class="mono">…_AA5_EV02</span>, pero esta evidencia es la
-            <strong>EV04</strong>. Confirmen con el instructor; por coherencia
-            usen <span class="mono">EV04</span>.
-          </div>
-        </section>
-
-        <!-- 16 · DÓNDE ENTREGAR -->
-        <section>
-          <span class="slide-num mono">15</span>
-          <span class="eyebrow">Envío</span>
-          <h2>¿Dónde se sube?</h2>
-          <p class="muted" style="max-width: 36ch; margin-bottom: 1em">
-            En el área de la actividad correspondiente, en el espacio:
-          </p>
-          <div class="card" style="border-color: var(--orange)">
-            <h3 style="margin: 0">API del proyecto</h3>
-            <p
-              class="mono"
-              style="color: var(--orange); margin-top: 0.3em; font-size: 0.85em"
-            >
-              GA7-220501096-AA5-EV04
-            </p>
-          </div>
-        </section>
-
-        <!-- 17 · CHECKLIST -->
-        <section>
-          <span class="slide-num mono">16</span>
-          <span class="eyebrow">Antes de enviar</span>
-          <h2>Checklist final</h2>
-          <div class="grid g2" style="margin-top: 0.5em">
-            <ul class="clean check">
-              <li>Postman instalado y usado</li>
-              <li>Todos los endpoints probados</li>
-              <li>Video grabado</li>
-            </ul>
-            <ul class="clean check">
-              <li>Documento con pantallazos</li>
-              <li>Archivo ENDPOINT + repositorio</li>
-              <li>Carpeta nombrada y comprimida</li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- 18 · CIERRE -->
-        <section data-auto-animate>
-          <div class="center-v" style="align-items: flex-start">
-            <span class="eyebrow">Fichas 3186652 y 3186653</span>
-            <h1 style="max-width: 14ch">
-              ¿Listos para<br />hacer <em>Send</em>?
-            </h1>
-            <p class="muted" style="font-size: 1.05em; margin-top: 0.3em">
-              Manos a la obra con Postman. Preguntas 👋
-            </p>
-            <div class="reqbar" style="max-width: 620px; margin-top: 1.4em">
-              <div class="method" style="color: var(--green)">GET</div>
-              <div class="url">
-                <span class="path">/evidencia/ev04</span> → status
-                <span style="color: var(--green)">200 OK</span>
+              <span class="tag red">Nombre del comprimido</span>
+              <div
+                class="request-line"
+                style="
+                  font-size: 1rem;
+                  border-left-color: var(--alert);
+                  margin-top: 14px;
+                "
+              >
+                NOMBRE_APELLIDO_AA5_EV02
               </div>
-              <div class="send">Send</div>
+              <p style="font-size: 0.82rem; color: var(--ink-soft)">
+                Tal cual aparece en la guía. Extensión <strong>.zip</strong> o
+                <strong>.rar</strong>.
+              </p>
+              <div class="note" style="margin-top: 10px">
+                La guía nombra el archivo como EV02 aunque la evidencia es la
+                <b>EV04</b>. Consúltenme antes de subir si tienen duda; se
+                entrega en el espacio «API del proyecto.
+                GA7-220501096-AA5-EV04».
+              </div>
             </div>
+          </div>
+        </section>
+
+        <!-- 12 DIVISOR 2 -->
+        <section data-transition="fade">
+          <span class="eyebrow">Parte 2 · inicia hoy</span>
+          <div class="request-line">
+            <span class="verb">GET</span> /guia8/GA8-AA1
+          </div>
+          <p class="response-line">
+            200 OK · "Integrar módulos, de acuerdo con el diseño establecido" ·
+            96 horas
+          </p>
+        </section>
+
+        <!-- 13 QUÉ ES INTEGRAR -->
+        <section>
+          <span class="eyebrow">Competencia 220501096</span>
+          <h2>De piezas sueltas a un sistema</h2>
+          <div class="split" style="margin-top: 22px">
+            <div>
+              <p style="font-size: 0.95rem">
+                Hasta ahora cada uno construyó partes: la base de datos, la API,
+                algunas vistas. La Guía 8 pide algo distinto: que esas partes
+                <strong>se hablen entre sí</strong> y funcionen como una sola
+                aplicación web.
+              </p>
+              <p style="font-size: 0.95rem; color: var(--ink-soft)">
+                Integrar no es pegar archivos en una carpeta. Es que un módulo
+                consuma lo que otro produce, con contratos claros y sin duplicar
+                código.
+              </p>
+            </div>
+            <div>
+              <div class="card">
+                <span class="k">Materiales de formación</span>
+                <ul class="clean" style="margin-top: 6px">
+                  <li>Construcción aplicación web</li>
+                  <li>
+                    Construir aplicativo según las características de la
+                    arquitectura Android
+                  </li>
+                  <li>Tecnologías emergentes y disruptivas</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 14 INSUMOS -->
+        <section>
+          <span class="eyebrow">Antes de codificar</span>
+          <h2>Los insumos ya los tienen</h2>
+          <p class="lead wide" style="margin-bottom: 22px">
+            Nada de esto se inventa en la semana de entrega. Salió del análisis
+            y el diseño que ya hicieron.
+          </p>
+          <div class="grid g3">
+            <div class="card">
+              <span class="k">Requisitos</span>
+              <p>Funcionales y no funcionales, con acta de aprobación.</p>
+            </div>
+            <div class="card">
+              <span class="k">Diseño</span>
+              <p>
+                Diagrama de clases, E-R, componentes, paquetes, actividad,
+                secuencia y arquitectura.
+              </p>
+            </div>
+            <div class="card">
+              <span class="k">Comportamiento</span>
+              <p>
+                Casos de uso o historias de usuario, y el mapa de navegación.
+              </p>
+            </div>
+          </div>
+          <div class="note" style="margin-top: 24px">
+            Si su diagrama de clases no coincide con su código, uno de los dos
+            está mal. <b>Actualicen el que corresponda.</b>
+          </div>
+        </section>
+
+        <!-- 15 CAPAS -->
+        <section>
+          <span class="eyebrow">Arquitectura</span>
+          <h2>Ubique cada componente en su capa</h2>
+          <div style="margin-top: 22px">
+            <div class="layer l1">
+              <b>Presentación</b
+              ><span
+                >Vistas, formularios, navegación. Consume la API, no consulta la
+                base de datos.</span
+              >
+            </div>
+            <div class="layer l2">
+              <b>Servicios</b
+              ><span
+                >Controladores y endpoints REST. Reciben, validan la forma y
+                responden.</span
+              >
+            </div>
+            <div class="layer l3">
+              <b>Negocio</b
+              ><span
+                >Reglas del dominio. Aquí vive la lógica que el proyecto
+                realmente resuelve.</span
+              >
+            </div>
+            <div class="layer l4">
+              <b>Datos</b
+              ><span
+                >Repositorios, DAO, conexión y modelo de base de datos.</span
+              >
+            </div>
+          </div>
+          <p style="margin-top: 22px; font-size: 0.88rem">
+            Por cada capa deben poder responder:
+            <strong>qué librerías</strong> y
+            <strong>qué framework</strong> usaron, y por qué.
+          </p>
+        </section>
+
+        <!-- 16 BUENAS PRÁCTICAS -->
+        <section>
+          <span class="eyebrow">Cómo se codifica</span>
+          <h2>Buenas prácticas exigidas</h2>
+          <div class="split" style="margin-top: 18px; gap: 34px">
+            <div>
+              <ul class="clean">
+                <li>Divida cada módulo en componentes reutilizables.</li>
+                <li>Organice el código en paquetes con nombres entendibles.</li>
+                <li>
+                  Aplique los patrones de diseño según la arquitectura definida.
+                </li>
+                <li>
+                  Implemente los mecanismos de seguridad que requiere la
+                  aplicación.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul class="clean">
+                <li>
+                  Trabaje siempre sobre un repositorio de control de versiones.
+                </li>
+                <li>
+                  Haga pruebas unitarias por módulo y guarde los resultados.
+                </li>
+                <li>Documente configuraciones de servidor y base de datos.</li>
+                <li>Documente los ambientes de desarrollo y de pruebas.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="note" style="margin-top: 20px">
+            Commits pequeños y con mensaje claro.
+            <b
+              >Un único commit llamado «proyecto final» no evidencia proceso.</b
+            >
+          </div>
+        </section>
+
+        <!-- 17 EV01 vs EV02 -->
+        <section>
+          <span class="eyebrow">Las dos evidencias</span>
+          <h2>EV01 y EV02 no son lo mismo</h2>
+          <table style="margin-top: 18px">
+            <thead>
+              <tr>
+                <th style="width: 22%"></th>
+                <th>EV01 · Desarrollar software integrando módulos</th>
+                <th>EV02 · Módulos integrados</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Pregunta que responde</strong></td>
+                <td>¿Cómo lo construyó?</td>
+                <td>¿Qué quedó funcionando?</td>
+              </tr>
+              <tr>
+                <td><strong>Foco</strong></td>
+                <td>El proceso de codificación módulo por módulo</td>
+                <td>El producto integrado y su documentación</td>
+              </tr>
+              <tr>
+                <td><strong>Núcleo</strong></td>
+                <td>Código fuente, paquetes, patrones, pruebas unitarias</td>
+                <td>Ejecutables, URL desplegadas, manuales técnicos</td>
+              </tr>
+              <tr>
+                <td><strong>Entrega</strong></td>
+                <td class="mono">código, compilados, documentos, URL · PDF</td>
+                <td class="mono">código, compilados, documentos, URL · PDF</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 18 EV02 DETALLE -->
+        <section>
+          <span class="eyebrow">GA8-220501096-AA1-EV02</span>
+          <h2>Qué debe contener la entrega integrada</h2>
+          <div class="split" style="margin-top: 18px; gap: 34px">
+            <div>
+              <ul class="clean check">
+                <li>Repositorio con el código fuente</li>
+                <li>Archivos ejecutables</li>
+                <li>URL donde quedaron desplegados los módulos</li>
+                <li>
+                  Documento por módulo y componente: datos de entrada y salida
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul class="clean check">
+                <li>Informe de pruebas por módulo y su resultado</li>
+                <li>Configuración de servidores y bases de datos</li>
+                <li>Ambientes de desarrollo y de pruebas</li>
+                <li>Manuales técnicos</li>
+                <li>Actas de aprobación de requerimientos</li>
+              </ul>
+            </div>
+          </div>
+          <p
+            style="margin-top: 20px; font-size: 0.85rem; color: var(--ink-soft)"
+          >
+            Formato <strong>PDF</strong>, extensión libre. Se sube al espacio de
+            la actividad correspondiente.
+          </p>
+        </section>
+
+        <!-- 19 ERRORES -->
+        <section>
+          <span class="eyebrow">Advertencia</span>
+          <h2>Lo que más se devuelve</h2>
+          <div class="grid g2" style="margin-top: 22px">
+            <div class="card">
+              <span class="k">En el testing</span>
+              <p>
+                Pantallazos ilegibles, ningún caso de error, endpoints que no
+                coinciden con el código entregado y videos sin audio ni
+                explicación.
+              </p>
+            </div>
+            <div class="card">
+              <span class="k">En la integración</span>
+              <p>
+                Módulos que funcionan por separado pero no juntos, credenciales
+                quemadas en el código y proyectos que no compilan en otra
+                máquina.
+              </p>
+            </div>
+            <div class="card">
+              <span class="k">En la documentación</span>
+              <p>
+                Manuales que describen lo que se pensó hacer y no lo que quedó
+                hecho.
+              </p>
+            </div>
+            <div class="card">
+              <span class="k">En la entrega</span>
+              <p>
+                Comprimido mal nombrado, archivos faltantes o subida en el
+                espacio equivocado.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 20 CIERRE -->
+        <section data-transition="fade">
+          <span class="eyebrow">Cierre</span>
+          <h2>Para esta semana</h2>
+          <div class="split" style="margin-top: 24px; gap: 40px">
+            <div>
+              <span class="tag">Prioridad 1</span>
+              <p style="margin-top: 12px; font-size: 0.92rem">
+                Terminar y subir la <strong>AA5-EV04</strong>: Postman
+                instalado, colección armada, video grabado, ENDPOINT
+                documentado, comprimido con su nombre.
+              </p>
+            </div>
+            <div>
+              <span class="tag red">Prioridad 2</span>
+              <p style="margin-top: 12px; font-size: 0.92rem">
+                Abrir la <strong>Guía 8</strong>: revisar sus diagramas, definir
+                los módulos a integrar y organizar el repositorio antes de
+                escribir una línea más.
+              </p>
+            </div>
+          </div>
+          <div class="hero-fichas" style="margin-top: 34px">
+            Dudas: en la sesión o por el canal del grupo. No dejen la entrega
+            para el último día.
           </div>
         </section>
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <div class="statusbar">
+      <span class="dot"></span>
+      <span>FICHAS 3186652 · 3186653</span>
+      <span class="grow"></span>
+      <span>GA7-AA5-EV04 &nbsp;·&nbsp; GA8-AA1-EV01 · EV02</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
     <script>
       Reveal.initialize({
-        hash: true,
-        slideNumber: false,
-        controls: true,
-        progress: true,
-        transition: "slide",
-        transitionSpeed: "default",
         width: 1280,
-        height: 720,
-        margin: 0.06,
+        height: 780,
+        margin: 0.055,
+        minScale: 0.2,
+        maxScale: 1.6,
+        center: false,
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "fast",
+        backgroundTransition: "none",
       });
     </script>
   </body>
