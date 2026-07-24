@@ -88,6 +88,62 @@ app.post("/sign-in", async (request, response) => {
   return response.status(200).json({ message: "Bienvenido!" });
 });
 
+app.get("/usuarios", async (request, response) => {
+  const { nombre, correo } = request.query;
+
+  if (!nombre && !correo) {
+    return response
+      .status(400)
+      .json({ error: "No has enviado el nombre y el correo" });
+  }
+
+  let usuarios;
+
+  if (nombre) {
+    usuarios = await pg.query(
+      `SELECT * FROM public."usuarios" WHERE nombre = $1`,
+      [nombre],
+    );
+  } else if (correo) {
+    usuarios = await pg.query(
+      `SELECT * FROM public."usuarios" WHERE correo = $1`,
+      [correo],
+    );
+  } else {
+    return response
+      .status(400)
+      .json({ error: "Has enviado un dato incorrecto" });
+  }
+
+  if (!usuarios) {
+    return response.status(400).json({ error: "No hay usuarios" });
+  }
+
+  if (usuarios.rows.length === 0) {
+    return response.status(400).json({ error: "No hay usuarios" });
+  }
+
+  usuarios = usuarios.rows.filter((values) => {
+    delete values.contrasena;
+
+    return values;
+  });
+
+  return response.status(200).json(usuarios || []);
+});
+
+app.delete("/usuarios/:id", async (request, response) => {
+  const { id } = request.params;
+
+  if (!id) {
+    return response.status(400).json({ error: "ID no definida" });
+  }
+
+  await pg.query(`DELETE FROM public."usuarios" WHERE id = $1`, [id]);
+
+  return response.status(200).json({ message: "Usuario eliminado!" });
+});
+
 app.listen(8080, () => {
   console.log("Servidor iniciado en el puerto 8080");
 });
