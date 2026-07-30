@@ -1,0 +1,1487 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      GA8-220501096-AA2 · Tecnologías emergentes y disruptivas · Fichas 3186652
+      y 3186653
+    </title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+
+    <style>
+      :root {
+        --papel: #edefe8;
+        --papel-2: #e2e6db;
+        --tinta: #0f1a14;
+        --tinta-70: #46524b;
+        --tinta-45: #7c867f;
+        --verde: #39a900;
+        --verde-osc: #26720a;
+        --indigo: #22324f;
+        --naranja: #f2542d;
+        --linea: rgba(15, 26, 20, 0.14);
+      }
+
+      html,
+      body {
+        background: var(--papel);
+      }
+
+      .reveal {
+        font-family: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+        font-size: 26px;
+        color: var(--tinta);
+        background: var(--papel);
+        background-image: radial-gradient(var(--papel-2) 1px, transparent 1px);
+        background-size: 22px 22px;
+      }
+
+      /* ---------- estructura de la diapositiva ---------- */
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+        padding: 38px 64px 96px 104px;
+        box-sizing: border-box;
+      }
+      .reveal .slides section > *:first-child {
+        margin-top: 0;
+      }
+
+      /* canaleta izquierda: el código oficial de la evidencia */
+      .reveal .canaleta {
+        position: absolute;
+        left: 34px;
+        top: 38px;
+        bottom: 96px;
+        width: 34px;
+        border-left: 2px solid var(--verde);
+        display: flex;
+        align-items: flex-start;
+      }
+      .reveal .canaleta span {
+        writing-mode: vertical-rl;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        color: var(--tinta-45);
+        padding: 2px 0 0 10px;
+        text-transform: uppercase;
+      }
+
+      /* ---------- tipografía ---------- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family:
+          "Bricolage Grotesque", "Bricolage Grotesque 96pt", "IBM Plex Sans",
+          sans-serif;
+        color: var(--tinta);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        line-height: 1.02;
+        margin: 0 0 0.5em 0;
+        font-weight: 800;
+      }
+      .reveal h1 {
+        font-size: 2.9em;
+      }
+      .reveal h2 {
+        font-size: 1.9em;
+      }
+      .reveal h3 {
+        font-size: 1.15em;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.7em 0;
+      }
+      .reveal strong {
+        font-weight: 600;
+        color: var(--verde-osc);
+      }
+      .reveal em {
+        font-style: normal;
+        background: linear-gradient(transparent 62%, rgba(57, 169, 0, 0.28) 0);
+        font-weight: 500;
+      }
+
+      .reveal .cejilla {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.58em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--verde-osc);
+        margin: 0 0 14px 0;
+        font-weight: 600;
+      }
+      .reveal .bajada {
+        font-size: 0.82em;
+        color: var(--tinta-70);
+        max-width: 26ch;
+      }
+      .reveal .nota {
+        font-size: 0.6em;
+        color: var(--tinta-45);
+        font-family: "IBM Plex Mono", monospace;
+        line-height: 1.5;
+      }
+
+      /* ---------- listas ---------- */
+      .reveal ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding: 0 0 0 30px;
+        margin: 0 0 0.48em 0;
+        font-size: 0.82em;
+        line-height: 1.4;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 0.52em;
+        width: 9px;
+        height: 9px;
+        background: var(--verde);
+        border-radius: 2px;
+      }
+      .reveal ul.pregunta li::before {
+        content: "?";
+        background: none;
+        color: var(--verde);
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        top: -0.02em;
+        left: 4px;
+        width: auto;
+        height: auto;
+        font-size: 1.05em;
+      }
+      .reveal ol {
+        counter-reset: paso;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .reveal ol li {
+        counter-increment: paso;
+        position: relative;
+        padding: 0 0 0 46px;
+        margin: 0 0 0.5em 0;
+        font-size: 0.82em;
+        line-height: 1.4;
+      }
+      .reveal ol li::before {
+        content: counter(paso, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 0.1em;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8em;
+        font-weight: 600;
+        color: var(--verde-osc);
+      }
+      .reveal .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 46px;
+      }
+      .reveal .cols-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      /* ---------- tarjetas ---------- */
+      .reveal .tarjeta {
+        background: #fff;
+        border: 1px solid var(--linea);
+        border-radius: 3px;
+        padding: 20px 22px 22px;
+        position: relative;
+        overflow: hidden;
+      }
+      .reveal .tarjeta::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--verde);
+      }
+      .reveal .tarjeta h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.05em;
+      }
+      .reveal .tarjeta p {
+        font-size: 0.68em;
+        color: var(--tinta-70);
+        margin: 0;
+      }
+      .reveal .tarjeta .codigo {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.52em;
+        color: var(--tinta-45);
+        letter-spacing: 0.08em;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      /* etiqueta de formato de entrega */
+      .reveal .chip {
+        display: inline-block;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        font-size: 0.5em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 1.5px solid var(--indigo);
+        color: var(--indigo);
+        border-radius: 100px;
+        padding: 3px 11px;
+        margin: 0 6px 6px 0;
+      }
+      .reveal .chip.alerta {
+        border-color: var(--naranja);
+        color: var(--naranja);
+      }
+
+      /* ---------- portadas de evidencia ---------- */
+      .reveal .apertura {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0 52px;
+        align-items: center;
+        height: 100%;
+      }
+      .reveal .numeral {
+        line-height: 0.8;
+      }
+      .reveal .numeral .ev {
+        display: block;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        font-size: 0.66em;
+        letter-spacing: 0.3em;
+        color: var(--tinta-45);
+      }
+      .reveal .numeral .num {
+        display: block;
+        font-family: "Bricolage Grotesque", "IBM Plex Sans", sans-serif;
+        font-weight: 800;
+        font-size: 9.5em;
+        letter-spacing: -0.06em;
+        color: var(--verde);
+        -webkit-text-stroke: 0;
+      }
+
+      /* ---------- tabla ---------- */
+      .reveal table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.62em;
+        margin-top: 6px;
+      }
+      .reveal th {
+        text-align: left;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        font-size: 0.85em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--tinta-45);
+        padding: 0 14px 10px 0;
+        border-bottom: 2px solid var(--tinta);
+      }
+      .reveal td {
+        padding: 12px 14px 12px 0;
+        border-bottom: 1px solid var(--linea);
+        vertical-align: top;
+        line-height: 1.35;
+      }
+      .reveal td:first-child {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.9em;
+        color: var(--verde-osc);
+        white-space: nowrap;
+      }
+
+      /* ---------- código ---------- */
+      .reveal pre {
+        width: 100%;
+        box-shadow: none;
+        margin: 0;
+        font-size: 0.46em;
+        background: var(--indigo);
+        border-radius: 3px;
+      }
+      .reveal pre code {
+        display: block;
+        padding: 20px 24px;
+        color: #dde6f2;
+        font-family: "IBM Plex Mono", monospace;
+        line-height: 1.6;
+        max-height: none;
+        background: transparent;
+      }
+      .reveal pre code .c {
+        color: #8fa6c4;
+      }
+      .reveal pre code .k {
+        color: #8fe388;
+      }
+      .reveal pre code .s {
+        color: #f8c471;
+      }
+
+      /* ---------- riel de evidencias (elemento fijo) ---------- */
+      .riel {
+        position: absolute;
+        left: 34px;
+        right: 34px;
+        bottom: 26px;
+        height: 44px;
+        display: flex;
+        gap: 8px;
+        align-items: stretch;
+        z-index: 30;
+        pointer-events: none;
+      }
+      .riel .paso {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-top: 3px solid var(--linea);
+        padding: 8px 2px 0;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        color: var(--tinta-45);
+        text-transform: uppercase;
+        transition:
+          border-color 0.35s ease,
+          color 0.35s ease;
+      }
+      .riel .paso b {
+        font-weight: 600;
+        display: block;
+        font-size: 12px;
+      }
+      .riel .paso i {
+        font-style: normal;
+        font-size: 10px;
+        opacity: 0.75;
+      }
+      .riel .paso.activo {
+        border-top-color: var(--verde);
+        color: var(--verde-osc);
+      }
+      .riel .paso.hecho {
+        border-top-color: var(--tinta-45);
+      }
+
+      .reveal .progress {
+        color: var(--verde);
+        height: 4px;
+      }
+      .reveal .controls {
+        color: var(--tinta-45);
+      }
+      .reveal .slide-number {
+        background: none;
+        color: var(--tinta-45);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        right: 36px;
+        bottom: 78px;
+      }
+
+      /* portada */
+      .reveal section.portada {
+        padding-left: 104px;
+      }
+      .reveal .portada .marca {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: auto;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.55em;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--tinta-45);
+      }
+      .reveal .portada .marca span.punto {
+        width: 10px;
+        height: 10px;
+        background: var(--verde);
+        border-radius: 50%;
+      }
+      .reveal .portada h1 {
+        font-size: 3.4em;
+        max-width: 16ch;
+        margin-top: 24px;
+      }
+      .reveal .fichas {
+        display: flex;
+        gap: 34px;
+        margin-top: 26px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.6em;
+        color: var(--tinta-70);
+        letter-spacing: 0.06em;
+      }
+      .reveal .fichas div b {
+        display: block;
+        color: var(--tinta);
+        font-size: 1.5em;
+        letter-spacing: 0;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .riel .paso {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ PORTADA ============ -->
+        <section class="portada" data-ev="0">
+          <div class="marca">
+            <span class="punto"></span> SENA · Análisis y desarrollo de software
+          </div>
+          <p class="cejilla">Actividad de aprendizaje GA8-220501096-AA2</p>
+          <h1>Incorporar tecnologías emergentes y disruptivas</h1>
+          <p class="bajada">
+            Android, blockchain y machine learning: cuatro evidencias para
+            cerrar la actividad.
+          </p>
+          <div class="fichas">
+            <div>Fichas<b>3186652 · 3186653</b></div>
+            <div>Duración<b>144 horas</b></div>
+            <div>Evidencias<b>4</b></div>
+          </div>
+        </section>
+
+        <!-- ============ MAPA ============ -->
+        <section data-ev="0">
+          <div class="canaleta"><span>Mapa de la actividad</span></div>
+          <p class="cejilla">Lo que se habilita hoy en la plataforma</p>
+          <h2>Cuatro evidencias, cuatro entregas</h2>
+          <div
+            class="cols-3"
+            style="
+              margin-top: 26px;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 16px;
+            "
+          >
+            <div class="tarjeta">
+              <span class="codigo">AA2-EV01</span>
+              <h3>Taller de<br />integración</h3>
+              <p>
+                Investigación sobre Android + tu primera aplicación funcionando.
+              </p>
+              <div style="margin-top: 14px"><span class="chip">RAR</span></div>
+            </div>
+            <div class="tarjeta">
+              <span class="codigo">AA2-EV02</span>
+              <h3>APK del<br />proyecto</h3>
+              <p>
+                Módulos móviles codificados según los requerimientos del
+                sistema.
+              </p>
+              <div style="margin-top: 14px">
+                <span class="chip">RAR / ZIP</span>
+              </div>
+            </div>
+            <div class="tarjeta">
+              <span class="codigo">AA2-EV03</span>
+              <h3>Taller de<br />tecnologías</h3>
+              <p>Diez tecnologías emergentes; tres analizadas a fondo.</p>
+              <div style="margin-top: 14px"><span class="chip">PDF</span></div>
+            </div>
+            <div class="tarjeta">
+              <span class="codigo">AA2-EV04</span>
+              <h3>Video sobre<br />machine learning</h3>
+              <p>Diez minutos de exposición grabada y editada por ti.</p>
+              <div style="margin-top: 14px"><span class="chip">MP4</span></div>
+            </div>
+          </div>
+          <p class="nota" style="margin-top: 24px">
+            Las cuatro quedan habilitadas hoy. Cada una se sube en su propio
+            espacio dentro del área de la actividad.
+          </p>
+        </section>
+
+        <!-- ============ MATERIALES ============ -->
+        <section data-ev="0">
+          <div class="canaleta"><span>Material de estudio</span></div>
+          <p class="cejilla">Antes de empezar</p>
+          <h2>Revisa estos tres componentes formativos</h2>
+          <div class="cols-3" style="margin-top: 28px">
+            <div class="tarjeta">
+              <span class="codigo">Componente 01</span>
+              <h3>Construcción de aplicación web</h3>
+              <p>
+                Base de arquitectura por capas y consumo de servicios que
+                después reutilizas en el móvil.
+              </p>
+            </div>
+            <div class="tarjeta">
+              <span class="codigo">Componente 02</span>
+              <h3>Aplicativo según la arquitectura Android</h3>
+              <p>
+                Componentes, ciclo de vida, permisos y empaquetado del APK. Es
+                el corazón de EV01 y EV02.
+              </p>
+            </div>
+            <div class="tarjeta">
+              <span class="codigo">Componente 03</span>
+              <h3>Tecnologías emergentes y disruptivas</h3>
+              <p>
+                IoT, IA, blockchain, impresión 3D y demás. Sustenta EV03 y EV04.
+              </p>
+            </div>
+          </div>
+          <p class="nota" style="margin-top: 26px">
+            Los talleres se califican por el sustento, no por la extensión.
+            Citar el componente formativo suma; copiar y pegar de internet
+            resta.
+          </p>
+        </section>
+
+        <!-- ============ EV01 ============ -->
+        <section data-ev="1">
+          <section data-ev="1">
+            <div class="apertura">
+              <div class="numeral">
+                <span class="ev">Evidencia</span><span class="num">01</span>
+              </div>
+              <div>
+                <p class="cejilla">GA8-220501096-AA2-EV01</p>
+                <h2>
+                  Taller. Integración,<br />tecnologías emergentes<br />y
+                  disruptivas
+                </h2>
+                <p class="bajada">
+                  Dos secciones: primero investigas cómo funciona Android, luego
+                  lo demuestras con una aplicación que corre.
+                </p>
+                <div style="margin-top: 18px">
+                  <span class="chip">Entrega: RAR</span
+                  ><span class="chip">PDF + HTML + APK</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Sección 1</span></div>
+            <p class="cejilla">Sección 1 · Investigación corta</p>
+            <h2>Las ocho preguntas que debes responder</h2>
+            <ul class="pregunta" style="margin-top: 18px">
+              <li>¿Qué es Android?</li>
+              <li>¿Qué es un APK?</li>
+              <li>¿Qué es el Android SDK?</li>
+              <li>
+                ¿Qué lenguaje se usa para desarrollar aplicaciones Android?
+              </li>
+              <li>¿Qué IDEs existen para codificar?</li>
+              <li>¿Qué significa que Android sea multiusuario?</li>
+              <li>¿En qué consiste el principio de mínimo privilegio?</li>
+              <li>
+                ¿Cuáles son los componentes esenciales de una aplicación
+                Android?
+              </li>
+            </ul>
+            <p class="nota" style="margin-top: 20px">
+              Responde con tus palabras y cita la fuente al final. Las
+              siguientes diapositivas te dan el punto de partida.
+            </p>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Apoyo</span></div>
+            <p class="cejilla">Preguntas 1 a 3</p>
+            <h2>Android, APK y SDK</h2>
+            <div class="cols-3" style="margin-top: 24px">
+              <div class="tarjeta">
+                <h3>Android</h3>
+                <p>
+                  Sistema operativo de código abierto basado en el kernel de
+                  Linux, pensado para dispositivos con pantalla táctil y
+                  mantenido por Google junto al Open Handset Alliance.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>APK</h3>
+                <p>
+                  <em>Android Package</em>: el archivo comprimido que empaqueta
+                  el código compilado, los recursos, el manifiesto y la firma
+                  digital. Es lo que realmente se instala en el dispositivo.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Android SDK</h3>
+                <p>
+                  Kit de desarrollo con las librerías de la plataforma, el
+                  emulador, ADB y las herramientas de compilación y depuración.
+                </p>
+              </div>
+            </div>
+            <p class="nota" style="margin-top: 26px">
+              Dato para el taller: Google Play ya no recibe APK sueltos para
+              apps nuevas, sino un Android App Bundle (.aab) desde el cual se
+              generan los APK por dispositivo.
+            </p>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Apoyo</span></div>
+            <p class="cejilla">Preguntas 4 y 5</p>
+            <h2>Lenguajes e IDEs</h2>
+            <div class="cols" style="margin-top: 22px">
+              <div>
+                <h3>Lenguajes</h3>
+                <ul>
+                  <li>
+                    <strong>Kotlin</strong> — lenguaje preferido por Google
+                    desde 2019.
+                  </li>
+                  <li>
+                    <strong>Java</strong> — histórico y plenamente soportado; es
+                    el que pide esta guía.
+                  </li>
+                  <li>
+                    <strong>C / C++</strong> — para partes de alto rendimiento
+                    vía NDK.
+                  </li>
+                  <li>
+                    <strong>XML</strong> — no es de programación, pero define
+                    las interfaces y el manifiesto.
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3>Entornos de desarrollo</h3>
+                <ul>
+                  <li>
+                    <strong>Android Studio</strong> — el oficial, construido
+                    sobre IntelliJ IDEA.
+                  </li>
+                  <li>
+                    <strong>IntelliJ IDEA</strong> — con el plugin de Android.
+                  </li>
+                  <li>
+                    <strong>Visual Studio Code</strong> — usado con Flutter o
+                    React Native.
+                  </li>
+                  <li>
+                    <strong>Eclipse con ADT</strong> — descontinuado; menciónalo
+                    solo como antecedente.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Apoyo</span></div>
+            <p class="cejilla">
+              Preguntas 6 y 7 · Las que más se responden mal
+            </p>
+            <h2>Multiusuario y mínimo privilegio</h2>
+            <div class="cols" style="margin-top: 22px">
+              <div class="tarjeta">
+                <h3>Android es multiusuario</h3>
+                <p style="font-size: 0.72em">
+                  Tiene dos lecturas y conviene explicar las dos. A nivel de
+                  dispositivo, varias personas pueden usar el mismo equipo con
+                  perfiles y datos separados. A nivel de sistema, Android trata
+                  <em>cada aplicación como un usuario Linux distinto</em>: le
+                  asigna un UID propio y la ejecuta en su propio sandbox, de
+                  modo que una app no puede leer los archivos de otra.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Mínimo privilegio</h3>
+                <p style="font-size: 0.72em">
+                  Cada aplicación recibe únicamente los permisos que necesita
+                  para funcionar, y nada más. Si tu app no usa la cámara, no
+                  declara la cámara. Los permisos peligrosos se solicitan en
+                  tiempo de ejecución y el usuario puede revocarlos cuando
+                  quiera.
+                </p>
+              </div>
+            </div>
+            <p class="nota" style="margin-top: 24px">
+              Ejemplo aterrizado: una app de linterna que pide acceso a
+              contactos viola el mínimo privilegio, aunque el usuario acepte.
+            </p>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Apoyo</span></div>
+            <p class="cejilla">Pregunta 8</p>
+            <h2>Los cuatro componentes esenciales</h2>
+            <div
+              class="cols-3"
+              style="
+                margin-top: 22px;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 16px;
+              "
+            >
+              <div class="tarjeta">
+                <h3>Activity</h3>
+                <p>
+                  Una pantalla con la que el usuario interactúa. Tiene ciclo de
+                  vida propio.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Service</h3>
+                <p>
+                  Trabajo en segundo plano sin interfaz: descargas,
+                  reproducción, sincronización.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Broadcast Receiver</h3>
+                <p>
+                  Escucha eventos del sistema o de otras apps: batería baja,
+                  conectividad, arranque.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Content Provider</h3>
+                <p>
+                  Expone datos de forma controlada para que otras apps los
+                  consulten.
+                </p>
+              </div>
+            </div>
+            <p style="margin-top: 26px; font-size: 0.78em">
+              Los cuatro se declaran en el
+              <strong>AndroidManifest.xml</strong> y se comunican entre sí
+              mediante <strong>Intents</strong>. Menciona ambos en tu respuesta:
+              es lo que separa una respuesta completa de una a medias.
+            </p>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Sección 2</span></div>
+            <p class="cejilla">Sección 2 · Tu primera aplicación</p>
+            <h2>Siete pasos, en este orden</h2>
+            <ol style="margin-top: 20px">
+              <li>Descarga e instala el <strong>JDK de Java</strong>.</li>
+              <li>
+                Descarga e instala <strong>Android Studio</strong> con el SDK
+                que sugiere el asistente.
+              </li>
+              <li>
+                Crea el proyecto: elige <em>Empty Views Activity</em> y define
+                el nombre del paquete.
+              </li>
+              <li>
+                Crea la actividad y su archivo de diseño
+                (<code>activity_main.xml</code>).
+              </li>
+              <li>
+                Configura el proyecto: SDK mínimo, SDK de destino y nombre de la
+                aplicación.
+              </li>
+              <li>
+                Compila la actividad principal y corrige los errores del Gradle
+                antes de seguir.
+              </li>
+              <li>
+                Ejecuta la app en el emulador o en tu celular y muestra un
+                mensaje en pantalla.
+              </li>
+            </ol>
+            <p class="nota" style="margin-top: 18px">
+              Toma captura de cada paso. Esas imágenes son la mitad de la
+              evidencia.
+            </p>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Sección 2</span></div>
+            <p class="cejilla">El mensaje en pantalla</p>
+            <h2>Lo mínimo que debe funcionar</h2>
+            <pre><code><span class="c">// MainActivity.java</span>
+<span class="k">package</span> com.sena.holamundo;
+
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.widget.Toast;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+
+<span class="k">public class</span> MainActivity <span class="k">extends</span> AppCompatActivity {
+
+    @Override
+    <span class="k">protected void</span> onCreate(Bundle savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Toast.makeText(<span class="k">this</span>, <span class="s">"¡Hola SENA! Ficha 3186652"</span>, Toast.LENGTH_LONG).show();
+    }
+}</code></pre>
+            <p class="nota" style="margin-top: 18px">
+              Genera el APK con
+              <strong>Build → Build Bundle(s) / APK(s) → Build APK(s)</strong> y
+              busca el archivo en <code>app/build/outputs/apk/debug/</code>.
+            </p>
+          </section>
+
+          <section data-ev="1">
+            <div class="canaleta"><span>EV01 · Entrega</span></div>
+            <p class="cejilla">Lineamientos de entrega</p>
+            <h2>Qué sube y cómo</h2>
+            <div class="cols" style="margin-top: 22px">
+              <div>
+                <h3>Contenido del archivo</h3>
+                <ul>
+                  <li>Documento con las respuestas de la sección 1, en PDF.</li>
+                  <li>
+                    Documento con el paso a paso y las capturas de la sección 2.
+                  </li>
+                  <li>El archivo <strong>.apk</strong> generado.</li>
+                  <li>El HTML si lo generaste como parte del documento.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Formato</h3>
+                <div style="margin: 6px 0 16px">
+                  <span class="chip">Un solo RAR</span
+                  ><span class="chip">Extensión libre</span>
+                </div>
+                <p style="font-size: 0.74em">
+                  Nombra el archivo así:<br /><code
+                    style="font-family: &quot;IBM Plex Mono&quot;, monospace"
+                    >EV01_Apellido_Nombre_Ficha.rar</code
+                  >
+                </p>
+                <p style="font-size: 0.74em; margin-top: 14px">
+                  Sube en el espacio
+                  <em
+                    >Taller. Integración, tecnologías emergentes y
+                    disruptivas</em
+                  >.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- ============ EV02 ============ -->
+        <section data-ev="2">
+          <section data-ev="2">
+            <div class="apertura">
+              <div class="numeral">
+                <span class="ev">Evidencia</span><span class="num">02</span>
+              </div>
+              <div>
+                <p class="cejilla">GA8-220501096-AA2-EV02</p>
+                <h2>APK: módulos móviles<br />del proyecto</h2>
+                <p class="bajada">
+                  Aquí ya no es un ejercicio de clase. Codificas los módulos de
+                  tu proyecto formativo para Android.
+                </p>
+                <div style="margin-top: 18px">
+                  <span class="chip">Entrega: RAR o ZIP</span
+                  ><span class="chip">Código + PDF + APK</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section data-ev="2">
+            <div class="canaleta"><span>EV02 · Antes de codificar</span></div>
+            <p class="cejilla">Fase 1</p>
+            <h2>Lo que debes tener sobre la mesa</h2>
+            <div class="cols" style="margin-top: 20px">
+              <div>
+                <h3>Del análisis</h3>
+                <ul>
+                  <li>
+                    Requerimientos del sistema, funcionales y no funcionales.
+                  </li>
+                  <li>Diagrama de clases.</li>
+                  <li>Diagrama de paquetes.</li>
+                  <li>Diagrama de componentes.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Del diseño</h3>
+                <ul>
+                  <li>Las capas donde vive cada componente.</li>
+                  <li>Mapa de navegación de la aplicación.</li>
+                  <li>Metodología de desarrollo que sigue el equipo.</li>
+                  <li>Librerías y frameworks de la capa de presentación.</li>
+                </ul>
+              </div>
+            </div>
+            <p class="nota" style="margin-top: 22px">
+              Si un diagrama no está, no empieces por el código: empieza por el
+              diagrama. Es el orden que evalúa la guía.
+            </p>
+          </section>
+
+          <section data-ev="2">
+            <div class="canaleta"><span>EV02 · Codificación</span></div>
+            <p class="cejilla">Fase 2</p>
+            <h2>Cómo se espera que codifiques</h2>
+            <ul style="margin-top: 18px">
+              <li>
+                Divide cada módulo en
+                <strong>componentes reutilizables</strong> y agrúpalos en
+                paquetes con nombres que se entiendan solos.
+              </li>
+              <li>
+                Aplica los <strong>patrones de diseño</strong> que correspondan
+                a la arquitectura definida: MVVM y repositorio son los
+                habituales en Android.
+              </li>
+              <li>
+                Sigue las
+                <strong>buenas prácticas de escritura de código</strong>:
+                nombres descriptivos, métodos cortos, sin código muerto ni
+                credenciales quemadas.
+              </li>
+              <li>
+                Trabaja con un
+                <strong>repositorio de control de versiones</strong> (Git o SVN)
+                y haz commits pequeños con mensajes que expliquen el cambio.
+              </li>
+              <li>
+                Deja documentadas las
+                <strong>configuraciones de servidor y de acceso a datos</strong>
+                en un archivo aparte, nunca dentro del código.
+              </li>
+            </ul>
+          </section>
+
+          <section data-ev="2">
+            <div class="canaleta"><span>EV02 · Cierre técnico</span></div>
+            <p class="cejilla">Fase 3</p>
+            <h2>Pruebas y documentación</h2>
+            <div class="cols-3" style="margin-top: 24px">
+              <div class="tarjeta">
+                <h3>Pruebas unitarias</h3>
+                <p>
+                  Una por módulo, como mínimo. En Android: JUnit para la lógica
+                  y Espresso para la interfaz. Incluye la evidencia de que
+                  pasaron.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Ambientes</h3>
+                <p>
+                  Documenta desarrollo y pruebas: versiones del SDK,
+                  dispositivos o emuladores usados, y cómo levantar el proyecto
+                  desde cero.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Repositorio</h3>
+                <p>
+                  Entrega la URL del repositorio. Debe verse el historial de
+                  commits, no un único cargue del día de la entrega.
+                </p>
+              </div>
+            </div>
+            <p class="nota" style="margin-top: 26px">
+              Sube: código fuente, archivos compilados, documento en PDF, APK y
+              la URL del repositorio. Todo en un RAR o ZIP.
+            </p>
+          </section>
+        </section>
+
+        <!-- ============ EV03 ============ -->
+        <section data-ev="3">
+          <section data-ev="3">
+            <div class="apertura">
+              <div class="numeral">
+                <span class="ev">Evidencia</span><span class="num">03</span>
+              </div>
+              <div>
+                <p class="cejilla">GA8-220501096-AA2-EV03</p>
+                <h2>Taller sobre tecnologías<br />emergentes y disruptivas</h2>
+                <p class="bajada">
+                  Diez tecnologías que rompen con lo conocido. Investigas las
+                  diez y profundizas en tres.
+                </p>
+                <div style="margin-top: 18px">
+                  <span class="chip">Entrega: PDF</span
+                  ><span class="chip">Extensión libre</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section data-ev="3">
+            <div class="canaleta"><span>EV03 · Sección 1</span></div>
+            <p class="cejilla">Sección 1 · Investigación corta de cada una</p>
+            <h2>Las diez tecnologías</h2>
+            <div class="cols" style="margin-top: 14px; gap: 0 46px">
+              <ul>
+                <li>
+                  <strong>Internet de las cosas</strong> — el crecimiento de los
+                  aparatos inteligentes.
+                </li>
+                <li>
+                  <strong>Inteligencia artificial</strong> — softbots y
+                  aprendizaje de máquinas.
+                </li>
+                <li><strong>Crowdsourcing</strong> — el poder de muchos.</li>
+                <li>
+                  <strong>Voice to text</strong> — el auge de los asistentes
+                  virtuales.
+                </li>
+                <li>
+                  <strong>Geolocalización</strong> — drones, seguridad y control
+                  ciudadano.
+                </li>
+              </ul>
+              <ul>
+                <li><strong>Impresión 3D</strong> — una en cada casa.</li>
+                <li><strong>Blockchain</strong> — cadena de bloques.</li>
+                <li>
+                  <strong>Bases de conocimiento</strong> — Googles privados.
+                </li>
+                <li>
+                  <strong>Robótica</strong> — desde la manufactura automatizada.
+                </li>
+                <li>
+                  <strong>Tecnologías visuales</strong> — 3D, realidad virtual,
+                  aumentada y hologramas.
+                </li>
+              </ul>
+            </div>
+            <p class="nota" style="margin-top: 22px">
+              Un párrafo por tecnología es suficiente en esta sección. La
+              profundidad va en la sección 2.
+            </p>
+          </section>
+
+          <section data-ev="3">
+            <div class="canaleta"><span>EV03 · Sección 2</span></div>
+            <p class="cejilla">Sección 2 · Elige tres y responde</p>
+            <h2>Cuatro preguntas por tecnología</h2>
+            <ul class="pregunta" style="margin-top: 22px">
+              <li>¿En qué consiste la tecnología?</li>
+              <li>¿Cuáles son sus características más importantes?</li>
+              <li>
+                De acuerdo con tu entorno, ¿cómo se puede utilizar esta
+                tecnología?
+              </li>
+              <li>
+                ¿Qué recursos necesitas para desarrollar un proyecto propio con
+                ella?
+              </li>
+            </ul>
+            <p style="margin-top: 26px; font-size: 0.8em">
+              La tercera pregunta es la que decide la nota.
+              <em>Tu entorno</em> significa tu municipio, tu casa, tu empresa de
+              práctica: cultivos, transporte, comercio local, salud, seguridad.
+            </p>
+          </section>
+
+          <section data-ev="3">
+            <div class="canaleta"><span>EV03 · Ejemplo</span></div>
+            <p class="cejilla">Así se ve una respuesta completa</p>
+            <h2>IoT aplicado a un cultivo del Alto Magdalena</h2>
+            <div class="cols" style="margin-top: 20px">
+              <div class="tarjeta">
+                <h3>Respuesta floja</h3>
+                <p style="font-size: 0.72em">
+                  «El IoT sirve para conectar dispositivos a internet y se puede
+                  usar en la agricultura para mejorar los cultivos.»
+                </p>
+                <p
+                  style="
+                    font-size: 0.65em;
+                    margin-top: 10px;
+                    color: var(--naranja);
+                  "
+                >
+                  Cierto, pero aplica a cualquier persona del planeta.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Respuesta completa</h3>
+                <p style="font-size: 0.72em">
+                  «Sensores de humedad de suelo enviando datos por LoRa a un
+                  ESP32; el riego se activa solo cuando la humedad baja del 30
+                  %. Recursos: 4 sensores, un microcontrolador, panel solar, una
+                  app Android para el monitoreo y una cuenta gratuita de broker
+                  MQTT.»
+                </p>
+                <p
+                  style="
+                    font-size: 0.65em;
+                    margin-top: 10px;
+                    color: var(--verde-osc);
+                  "
+                >
+                  Concreta, medible y con los recursos listados.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- ============ EV04 ============ -->
+        <section data-ev="4">
+          <section data-ev="4">
+            <div class="apertura">
+              <div class="numeral">
+                <span class="ev">Evidencia</span><span class="num">04</span>
+              </div>
+              <div>
+                <p class="cejilla">GA8-220501096-AA2-EV04</p>
+                <h2>Video exposición sobre<br />machine learning</h2>
+                <p class="bajada">
+                  Diez minutos frente a cámara explicando la tecnología, sus
+                  modelos y sus consecuencias.
+                </p>
+                <div style="margin-top: 18px">
+                  <span class="chip">Entrega: MP4</span
+                  ><span class="chip">10 minutos</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section data-ev="4">
+            <div class="canaleta"><span>EV04 · Método</span></div>
+            <p class="cejilla">Todo video pasa por tres fases</p>
+            <h2>Preproducción, producción, postproducción</h2>
+            <div class="cols-3" style="margin-top: 24px">
+              <div class="tarjeta">
+                <h3>Preproducción</h3>
+                <p>
+                  Escribes el guion, seleccionas las imágenes y defines el
+                  audio. Es la fase más larga y la que no se ve en pantalla.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Producción</h3>
+                <p>
+                  La grabación. Busca un lugar silencioso, luz de frente y el
+                  micrófono cerca. Graba por bloques, no de una sola toma.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Postproducción</h3>
+                <p>
+                  Revisas, cortas, agregas títulos y ajustas el audio hasta que
+                  el video corresponda con la temática establecida.
+                </p>
+              </div>
+            </div>
+            <p class="nota" style="margin-top: 26px">
+              Herramientas gratuitas: OBS Studio para grabar, DaVinci Resolve o
+              CapCut para editar, Canva para las láminas de apoyo.
+            </p>
+          </section>
+
+          <section data-ev="4">
+            <div class="canaleta"><span>EV04 · Guion</span></div>
+            <p class="cejilla">Reparte los diez minutos así</p>
+            <h2>Guion sugerido</h2>
+            <table style="margin-top: 14px">
+              <tr>
+                <th style="width: 110px">Minuto</th>
+                <th>Contenido</th>
+              </tr>
+              <tr>
+                <td>00:00 – 01:00</td>
+                <td>Presentación personal, ficha y de qué trata el video.</td>
+              </tr>
+              <tr>
+                <td>01:00 – 02:30</td>
+                <td>Qué es el machine learning y cuáles son sus objetivos.</td>
+              </tr>
+              <tr>
+                <td>02:30 – 04:00</td>
+                <td>
+                  Antecedentes: de Turing y el perceptrón al aprendizaje
+                  profundo.
+                </td>
+              </tr>
+              <tr>
+                <td>04:00 – 05:30</td>
+                <td>
+                  Qué es la inteligencia artificial y cómo se relaciona con el
+                  machine learning.
+                </td>
+              </tr>
+              <tr>
+                <td>05:30 – 07:00</td>
+                <td>
+                  Modelo orientado a la programación frente al modelo de
+                  conexiones neuronales.
+                </td>
+              </tr>
+              <tr>
+                <td>07:00 – 08:30</td>
+                <td>Ejemplos de productos reales construidos con IA.</td>
+              </tr>
+              <tr>
+                <td>08:30 – 10:00</td>
+                <td>
+                  Consecuencias sociales, éticas y filosóficas. Cierre y
+                  conclusión personal.
+                </td>
+              </tr>
+            </table>
+          </section>
+
+          <section data-ev="4">
+            <div class="canaleta"><span>EV04 · Contenido</span></div>
+            <p class="cejilla">Los dos modelos que más cuestan explicar</p>
+            <h2>Programación frente a conexiones neuronales</h2>
+            <div class="cols" style="margin-top: 20px">
+              <div class="tarjeta">
+                <h3>Orientado a la programación</h3>
+                <p style="font-size: 0.72em">
+                  La inteligencia se escribe como reglas explícitas: sistemas
+                  expertos, árboles de decisión, lógica «si esto, entonces
+                  aquello». El programador define el conocimiento y el sistema
+                  lo aplica. Es transparente y auditable, pero no aprende solo.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Orientado a conexiones neuronales</h3>
+                <p style="font-size: 0.72em">
+                  La inteligencia emerge de una red de nodos que ajusta sus
+                  pesos a partir de ejemplos. Nadie escribe la regla: el modelo
+                  la infiere de los datos. Aprende tareas que no se pueden
+                  describir con reglas, a cambio de ser difícil de explicar.
+                </p>
+              </div>
+            </div>
+            <p class="nota" style="margin-top: 22px">
+              Usa un ejemplo propio para cada uno. Filtro de spam por reglas
+              frente a reconocimiento facial funciona muy bien en cámara.
+            </p>
+          </section>
+
+          <section data-ev="4">
+            <div class="canaleta"><span>EV04 · Contenido</span></div>
+            <p class="cejilla">No cierres el video sin esto</p>
+            <h2>Consecuencias sociales, éticas y filosóficas</h2>
+            <div class="cols-3" style="margin-top: 24px">
+              <div class="tarjeta">
+                <h3>Sociales</h3>
+                <p>
+                  Transformación del empleo, brecha digital entre quienes
+                  acceden a la tecnología y quienes no, concentración del poder
+                  en pocas empresas.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Éticas</h3>
+                <p>
+                  Sesgos heredados de los datos, privacidad y uso de información
+                  personal, responsabilidad cuando un modelo se equivoca.
+                </p>
+              </div>
+              <div class="tarjeta">
+                <h3>Filosóficas</h3>
+                <p>
+                  Qué entendemos por inteligencia, si una máquina puede
+                  comprender o solo calcular, y qué decisiones no deberíamos
+                  delegar nunca.
+                </p>
+              </div>
+            </div>
+            <p class="nota" style="margin-top: 26px">
+              Toma posición. La guía pide explicar las consecuencias, y una
+              opinión sustentada vale más que una lista neutra.
+            </p>
+          </section>
+        </section>
+
+        <!-- ============ RESUMEN ============ -->
+        <section data-ev="5">
+          <div class="canaleta"><span>Resumen de entregas</span></div>
+          <p class="cejilla">Todo en una sola vista</p>
+          <h2>Qué entrega cada evidencia</h2>
+          <table>
+            <tr>
+              <th>Evidencia</th>
+              <th>Producto</th>
+              <th>Formato</th>
+              <th>Espacio en la plataforma</th>
+            </tr>
+            <tr>
+              <td>AA2-EV01</td>
+              <td>Documentos e imágenes del taller y la primera app</td>
+              <td>RAR con PDF, HTML y APK</td>
+              <td>Taller. Integración, tecnologías emergentes y disruptivas</td>
+            </tr>
+            <tr>
+              <td>AA2-EV02</td>
+              <td>Código fuente, compilados, documento y URL</td>
+              <td>RAR o ZIP con PDF y APK</td>
+              <td>APK (desarrollar módulos móviles)</td>
+            </tr>
+            <tr>
+              <td>AA2-EV03</td>
+              <td>Documento de investigación con las diez tecnologías</td>
+              <td>PDF</td>
+              <td>Taller sobre tecnologías emergentes y disruptivas</td>
+            </tr>
+            <tr>
+              <td>AA2-EV04</td>
+              <td>Video de exposición de diez minutos</td>
+              <td>MP4</td>
+              <td>Video exposición sobre machine learning</td>
+            </tr>
+          </table>
+          <p class="nota" style="margin-top: 22px">
+            La extensión es libre en las cuatro. El formato no.
+          </p>
+        </section>
+
+        <!-- ============ ERRORES ============ -->
+        <section data-ev="5">
+          <div class="canaleta"><span>Antes de subir</span></div>
+          <p class="cejilla">Lo que más devuelve una evidencia</p>
+          <h2>Revisa esto antes de dar clic en enviar</h2>
+          <div class="cols" style="margin-top: 20px">
+            <div>
+              <ul>
+                <li>
+                  Subir el formato equivocado: el EV03 va en PDF, no en Word.
+                </li>
+                <li>
+                  Entregar el proyecto comprimido sin el APK compilado adentro.
+                </li>
+                <li>Capturas de pantalla ilegibles o recortadas.</li>
+                <li>
+                  Respuestas copiadas de internet sin citar ni reescribir.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li>
+                  Video sin audio audible o que dura tres minutos en lugar de
+                  diez.
+                </li>
+                <li>
+                  Repositorio con un solo commit hecho el día de la entrega.
+                </li>
+                <li>
+                  Archivos sin nombre identificable del aprendiz y la ficha.
+                </li>
+                <li>Subir la evidencia en el espacio de otra evidencia.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="nota" style="margin-top: 20px">
+            Si algo no te compila o no te carga, escríbeme antes de la fecha de
+            cierre, no después.
+          </p>
+        </section>
+
+        <!-- ============ CIERRE ============ -->
+        <section class="portada" data-ev="5">
+          <div class="marca">
+            <span class="punto"></span> Fichas 3186652 y 3186653
+          </div>
+          <p class="cejilla">GA8-220501096-AA2 · 144 horas</p>
+          <h1>Manos a la obra</h1>
+          <p class="bajada">
+            Las cuatro evidencias ya están habilitadas en la plataforma. Empieza
+            por la EV01: todo lo demás se apoya en ella.
+          </p>
+          <div class="fichas">
+            <div>Primero<b>EV01</b></div>
+            <div>Luego<b>EV02 · EV03</b></div>
+            <div>Al final<b>EV04</b></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Riel de evidencias: elemento fijo de navegación -->
+      <div class="riel" id="riel">
+        <div class="paso" data-paso="1">
+          <b>EV01</b><i>Taller Android · RAR</i>
+        </div>
+        <div class="paso" data-paso="2">
+          <b>EV02</b><i>APK del proyecto · ZIP</i>
+        </div>
+        <div class="paso" data-paso="3">
+          <b>EV03</b><i>Tecnologías · PDF</i>
+        </div>
+        <div class="paso" data-paso="4"><b>EV04</b><i>Video ML · MP4</i></div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.045,
+        minScale: 0.2,
+        maxScale: 1.6,
+        center: false,
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        transitionSpeed: "fast",
+        backgroundTransition: "none",
+      });
+
+      var pasos = document.querySelectorAll("#riel .paso");
+
+      function actualizarRiel() {
+        var actual = Reveal.getCurrentSlide();
+        var contenedor = actual.closest("section[data-ev]");
+        var ev = contenedor
+          ? parseInt(contenedor.getAttribute("data-ev"), 10)
+          : 0;
+
+        pasos.forEach(function (paso) {
+          var n = parseInt(paso.getAttribute("data-paso"), 10);
+          paso.classList.toggle("activo", n === ev);
+          paso.classList.toggle("hecho", ev > 4 || n < ev);
+        });
+      }
+
+      Reveal.on("ready", actualizarRiel);
+      Reveal.on("slidechanged", actualizarRiel);
+    </script>
+  </body>
+</html>
