@@ -1,0 +1,14 @@
+{
+  "appId": "co.edu.sena.ficha5253.aa2",
+  "appName": "SENA AA2 · Fichas 3186652-3186653",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#edefe8"
+    }
+  }
+}

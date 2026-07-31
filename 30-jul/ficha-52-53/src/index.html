@@ -2,7 +2,13 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#edefe8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>
       GA8-220501096-AA2 · Tecnologías emergentes y disruptivas · Fichas 3186652
       y 3186653
@@ -14,460 +20,18 @@
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
-    />
-
-    <style>
-      :root {
-        --papel: #edefe8;
-        --papel-2: #e2e6db;
-        --tinta: #0f1a14;
-        --tinta-70: #46524b;
-        --tinta-45: #7c867f;
-        --verde: #39a900;
-        --verde-osc: #26720a;
-        --indigo: #22324f;
-        --naranja: #f2542d;
-        --linea: rgba(15, 26, 20, 0.14);
-      }
-
-      html,
-      body {
-        background: var(--papel);
-      }
-
-      .reveal {
-        font-family: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
-        font-size: 26px;
-        color: var(--tinta);
-        background: var(--papel);
-        background-image: radial-gradient(var(--papel-2) 1px, transparent 1px);
-        background-size: 22px 22px;
-      }
-
-      /* ---------- estructura de la diapositiva ---------- */
-      .reveal .slides {
-        text-align: left;
-      }
-      .reveal .slides section {
-        height: 100%;
-        padding: 38px 64px 96px 104px;
-        box-sizing: border-box;
-      }
-      .reveal .slides section > *:first-child {
-        margin-top: 0;
-      }
-
-      /* canaleta izquierda: el código oficial de la evidencia */
-      .reveal .canaleta {
-        position: absolute;
-        left: 34px;
-        top: 38px;
-        bottom: 96px;
-        width: 34px;
-        border-left: 2px solid var(--verde);
-        display: flex;
-        align-items: flex-start;
-      }
-      .reveal .canaleta span {
-        writing-mode: vertical-rl;
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 13px;
-        letter-spacing: 0.16em;
-        color: var(--tinta-45);
-        padding: 2px 0 0 10px;
-        text-transform: uppercase;
-      }
-
-      /* ---------- tipografía ---------- */
-      .reveal h1,
-      .reveal h2,
-      .reveal h3 {
-        font-family:
-          "Bricolage Grotesque", "Bricolage Grotesque 96pt", "IBM Plex Sans",
-          sans-serif;
-        color: var(--tinta);
-        text-transform: none;
-        letter-spacing: -0.02em;
-        line-height: 1.02;
-        margin: 0 0 0.5em 0;
-        font-weight: 800;
-      }
-      .reveal h1 {
-        font-size: 2.9em;
-      }
-      .reveal h2 {
-        font-size: 1.9em;
-      }
-      .reveal h3 {
-        font-size: 1.15em;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-      }
-      .reveal p {
-        line-height: 1.45;
-        margin: 0 0 0.7em 0;
-      }
-      .reveal strong {
-        font-weight: 600;
-        color: var(--verde-osc);
-      }
-      .reveal em {
-        font-style: normal;
-        background: linear-gradient(transparent 62%, rgba(57, 169, 0, 0.28) 0);
-        font-weight: 500;
-      }
-
-      .reveal .cejilla {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 0.58em;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--verde-osc);
-        margin: 0 0 14px 0;
-        font-weight: 600;
-      }
-      .reveal .bajada {
-        font-size: 0.82em;
-        color: var(--tinta-70);
-        max-width: 26ch;
-      }
-      .reveal .nota {
-        font-size: 0.6em;
-        color: var(--tinta-45);
-        font-family: "IBM Plex Mono", monospace;
-        line-height: 1.5;
-      }
-
-      /* ---------- listas ---------- */
-      .reveal ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-      .reveal ul li {
-        position: relative;
-        padding: 0 0 0 30px;
-        margin: 0 0 0.48em 0;
-        font-size: 0.82em;
-        line-height: 1.4;
-      }
-      .reveal ul li::before {
-        content: "";
-        position: absolute;
-        left: 2px;
-        top: 0.52em;
-        width: 9px;
-        height: 9px;
-        background: var(--verde);
-        border-radius: 2px;
-      }
-      .reveal ul.pregunta li::before {
-        content: "?";
-        background: none;
-        color: var(--verde);
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 600;
-        top: -0.02em;
-        left: 4px;
-        width: auto;
-        height: auto;
-        font-size: 1.05em;
-      }
-      .reveal ol {
-        counter-reset: paso;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-      .reveal ol li {
-        counter-increment: paso;
-        position: relative;
-        padding: 0 0 0 46px;
-        margin: 0 0 0.5em 0;
-        font-size: 0.82em;
-        line-height: 1.4;
-      }
-      .reveal ol li::before {
-        content: counter(paso, decimal-leading-zero);
-        position: absolute;
-        left: 0;
-        top: 0.1em;
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 0.8em;
-        font-weight: 600;
-        color: var(--verde-osc);
-      }
-      .reveal .cols {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0 46px;
-      }
-      .reveal .cols-3 {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-
-      /* ---------- tarjetas ---------- */
-      .reveal .tarjeta {
-        background: #fff;
-        border: 1px solid var(--linea);
-        border-radius: 3px;
-        padding: 20px 22px 22px;
-        position: relative;
-        overflow: hidden;
-      }
-      .reveal .tarjeta::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        background: var(--verde);
-      }
-      .reveal .tarjeta h3 {
-        margin: 0 0 8px 0;
-        font-size: 1.05em;
-      }
-      .reveal .tarjeta p {
-        font-size: 0.68em;
-        color: var(--tinta-70);
-        margin: 0;
-      }
-      .reveal .tarjeta .codigo {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 0.52em;
-        color: var(--tinta-45);
-        letter-spacing: 0.08em;
-        display: block;
-        margin-bottom: 10px;
-      }
-
-      /* etiqueta de formato de entrega */
-      .reveal .chip {
-        display: inline-block;
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 600;
-        font-size: 0.5em;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        border: 1.5px solid var(--indigo);
-        color: var(--indigo);
-        border-radius: 100px;
-        padding: 3px 11px;
-        margin: 0 6px 6px 0;
-      }
-      .reveal .chip.alerta {
-        border-color: var(--naranja);
-        color: var(--naranja);
-      }
-
-      /* ---------- portadas de evidencia ---------- */
-      .reveal .apertura {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0 52px;
-        align-items: center;
-        height: 100%;
-      }
-      .reveal .numeral {
-        line-height: 0.8;
-      }
-      .reveal .numeral .ev {
-        display: block;
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 600;
-        font-size: 0.66em;
-        letter-spacing: 0.3em;
-        color: var(--tinta-45);
-      }
-      .reveal .numeral .num {
-        display: block;
-        font-family: "Bricolage Grotesque", "IBM Plex Sans", sans-serif;
-        font-weight: 800;
-        font-size: 9.5em;
-        letter-spacing: -0.06em;
-        color: var(--verde);
-        -webkit-text-stroke: 0;
-      }
-
-      /* ---------- tabla ---------- */
-      .reveal table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.62em;
-        margin-top: 6px;
-      }
-      .reveal th {
-        text-align: left;
-        font-family: "IBM Plex Mono", monospace;
-        font-weight: 600;
-        font-size: 0.85em;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--tinta-45);
-        padding: 0 14px 10px 0;
-        border-bottom: 2px solid var(--tinta);
-      }
-      .reveal td {
-        padding: 12px 14px 12px 0;
-        border-bottom: 1px solid var(--linea);
-        vertical-align: top;
-        line-height: 1.35;
-      }
-      .reveal td:first-child {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 0.9em;
-        color: var(--verde-osc);
-        white-space: nowrap;
-      }
-
-      /* ---------- código ---------- */
-      .reveal pre {
-        width: 100%;
-        box-shadow: none;
-        margin: 0;
-        font-size: 0.46em;
-        background: var(--indigo);
-        border-radius: 3px;
-      }
-      .reveal pre code {
-        display: block;
-        padding: 20px 24px;
-        color: #dde6f2;
-        font-family: "IBM Plex Mono", monospace;
-        line-height: 1.6;
-        max-height: none;
-        background: transparent;
-      }
-      .reveal pre code .c {
-        color: #8fa6c4;
-      }
-      .reveal pre code .k {
-        color: #8fe388;
-      }
-      .reveal pre code .s {
-        color: #f8c471;
-      }
-
-      /* ---------- riel de evidencias (elemento fijo) ---------- */
-      .riel {
-        position: absolute;
-        left: 34px;
-        right: 34px;
-        bottom: 26px;
-        height: 44px;
-        display: flex;
-        gap: 8px;
-        align-items: stretch;
-        z-index: 30;
-        pointer-events: none;
-      }
-      .riel .paso {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        border-top: 3px solid var(--linea);
-        padding: 8px 2px 0;
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        color: var(--tinta-45);
-        text-transform: uppercase;
-        transition:
-          border-color 0.35s ease,
-          color 0.35s ease;
-      }
-      .riel .paso b {
-        font-weight: 600;
-        display: block;
-        font-size: 12px;
-      }
-      .riel .paso i {
-        font-style: normal;
-        font-size: 10px;
-        opacity: 0.75;
-      }
-      .riel .paso.activo {
-        border-top-color: var(--verde);
-        color: var(--verde-osc);
-      }
-      .riel .paso.hecho {
-        border-top-color: var(--tinta-45);
-      }
-
-      .reveal .progress {
-        color: var(--verde);
-        height: 4px;
-      }
-      .reveal .controls {
-        color: var(--tinta-45);
-      }
-      .reveal .slide-number {
-        background: none;
-        color: var(--tinta-45);
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 12px;
-        right: 36px;
-        bottom: 78px;
-      }
-
-      /* portada */
-      .reveal section.portada {
-        padding-left: 104px;
-      }
-      .reveal .portada .marca {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-        margin-bottom: auto;
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 0.55em;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--tinta-45);
-      }
-      .reveal .portada .marca span.punto {
-        width: 10px;
-        height: 10px;
-        background: var(--verde);
-        border-radius: 50%;
-      }
-      .reveal .portada h1 {
-        font-size: 3.4em;
-        max-width: 16ch;
-        margin-top: 24px;
-      }
-      .reveal .fichas {
-        display: flex;
-        gap: 34px;
-        margin-top: 26px;
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 0.6em;
-        color: var(--tinta-70);
-        letter-spacing: 0.06em;
-      }
-      .reveal .fichas div b {
-        display: block;
-        color: var(--tinta);
-        font-size: 1.5em;
-        letter-spacing: 0;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .riel .paso {
-          transition: none;
-        }
-      }
-    </style>
+    <!-- estilos.css hace @import de reveal.css desde node_modules: ya no se
+         baja de un CDN, así la app también funciona sin internet en el APK. -->
+    <link rel="stylesheet" href="./css/estilos.css" />
   </head>
   <body>
     <div class="reveal">
+      <!-- Estado de Capacitor: plataforma detectada + acción nativa (Share) -->
+      <div class="barra-cap">
+        <span class="chip-estado" id="estado">detectando…</span>
+        <button type="button" id="compartir">compartir</button>
+      </div>
+
       <div class="slides">
         <!-- ============ PORTADA ============ -->
         <section class="portada" data-ev="0">
@@ -1335,36 +899,50 @@
           <div class="canaleta"><span>Resumen de entregas</span></div>
           <p class="cejilla">Todo en una sola vista</p>
           <h2>Qué entrega cada evidencia</h2>
-          <table>
-            <tr>
+          <table class="apilable">
+            <tr class="encabezado">
               <th>Evidencia</th>
               <th>Producto</th>
               <th>Formato</th>
               <th>Espacio en la plataforma</th>
             </tr>
             <tr>
-              <td>AA2-EV01</td>
-              <td>Documentos e imágenes del taller y la primera app</td>
-              <td>RAR con PDF, HTML y APK</td>
-              <td>Taller. Integración, tecnologías emergentes y disruptivas</td>
+              <td data-t="Evidencia">AA2-EV01</td>
+              <td data-t="Producto">
+                Documentos e imágenes del taller y la primera app
+              </td>
+              <td data-t="Formato">RAR con PDF, HTML y APK</td>
+              <td data-t="Espacio en la plataforma">
+                Taller. Integración, tecnologías emergentes y disruptivas
+              </td>
             </tr>
             <tr>
-              <td>AA2-EV02</td>
-              <td>Código fuente, compilados, documento y URL</td>
-              <td>RAR o ZIP con PDF y APK</td>
-              <td>APK (desarrollar módulos móviles)</td>
+              <td data-t="Evidencia">AA2-EV02</td>
+              <td data-t="Producto">
+                Código fuente, compilados, documento y URL
+              </td>
+              <td data-t="Formato">RAR o ZIP con PDF y APK</td>
+              <td data-t="Espacio en la plataforma">
+                APK (desarrollar módulos móviles)
+              </td>
             </tr>
             <tr>
-              <td>AA2-EV03</td>
-              <td>Documento de investigación con las diez tecnologías</td>
-              <td>PDF</td>
-              <td>Taller sobre tecnologías emergentes y disruptivas</td>
+              <td data-t="Evidencia">AA2-EV03</td>
+              <td data-t="Producto">
+                Documento de investigación con las diez tecnologías
+              </td>
+              <td data-t="Formato">PDF</td>
+              <td data-t="Espacio en la plataforma">
+                Taller sobre tecnologías emergentes y disruptivas
+              </td>
             </tr>
             <tr>
-              <td>AA2-EV04</td>
-              <td>Video de exposición de diez minutos</td>
-              <td>MP4</td>
-              <td>Video exposición sobre machine learning</td>
+              <td data-t="Evidencia">AA2-EV04</td>
+              <td data-t="Producto">Video de exposición de diez minutos</td>
+              <td data-t="Formato">MP4</td>
+              <td data-t="Espacio en la plataforma">
+                Video exposición sobre machine learning
+              </td>
             </tr>
           </table>
           <p class="nota" style="margin-top: 22px">
@@ -1448,40 +1026,7 @@
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
-    <script>
-      Reveal.initialize({
-        width: 1280,
-        height: 720,
-        margin: 0.045,
-        minScale: 0.2,
-        maxScale: 1.6,
-        center: false,
-        hash: true,
-        slideNumber: "c/t",
-        transition: "slide",
-        transitionSpeed: "fast",
-        backgroundTransition: "none",
-      });
-
-      var pasos = document.querySelectorAll("#riel .paso");
-
-      function actualizarRiel() {
-        var actual = Reveal.getCurrentSlide();
-        var contenedor = actual.closest("section[data-ev]");
-        var ev = contenedor
-          ? parseInt(contenedor.getAttribute("data-ev"), 10)
-          : 0;
-
-        pasos.forEach(function (paso) {
-          var n = parseInt(paso.getAttribute("data-paso"), 10);
-          paso.classList.toggle("activo", n === ev);
-          paso.classList.toggle("hecho", ev > 4 || n < ev);
-        });
-      }
-
-      Reveal.on("ready", actualizarRiel);
-      Reveal.on("slidechanged", actualizarRiel);
-    </script>
+    <!-- Reveal.js, los plugins de Capacitor y el riel viven en js/app.js -->
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>

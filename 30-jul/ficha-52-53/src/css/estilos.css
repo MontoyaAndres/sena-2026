@@ -1,0 +1,666 @@
+/* Estilos de la presentación.
+   El @import trae reveal.js desde node_modules y debe ir de primero: así
+   los estilos propios de abajo siempre ganan en la cascada. */
+@import "reveal.js/dist/reveal.css";
+:root {
+  --papel: #edefe8;
+  --papel-2: #e2e6db;
+  --tinta: #0f1a14;
+  --tinta-70: #46524b;
+  --tinta-45: #7c867f;
+  --verde: #39a900;
+  --verde-osc: #26720a;
+  --indigo: #22324f;
+  --naranja: #f2542d;
+  --linea: rgba(15, 26, 20, 0.14);
+
+  /* Áreas seguras del dispositivo. En un celular real las entrega el
+     sistema; dentro del emulador las inyecta js/app.js desde la URL. */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+html,
+body {
+  background: var(--papel);
+  height: 100%;
+  overscroll-behavior: none;
+}
+body {
+  margin: 0;
+  /* Nada de contenido debajo del notch ni de la barra de gestos. */
+  padding: var(--sat) var(--sar) var(--sab) var(--sal);
+  box-sizing: border-box;
+}
+body.en-pausa {
+  filter: saturate(0.4);
+}
+
+.reveal {
+  font-family: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 26px;
+  color: var(--tinta);
+  background: var(--papel);
+  background-image: radial-gradient(var(--papel-2) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ---------- estructura de la diapositiva ---------- */
+.reveal .slides {
+  text-align: left;
+}
+.reveal .slides section {
+  height: 100%;
+  padding: 38px 64px 96px 104px;
+  box-sizing: border-box;
+}
+.reveal .slides section > *:first-child {
+  margin-top: 0;
+}
+
+/* canaleta izquierda: el código oficial de la evidencia */
+.reveal .canaleta {
+  position: absolute;
+  left: 34px;
+  top: 38px;
+  bottom: 96px;
+  width: 34px;
+  border-left: 2px solid var(--verde);
+  display: flex;
+  align-items: flex-start;
+}
+.reveal .canaleta span {
+  writing-mode: vertical-rl;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  color: var(--tinta-45);
+  padding: 2px 0 0 10px;
+  text-transform: uppercase;
+}
+
+/* ---------- tipografía ---------- */
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-family:
+    "Bricolage Grotesque", "Bricolage Grotesque 96pt", "IBM Plex Sans",
+    sans-serif;
+  color: var(--tinta);
+  text-transform: none;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  margin: 0 0 0.5em 0;
+  font-weight: 800;
+}
+.reveal h1 {
+  font-size: 2.9em;
+}
+.reveal h2 {
+  font-size: 1.9em;
+}
+.reveal h3 {
+  font-size: 1.15em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.reveal p {
+  line-height: 1.45;
+  margin: 0 0 0.7em 0;
+}
+.reveal strong {
+  font-weight: 600;
+  color: var(--verde-osc);
+}
+.reveal em {
+  font-style: normal;
+  background: linear-gradient(transparent 62%, rgba(57, 169, 0, 0.28) 0);
+  font-weight: 500;
+}
+
+.reveal .cejilla {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--verde-osc);
+  margin: 0 0 14px 0;
+  font-weight: 600;
+}
+.reveal .bajada {
+  font-size: 0.82em;
+  color: var(--tinta-70);
+  max-width: 26ch;
+}
+.reveal .nota {
+  font-size: 0.6em;
+  color: var(--tinta-45);
+  font-family: "IBM Plex Mono", monospace;
+  line-height: 1.5;
+}
+
+/* ---------- listas ---------- */
+.reveal ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reveal ul li {
+  position: relative;
+  padding: 0 0 0 30px;
+  margin: 0 0 0.48em 0;
+  font-size: 0.82em;
+  line-height: 1.4;
+}
+.reveal ul li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.52em;
+  width: 9px;
+  height: 9px;
+  background: var(--verde);
+  border-radius: 2px;
+}
+.reveal ul.pregunta li::before {
+  content: "?";
+  background: none;
+  color: var(--verde);
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  top: -0.02em;
+  left: 4px;
+  width: auto;
+  height: auto;
+  font-size: 1.05em;
+}
+.reveal ol {
+  counter-reset: paso;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reveal ol li {
+  counter-increment: paso;
+  position: relative;
+  padding: 0 0 0 46px;
+  margin: 0 0 0.5em 0;
+  font-size: 0.82em;
+  line-height: 1.4;
+}
+.reveal ol li::before {
+  content: counter(paso, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--verde-osc);
+}
+.reveal .cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 46px;
+}
+.reveal .cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ---------- tarjetas ---------- */
+.reveal .tarjeta {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: 3px;
+  padding: 20px 22px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.reveal .tarjeta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--verde);
+}
+.reveal .tarjeta h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.05em;
+}
+.reveal .tarjeta p {
+  font-size: 0.68em;
+  color: var(--tinta-70);
+  margin: 0;
+}
+.reveal .tarjeta .codigo {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.52em;
+  color: var(--tinta-45);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* etiqueta de formato de entrega */
+.reveal .chip {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 0.5em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--indigo);
+  color: var(--indigo);
+  border-radius: 100px;
+  padding: 3px 11px;
+  margin: 0 6px 6px 0;
+}
+.reveal .chip.alerta {
+  border-color: var(--naranja);
+  color: var(--naranja);
+}
+
+/* ---------- portadas de evidencia ---------- */
+.reveal .apertura {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 52px;
+  align-items: center;
+  height: 100%;
+}
+.reveal .numeral {
+  line-height: 0.8;
+}
+.reveal .numeral .ev {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 0.66em;
+  letter-spacing: 0.3em;
+  color: var(--tinta-45);
+}
+.reveal .numeral .num {
+  display: block;
+  font-family: "Bricolage Grotesque", "IBM Plex Sans", sans-serif;
+  font-weight: 800;
+  font-size: 9.5em;
+  letter-spacing: -0.06em;
+  color: var(--verde);
+  -webkit-text-stroke: 0;
+}
+
+/* ---------- tabla ---------- */
+.reveal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.62em;
+  margin-top: 6px;
+}
+.reveal th {
+  text-align: left;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tinta-45);
+  padding: 0 14px 10px 0;
+  border-bottom: 2px solid var(--tinta);
+}
+.reveal td {
+  padding: 12px 14px 12px 0;
+  border-bottom: 1px solid var(--linea);
+  vertical-align: top;
+  line-height: 1.35;
+}
+.reveal td:first-child {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9em;
+  color: var(--verde-osc);
+  white-space: nowrap;
+}
+
+/* ---------- código ---------- */
+.reveal pre {
+  width: 100%;
+  box-shadow: none;
+  margin: 0;
+  font-size: 0.46em;
+  background: var(--indigo);
+  border-radius: 3px;
+}
+.reveal pre code {
+  display: block;
+  padding: 20px 24px;
+  color: #dde6f2;
+  font-family: "IBM Plex Mono", monospace;
+  line-height: 1.6;
+  max-height: none;
+  background: transparent;
+}
+.reveal pre code .c {
+  color: #8fa6c4;
+}
+.reveal pre code .k {
+  color: #8fe388;
+}
+.reveal pre code .s {
+  color: #f8c471;
+}
+
+/* ---------- riel de evidencias (elemento fijo) ---------- */
+.riel {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 26px;
+  height: 44px;
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  z-index: 30;
+  pointer-events: none;
+}
+.riel .paso {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 3px solid var(--linea);
+  padding: 8px 2px 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--tinta-45);
+  text-transform: uppercase;
+  transition:
+    border-color 0.35s ease,
+    color 0.35s ease;
+}
+.riel .paso b {
+  font-weight: 600;
+  display: block;
+  font-size: 12px;
+}
+.riel .paso i {
+  font-style: normal;
+  font-size: 10px;
+  opacity: 0.75;
+}
+.riel .paso.activo {
+  border-top-color: var(--verde);
+  color: var(--verde-osc);
+}
+.riel .paso.hecho {
+  border-top-color: var(--tinta-45);
+}
+
+.reveal .progress {
+  color: var(--verde);
+  height: 4px;
+}
+.reveal .controls {
+  color: var(--tinta-45);
+}
+.reveal .slide-number {
+  background: none;
+  color: var(--tinta-45);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  right: 36px;
+  bottom: 78px;
+}
+
+/* portada */
+.reveal section.portada {
+  padding-left: 104px;
+}
+.reveal .portada .marca {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: auto;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.55em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tinta-45);
+}
+.reveal .portada .marca span.punto {
+  width: 10px;
+  height: 10px;
+  background: var(--verde);
+  border-radius: 50%;
+}
+.reveal .portada h1 {
+  font-size: 3.4em;
+  max-width: 16ch;
+  margin-top: 24px;
+}
+.reveal .fichas {
+  display: flex;
+  gap: 34px;
+  margin-top: 26px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6em;
+  color: var(--tinta-70);
+  letter-spacing: 0.06em;
+}
+.reveal .fichas div b {
+  display: block;
+  color: var(--tinta);
+  font-size: 1.5em;
+  letter-spacing: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .riel .paso {
+    transition: none;
+  }
+}
+
+/* ================================================================
+   BARRA DE ESTADO DE CAPACITOR
+   Muestra en qué plataforma se está ejecutando la misma app:
+   "web" en el navegador, "android" o "ios" dentro del contenedor.
+   ================================================================ */
+.barra-cap {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 40;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-family: "IBM Plex Mono", monospace;
+}
+.barra-cap .chip-estado {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--tinta-45);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--linea);
+  border-radius: 100px;
+  padding: 4px 10px;
+  max-width: 46vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.barra-cap .chip-estado[data-plataforma="android"],
+.barra-cap .chip-estado[data-plataforma="ios"] {
+  color: var(--verde-osc);
+  border-color: var(--verde);
+}
+.barra-cap button {
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--indigo);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--linea);
+  border-radius: 100px;
+  padding: 4px 11px;
+  cursor: pointer;
+}
+.barra-cap button.copiado::after {
+  content: " ✓";
+  color: var(--verde);
+}
+
+/* ================================================================
+   FORMATO CELULAR
+   La clase .compacto la pone js/app.js cuando el ancho es < 760px.
+   Reveal pasa a un lienzo vertical de 400x780 y el contenido se
+   reordena en una sola columna.
+   ================================================================ */
+.compacto .reveal {
+  font-size: 22px;
+  background-size: 16px 16px;
+}
+.compacto .reveal .slides section {
+  /* 34px arriba: deja libre la franja del chip de estado de Capacitor. */
+  padding: 34px 18px 66px 18px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+/* La canaleta vertical no cabe en un celular: se convierte en una
+   etiqueta horizontal arriba del título. */
+.compacto .reveal .canaleta {
+  position: static;
+  width: auto;
+  height: auto;
+  border-left: none;
+  border-top: 2px solid var(--verde);
+  padding-top: 6px;
+  margin-bottom: 12px;
+}
+.compacto .reveal .canaleta span {
+  writing-mode: horizontal-tb;
+  padding: 0;
+  font-size: 10px;
+}
+.compacto .reveal h1 {
+  font-size: 2.1em;
+}
+.compacto .reveal h2 {
+  font-size: 1.45em;
+}
+.compacto .reveal .portada h1 {
+  font-size: 2.3em;
+  max-width: none;
+  margin-top: 16px;
+}
+.compacto .reveal .bajada {
+  max-width: none;
+  font-size: 0.78em;
+}
+.compacto .reveal .cols,
+.compacto .reveal .cols-3 {
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+}
+.compacto .reveal .tarjeta {
+  padding: 14px 16px 16px;
+}
+.compacto .reveal .tarjeta p,
+.compacto .reveal .tarjeta p[style] {
+  font-size: 0.62em !important;
+}
+.compacto .reveal ul li,
+.compacto .reveal ol li {
+  font-size: 0.76em;
+}
+.compacto .reveal .nota {
+  font-size: 0.55em;
+}
+.compacto .reveal pre {
+  font-size: 0.38em;
+}
+.compacto .reveal .apertura {
+  grid-template-columns: 1fr;
+  gap: 10px;
+  align-content: center;
+}
+.compacto .reveal .numeral .num {
+  font-size: 5em;
+}
+.compacto .reveal .fichas {
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 0.55em;
+}
+.compacto .reveal .slide-number {
+  right: 14px;
+  bottom: 52px;
+  background: rgba(237, 239, 232, 0.88);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+/* Las flechas de reveal se apagan por configuración en js/app.js
+   (controls: false), porque reveal las muestra con estilo en línea. */
+/* Riel compacto: solo las siglas de cada evidencia. */
+.compacto .riel {
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  height: 30px;
+  gap: 5px;
+}
+.compacto .riel .paso {
+  padding-top: 5px;
+}
+.compacto .riel .paso i {
+  display: none;
+}
+.compacto .riel .paso b {
+  font-size: 10px;
+}
+/* Tablas: en vertical se apilan fila por fila con su encabezado. */
+.compacto .reveal table.apilable thead,
+.compacto .reveal table.apilable tr.encabezado {
+  display: none;
+}
+.compacto .reveal table.apilable,
+.compacto .reveal table.apilable tbody,
+.compacto .reveal table.apilable tr,
+.compacto .reveal table.apilable td {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+.compacto .reveal table.apilable tr {
+  border-bottom: 1px solid var(--linea);
+  padding: 8px 0;
+}
+.compacto .reveal table.apilable td {
+  border: none;
+  padding: 2px 0;
+  font-size: 1.05em;
+}
+.compacto .reveal table.apilable td::before {
+  content: attr(data-t);
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tinta-45);
+}
+.compacto .barra-cap {
+  top: 6px;
+  right: 8px;
+}
+.compacto .barra-cap .chip-estado {
+  font-size: 9px;
+  max-width: 40vw;
+}

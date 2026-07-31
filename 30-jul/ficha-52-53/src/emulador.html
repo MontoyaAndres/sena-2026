@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emulador de dispositivo · SENA AA2</title>
+    <style>
+      :root {
+        --fondo: #14171a;
+        --fondo-2: #1d2126;
+        --borde: #2c323a;
+        --texto: #e6eaef;
+        --texto-2: #8e99a6;
+        --verde: #39a900;
+        --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: var(--fondo);
+        color: var(--texto);
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        overflow: hidden;
+      }
+
+      /* ---------------- barra de herramientas ---------------- */
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        align-items: center;
+        padding: 12px 18px;
+        background: var(--fondo-2);
+        border-bottom: 1px solid var(--borde);
+      }
+      header .marca {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--texto-2);
+        margin-right: auto;
+      }
+      header .marca b {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--verde);
+      }
+      .campo {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--texto-2);
+      }
+      select,
+      button {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--texto);
+        background: #262c33;
+        border: 1px solid var(--borde);
+        border-radius: 7px;
+        padding: 7px 11px;
+        cursor: pointer;
+      }
+      select:hover,
+      button:hover {
+        border-color: #47505c;
+      }
+      button.activo {
+        border-color: var(--verde);
+        color: var(--verde);
+      }
+      .grupo {
+        display: flex;
+        gap: 6px;
+      }
+
+      /* ---------------- escenario ---------------- */
+      main {
+        display: grid;
+        place-items: center;
+        padding: 22px;
+        overflow: auto;
+        background:
+          radial-gradient(circle at 50% 0%, #1c2127 0%, var(--fondo) 60%),
+          var(--fondo);
+      }
+      .escala {
+        transform-origin: top center;
+      }
+
+      /* ---------------- carcasa del dispositivo ---------------- */
+      .dispositivo {
+        position: relative;
+        background: #0a0c0e;
+        box-shadow:
+          0 0 0 2px #33393f,
+          0 26px 60px rgba(0, 0, 0, 0.55);
+      }
+      .pantalla {
+        position: relative;
+        overflow: hidden;
+        background: #edefe8;
+      }
+      .pantalla iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+
+      /* isla dinámica / cámara perforada */
+      .isla {
+        position: absolute;
+        top: 9px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 96px;
+        height: 27px;
+        border-radius: 100px;
+        background: #0a0c0e;
+        z-index: 3;
+      }
+      .punto {
+        position: absolute;
+        top: 9px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #0a0c0e;
+        z-index: 3;
+      }
+      /* barra de gestos inferior */
+      .indicador {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 34%;
+        height: 5px;
+        border-radius: 100px;
+        background: rgba(15, 26, 20, 0.35);
+        z-index: 3;
+        pointer-events: none;
+      }
+      /* barra de estado simulada, dibujada dentro del área segura superior */
+      .barra-estado {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 0 22px 5px;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 600;
+        color: #0f1a14;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .barra-estado .iconos {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        font-size: 11px;
+      }
+      .bateria {
+        width: 22px;
+        height: 11px;
+        border: 1.5px solid #0f1a14;
+        border-radius: 3px;
+        position: relative;
+        display: inline-block;
+      }
+      .bateria::before {
+        content: "";
+        position: absolute;
+        inset: 1.5px;
+        right: 6px;
+        background: #0f1a14;
+        border-radius: 1px;
+      }
+      .bateria::after {
+        content: "";
+        position: absolute;
+        right: -3.5px;
+        top: 3px;
+        width: 2px;
+        height: 5px;
+        background: #0f1a14;
+        border-radius: 0 2px 2px 0;
+      }
+
+      /* capa que convierte el arrastre del mouse en deslizamiento */
+      .gestos {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        cursor: grab;
+      }
+      .gestos:active {
+        cursor: grabbing;
+      }
+      .gestos.oculta {
+        display: none;
+      }
+
+      /* ---------------- pie ---------------- */
+      footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 18px;
+        padding: 9px 18px;
+        border-top: 1px solid var(--borde);
+        background: var(--fondo-2);
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--texto-2);
+      }
+      footer b {
+        color: var(--texto);
+        font-weight: 600;
+      }
+      footer a {
+        color: var(--verde);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="marca"><b></b> Emulador · Capacitor web</div>
+
+      <label class="campo">
+        Dispositivo
+        <select id="dispositivo"></select>
+      </label>
+
+      <label class="campo">
+        Zoom
+        <select id="zoom">
+          <option value="auto">Ajustar</option>
+          <option value="1">100 %</option>
+          <option value="0.75">75 %</option>
+          <option value="0.5">50 %</option>
+        </select>
+      </label>
+
+      <div class="grupo">
+        <button id="rotar" title="Rotar el dispositivo">⟲ Rotar</button>
+        <button id="gestos" class="activo" title="Arrastrar = deslizar el dedo">
+          ✋ Gestos
+        </button>
+        <button id="recargar" title="Recargar la app">↻</button>
+      </div>
+
+      <div class="grupo">
+        <button id="anterior" title="Diapositiva anterior">‹</button>
+        <button id="siguiente" title="Diapositiva siguiente">›</button>
+        <button id="abrir" title="Abrir la app en una pestaña aparte">↗</button>
+      </div>
+    </header>
+
+    <main id="escenario">
+      <div class="escala" id="escala">
+        <div class="dispositivo" id="carcasa">
+          <div class="pantalla" id="pantalla">
+            <iframe
+              id="app"
+              title="Aplicación"
+              allow="clipboard-write; web-share"
+            ></iframe>
+            <div class="barra-estado" id="barraEstado">
+              <span id="hora">9:41</span>
+              <span class="iconos">
+                <span>▮▮▮</span><span>wifi</span><span class="bateria"></span>
+              </span>
+            </div>
+            <div class="indicador" id="indicador"></div>
+            <div class="gestos" id="capaGestos"></div>
+          </div>
+          <div class="isla" id="isla"></div>
+          <div class="punto" id="camara"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <span
+        ><b>Arrastra</b> sobre la pantalla para deslizar entre
+        diapositivas</span
+      >
+      <span><b>Clic</b> para tocar · <b>← →</b> para navegar</span>
+      <span
+        >Esto simula el tamaño, las áreas seguras y el táctil; para un
+        dispositivo real usa <b>npm run dev</b> y abre la IP de red en el
+        celular.</span
+      >
+    </footer>
+
+    <script type="module">
+      /* Catálogo de dispositivos. sat/sab son las áreas seguras que el
+         sistema operativo reserva arriba y abajo (notch y barra de gestos);
+         se le pasan a la app por la URL porque env(safe-area-inset-*) no
+         existe dentro de un iframe de escritorio. */
+      const DISPOSITIVOS = [
+        {
+          id: "iphone15",
+          nombre: "iPhone 15 Pro",
+          w: 393,
+          h: 852,
+          radio: 52,
+          marco: 12,
+          camara: "isla",
+          sat: 59,
+          sab: 34,
+        },
+        {
+          id: "iphone15max",
+          nombre: "iPhone 15 Pro Max",
+          w: 430,
+          h: 932,
+          radio: 55,
+          marco: 12,
+          camara: "isla",
+          sat: 59,
+          sab: 34,
+        },
+        {
+          id: "iphonese",
+          nombre: "iPhone SE (2022)",
+          w: 375,
+          h: 667,
+          radio: 14,
+          marco: 16,
+          camara: "ninguna",
+          sat: 20,
+          sab: 0,
+        },
+        {
+          id: "pixel8",
+          nombre: "Pixel 8",
+          w: 412,
+          h: 915,
+          radio: 34,
+          marco: 10,
+          camara: "punto",
+          sat: 32,
+          sab: 24,
+        },
+        {
+          id: "galaxys23",
+          nombre: "Galaxy S23",
+          w: 360,
+          h: 780,
+          radio: 30,
+          marco: 9,
+          camara: "punto",
+          sat: 30,
+          sab: 20,
+        },
+        {
+          id: "moto",
+          nombre: "Moto G (gama media)",
+          w: 360,
+          h: 800,
+          radio: 22,
+          marco: 10,
+          camara: "punto",
+          sat: 26,
+          sab: 16,
+        },
+        {
+          id: "ipadmini",
+          nombre: "iPad mini",
+          w: 744,
+          h: 1133,
+          radio: 22,
+          marco: 18,
+          camara: "ninguna",
+          sat: 24,
+          sab: 20,
+        },
+      ];
+
+      const $ = (id) => document.getElementById(id);
+      const estado = {
+        dispositivo: localStorage.getItem("emu.dispositivo") || "iphone15",
+        horizontal: localStorage.getItem("emu.horizontal") === "1",
+        zoom: localStorage.getItem("emu.zoom") || "auto",
+        gestos: localStorage.getItem("emu.gestos") !== "0",
+      };
+
+      const selector = $("dispositivo");
+      DISPOSITIVOS.forEach((d) => {
+        const op = document.createElement("option");
+        op.value = d.id;
+        op.textContent = `${d.nombre} — ${d.w}×${d.h}`;
+        selector.append(op);
+      });
+      selector.value = estado.dispositivo;
+      $("zoom").value = estado.zoom;
+      $("gestos").classList.toggle("activo", estado.gestos);
+
+      const equipo = () =>
+        DISPOSITIVOS.find((d) => d.id === estado.dispositivo) ??
+        DISPOSITIVOS[0];
+
+      /* Medidas y áreas seguras según la orientación. */
+      function metricas() {
+        const d = equipo();
+        if (!estado.horizontal) {
+          return {
+            ancho: d.w,
+            alto: d.h,
+            sat: d.sat,
+            sab: d.sab,
+            sal: 0,
+            sar: 0,
+          };
+        }
+        // Acostado: el notch pasa a un costado y arriba ya no se reserva nada.
+        const lateral =
+          d.camara === "isla" ? 59 : d.camara === "punto" ? 24 : 0;
+        return {
+          ancho: d.h,
+          alto: d.w,
+          sat: 0,
+          sab: d.sab ? 21 : 0,
+          sal: lateral,
+          sar: lateral,
+        };
+      }
+
+      /* La app se recarga solo cuando cambian las áreas seguras: así rotar
+         o cambiar de equipo no pierde la diapositiva (el hash la conserva). */
+      let urlAnterior = "";
+      function urlApp() {
+        const m = metricas();
+        const hash = obtenerHash();
+        return `./index.html?sat=${m.sat}&sab=${m.sab}&sal=${m.sal}&sar=${m.sar}${hash}`;
+      }
+      function obtenerHash() {
+        try {
+          return $("app").contentWindow?.location.hash || "";
+        } catch {
+          return "";
+        }
+      }
+
+      function pintar() {
+        const d = equipo();
+        const m = metricas();
+        const carcasa = $("carcasa");
+        const pantalla = $("pantalla");
+
+        carcasa.style.padding = `${d.marco}px`;
+        carcasa.style.borderRadius = `${d.radio + d.marco}px`;
+        pantalla.style.width = `${m.ancho}px`;
+        pantalla.style.height = `${m.alto}px`;
+        pantalla.style.borderRadius = `${d.radio}px`;
+
+        // Adornos: isla dinámica, cámara y barra de gestos.
+        $("isla").style.display =
+          d.camara === "isla" && !estado.horizontal ? "block" : "none";
+        $("camara").style.display =
+          d.camara === "punto" && !estado.horizontal ? "block" : "none";
+        $("isla").style.top = $("camara").style.top = `${d.marco + 9}px`;
+        $("indicador").style.display = m.sab >= 20 ? "block" : "none";
+
+        // Barra de estado simulada: ocupa exactamente el área segura superior.
+        const barra = $("barraEstado");
+        barra.style.display = m.sat >= 20 ? "flex" : "none";
+        barra.style.height = `${m.sat}px`;
+
+        const url = urlApp();
+        if (url.split("#")[0] !== urlAnterior.split("#")[0]) {
+          $("app").src = url;
+          urlAnterior = url;
+        }
+
+        $("capaGestos").classList.toggle("oculta", !estado.gestos);
+        ajustarEscala();
+      }
+
+      function ajustarEscala() {
+        const m = metricas();
+        const d = equipo();
+        const anchoTotal = m.ancho + d.marco * 2;
+        const altoTotal = m.alto + d.marco * 2;
+        const caja = $("escenario").getBoundingClientRect();
+        const escala =
+          estado.zoom === "auto"
+            ? Math.min(
+                1,
+                (caja.width - 48) / anchoTotal,
+                (caja.height - 48) / altoTotal,
+              )
+            : parseFloat(estado.zoom);
+        const capa = $("escala");
+        capa.style.transform = `scale(${escala})`;
+        // Reserva el espacio real que ocupa el dispositivo ya escalado.
+        capa.style.width = `${anchoTotal}px`;
+        capa.style.height = `${altoTotal * escala}px`;
+        capa.dataset.escala = escala;
+      }
+
+      /* ---------------- navegación ---------------- */
+      const mazo = () => {
+        try {
+          return $("app").contentWindow?.__deck ?? null;
+        } catch {
+          return null;
+        }
+      };
+      const navegar = (accion) => mazo()?.[accion]?.();
+
+      $("dispositivo").addEventListener("change", (e) => {
+        estado.dispositivo = e.target.value;
+        localStorage.setItem("emu.dispositivo", estado.dispositivo);
+        pintar();
+      });
+      $("zoom").addEventListener("change", (e) => {
+        estado.zoom = e.target.value;
+        localStorage.setItem("emu.zoom", estado.zoom);
+        ajustarEscala();
+      });
+      $("rotar").addEventListener("click", () => {
+        estado.horizontal = !estado.horizontal;
+        localStorage.setItem("emu.horizontal", estado.horizontal ? "1" : "0");
+        pintar();
+      });
+      $("gestos").addEventListener("click", (e) => {
+        estado.gestos = !estado.gestos;
+        localStorage.setItem("emu.gestos", estado.gestos ? "1" : "0");
+        e.currentTarget.classList.toggle("activo", estado.gestos);
+        $("capaGestos").classList.toggle("oculta", !estado.gestos);
+      });
+      $("recargar").addEventListener("click", () => {
+        $("app").contentWindow?.location.reload();
+      });
+      $("abrir").addEventListener("click", () => {
+        window.open(urlApp(), "_blank", "noopener");
+      });
+      $("anterior").addEventListener("click", () => navegar("prev"));
+      $("siguiente").addEventListener("click", () => navegar("next"));
+
+      window.addEventListener("keydown", (e) => {
+        const teclas = {
+          ArrowRight: "right",
+          ArrowLeft: "left",
+          ArrowUp: "up",
+          ArrowDown: "down",
+        };
+        if (teclas[e.key]) {
+          navegar(teclas[e.key]);
+          e.preventDefault();
+        }
+      });
+      window.addEventListener("resize", ajustarEscala);
+
+      /* ---------------- gestos con el mouse ---------------- */
+      /* Un arrastre horizontal pasa de diapositiva; uno vertical se mueve
+         dentro de la evidencia. Un toque corto se reenvía como clic real
+         al elemento que está debajo, dentro del iframe. */
+      const capa = $("capaGestos");
+      const UMBRAL = 36;
+      let inicio = null;
+
+      /* Diapositiva visible dentro del iframe (la de adentro cuando hay
+         subdiapositivas), para saber si tiene contenido que se desplaza. */
+      function laminaActual() {
+        const doc = $("app").contentDocument;
+        if (!doc) return null;
+        return (
+          doc.querySelector(".reveal .slides section.present:not(.stack)") ||
+          doc.querySelector(".reveal .slides section.present")
+        );
+      }
+
+      capa.addEventListener("pointerdown", (e) => {
+        const lamina = laminaActual();
+        inicio = {
+          x: e.clientX,
+          y: e.clientY,
+          modo: null,
+          lamina,
+          desplazable: lamina
+            ? lamina.scrollHeight - lamina.clientHeight > 4
+            : false,
+          scroll: lamina ? lamina.scrollTop : 0,
+          escala: parseFloat($("escala").dataset.escala || "1"),
+        };
+        capa.setPointerCapture(e.pointerId);
+      });
+
+      capa.addEventListener("pointermove", (e) => {
+        if (!inicio) return;
+        const dx = e.clientX - inicio.x;
+        const dy = e.clientY - inicio.y;
+        if (!inicio.modo && Math.hypot(dx, dy) > 8) {
+          inicio.modo = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+        }
+        // Arrastre vertical sobre una lámina larga: se desplaza, igual que
+        // con el dedo en un celular real.
+        if (inicio.modo === "v" && inicio.desplazable) {
+          inicio.lamina.scrollTop = inicio.scroll - dy / inicio.escala;
+        }
+      });
+
+      capa.addEventListener("pointerup", (e) => {
+        if (!inicio) return;
+        const dx = e.clientX - inicio.x;
+        const dy = e.clientY - inicio.y;
+        const { modo, desplazable } = inicio;
+        inicio = null;
+
+        if (!modo) return reenviarToque(e);
+        if (modo === "h") {
+          if (Math.abs(dx) > UMBRAL) navegar(dx < 0 ? "next" : "prev");
+        } else if (!desplazable && Math.abs(dy) > UMBRAL) {
+          navegar(dy < 0 ? "down" : "up");
+        }
+      });
+
+      capa.addEventListener("pointercancel", () => (inicio = null));
+
+      function reenviarToque(e) {
+        const doc = $("app").contentDocument;
+        if (!doc) return;
+        const escala = parseFloat($("escala").dataset.escala || "1");
+        const caja = $("pantalla").getBoundingClientRect();
+        const x = (e.clientX - caja.left) / escala;
+        const y = (e.clientY - caja.top) / escala;
+        const objetivo = doc.elementFromPoint(x, y);
+        if (objetivo) objetivo.click();
+      }
+
+      /* ---------------- reloj de la barra de estado ---------------- */
+      function reloj() {
+        $("hora").textContent = new Date().toLocaleTimeString("es-CO", {
+          hour: "numeric",
+          minute: "2-digit",
+        });
+      }
+      reloj();
+      setInterval(reloj, 20000);
+
+      pintar();
+      $("app").addEventListener("load", ajustarEscala);
+    </script>
+  </body>
+</html>

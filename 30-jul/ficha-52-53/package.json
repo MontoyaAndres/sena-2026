@@ -1,0 +1,30 @@
+{
+  "name": "ficha-52-53-aa2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GA8-220501096-AA2 · presentación empaquetada con Capacitor y emulador de dispositivo en el navegador",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open /emulador.html",
+    "app": "vite --open /index.html",
+    "build": "vite build",
+    "preview": "vite preview --open /emulador.html",
+    "sync": "npm run build && cap sync",
+    "add:android": "npm run build && cap add android",
+    "add:ios": "npm run build && cap add ios"
+  },
+  "dependencies": {
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.4.2",
+    "@capacitor/device": "^8.0.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/share": "^8.0.1",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.3",
+    "reveal.js": "^4.6.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.4.2",
+    "vite": "^8.2.0"
+  }
+}
