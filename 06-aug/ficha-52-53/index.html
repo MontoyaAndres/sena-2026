@@ -1,0 +1,2497 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fichas 3186652 · 3186653 — Clase 6 de agosto</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --paper: #edf0ea;
+        --paper-2: #ffffff;
+        --ink: #12241b;
+        --ink-2: #40554a;
+        --muted: #7b8c81;
+        --line: #cbd4c9;
+        --sena: #39a900;
+        --sena-dark: #26760a;
+        --naranja: #ff7a00;
+        --violeta: #5b3fd4;
+        --display: "Bricolage Grotesque", "Public Sans", system-ui, sans-serif;
+        --body: "Public Sans", system-ui, -apple-system, sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, monospace;
+      }
+
+      html,
+      body {
+        background: var(--paper);
+      }
+      .reveal {
+        font-family: var(--body);
+        color: var(--ink);
+        font-size: 30px;
+        font-weight: 400;
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 104px 60px 74px 60px;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      /* ---------- tipografía ---------- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: var(--display);
+        color: var(--ink);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.5em 0;
+        line-height: 1.02;
+        text-shadow: none;
+      }
+      .reveal h1 {
+        font-size: 2.5em;
+        font-weight: 800;
+      }
+      .reveal h2 {
+        font-size: 1.62em;
+        font-weight: 700;
+      }
+      .reveal h3 {
+        font-size: 1.06em;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.7em;
+      }
+      .reveal strong {
+        font-weight: 700;
+        color: var(--sena-dark);
+      }
+      .reveal em {
+        font-style: normal;
+        background: linear-gradient(transparent 62%, #c9f0ae 62%);
+        font-weight: 600;
+      }
+      .reveal a {
+        color: var(--sena-dark);
+      }
+
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.52em;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 0.9em;
+      }
+      .eyebrow b {
+        color: var(--sena-dark);
+        font-weight: 600;
+      }
+      .lead {
+        font-size: 0.86em;
+        color: var(--ink-2);
+        max-width: 24ch;
+      }
+      .small {
+        font-size: 0.62em;
+        color: var(--ink-2);
+        line-height: 1.5;
+      }
+      .tiny {
+        font-size: 0.5em;
+        color: var(--muted);
+        font-family: var(--mono);
+        line-height: 1.6;
+      }
+
+      /* ---------- listas ---------- */
+      .reveal ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding-left: 1.15em;
+        margin-bottom: 0.42em;
+        font-size: 0.72em;
+        line-height: 1.42;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.52em;
+        width: 0.36em;
+        height: 0.36em;
+        background: var(--sena);
+        transform: rotate(45deg);
+      }
+      .reveal ol {
+        margin: 0 0 0 1.1em;
+        padding: 0;
+      }
+      .reveal ol li {
+        font-size: 0.72em;
+        line-height: 1.42;
+        margin-bottom: 0.42em;
+        padding-left: 0.2em;
+      }
+      .reveal ol li::marker {
+        font-family: var(--mono);
+        color: var(--sena-dark);
+        font-weight: 600;
+        font-size: 0.85em;
+      }
+      ul.check li::before {
+        content: "□";
+        background: none;
+        transform: none;
+        top: 0.02em;
+        left: -0.05em;
+        font-size: 1.1em;
+        color: var(--sena-dark);
+        width: auto;
+        height: auto;
+      }
+      ul.check li {
+        padding-left: 1.35em;
+      }
+
+      /* ---------- rejillas y tarjetas ---------- */
+      .grid {
+        display: grid;
+        gap: 18px;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .g4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .g-side {
+        grid-template-columns: 1.05fr 0.95fr;
+        align-items: start;
+      }
+      .card {
+        background: var(--paper-2);
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        padding: 16px 18px;
+      }
+      .card h3 {
+        margin-bottom: 0.35em;
+        color: var(--sena-dark);
+      }
+      .card p,
+      .card ul li {
+        font-size: 0.6em;
+        line-height: 1.45;
+        color: var(--ink-2);
+        margin-bottom: 0.3em;
+      }
+      .card ul li::before {
+        top: 0.45em;
+        width: 0.3em;
+        height: 0.3em;
+      }
+      .card .num {
+        font-family: var(--mono);
+        font-size: 0.52em;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 0.5em;
+        letter-spacing: 0.1em;
+      }
+
+      /* panel de entrega */
+      .entrega {
+        background: #fff6ec;
+        border: 1px solid #ffd3a8;
+        border-left: 5px solid var(--naranja);
+        padding: 16px 20px;
+        border-radius: 2px;
+      }
+      .entrega h3 {
+        color: #9a4b00;
+        font-size: 0.98em;
+      }
+      .entrega ul li::before {
+        background: var(--naranja);
+      }
+      .entrega ul li {
+        font-size: 0.62em;
+        color: #5c3a16;
+      }
+
+      .nota {
+        border-left: 3px solid var(--violeta);
+        background: #f1eefc;
+        padding: 12px 16px;
+        font-size: 0.6em;
+        color: #33246f;
+        line-height: 1.5;
+        border-radius: 2px;
+      }
+      .nota b {
+        color: var(--violeta);
+      }
+
+      /* ---------- código / hash ---------- */
+      code,
+      .mono {
+        font-family: var(--mono);
+        font-size: 0.9em;
+      }
+      .hashline {
+        font-family: var(--mono);
+        font-size: 0.5em;
+        background: var(--ink);
+        color: #b6f09b;
+        padding: 9px 12px;
+        border-radius: 2px;
+        word-break: break-all;
+        line-height: 1.5;
+      }
+
+      /* ---------- tablas ---------- */
+      .reveal table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.5em;
+        margin: 0;
+      }
+      .reveal table th {
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 0.85em;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-align: left;
+        color: var(--paper);
+        background: var(--ink);
+        padding: 9px 11px;
+        border: none;
+      }
+      .reveal table td {
+        padding: 8px 11px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        line-height: 1.4;
+        background: var(--paper-2);
+      }
+      .reveal table tr:hover td {
+        background: #f4faef;
+      }
+      .ok {
+        color: var(--sena-dark);
+        font-weight: 700;
+      }
+      .no {
+        color: #c22b2b;
+        font-weight: 700;
+      }
+
+      /* ---------- portada y separadores ---------- */
+      .portada {
+        background: var(--ink);
+      }
+      .portada h1,
+      .portada h2,
+      .portada p {
+        color: var(--paper);
+      }
+      .portada .eyebrow {
+        color: #8fc97a;
+      }
+      .portada .eyebrow b {
+        color: #b6f09b;
+      }
+      .divisor {
+        background: var(--ink);
+      }
+      .divisor h1,
+      .divisor h2,
+      .divisor p {
+        color: var(--paper);
+      }
+      .divisor .eyebrow {
+        color: #8fc97a;
+      }
+      .divisor .lead {
+        color: #afc0b5;
+      }
+      .reveal .divisor ul li,
+      .reveal .portada ul li {
+        color: #cbd8cf;
+      }
+
+      /* ---------- barra superior: cadena de bloques ---------- */
+      #chainbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 34px;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 0 18px;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        background: rgba(18, 36, 27, 0.94);
+        color: #8fc97a;
+        border-bottom: 1px solid #2c4436;
+      }
+      #chainbar .bnum {
+        color: #edf0ea;
+        font-weight: 600;
+      }
+      #chainbar .lbl {
+        color: #5f8a4e;
+      }
+      #chainbar .h {
+        color: #b6f09b;
+      }
+      #chainbar .sep {
+        color: #3d5c48;
+      }
+      #chainbar .ttl {
+        margin-left: auto;
+        color: #7fa48c;
+        text-transform: uppercase;
+      }
+
+      /* ---------- barra inferior: progreso encadenado ---------- */
+      #chainprog {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 26px;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        background: rgba(237, 240, 234, 0.94);
+        border-top: 1px solid var(--line);
+      }
+      #chainprog .lnk {
+        width: 9px;
+        height: 9px;
+        border: 1px solid var(--line);
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+        border-radius: 1px;
+        transition:
+          background 0.18s,
+          transform 0.18s;
+      }
+      #chainprog .lnk.done {
+        background: #a9dc8a;
+        border-color: #8cc96a;
+      }
+      #chainprog .lnk.now {
+        background: var(--sena);
+        border-color: var(--sena-dark);
+        transform: scale(1.5);
+      }
+      #chainprog .lnk:hover {
+        border-color: var(--sena-dark);
+      }
+      #chainprog .lnk:focus-visible {
+        outline: 2px solid var(--violeta);
+        outline-offset: 2px;
+      }
+
+      .reveal .progress {
+        color: var(--sena);
+        height: 3px;
+      }
+      .reveal .slide-number {
+        font-family: var(--mono);
+        background: transparent;
+        color: var(--muted);
+        right: 14px;
+        bottom: 30px;
+        font-size: 12px;
+      }
+
+      svg .fill-panel {
+        fill: var(--paper-2);
+      }
+      svg .stroke-line {
+        stroke: var(--line);
+      }
+      svg text {
+        font-family: var(--mono);
+        fill: var(--ink-2);
+      }
+
+      @media (max-width: 800px) {
+        #chainbar {
+          font-size: 9px;
+          gap: 8px;
+        }
+        #chainbar .ttl {
+          display: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal .slides section {
+          transition: none !important;
+        }
+        #chainprog .lnk {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chainbar">
+      <span class="bnum">BLOQUE 000</span>
+      <span class="sep">·</span>
+      <span class="lbl">prev</span> <span class="h" id="hprev">0x00000000</span>
+      <span class="sep">◂—▸</span>
+      <span class="lbl">hash</span> <span class="h" id="hcurr">0x00000000</span>
+      <span class="ttl">GA8-EV05 · GA9-AA1 · GA9-AA2</span>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ 1. PORTADA ============ -->
+        <section class="portada" data-ttl="Portada">
+          <span class="eyebrow"
+            >SENA · Análisis y Desarrollo de Software ·
+            <b>Fichas 3186652 y 3186653</b></span
+          >
+          <h1>Blockchain<br />y pruebas<br />de software</h1>
+          <p class="lead" style="margin-top: 24px">
+            Clase del 6 de agosto. Cuatro evidencias, ya habilitadas en la
+            plataforma para cargue.
+          </p>
+          <p class="tiny" style="margin-top: 40px; color: #7fa48c">
+            GA8-220501096-AA2-EV05 &nbsp;·&nbsp; GA9-220501096-AA1-EV01
+            &nbsp;·&nbsp; GA9-220501096-AA1-EV02 &nbsp;·&nbsp;
+            GA9-220501096-AA2-EV01
+          </p>
+          <aside class="notes">
+            Bienvenida. Hoy no solo explicamos temas: dejamos claras las 4
+            entregas y cómo se califican. Al final hay una lista de chequeo.
+          </aside>
+        </section>
+
+        <!-- ============ 2. MAPA DE LA CLASE ============ -->
+        <section data-ttl="Las 4 evidencias">
+          <span class="eyebrow">Lo que se entrega</span>
+          <h2>Cuatro evidencias, dos frentes</h2>
+          <table>
+            <tr>
+              <th style="width: 31%">Evidencia</th>
+              <th>Producto</th>
+              <th style="width: 13%">Formato</th>
+              <th style="width: 20%">Extensión mínima</th>
+            </tr>
+            <tr>
+              <td class="mono">GA8-220501096-AA2-EV05</td>
+              <td>Texto argumentativo sobre blockchain</td>
+              <td><strong>Word</strong></td>
+              <td>3 páginas</td>
+            </tr>
+            <tr>
+              <td class="mono">GA9-220501096-AA1-EV01</td>
+              <td>Taller sobre codificación de módulos del software</td>
+              <td><strong>PDF</strong></td>
+              <td>3 hojas de contenido</td>
+            </tr>
+            <tr>
+              <td class="mono">GA9-220501096-AA1-EV02</td>
+              <td>Plan de pruebas de software</td>
+              <td><strong>PDF</strong></td>
+              <td>4 hojas de contenido</td>
+            </tr>
+            <tr>
+              <td class="mono">GA9-220501096-AA2-EV01</td>
+              <td>Formato de casos y ambiente de pruebas</td>
+              <td><strong>Excel</strong></td>
+              <td>Libre</td>
+            </tr>
+          </table>
+          <div class="nota" style="margin-top: 22px">
+            <b>Ojo con el formato.</b> Subir un PDF donde piden Word (o al
+            revés) es motivo de devolución. Cada evidencia se carga en su propio
+            espacio, no en el de al lado.
+          </div>
+          <aside class="notes">
+            Insistir: "hojas de contenido" no cuenta portada, tabla de contenido
+            ni bibliografía.
+          </aside>
+        </section>
+
+        <!-- ============ 3. CÓMO SE EVALÚA ============ -->
+        <section data-ttl="Reglas de entrega">
+          <span class="eyebrow">Antes de empezar</span>
+          <h2>Reglas que aplican a todo</h2>
+          <div class="grid g2">
+            <div class="card">
+              <span class="num">01 — ESTRUCTURA</span>
+              <h3>Documento escrito completo</h3>
+              <ul>
+                <li>
+                  Portada institucional: nombre, ficha, programa, instructor,
+                  fecha
+                </li>
+                <li>Introducción que anuncie qué van a leer</li>
+                <li>Desarrollo del tema</li>
+                <li>Conclusiones propias, no resumen copiado</li>
+                <li>Referencias con enlaces verificables</li>
+              </ul>
+            </div>
+            <div class="card">
+              <span class="num">02 — ORIGINALIDAD</span>
+              <h3>Con sus palabras</h3>
+              <ul>
+                <li>Copiar y pegar de una web se detecta y se devuelve</li>
+                <li>Si citan, citan: autor, año y enlace</li>
+                <li>
+                  Las capturas de pantalla deben ser de <em>su</em> proyecto y
+                  de <em>su</em> equipo
+                </li>
+                <li>
+                  Un texto generado por IA sin revisión se nota: repite, no
+                  aterriza en el proyecto y no tiene capturas
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="nota" style="margin-top: 20px">
+            <b>Nombre del archivo.</b> Usen
+            <span class="mono">Ficha_Codigo-evidencia_Apellido.ext</span> — por
+            ejemplo <span class="mono">3186652_GA9-AA1-EV02_Ramirez.pdf</span>.
+            Facilita la revisión y evita entregas perdidas.
+          </div>
+        </section>
+
+        <!-- ============ 4. DIVISOR BLOCKCHAIN ============ -->
+        <section class="divisor" data-ttl="Bloque temático 1">
+          <span class="eyebrow">Evidencia 1 de 4 · GA8-220501096-AA2-EV05</span>
+          <h1 style="font-size: 2.1em">
+            Texto<br />argumentativo<br />sobre blockchain
+          </h1>
+          <p class="lead" style="margin-top: 20px">
+            No es un resumen de Wikipedia. Es un texto donde ustedes sostienen
+            una postura y la defienden con evidencia.
+          </p>
+        </section>
+
+        <!-- ============ 5. QUÉ PIDE LA EVIDENCIA ============ -->
+        <section data-ttl="EV05 · Requisitos">
+          <span class="eyebrow"
+            >GA8-220501096-AA2-EV05 · <b>Lista de chequeo</b></span
+          >
+          <h2>Los 12 puntos que debe cubrir el texto</h2>
+          <div class="grid g2" style="gap: 6px 40px">
+            <ul class="check">
+              <li>En qué consiste la tecnología</li>
+              <li>Cuáles son sus objetivos</li>
+              <li>Antecedentes de la tecnología</li>
+              <li>En qué consiste blockchain</li>
+              <li>En qué consiste la criptografía</li>
+              <li>En qué consiste el hash</li>
+            </ul>
+            <ul class="check">
+              <li>El concepto de bloque</li>
+              <li>Cómo se relacionan los bloques en la cadena</li>
+              <li><strong>Gráfico</strong> de cómo se ve una red blockchain</li>
+              <li>Productos hechos con esta tecnología</li>
+              <li>Qué es una criptomoneda</li>
+              <li>En qué consiste la minería</li>
+            </ul>
+          </div>
+          <div class="nota" style="margin-top: 20px">
+            <b>Detalle importante.</b> El enunciado pide mínimo 3 páginas y los
+            lineamientos dicen "extensión libre". Tomen los
+            <em>3 páginas como mínimo real</em>; el gráfico no reemplaza texto,
+            lo acompaña.
+          </div>
+          <aside class="notes">
+            Recomendar que usen esta lista como los subtítulos del documento.
+            Así ninguno se les queda.
+          </aside>
+        </section>
+
+        <!-- ============ 6. ANATOMÍA DEL ARGUMENTO ============ -->
+        <section data-ttl="Premisa y conclusión">
+          <span class="eyebrow">Lo que hace argumentativo a un texto</span>
+          <h2>Premisa → razonamiento → conclusión</h2>
+          <div class="grid g3" style="margin-bottom: 20px">
+            <div class="card" style="border-top: 4px solid var(--sena)">
+              <span class="num">PREMISA</span>
+              <h3>La afirmación</h3>
+              <p>
+                Lo que usted sostiene. Debe poder discutirse: si nadie puede
+                estar en desacuerdo, no es una premisa, es un dato.
+              </p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--naranja)">
+              <span class="num">RAZONAMIENTO</span>
+              <h3>La evidencia</h3>
+              <p>
+                Conceptos, datos, casos reales y fuentes que sostienen la
+                afirmación. Aquí entran los 12 puntos de la lista.
+              </p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--violeta)">
+              <span class="num">CONCLUSIÓN</span>
+              <h3>El cierre</h3>
+              <p>
+                Retoma la premisa ya demostrada y responde: ¿y esto qué implica?
+                No introduce temas nuevos.
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <span class="num">EJEMPLO DE PREMISA UTILIZABLE</span>
+            <p style="font-size: 0.68em; color: var(--ink)">
+              "La blockchain aporta valor real cuando varias organizaciones que
+              <em>no confían entre sí</em> necesitan compartir un mismo
+              registro; fuera de ese escenario, una base de datos tradicional
+              resuelve mejor el problema."
+            </p>
+          </div>
+          <aside class="notes">
+            Pedir que cada aprendiz escriba su premisa en el chat antes de
+            redactar. Corregir las que sean puro dato.
+          </aside>
+        </section>
+
+        <!-- ============ 7. QUÉ ES ============ -->
+        <section data-ttl="Qué es blockchain">
+          <span class="eyebrow">Punto 1 y 4 de la lista</span>
+          <h2>En qué consiste la tecnología</h2>
+          <div class="grid g-side">
+            <div>
+              <p style="font-size: 0.78em">
+                Una <strong>blockchain</strong> es un libro de registros
+                <em>distribuido</em>: una base de datos que no vive en un
+                servidor central sino replicada en muchos computadores, donde
+                los datos se agrupan en bloques enlazados por criptografía.
+              </p>
+              <p style="font-size: 0.78em">
+                Su característica definitoria es que
+                <strong>solo se puede añadir</strong>. No hay UPDATE ni DELETE:
+                corregir algo significa registrar una transacción nueva que
+                revierte la anterior.
+              </p>
+              <ul>
+                <li>
+                  <strong>Distribuida:</strong> cada nodo guarda una copia
+                  completa
+                </li>
+                <li>
+                  <strong>Inmutable:</strong> alterar un bloque rompe todos los
+                  siguientes
+                </li>
+                <li>
+                  <strong>Trazable:</strong> todo movimiento queda con fecha y
+                  origen
+                </li>
+                <li>
+                  <strong>Consensuada:</strong> la red acuerda qué bloque es
+                  válido
+                </li>
+              </ul>
+            </div>
+            <div class="card">
+              <span class="num">CÓMO EXPLICARLO EN CLASE</span>
+              <p style="font-size: 0.66em; color: var(--ink)">
+                Imaginen un cuaderno contable del que todos los vecinos tienen
+                una fotocopia idéntica. Cuando alguien anota un movimiento, lo
+                grita y todos lo anotan. Si mañana usted borra una línea de su
+                copia, las otras cincuenta copias lo delatan.
+              </p>
+              <p style="font-size: 0.66em; color: var(--ink)">
+                Eso es blockchain: la confianza no está en el que guarda el
+                cuaderno, está en que <em>todos</em> lo guardan.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 8. OBJETIVOS ============ -->
+        <section data-ttl="Objetivos">
+          <span class="eyebrow">Punto 2 de la lista</span>
+          <h2>Objetivos de la tecnología</h2>
+          <div class="grid g2">
+            <div class="card">
+              <span class="num">01</span>
+              <h3>Eliminar el intermediario de confianza</h3>
+              <p>
+                Permitir que dos partes que no se conocen transaccionen sin un
+                banco, notaría o plataforma que valide por ellas.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">02</span>
+              <h3>Garantizar integridad del dato</h3>
+              <p>
+                Que un registro escrito no pueda modificarse después sin que la
+                red lo detecte de inmediato.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">03</span>
+              <h3>Dar trazabilidad completa</h3>
+              <p>
+                Reconstruir la historia entera de un activo desde su origen:
+                quién, cuándo y en qué orden.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">04</span>
+              <h3>Resistir la caída y la censura</h3>
+              <p>
+                Sin punto único de falla: si caen nodos, la red sigue operando
+                con las copias restantes.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            Aterrizar cada objetivo a un ejemplo colombiano: remesas, historia
+            clínica, cadena de suministro del café.
+          </aside>
+        </section>
+
+        <!-- ============ 9. ANTECEDENTES ============ -->
+        <section data-ttl="Antecedentes">
+          <span class="eyebrow">Punto 3 de la lista</span>
+          <h2>Antecedentes: de dónde salió</h2>
+          <table>
+            <tr>
+              <th style="width: 13%">Año</th>
+              <th style="width: 32%">Hito</th>
+              <th>Qué aportó</th>
+            </tr>
+            <tr>
+              <td class="mono ok">1991</td>
+              <td>Haber y Stornetta</td>
+              <td>
+                Sellado de tiempo criptográfico para que un documento digital no
+                pueda antedatarse
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">1992</td>
+              <td>Árboles de Merkle</td>
+              <td>
+                Permiten resumir y verificar muchos documentos en un solo hash
+                raíz
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">1997</td>
+              <td>Hashcash — Adam Back</td>
+              <td>
+                Prueba de trabajo: obligar a gastar cómputo para enviar algo.
+                Antecedente directo de la minería
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">2008</td>
+              <td>Whitepaper de Bitcoin</td>
+              <td>
+                Satoshi Nakamoto combina las piezas anteriores y resuelve el
+                doble gasto sin intermediarios
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">2009</td>
+              <td>Bloque génesis</td>
+              <td>
+                3 de enero: arranca la primera blockchain en operación real
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">2015</td>
+              <td>Ethereum y Hyperledger</td>
+              <td>
+                Contratos inteligentes y la primera gran blockchain empresarial
+                permisionada
+              </td>
+            </tr>
+          </table>
+          <p class="tiny" style="margin-top: 16px">
+            Fíjense en el patrón: ninguna pieza es nueva. Lo nuevo en 2008 fue
+            <span style="color: var(--sena-dark)">la combinación</span>. Ese es
+            buen material para su argumento.
+          </p>
+        </section>
+
+        <!-- ============ 10. CRIPTOGRAFÍA ============ -->
+        <section data-ttl="Criptografía">
+          <span class="eyebrow">Punto 5 de la lista</span>
+          <h2>En qué consiste la criptografía</h2>
+          <p style="font-size: 0.74em; max-width: 44ch">
+            Es la disciplina que transforma información para que solo quien
+            tiene la clave correcta pueda leerla o comprobar que es auténtica.
+            Blockchain usa <strong>tres piezas</strong>:
+          </p>
+          <div class="grid g3">
+            <div class="card">
+              <span class="num">SIMÉTRICA</span>
+              <h3>Una sola clave</h3>
+              <p>
+                La misma clave cifra y descifra. Rápida, pero hay que compartir
+                el secreto. Ejemplo: <span class="mono">AES</span>.
+              </p>
+              <p class="tiny" style="color: var(--muted)">
+                Poco usada dentro de la cadena
+              </p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--sena)">
+              <span class="num">ASIMÉTRICA</span>
+              <h3>Clave pública + privada</h3>
+              <p>
+                La pública es su dirección y la puede ver todo el mundo. La
+                privada firma y <em>jamás</em> se comparte. Bitcoin usa curva
+                elíptica <span class="mono">secp256k1</span>.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">FUNCIÓN HASH</span>
+              <h3>Huella digital</h3>
+              <p>
+                No es cifrado: no se puede revertir. Sirve para probar que un
+                dato no cambió. Bitcoin usa <span class="mono">SHA-256</span>.
+              </p>
+            </div>
+          </div>
+          <div class="nota" style="margin-top: 18px">
+            <b>Firma digital.</b> Usted firma la transacción con su clave
+            privada; cualquiera la verifica con su clave pública. Así la red
+            comprueba que usted autorizó el movimiento <em>sin</em> conocer su
+            clave privada.
+          </div>
+        </section>
+
+        <!-- ============ 11. HASH ============ -->
+        <section data-ttl="El hash">
+          <span class="eyebrow">Punto 6 de la lista</span>
+          <h2>El hash: la huella que delata cambios</h2>
+          <div class="grid g-side">
+            <div>
+              <p style="font-size: 0.72em">
+                Una función hash toma cualquier entrada y devuelve una cadena de
+                <strong>tamaño fijo</strong>. SHA-256 siempre devuelve 256 bits,
+                es decir 64 caracteres hexadecimales, así reciba una letra o una
+                película completa.
+              </p>
+              <ul>
+                <li>
+                  <strong>Determinista:</strong> la misma entrada da siempre el
+                  mismo hash
+                </li>
+                <li>
+                  <strong>Unidireccional:</strong> del hash no se recupera el
+                  dato original
+                </li>
+                <li>
+                  <strong>Efecto avalancha:</strong> cambiar un carácter cambia
+                  el hash entero
+                </li>
+                <li>
+                  <strong>Resistente a colisiones:</strong> es impracticable
+                  encontrar dos entradas con el mismo hash
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p class="tiny" style="margin-bottom: 6px">SHA-256("SENA")</p>
+              <div class="hashline">
+                c5d1d9…a4f2b7 &nbsp;<span style="opacity: 0.5">(64 hex)</span>
+              </div>
+              <p class="tiny" style="margin: 14px 0 6px">
+                SHA-256("SENA<span style="color: #ff7a00">.</span>") — un punto
+                de diferencia
+              </p>
+              <div class="hashline">
+                7ab30e…19cc84 &nbsp;<span style="opacity: 0.5">(64 hex)</span>
+              </div>
+              <p class="small" style="margin-top: 14px">
+                El resultado no se parece en nada. Eso es el
+                <em>efecto avalancha</em>, y es exactamente lo que hace
+                imposible modificar un bloque en silencio.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            Sugerir que en el documento incluyan su propia prueba: usar un
+            generador SHA-256 en línea con su nombre y pegar las dos capturas.
+          </aside>
+        </section>
+
+        <!-- ============ 12. EL BLOQUE ============ -->
+        <section data-ttl="El bloque">
+          <span class="eyebrow">Punto 7 de la lista</span>
+          <h2>Qué hay dentro de un bloque</h2>
+          <div class="grid g-side" style="grid-template-columns: 0.85fr 1.15fr">
+            <div>
+              <p style="font-size: 0.7em">
+                Un bloque es un <strong>contenedor de transacciones</strong> con
+                una cabecera que lo identifica y lo ata al bloque anterior.
+              </p>
+              <ul>
+                <li><strong>Hash previo:</strong> el eslabón hacia atrás</li>
+                <li>
+                  <strong>Raíz de Merkle:</strong> un solo hash que resume todas
+                  las transacciones
+                </li>
+                <li><strong>Marca de tiempo:</strong> cuándo se creó</li>
+                <li>
+                  <strong>Nonce:</strong> el número que buscan los mineros
+                </li>
+                <li>
+                  <strong>Hash propio:</strong> se calcula sobre todo lo
+                  anterior
+                </li>
+              </ul>
+            </div>
+            <div>
+              <svg viewBox="0 0 460 300" style="width: 100%; height: auto">
+                <rect
+                  x="10"
+                  y="10"
+                  width="440"
+                  height="280"
+                  rx="3"
+                  class="fill-panel"
+                  stroke="#CBD4C9"
+                />
+                <rect
+                  x="10"
+                  y="10"
+                  width="440"
+                  height="34"
+                  rx="3"
+                  fill="#12241B"
+                />
+                <text
+                  x="26"
+                  y="32"
+                  font-size="13"
+                  fill="#B6F09B"
+                  font-weight="600"
+                >
+                  BLOQUE #732 · CABECERA
+                </text>
+                <g font-size="12">
+                  <rect
+                    x="26"
+                    y="58"
+                    width="408"
+                    height="30"
+                    fill="#F4FAEF"
+                    stroke="#CBD4C9"
+                  />
+                  <text x="38" y="77">hash previo</text>
+                  <text x="230" y="77" fill="#26760A">0000a3f9…c41b</text>
+                  <rect
+                    x="26"
+                    y="94"
+                    width="408"
+                    height="30"
+                    fill="#F4FAEF"
+                    stroke="#CBD4C9"
+                  />
+                  <text x="38" y="113">raíz de Merkle</text>
+                  <text x="230" y="113" fill="#26760A">7dd2b0…9e15</text>
+                  <rect
+                    x="26"
+                    y="130"
+                    width="196"
+                    height="30"
+                    fill="#F4FAEF"
+                    stroke="#CBD4C9"
+                  />
+                  <text x="38" y="149">timestamp</text>
+                  <text x="140" y="149" fill="#26760A">1754…</text>
+                  <rect
+                    x="238"
+                    y="130"
+                    width="196"
+                    height="30"
+                    fill="#F4FAEF"
+                    stroke="#CBD4C9"
+                  />
+                  <text x="250" y="149">nonce</text>
+                  <text x="350" y="149" fill="#FF7A00">418923</text>
+                </g>
+                <rect
+                  x="26"
+                  y="176"
+                  width="408"
+                  height="70"
+                  fill="#FFFFFF"
+                  stroke="#CBD4C9"
+                  stroke-dasharray="3 3"
+                />
+                <text x="38" y="196" font-size="11" fill="#7B8C81">
+                  DATOS · TRANSACCIONES
+                </text>
+                <text x="38" y="216" font-size="11">tx1 · A → B · 0.5</text>
+                <text x="38" y="234" font-size="11">tx2 · C → D · 1.2</text>
+                <text x="250" y="216" font-size="11">tx3 · B → E · 0.1</text>
+                <text x="250" y="234" font-size="11">tx4 · F → A · 3.0</text>
+                <rect x="26" y="252" width="408" height="26" fill="#12241B" />
+                <text x="38" y="270" font-size="12" fill="#B6F09B">
+                  hash de este bloque → 0000b7e2…88af
+                </text>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 13. ENCADENAMIENTO ============ -->
+        <section data-ttl="Encadenamiento">
+          <span class="eyebrow">Punto 8 de la lista</span>
+          <h2>Cómo se enlazan los bloques</h2>
+          <svg
+            viewBox="0 0 940 210"
+            style="width: 100%; height: auto; margin-bottom: 14px"
+          >
+            <g font-size="12">
+              <!-- bloque 1 -->
+              <rect
+                x="10"
+                y="30"
+                width="250"
+                height="140"
+                rx="3"
+                class="fill-panel"
+                stroke="#CBD4C9"
+              />
+              <rect x="10" y="30" width="250" height="26" fill="#12241B" />
+              <text x="24" y="48" fill="#B6F09B" font-weight="600">
+                BLOQUE #731
+              </text>
+              <text x="24" y="80">hash previo</text>
+              <text x="130" y="80" fill="#7B8C81">0000f1a…</text>
+              <text x="24" y="106">datos</text>
+              <text x="130" y="106" fill="#26760A">tx · tx · tx</text>
+              <text x="24" y="132">nonce</text>
+              <text x="130" y="132" fill="#FF7A00">220145</text>
+              <rect x="10" y="144" width="250" height="26" fill="#26760A" />
+              <text x="24" y="162" fill="#EDF0EA">hash → 0000a3f9…c41b</text>
+              <!-- flecha -->
+              <path d="M266 157 L336 157" stroke="#26760A" stroke-width="2" />
+              <path d="M336 157 l-9 -5 v10 z" fill="#26760A" />
+              <text x="272" y="146" font-size="10" fill="#7B8C81">
+                se copia en →
+              </text>
+              <!-- bloque 2 -->
+              <rect
+                x="344"
+                y="30"
+                width="250"
+                height="140"
+                rx="3"
+                class="fill-panel"
+                stroke="#26760A"
+                stroke-width="2"
+              />
+              <rect x="344" y="30" width="250" height="26" fill="#12241B" />
+              <text x="358" y="48" fill="#B6F09B" font-weight="600">
+                BLOQUE #732
+              </text>
+              <text x="358" y="80">hash previo</text>
+              <text x="464" y="80" fill="#26760A" font-weight="600">
+                0000a3f9…c41b
+              </text>
+              <text x="358" y="106">datos</text>
+              <text x="464" y="106" fill="#26760A">tx · tx · tx</text>
+              <text x="358" y="132">nonce</text>
+              <text x="464" y="132" fill="#FF7A00">418923</text>
+              <rect x="344" y="144" width="250" height="26" fill="#26760A" />
+              <text x="358" y="162" fill="#EDF0EA">hash → 0000b7e2…88af</text>
+              <path d="M600 157 L670 157" stroke="#26760A" stroke-width="2" />
+              <path d="M670 157 l-9 -5 v10 z" fill="#26760A" />
+              <!-- bloque 3 -->
+              <rect
+                x="678"
+                y="30"
+                width="250"
+                height="140"
+                rx="3"
+                class="fill-panel"
+                stroke="#CBD4C9"
+              />
+              <rect x="678" y="30" width="250" height="26" fill="#12241B" />
+              <text x="692" y="48" fill="#B6F09B" font-weight="600">
+                BLOQUE #733
+              </text>
+              <text x="692" y="80">hash previo</text>
+              <text x="798" y="80" fill="#26760A" font-weight="600">
+                0000b7e2…88af
+              </text>
+              <text x="692" y="106">datos</text>
+              <text x="798" y="106" fill="#26760A">tx · tx · tx</text>
+              <text x="692" y="132">nonce</text>
+              <text x="798" y="132" fill="#FF7A00">905331</text>
+              <rect x="678" y="144" width="250" height="26" fill="#26760A" />
+              <text x="692" y="162" fill="#EDF0EA">hash → 0000c04d…12de</text>
+              <text x="10" y="196" font-size="12" fill="#7B8C81">
+                Cada bloque guarda el hash del anterior. Esa copia es el
+                eslabón.
+              </text>
+            </g>
+          </svg>
+          <div class="nota">
+            <b>¿Y si alguien altera el bloque 731?</b> Su hash cambia por
+            completo (efecto avalancha). El bloque 732 sigue apuntando al hash
+            viejo, así que la cadena se rompe visiblemente. Para tapar el fraude
+            habría que <em>recalcular todos los bloques siguientes</em> y
+            hacerlo más rápido que el resto de la red junta. Eso es lo que hace
+            inmutable a la cadena.
+          </div>
+        </section>
+
+        <!-- ============ 14. LA RED ============ -->
+        <section data-ttl="La red · gráfico exigido">
+          <span class="eyebrow"
+            >Punto 9 · <b>El gráfico que deben entregar</b></span
+          >
+          <h2>Cómo se ve una red blockchain</h2>
+          <div class="grid g-side" style="grid-template-columns: 1.25fr 0.75fr">
+            <div>
+              <svg viewBox="0 0 520 300" style="width: 100%; height: auto">
+                <g stroke="#A9BCB0" stroke-width="1.2" opacity=".9">
+                  <path
+                    d="M90 70 L250 40 M250 40 L420 80 M90 70 L150 170 M250 40 L250 150 M420 80 L400 190 M150 170 L250 150 M250 150 L400 190 M150 170 L230 260 M400 190 L300 265 M230 260 L300 265 M250 150 L300 265 M90 70 L250 150 M420 80 L250 150 M230 260 L250 150"
+                  />
+                </g>
+                <g>
+                  <g>
+                    <circle
+                      cx="90"
+                      cy="70"
+                      r="22"
+                      fill="#FFFFFF"
+                      stroke="#26760A"
+                      stroke-width="2"
+                    />
+                    <text
+                      x="90"
+                      y="75"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#26760A"
+                    >
+                      nodo
+                    </text>
+                  </g>
+                  <g>
+                    <circle
+                      cx="250"
+                      cy="40"
+                      r="22"
+                      fill="#FFFFFF"
+                      stroke="#26760A"
+                      stroke-width="2"
+                    />
+                    <text
+                      x="250"
+                      y="45"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#26760A"
+                    >
+                      nodo
+                    </text>
+                  </g>
+                  <g>
+                    <circle
+                      cx="420"
+                      cy="80"
+                      r="22"
+                      fill="#FFFFFF"
+                      stroke="#26760A"
+                      stroke-width="2"
+                    />
+                    <text
+                      x="420"
+                      y="85"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#26760A"
+                    >
+                      nodo
+                    </text>
+                  </g>
+                  <g>
+                    <circle
+                      cx="150"
+                      cy="170"
+                      r="22"
+                      fill="#FFFFFF"
+                      stroke="#26760A"
+                      stroke-width="2"
+                    />
+                    <text
+                      x="150"
+                      y="175"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#26760A"
+                    >
+                      nodo
+                    </text>
+                  </g>
+                  <g>
+                    <circle cx="250" cy="150" r="28" fill="#26760A" />
+                    <text
+                      x="250"
+                      y="148"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#EDF0EA"
+                    >
+                      minero
+                    </text>
+                    <text
+                      x="250"
+                      y="162"
+                      font-size="9"
+                      text-anchor="middle"
+                      fill="#B6F09B"
+                    >
+                      valida
+                    </text>
+                  </g>
+                  <g>
+                    <circle
+                      cx="400"
+                      cy="190"
+                      r="22"
+                      fill="#FFFFFF"
+                      stroke="#26760A"
+                      stroke-width="2"
+                    />
+                    <text
+                      x="400"
+                      y="195"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#26760A"
+                    >
+                      nodo
+                    </text>
+                  </g>
+                  <g>
+                    <circle
+                      cx="230"
+                      cy="260"
+                      r="22"
+                      fill="#FFFFFF"
+                      stroke="#26760A"
+                      stroke-width="2"
+                    />
+                    <text
+                      x="230"
+                      y="265"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#26760A"
+                    >
+                      nodo
+                    </text>
+                  </g>
+                  <g>
+                    <circle
+                      cx="300"
+                      cy="265"
+                      r="22"
+                      fill="#FFFFFF"
+                      stroke="#26760A"
+                      stroke-width="2"
+                    />
+                    <text
+                      x="300"
+                      y="270"
+                      font-size="11"
+                      text-anchor="middle"
+                      fill="#26760A"
+                    >
+                      nodo
+                    </text>
+                  </g>
+                </g>
+                <g opacity=".85">
+                  <rect x="30" y="104" width="46" height="12" fill="#A9DC8A" />
+                  <text x="30" y="128" font-size="9" fill="#7B8C81">
+                    copia de la cadena
+                  </text>
+                  <rect x="440" y="114" width="46" height="12" fill="#A9DC8A" />
+                  <rect x="176" y="290" width="46" height="12" fill="#A9DC8A" />
+                </g>
+              </svg>
+            </div>
+            <div>
+              <p style="font-size: 0.66em">
+                Red <strong>peer-to-peer</strong>: no hay servidor central.
+                Todos los nodos son pares y cada uno conserva una copia completa
+                de la cadena.
+              </p>
+              <ul>
+                <li>
+                  <strong>Nodo completo:</strong> guarda y verifica toda la
+                  cadena
+                </li>
+                <li>
+                  <strong>Nodo minero:</strong> además compite por crear el
+                  siguiente bloque
+                </li>
+                <li>
+                  <strong>Consenso:</strong> la regla que define cuál cadena es
+                  la válida
+                </li>
+              </ul>
+              <p class="tiny" style="margin-top: 10px">
+                Para la evidencia pueden dibujar el suyo en draw.io, Lucidchart
+                o Canva. No peguen una imagen de Google: háganlo y rotúlenlo con
+                sus palabras.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 15. PRODUCTOS ============ -->
+        <section data-ttl="Productos">
+          <span class="eyebrow">Punto 10 de la lista</span>
+          <h2>Qué se ha construido con esto</h2>
+          <div class="grid g3" style="gap: 14px">
+            <div class="card">
+              <h3>Bitcoin</h3>
+              <p>
+                La primera. Dinero digital entre pares, sin banco central.
+                Consenso por prueba de trabajo.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Ethereum</h3>
+              <p>
+                Añade <strong>contratos inteligentes</strong>: código que se
+                ejecuta solo cuando se cumplen condiciones pactadas.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Hyperledger Fabric</h3>
+              <p>
+                Blockchain permisionada para empresas. Solo participantes
+                autorizados. Muy usada en logística.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Trazabilidad de cadena de suministro</h3>
+              <p>
+                Seguir un lote de café o un medicamento desde la finca hasta el
+                estante, con cada paso registrado.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Identidad digital</h3>
+              <p>
+                Títulos, certificados y diplomas verificables sin llamar a la
+                institución que los emitió.
+              </p>
+            </div>
+            <div class="card">
+              <h3>NFT y activos tokenizados</h3>
+              <p>
+                Registro de propiedad sobre un bien único, digital o físico, con
+                historial de dueños público.
+              </p>
+            </div>
+          </div>
+          <p class="tiny" style="margin-top: 16px">
+            En el texto argumentativo, escojan
+            <span style="color: var(--sena-dark)">uno</span> y profundícenlo con
+            un caso real y su fuente. Vale mucho más que nombrar los seis por
+            encima.
+          </p>
+        </section>
+
+        <!-- ============ 16. CRIPTOMONEDA ============ -->
+        <section data-ttl="Criptomoneda">
+          <span class="eyebrow">Punto 11 de la lista</span>
+          <h2>Qué es una criptomoneda</h2>
+          <div class="grid g-side">
+            <div>
+              <p style="font-size: 0.74em">
+                Es un <strong>activo digital</strong> que usa criptografía para
+                controlar su emisión y verificar sus transferencias, y que se
+                registra en una blockchain. No la respalda ningún banco central:
+                su valor sale de la oferta, la demanda y la confianza en la red.
+              </p>
+              <ul>
+                <li>
+                  La <strong>moneda no está en su billetera</strong>: en la
+                  billetera están sus claves. El saldo vive en la cadena
+                </li>
+                <li>
+                  La <strong>clave privada es la propiedad</strong>: quien la
+                  tiene, es dueño. Si se pierde, no hay "recuperar contraseña"
+                </li>
+                <li>
+                  Muchas tienen emisión limitada por código: Bitcoin tope de 21
+                  millones
+                </li>
+              </ul>
+            </div>
+            <div class="card">
+              <span class="num">DISTINGAN ESTOS TRES TÉRMINOS</span>
+              <h3>Blockchain</h3>
+              <p>La tecnología: el registro distribuido.</p>
+              <h3>Criptomoneda</h3>
+              <p>Una aplicación de esa tecnología.</p>
+              <h3>Token</h3>
+              <p>
+                Un activo emitido <em>sobre</em> una blockchain existente, no su
+                moneda nativa.
+              </p>
+              <p class="tiny" style="margin-top: 10px; color: var(--muted)">
+                Confundirlos es el error más frecuente en esta evidencia.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 17. MINERÍA ============ -->
+        <section data-ttl="Minería">
+          <span class="eyebrow">Punto 12 de la lista</span>
+          <h2>En qué consiste la minería</h2>
+          <p style="font-size: 0.72em; max-width: 52ch">
+            Minar es
+            <strong
+              >competir por el derecho a escribir el siguiente bloque</strong
+            >. Los mineros prueban millones de valores de
+            <span class="mono">nonce</span> por segundo hasta que el hash del
+            bloque cumpla la condición de dificultad — por ejemplo, empezar con
+            cierta cantidad de ceros.
+          </p>
+          <div class="grid g4" style="gap: 12px; margin: 18px 0">
+            <div class="card">
+              <span class="num">PASO 1</span>
+              <p>El minero arma un bloque con transacciones pendientes.</p>
+            </div>
+            <div class="card">
+              <span class="num">PASO 2</span>
+              <p>Cambia el nonce y calcula el hash. Una y otra vez.</p>
+            </div>
+            <div class="card">
+              <span class="num">PASO 3</span>
+              <p>Encuentra un hash que cumple la dificultad y lo difunde.</p>
+            </div>
+            <div class="card">
+              <span class="num">PASO 4</span>
+              <p>La red verifica en un instante y el bloque se encadena.</p>
+            </div>
+          </div>
+          <div class="grid g2">
+            <div class="card">
+              <h3>Por qué lo hacen</h3>
+              <p>
+                Reciben la <strong>recompensa de bloque</strong> más las
+                comisiones de las transacciones incluidas. En Bitcoin la
+                recompensa se reduce a la mitad cada 210.000 bloques — el
+                <em>halving</em>.
+              </p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--naranja)">
+              <h3>El costo, que también es argumento</h3>
+              <p>
+                Encontrar el nonce es difícil a propósito: esa dificultad es lo
+                que protege la red, y también lo que consume enormes cantidades
+                de energía. Por eso existe
+                <strong>prueba de participación</strong> (PoS) como alternativa.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            Aquí está la mejor veta para un argumento con contraargumento:
+            seguridad frente a costo energético. Animar a que tomen postura.
+          </aside>
+        </section>
+
+        <!-- ============ 18. ENTREGA EV05 ============ -->
+        <section data-ttl="Entrega EV05">
+          <span class="eyebrow">GA8-220501096-AA2-EV05</span>
+          <h2>Cómo estructurar y entregar el texto</h2>
+          <div class="grid g-side">
+            <div>
+              <h3 style="font-size: 0.9em; margin-bottom: 0.6em">
+                Esqueleto sugerido
+              </h3>
+              <ol>
+                <li>Portada</li>
+                <li>Introducción y <strong>premisa</strong> declarada</li>
+                <li>Qué es la tecnología, objetivos y antecedentes</li>
+                <li>Cómo funciona: criptografía, hash, bloque, cadena</li>
+                <li>El gráfico de la red, con su explicación debajo</li>
+                <li>Aplicaciones, criptomoneda y minería</li>
+                <li>
+                  Contraargumento: qué le critican a blockchain y por qué su
+                  postura se sostiene
+                </li>
+                <li>Conclusiones y referencias</li>
+              </ol>
+            </div>
+            <div class="entrega">
+              <h3>Lineamientos de entrega</h3>
+              <ul>
+                <li><strong>Producto:</strong> documento</li>
+                <li><strong>Formato:</strong> Word</li>
+                <li><strong>Extensión:</strong> mínimo 3 páginas</li>
+                <li>
+                  <strong>Espacio de cargue:</strong> "Texto argumentativo sobre
+                  blockchain. GA8-220501096-AA2-EV05"
+                </li>
+              </ul>
+              <p class="tiny" style="margin-top: 12px; color: #9a4b00">
+                Suban .docx, no .pdf ni enlace a Google Docs.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 19. DIVISOR PRUEBAS ============ -->
+        <section class="divisor" data-ttl="Bloque temático 2">
+          <span class="eyebrow">Evidencias 2, 3 y 4 · GA9-220501096</span>
+          <h1 style="font-size: 2.1em">Pruebas<br />de software</h1>
+          <p class="lead" style="margin-top: 20px">
+            La actividad de control de calidad más realizada en los proyectos de
+            desarrollo. Aquí verificamos que lo construido de verdad funciona.
+          </p>
+          <p class="tiny" style="margin-top: 30px; color: #7fa48c">
+            AA1 · Realizar plan de pruebas (16 h) &nbsp;—&nbsp; AA2 · Definir
+            casos y ambiente de prueba (30 h)
+          </p>
+        </section>
+
+        <!-- ============ 20. POR QUÉ PROBAMOS ============ -->
+        <section data-ttl="Por qué probar">
+          <span class="eyebrow">Marco de las tres evidencias</span>
+          <h2>Probar no es buscar que funcione</h2>
+          <div class="grid g-side">
+            <div>
+              <p style="font-size: 0.76em">
+                Probar es el conjunto de procesos encaminados a
+                <strong>encontrar fallos</strong> de funcionamiento, usabilidad
+                o configuración. Una prueba que no encuentra nada no siempre es
+                una buena noticia: puede ser una prueba mal diseñada.
+              </p>
+              <p style="font-size: 0.76em">
+                Cambio de mentalidad: el desarrollador quiere que su código
+                corra; el tester quiere
+                <em>romperlo antes de que lo rompa el usuario</em>.
+              </p>
+              <ul>
+                <li>
+                  Un error hallado en desarrollo cuesta poco; en producción
+                  cuesta el cliente
+                </li>
+                <li>
+                  Probar da evidencia objetiva de que el requerimiento se
+                  cumplió
+                </li>
+                <li>
+                  Sin registro escrito, la prueba no existe para efectos de
+                  auditoría
+                </li>
+              </ul>
+            </div>
+            <div class="card">
+              <span class="num">DOS PREGUNTAS QUE GUÍAN TODO</span>
+              <h3>Verificación</h3>
+              <p>
+                ¿Construimos el producto <em>correctamente</em>? — ¿el código
+                hace lo que dice el diseño?
+              </p>
+              <h3>Validación</h3>
+              <p>
+                ¿Construimos el producto <em>correcto</em>? — ¿esto es lo que el
+                usuario necesitaba?
+              </p>
+              <p class="tiny" style="margin-top: 12px; color: var(--muted)">
+                Se puede construir perfectamente algo que nadie pidió.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 21. EV01 TALLER ============ -->
+        <section data-ttl="EV01 · El taller">
+          <span class="eyebrow">GA9-220501096-AA1-EV01 · <b>Taller</b></span>
+          <h2>Preguntas orientadoras del taller</h2>
+          <ol style="font-size: 1.02em">
+            <li>
+              ¿Qué tipos de pruebas de software existen? Expliquen
+              <strong>características y beneficios</strong> de cada uno.
+            </li>
+            <li>
+              Según su consulta, ¿qué tipos de prueba
+              <strong>se adaptan mejor</strong> al proyecto que están
+              desarrollando? Justifiquen.
+            </li>
+            <li>
+              Investiguen e instalen una herramienta de pruebas en su
+              computador, la que prefieran.
+            </li>
+            <li>
+              Con la herramienta instalada, realicen
+              <strong>pruebas básicas de su propia solución</strong> y tomen
+              capturas del proceso.
+            </li>
+            <li>Elaboren un resumen de las pruebas realizadas.</li>
+          </ol>
+          <div class="nota" style="margin-top: 20px">
+            <b>Lo que más se devuelve en esta evidencia:</b> el punto 4. Las
+            capturas deben mostrar la herramienta corriendo
+            <em>sobre su proyecto</em>, con su nombre de usuario o el nombre del
+            sistema visible. Capturas del tutorial de YouTube no cuentan.
+          </div>
+        </section>
+
+        <!-- ============ 22. TIPOS DE PRUEBAS ============ -->
+        <section data-ttl="Tipos de pruebas">
+          <span class="eyebrow">Pregunta 1 del taller</span>
+          <h2>Tipos de prueba: tres formas de clasificarlas</h2>
+          <div class="grid g3" style="gap: 14px">
+            <div class="card" style="border-top: 4px solid var(--ink)">
+              <span class="num">POR CONOCIMIENTO DEL CÓDIGO</span>
+              <ul>
+                <li>
+                  <strong>Caja negra:</strong> se prueba por la interfaz, sin
+                  ver el código. Entrada → salida esperada
+                </li>
+                <li>
+                  <strong>Caja blanca:</strong> se prueba conociendo el código.
+                  Cubre caminos, condiciones y bucles
+                </li>
+                <li>
+                  <strong>Caja gris:</strong> conocimiento parcial. Común al
+                  probar APIs
+                </li>
+              </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--sena)">
+              <span class="num">POR NIVEL</span>
+              <ul>
+                <li>
+                  <strong>Unitarias:</strong> una función o método aislado
+                </li>
+                <li>
+                  <strong>Integración:</strong> módulos hablando entre sí y con
+                  la base de datos
+                </li>
+                <li>
+                  <strong>Sistema:</strong> la aplicación completa en un entorno
+                  parecido al real
+                </li>
+                <li>
+                  <strong>Aceptación (UAT):</strong> el usuario o el cliente
+                  aprueba
+                </li>
+              </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--naranja)">
+              <span class="num">POR OBJETIVO</span>
+              <ul>
+                <li><strong>Funcionales:</strong> ¿hace lo que debe?</li>
+                <li><strong>Rendimiento, carga y estrés:</strong> ¿aguanta?</li>
+                <li><strong>Seguridad:</strong> ¿se puede vulnerar?</li>
+                <li><strong>Usabilidad:</strong> ¿se entiende?</li>
+                <li><strong>Regresión:</strong> ¿lo nuevo dañó lo viejo?</li>
+                <li><strong>Humo:</strong> ¿vale la pena seguir probando?</li>
+              </ul>
+            </div>
+          </div>
+          <p class="tiny" style="margin-top: 14px">
+            El taller pide
+            <span style="color: var(--sena-dark)"
+              >características y beneficios</span
+            >: para cada tipo escriban qué lo caracteriza y qué gana el proyecto
+            al aplicarlo. Una tabla de tres columnas resuelve esto muy bien.
+          </p>
+        </section>
+
+        <!-- ============ 23. PIRÁMIDE ============ -->
+        <section data-ttl="Pirámide de pruebas">
+          <span class="eyebrow">Cómo repartir el esfuerzo</span>
+          <h2>La pirámide de pruebas</h2>
+          <div class="grid g-side" style="grid-template-columns: 1fr 1fr">
+            <div>
+              <svg viewBox="0 0 420 290" style="width: 100%; height: auto">
+                <polygon
+                  points="210,20 285,95 135,95"
+                  fill="#FF7A00"
+                  opacity=".9"
+                />
+                <polygon
+                  points="135,100 285,100 330,175 90,175"
+                  fill="#5B3FD4"
+                  opacity=".85"
+                />
+                <polygon
+                  points="90,180 330,180 380,265 40,265"
+                  fill="#26760A"
+                />
+                <text
+                  x="210"
+                  y="72"
+                  font-size="13"
+                  fill="#FFFFFF"
+                  text-anchor="middle"
+                  font-weight="600"
+                >
+                  E2E / UI
+                </text>
+                <text
+                  x="210"
+                  y="145"
+                  font-size="13"
+                  fill="#FFFFFF"
+                  text-anchor="middle"
+                  font-weight="600"
+                >
+                  INTEGRACIÓN
+                </text>
+                <text
+                  x="210"
+                  y="228"
+                  font-size="13"
+                  fill="#FFFFFF"
+                  text-anchor="middle"
+                  font-weight="600"
+                >
+                  UNITARIAS
+                </text>
+                <g font-size="11" fill="#7B8C81">
+                  <text x="345" y="60">pocas</text>
+                  <text x="345" y="76">lentas</text>
+                  <text x="345" y="92">costosas</text>
+                  <text x="20" y="245">muchas</text>
+                  <text x="20" y="261">rápidas</text>
+                </g>
+              </svg>
+            </div>
+            <div>
+              <p style="font-size: 0.68em">
+                La base debe ser ancha: muchas pruebas unitarias, rápidas y
+                baratas, que corren en segundos cada vez que alguien toca el
+                código.
+              </p>
+              <p style="font-size: 0.68em">
+                Arriba, pocas pruebas de extremo a extremo: valiosas porque
+                simulan al usuario real, pero lentas y frágiles. Si su proyecto
+                tiene solo pruebas de la punta, cada cambio les va a costar
+                horas de revisión manual.
+              </p>
+              <div class="nota" style="margin-top: 12px">
+                <b>Para el punto 2 del taller.</b> Aquí está el argumento de por
+                qué ciertos tipos "se adaptan mejor": depende del tamaño del
+                equipo, del tiempo disponible y de si el sistema es web,
+                escritorio o API.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 24. HERRAMIENTAS ============ -->
+        <section data-ttl="Herramientas">
+          <span class="eyebrow">Puntos 3 y 4 del taller</span>
+          <h2>Qué herramienta instalar</h2>
+          <table>
+            <tr>
+              <th style="width: 22%">Herramienta</th>
+              <th style="width: 20%">Sirve para</th>
+              <th style="width: 22%">Ideal si su proyecto es…</th>
+              <th>Dificultad de instalación</th>
+            </tr>
+            <tr>
+              <td class="mono"><strong>Postman</strong></td>
+              <td>Probar APIs y servicios REST</td>
+              <td>Backend con endpoints, API REST</td>
+              <td class="ok">Baja — instalar y usar</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>Selenium IDE</strong></td>
+              <td>Automatizar el navegador grabando acciones</td>
+              <td>Aplicación web con formularios</td>
+              <td class="ok">Baja — extensión de navegador</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>Apache JMeter</strong></td>
+              <td>Carga, estrés y rendimiento</td>
+              <td>Web o API que deba soportar concurrencia</td>
+              <td>Media — requiere Java</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>JUnit / PyTest / PHPUnit</strong></td>
+              <td>Pruebas unitarias en el código</td>
+              <td>Java, Python o PHP</td>
+              <td>Media — se integra al proyecto</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>Cypress</strong></td>
+              <td>Pruebas de extremo a extremo modernas</td>
+              <td>Front-end en JavaScript</td>
+              <td>Media — requiere Node.js</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>Katalon Studio</strong></td>
+              <td>Web, móvil y API en una sola suite</td>
+              <td>Proyectos mixtos, poco código</td>
+              <td>Media — entorno pesado</td>
+            </tr>
+          </table>
+          <p class="tiny" style="margin-top: 16px">
+            La guía menciona además WebLoad, LoadRunner y Testim. Elijan
+            <span style="color: var(--sena-dark)">una</span> y documéntenla
+            bien: descarga, instalación, configuración y ejecución, con captura
+            en cada paso.
+          </p>
+          <aside class="notes">
+            Si el proyecto está muy verde, Postman o Selenium IDE son las
+            apuestas seguras para que alcancen a entregar.
+          </aside>
+        </section>
+
+        <!-- ============ 25. ENTREGA EV01 ============ -->
+        <section data-ttl="Entrega EV01">
+          <span class="eyebrow">GA9-220501096-AA1-EV01</span>
+          <h2>Armado del taller y entrega</h2>
+          <div class="grid g-side">
+            <div>
+              <h3 style="font-size: 0.9em; margin-bottom: 0.6em">
+                Qué debe contener el documento
+              </h3>
+              <ul class="check">
+                <li>Portada, introducción y conclusiones</li>
+                <li>Respuesta desarrollada a las 5 preguntas orientadoras</li>
+                <li>Tabla comparativa de tipos de prueba</li>
+                <li>
+                  Justificación de los tipos elegidos para <em>su</em> proyecto
+                </li>
+                <li>Capturas de instalación de la herramienta</li>
+                <li>Capturas de la ejecución sobre su solución</li>
+                <li>
+                  Resumen de resultados: qué probó, qué encontró, qué corrigió
+                </li>
+                <li>Referencias consultadas</li>
+              </ul>
+            </div>
+            <div class="entrega">
+              <h3>Lineamientos de entrega</h3>
+              <ul>
+                <li>
+                  <strong>Producto:</strong> taller de pruebas de software
+                </li>
+                <li><strong>Formato:</strong> PDF</li>
+                <li><strong>Extensión:</strong> mínimo 3 hojas de contenido</li>
+                <li>
+                  <strong>Espacio de cargue:</strong> "Taller sobre codificación
+                  de módulos del software. GA9-220501096-AA1-EV01"
+                </li>
+              </ul>
+              <p class="tiny" style="margin-top: 12px; color: #9a4b00">
+                Exporten a PDF desde Word para que las capturas no se
+                desacomoden.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 26. EV02 PLAN ============ -->
+        <section data-ttl="EV02 · Plan de pruebas">
+          <span class="eyebrow">GA9-220501096-AA1-EV02</span>
+          <h2>Qué es un plan de pruebas</h2>
+          <div class="grid g-side">
+            <div>
+              <p style="font-size: 0.76em">
+                Es el documento que se escribe <strong>antes</strong> de probar.
+                Define objetivos, alcance, estrategia, recursos y cronograma.
+                Sin él, las pruebas se vuelven exploración desordenada y nadie
+                sabe cuándo parar.
+              </p>
+              <p style="font-size: 0.76em">
+                Responde cuatro preguntas: <em>qué</em> se prueba,
+                <em>quién</em> lo prueba, <em>cuándo</em> y
+                <em>con qué criterio</em> se declara aprobado.
+              </p>
+              <p class="tiny">
+                La estructura clásica de referencia es el estándar IEEE 829. La
+                guía de la evidencia pide una versión adaptada, con 9 elementos.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">EL ERROR TÍPICO</span>
+              <p style="font-size: 0.66em; color: var(--ink)">
+                Muchos entregan un plan que <em>describe pruebas ya hechas</em>.
+                Un plan se escribe en futuro: "se ejecutarán", "se validará",
+                "el responsable será". Es una planeación, no un informe.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 27. CONTENIDO DEL PLAN ============ -->
+        <section data-ttl="Contenido del plan">
+          <span class="eyebrow"
+            >GA9-220501096-AA1-EV02 · <b>Los 9 elementos exigidos</b></span
+          >
+          <h2>Contenido del plan, punto por punto</h2>
+          <table>
+            <tr>
+              <th style="width: 5%">#</th>
+              <th style="width: 34%">Elemento de la guía</th>
+              <th>Qué escribir concretamente</th>
+            </tr>
+            <tr>
+              <td class="mono ok">1</td>
+              <td>Analizar los requerimientos</td>
+              <td>
+                Listar los requerimientos funcionales del proyecto y marcar
+                cuáles serán objeto de prueba
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">2</td>
+              <td>Identificar funcionalidades existentes</td>
+              <td>Módulos ya construidos y estables: login, CRUD, reportes</td>
+            </tr>
+            <tr>
+              <td class="mono ok">3</td>
+              <td>Identificar funcionalidades nuevas a probar</td>
+              <td>
+                Lo desarrollado en este trimestre, que es donde más errores
+                aparecen
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">4</td>
+              <td>Estrategia y criterios</td>
+              <td>
+                Tipos de prueba a aplicar, criterio de entrada, criterio de
+                salida y qué severidad bloquea la liberación
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">5</td>
+              <td>Entornos requeridos</td>
+              <td>
+                Software y hardware: SO, navegadores, motor de base de datos,
+                servidor, RAM
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">6</td>
+              <td>Metodología y cronograma</td>
+              <td>
+                Procedimiento paso a paso, fechas, responsables por actividad
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">7</td>
+              <td>Artefactos de registro</td>
+              <td>
+                El formato con el que registrarán cada prueba — enlaza con la
+                cuarta evidencia
+              </td>
+            </tr>
+            <tr>
+              <td class="mono ok">8</td>
+              <td>Herramientas seleccionadas</td>
+              <td>Cuáles usarán y por qué esas</td>
+            </tr>
+            <tr>
+              <td class="mono ok">9</td>
+              <td>Riesgos y contingencias</td>
+              <td>Qué puede salir mal y qué harán si pasa</td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- ============ 28. CRITERIOS Y RIESGOS ============ -->
+        <section data-ttl="Criterios y riesgos">
+          <span class="eyebrow">Los dos puntos donde más se pierden</span>
+          <h2>Criterios de salida y riesgos, con ejemplos</h2>
+          <div class="grid g2">
+            <div class="card" style="border-top: 4px solid var(--sena)">
+              <span class="num">CRITERIOS · EJEMPLOS UTILIZABLES</span>
+              <ul>
+                <li>
+                  <strong>Entrada:</strong> el módulo está desplegado en el
+                  ambiente de pruebas y los datos de prueba están cargados
+                </li>
+                <li>
+                  <strong>Salida:</strong> el 100 % de los casos diseñados fue
+                  ejecutado
+                </li>
+                <li>
+                  <strong>Salida:</strong> no quedan defectos de severidad alta
+                  abiertos
+                </li>
+                <li>
+                  <strong>Suspensión:</strong> si un defecto bloqueante impide
+                  continuar, se detiene el ciclo y se devuelve a desarrollo
+                </li>
+              </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--naranja)">
+              <span class="num">RIESGOS · CON SU CONTINGENCIA</span>
+              <ul>
+                <li>
+                  <strong>Riesgo:</strong> un integrante no dispone de equipo
+                  con los requisitos → <strong>Contingencia:</strong> usar los
+                  equipos del ambiente de formación en jornada acordada
+                </li>
+                <li>
+                  <strong>Riesgo:</strong> retraso en el desarrollo de un módulo
+                  → priorizar los módulos disponibles y reprogramar
+                </li>
+                <li>
+                  <strong>Riesgo:</strong> pérdida de datos de prueba → respaldo
+                  de la base antes de cada ciclo
+                </li>
+                <li>
+                  <strong>Riesgo:</strong> falla de conectividad → ejecutar en
+                  ambiente local
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="entrega" style="margin-top: 18px">
+            <h3>Entrega · GA9-220501096-AA1-EV02</h3>
+            <ul>
+              <li>
+                <strong>Producto:</strong> plan de pruebas de software
+                &nbsp;·&nbsp; <strong>Formato:</strong> PDF &nbsp;·&nbsp;
+                <strong>Extensión:</strong> mínimo 4 hojas de contenido, con
+                portada, introducción y conclusiones
+              </li>
+              <li>
+                <strong>Espacio de cargue:</strong> "Realiza plan pruebas de
+                software. GA9-220501096-AA1-EV02"
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============ 29. DIVISOR CASOS ============ -->
+        <section class="divisor" data-ttl="AA2 · Casos de prueba">
+          <span class="eyebrow"
+            >Evidencia 4 de 4 · GA9-220501096-AA2-EV01 · 30 horas</span
+          >
+          <h1 style="font-size: 1.9em">
+            Diseña casos<br />y define el ambiente<br />de pruebas
+          </h1>
+          <p class="lead" style="margin-top: 20px">
+            El objetivo: encontrar el mayor número de errores con la mínima
+            cantidad de esfuerzo y tiempo.
+          </p>
+        </section>
+
+        <!-- ============ 30. QUÉ ES UN CASO ============ -->
+        <section data-ttl="Caso y ambiente">
+          <span class="eyebrow">Dos conceptos que no son lo mismo</span>
+          <h2>Caso de prueba y ambiente de prueba</h2>
+          <div class="grid g2">
+            <div class="card" style="border-top: 4px solid var(--sena)">
+              <span class="num">CASO DE PRUEBA</span>
+              <h3>La condición que se verifica</h3>
+              <p>
+                Una condición o variable establecida previamente para determinar
+                si el software cumple una función de manera adecuada.
+              </p>
+              <p>
+                Se escribe <em>antes</em> de ejecutar, con la salida esperada ya
+                definida. Si define la salida esperada después de ver el
+                resultado, no está probando: está justificando.
+              </p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--violeta)">
+              <span class="num">AMBIENTE DE PRUEBA</span>
+              <h3>El espacio donde se ejecuta</h3>
+              <p>
+                Describe dónde corre el software durante la prueba: sistemas
+                operativos, navegadores, bases de datos, servidores y tipo de
+                hardware.
+              </p>
+              <p>
+                Un mismo caso puede correrse en varios ambientes. Probar el
+                mismo login en Chrome y en Firefox son
+                <em>dos ejecuciones</em> del mismo caso.
+              </p>
+            </div>
+          </div>
+          <div class="nota" style="margin-top: 18px">
+            <b>Un buen caso de prueba es reproducible.</b> Otra persona debe
+            poder tomarlo, ejecutarlo tal cual está escrito y obtener el mismo
+            resultado, sin preguntarle nada a usted.
+          </div>
+        </section>
+
+        <!-- ============ 31. ESTRUCTURA DEL FORMATO ============ -->
+        <section data-ttl="Los 14 campos">
+          <span class="eyebrow"
+            >GA9-220501096-AA2-EV01 · <b>Estructura exigida</b></span
+          >
+          <h2>Los 14 campos del formato</h2>
+          <div class="grid g2" style="gap: 6px 40px">
+            <ul class="check">
+              <li>
+                <strong>Nombre del proyecto</strong> — la solución de software
+              </li>
+              <li><strong>Nombre del caso de prueba</strong></li>
+              <li><strong>Fecha de revisión</strong> — cuándo se ejecutó</li>
+              <li><strong>Descripción</strong> — tipo, cómo y con qué fin</li>
+              <li>
+                <strong>Ambiente</strong> — web o escritorio, SO, navegador,
+                servidor
+              </li>
+              <li>
+                <strong>Herramienta utilizada</strong> — JMeter, Selenium,
+                Testim…
+              </li>
+              <li><strong>Autor del caso</strong></li>
+            </ul>
+            <ul class="check">
+              <li>
+                <strong>Número de caso</strong> — consecutivo: 001, 002, 003
+              </li>
+              <li>
+                <strong>Salida esperada</strong> — según los requerimientos
+              </li>
+              <li><strong>Salida obtenida</strong> — lo que ocurrió</li>
+              <li>
+                <strong>Resultado</strong> — aprobado / en seguimiento /
+                rechazado
+              </li>
+              <li>
+                <strong>Seguimiento</strong> — código de la acción fallida
+              </li>
+              <li><strong>Severidad</strong> — alto / medio / bajo</li>
+              <li>
+                <strong>Evidencia</strong> y
+                <strong>firma de aprobación</strong>
+              </li>
+            </ul>
+          </div>
+          <p class="tiny" style="margin-top: 14px">
+            Los tres primeros y el ambiente pueden ir en un
+            <span style="color: var(--sena-dark)">encabezado común</span> de la
+            hoja; el resto, una fila por caso.
+          </p>
+        </section>
+
+        <!-- ============ 32. EJEMPLO ============ -->
+        <section data-ttl="Caso diligenciado">
+          <span class="eyebrow">Cómo se ve diligenciado</span>
+          <h2>Ejemplo de caso de prueba</h2>
+          <table>
+            <tr>
+              <th style="width: 5%">N.º</th>
+              <th style="width: 18%">Nombre</th>
+              <th style="width: 26%">Descripción</th>
+              <th style="width: 18%">Salida esperada</th>
+              <th style="width: 18%">Salida obtenida</th>
+              <th>Resultado</th>
+            </tr>
+            <tr>
+              <td class="mono">001</td>
+              <td>Ingreso con credenciales válidas</td>
+              <td>
+                Prueba funcional de caja negra. Se ingresa usuario y contraseña
+                registrados y se pulsa Ingresar
+              </td>
+              <td>
+                Redirige al panel principal y muestra el nombre del usuario
+              </td>
+              <td>Redirige al panel principal correctamente</td>
+              <td class="ok">Aprobado</td>
+            </tr>
+            <tr>
+              <td class="mono">002</td>
+              <td>Ingreso con contraseña errada</td>
+              <td>Se ingresa un usuario válido con contraseña incorrecta</td>
+              <td>
+                Mensaje "Usuario o contraseña incorrectos", permanece en el
+                login
+              </td>
+              <td>Muestra error 500 del servidor</td>
+              <td class="no">Rechazado</td>
+            </tr>
+            <tr>
+              <td class="mono">003</td>
+              <td>Campos vacíos</td>
+              <td>Se pulsa Ingresar sin diligenciar nada</td>
+              <td>Valida y señala los campos obligatorios</td>
+              <td>Valida solo el campo usuario</td>
+              <td style="color: #b07000; font-weight: 700">En seguimiento</td>
+            </tr>
+          </table>
+          <div class="grid g2" style="margin-top: 18px">
+            <div class="card">
+              <span class="num">SOBRE EL CASO 002</span>
+              <p>
+                <strong>Seguimiento:</strong> ERR-LOG-002 &nbsp;·&nbsp;
+                <strong>Severidad:</strong> Alta &nbsp;·&nbsp;
+                <strong>Evidencia:</strong> captura_002.png
+              </p>
+              <p>
+                Severidad alta porque expone un error del servidor al usuario
+                final y puede revelar información del sistema.
+              </p>
+            </div>
+            <div class="card">
+              <span class="num">FÍJENSE EN ALGO</span>
+              <p>
+                Los casos que valen son los <em>negativos</em>. Probar solo el
+                camino feliz —el 001— no encuentra errores. El 002 y el 003 son
+                los que hacen valiosa la evidencia.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            Pedir que cada equipo diseñe mínimo 10 casos, con al menos 4
+            negativos.
+          </aside>
+        </section>
+
+        <!-- ============ 33. ENTREGA EV01 AA2 ============ -->
+        <section data-ttl="Entrega AA2-EV01">
+          <span class="eyebrow">GA9-220501096-AA2-EV01</span>
+          <h2>Cómo montar el archivo de Excel</h2>
+          <div class="grid g-side">
+            <div>
+              <h3 style="font-size: 0.9em; margin-bottom: 0.6em">
+                Hojas sugeridas del libro
+              </h3>
+              <ol>
+                <li>
+                  <strong>Portada</strong> — proyecto, ficha, integrantes, fecha
+                </li>
+                <li>
+                  <strong>Ambiente de pruebas</strong> — SO, navegadores,
+                  versiones, servidor, base de datos, hardware
+                </li>
+                <li>
+                  <strong>Casos de prueba</strong> — una fila por caso, con los
+                  14 campos
+                </li>
+                <li>
+                  <strong>Resumen</strong> — cuántos aprobados, rechazados y en
+                  seguimiento
+                </li>
+              </ol>
+              <p class="tiny" style="margin-top: 12px">
+                Usen listas desplegables para Resultado y Severidad, y formato
+                condicional para colorear las filas. Es Excel: aprovéchenlo.
+              </p>
+            </div>
+            <div class="entrega">
+              <h3>Lineamientos de entrega</h3>
+              <ul>
+                <li><strong>Producto:</strong> formato de casos de prueba</li>
+                <li><strong>Formato:</strong> Excel</li>
+                <li><strong>Extensión:</strong> libre</li>
+                <li>
+                  <strong>Espacio de cargue:</strong> "Diseña casos y define el
+                  ambiente de pruebas de software según proyecto.
+                  GA9-220501096-AA2-EV01"
+                </li>
+              </ul>
+              <p class="tiny" style="margin-top: 12px; color: #9a4b00">
+                .xlsx, no PDF ni captura de la tabla.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 34. CIERRE ============ -->
+        <section data-ttl="Cierre">
+          <span class="eyebrow">Antes de cerrar sesión</span>
+          <h2>Lista de chequeo final</h2>
+          <div class="grid g2" style="gap: 18px 40px">
+            <div>
+              <ul class="check">
+                <li>
+                  Texto de blockchain en <strong>Word</strong>, mínimo 3
+                  páginas, con premisa declarada y gráfico propio
+                </li>
+                <li>
+                  Taller en <strong>PDF</strong>, mínimo 3 hojas, con capturas
+                  de su herramienta sobre su proyecto
+                </li>
+                <li>
+                  Plan de pruebas en <strong>PDF</strong>, mínimo 4 hojas,
+                  escrito en futuro
+                </li>
+                <li>
+                  Formato de casos en <strong>Excel</strong>, con casos
+                  negativos incluidos
+                </li>
+              </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--naranja)">
+              <span class="num">LOS CUATRO MOTIVOS DE DEVOLUCIÓN</span>
+              <ul>
+                <li>Formato de archivo equivocado</li>
+                <li>Falta portada, introducción o conclusiones</li>
+                <li>Capturas que no son del proyecto propio</li>
+                <li>Contenido copiado sin referencia</li>
+              </ul>
+            </div>
+          </div>
+          <div class="nota" style="margin-top: 20px">
+            Las cuatro evidencias están <b>habilitadas desde hoy</b> en la
+            plataforma. Cada una se sube en su propio espacio. Dudas: en la
+            sesión de acompañamiento o por el foro de la actividad.
+          </div>
+        </section>
+
+        <!-- ============ 35. FINAL ============ -->
+        <section class="portada" data-ttl="Fin">
+          <span class="eyebrow">Fichas 3186652 y 3186653 · 6 de agosto</span>
+          <h1 style="font-size: 2.2em">¿Preguntas?</h1>
+          <p class="lead" style="margin-top: 20px">
+            Aprovechemos lo que queda de sesión para revisar premisas y elegir
+            la herramienta de pruebas de cada equipo.
+          </p>
+          <p class="tiny" style="margin-top: 36px; color: #7fa48c">
+            Construcción de software integrador de tecnologías orientadas a
+            servicios
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <div
+      id="chainprog"
+      role="navigation"
+      aria-label="Progreso de la presentación"
+    ></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script>
+      (function () {
+        var slides = Array.prototype.slice.call(
+          document.querySelectorAll(".reveal .slides > section"),
+        );
+
+        // hash muy simple, encadenado: cada bloque depende del anterior
+        function h32(str) {
+          var h = 0x811c9dc5;
+          for (var i = 0; i < str.length; i++) {
+            h ^= str.charCodeAt(i);
+            h = (h * 0x01000193) >>> 0;
+          }
+          return ("00000000" + h.toString(16)).slice(-8);
+        }
+        var chain = ["00000000"];
+        slides.forEach(function (s, i) {
+          chain.push(h32(chain[i] + i + (s.textContent || "").slice(0, 400)));
+        });
+
+        // barra inferior: un eslabón por bloque
+        var prog = document.getElementById("chainprog");
+        slides.forEach(function (s, i) {
+          var b = document.createElement("button");
+          b.className = "lnk";
+          b.type = "button";
+          b.setAttribute(
+            "aria-label",
+            "Ir al bloque " + (i + 1) + ": " + (s.dataset.ttl || ""),
+          );
+          b.title = i + 1 + " · " + (s.dataset.ttl || "");
+          b.addEventListener("click", function () {
+            Reveal.slide(i);
+          });
+          prog.appendChild(b);
+        });
+
+        var bnum = document.querySelector("#chainbar .bnum"),
+          hprev = document.getElementById("hprev"),
+          hcurr = document.getElementById("hcurr"),
+          ttl = document.querySelector("#chainbar .ttl");
+
+        function paint(i) {
+          var links = prog.children;
+          for (var k = 0; k < links.length; k++) {
+            links[k].className =
+              "lnk" + (k < i ? " done" : k === i ? " now" : "");
+          }
+          bnum.textContent =
+            "BLOQUE " +
+            ("00" + (i + 1)).slice(-3) +
+            "/" +
+            ("00" + slides.length).slice(-3);
+          hprev.textContent = "0x" + chain[i];
+          hcurr.textContent = "0x" + chain[i + 1];
+          ttl.textContent = (slides[i] && slides[i].dataset.ttl) || "";
+        }
+
+        Reveal.initialize({
+          hash: true,
+          center: false,
+          controls: true,
+          progress: true,
+          slideNumber: "c/t",
+          transition: "slide",
+          transitionSpeed: "fast",
+          backgroundTransition: "none",
+          width: 1180,
+          height: 700,
+          margin: 0.03,
+          minScale: 0.2,
+          maxScale: 1.6,
+          plugins: [RevealNotes],
+        }).then(function () {
+          paint(Reveal.getIndices().h);
+        });
+
+        Reveal.on("slidechanged", function (e) {
+          paint(e.indexh);
+        });
+      })();
+    </script>
+  </body>
+</html>
