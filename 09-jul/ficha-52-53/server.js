@@ -144,6 +144,11 @@ app.delete("/usuarios/:id", async (request, response) => {
   return response.status(200).json({ message: "Usuario eliminado!" });
 });
 
-app.listen(8080, () => {
-  console.log("Servidor iniciado en el puerto 8080");
-});
+// Solo inicia el servidor si se ejecuta directamente (no cuando lo importan los tests)
+if (require.main === module) {
+  app.listen(8080, () => {
+    console.log("Servidor iniciado en el puerto 8080");
+  });
+}
+
+module.exports = app;
