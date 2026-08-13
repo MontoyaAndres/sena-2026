@@ -1,0 +1,3291 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>De las pruebas al despliegue · Guía 9 y Guía 10</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css"
+    />
+
+    <style>
+      /* ============================================================
+   Paleta: "blueprint de red" + estados de prueba
+   Los colores no decoran: codifican estado (pasa / falla / pendiente)
+   ============================================================ */
+      :root {
+        --ink: #0d1322;
+        --ink-2: #141d31;
+        --ink-3: #1c2740;
+        --paper: #e9eef9;
+        --muted: #8b9bbc;
+        --signal: #ffc24b; /* acento principal */
+        --pass: #4fd1a5; /* prueba exitosa */
+        --fail: #ff6e6e; /* defecto */
+        --info: #7aa7ff; /* dato / referencia */
+        --wire: rgba(139, 155, 188, 0.22);
+
+        --display: "Bricolage Grotesque", "Inter Tight", system-ui, sans-serif;
+        --body: "Inter Tight", system-ui, -apple-system, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      /* ---------- Base ---------- */
+      .reveal-viewport {
+        background: var(--ink);
+        background-image:
+          radial-gradient(
+            1200px 700px at 78% -10%,
+            rgba(122, 167, 255, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 5% 110%,
+            rgba(255, 194, 75, 0.07),
+            transparent 60%
+          );
+      }
+      .reveal {
+        font-family: var(--body);
+        font-size: 26px;
+        color: var(--paper);
+        font-weight: 400;
+        letter-spacing: 0.002em;
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: var(--display);
+        color: var(--paper);
+        text-transform: none;
+        letter-spacing: -0.025em;
+        line-height: 1.04;
+        margin: 0 0 0.35em 0;
+        text-shadow: none;
+        font-weight: 700;
+      }
+      .reveal h1 {
+        font-size: 2.35em;
+        font-weight: 800;
+      }
+      .reveal h2 {
+        font-size: 1.55em;
+      }
+      .reveal h3 {
+        font-size: 1.02em;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .reveal h4 {
+        font-size: 0.78em;
+        font-weight: 600;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.6em;
+      }
+      .reveal strong {
+        color: var(--signal);
+        font-weight: 600;
+      }
+      .reveal em {
+        color: var(--info);
+        font-style: normal;
+        font-weight: 500;
+      }
+      .reveal a {
+        color: var(--info);
+      }
+      .reveal ul,
+      .reveal ol {
+        display: block;
+        margin-left: 1.05em;
+      }
+      .reveal li {
+        line-height: 1.42;
+        margin-bottom: 0.34em;
+      }
+      .reveal li::marker {
+        color: var(--signal);
+      }
+      .reveal section img {
+        border: none;
+        box-shadow: none;
+        background: none;
+      }
+
+      ::selection {
+        background: var(--signal);
+        color: var(--ink);
+      }
+
+      /* ---------- Etiqueta superior (eyebrow) ---------- */
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.48em;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--signal);
+        margin: 0 0 0.9em 0;
+        display: flex;
+        align-items: center;
+        gap: 0.8em;
+      }
+      .eyebrow::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--wire);
+      }
+      .eyebrow.dim {
+        color: var(--muted);
+      }
+
+      /* ---------- Tira de metadatos (fila de cabecera de un caso de prueba) ---------- */
+      .meta-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        border: 1px solid var(--wire);
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 0.2em 0 1em;
+        background: rgba(20, 29, 49, 0.6);
+      }
+      .meta-strip > div {
+        padding: 0.42em 0.95em;
+        border-right: 1px solid var(--wire);
+        flex: 1 1 auto;
+      }
+      .meta-strip > div:last-child {
+        border-right: none;
+      }
+      .meta-strip .k {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.4em;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.15em;
+      }
+      .meta-strip .v {
+        font-size: 0.62em;
+        font-weight: 600;
+        color: var(--paper);
+      }
+
+      /* ---------- Tarjetas ---------- */
+      .card {
+        background: var(--ink-2);
+        border: 1px solid var(--wire);
+        border-left: 3px solid var(--signal);
+        border-radius: 4px;
+        padding: 0.85em 1em;
+        font-size: 0.62em;
+        line-height: 1.42;
+      }
+      .card h3 {
+        font-size: 1.02em;
+        margin-bottom: 0.3em;
+        color: var(--paper);
+      }
+      .card p:last-child {
+        margin-bottom: 0;
+      }
+      .card.pass {
+        border-left-color: var(--pass);
+      }
+      .card.fail {
+        border-left-color: var(--fail);
+      }
+      .card.info {
+        border-left-color: var(--info);
+      }
+      .card .lead {
+        font-family: var(--mono);
+        font-size: 0.78em;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.4em;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7em;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.7em;
+      }
+      .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.6em;
+      }
+      .grid-2-1 {
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 1em;
+        align-items: start;
+      }
+      .gap-sm {
+        gap: 0.5em;
+      }
+
+      /* ---------- Chips de estado ---------- */
+      .chip {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.72em;
+        padding: 0.12em 0.55em;
+        border-radius: 3px;
+        letter-spacing: 0.06em;
+        border: 1px solid currentColor;
+        line-height: 1.5;
+      }
+      .chip.pass {
+        color: var(--pass);
+        background: rgba(79, 209, 165, 0.1);
+      }
+      .chip.fail {
+        color: var(--fail);
+        background: rgba(255, 110, 110, 0.1);
+      }
+      .chip.wait {
+        color: var(--signal);
+        background: rgba(255, 194, 75, 0.1);
+      }
+      .chip.info {
+        color: var(--info);
+        background: rgba(122, 167, 255, 0.1);
+      }
+
+      /* ---------- Tablas ---------- */
+      .reveal table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.5em;
+        margin: 0.2em 0;
+        font-family: var(--body);
+      }
+      .reveal table th {
+        font-family: var(--mono);
+        font-size: 0.82em;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--signal);
+        text-align: left;
+        padding: 0.55em 0.7em;
+        border-bottom: 1px solid var(--signal);
+        background: rgba(255, 194, 75, 0.05);
+      }
+      .reveal table td {
+        padding: 0.5em 0.7em;
+        border-bottom: 1px solid var(--wire);
+        vertical-align: top;
+        color: var(--paper);
+      }
+      .reveal table tr:last-child td {
+        border-bottom: none;
+      }
+      .reveal table td.mono,
+      .reveal table th.mono {
+        font-family: var(--mono);
+        font-size: 0.9em;
+        color: var(--muted);
+      }
+      .reveal table.compact td,
+      .reveal table.compact th {
+        padding: 0.35em 0.55em;
+      }
+      .reveal table td strong {
+        color: var(--paper);
+      }
+
+      /* ---------- Código ---------- */
+      .reveal pre {
+        width: 100%;
+        box-shadow: none;
+        font-size: 0.42em;
+        margin: 0.4em 0;
+        border: 1px solid var(--wire);
+        border-radius: 4px;
+        background: var(--ink-2);
+      }
+      .reveal pre code {
+        padding: 0.9em 1.1em;
+        background: transparent;
+        max-height: none;
+        font-family: var(--mono);
+      }
+      .reveal code {
+        font-family: var(--mono);
+        color: var(--signal);
+        background: rgba(255, 194, 75, 0.08);
+        padding: 0.05em 0.3em;
+        border-radius: 3px;
+      }
+      .reveal pre code.hljs {
+        color: #cfd8ea;
+      }
+
+      /* ---------- Portada ---------- */
+      .cover .kicker {
+        font-family: var(--mono);
+        font-size: 0.5em;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--signal);
+        margin-bottom: 1.4em;
+      }
+      .cover h1 {
+        font-size: 3.1em;
+        font-weight: 800;
+        letter-spacing: -0.038em;
+        max-width: 16ch;
+      }
+      .cover .sub {
+        font-size: 0.74em;
+        color: var(--muted);
+        max-width: 34ch;
+        margin-top: 0.7em;
+        line-height: 1.5;
+      }
+      .cover .rule {
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--signal),
+          var(--pass),
+          var(--info),
+          transparent
+        );
+        margin: 1.3em 0;
+      }
+
+      /* ---------- Firma: descomposición del código de evidencia ---------- */
+      .evcode {
+        font-family: var(--mono);
+        font-weight: 700;
+        display: flex;
+        align-items: flex-end;
+        gap: 0.28em;
+        flex-wrap: wrap;
+        font-size: 1.5em;
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+      .evcode span {
+        display: block;
+      }
+      .evcode .seg {
+        position: relative;
+        padding-bottom: 1.5em;
+      }
+      .evcode .seg .lbl {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        font-size: 0.24em;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .evcode .sep {
+        color: var(--muted);
+        opacity: 0.5;
+        padding-bottom: 1.5em;
+      }
+      .evcode .s1 {
+        color: var(--signal);
+      }
+      .evcode .s2 {
+        color: var(--info);
+      }
+      .evcode .s3 {
+        color: var(--pass);
+      }
+      .evcode .s4 {
+        color: var(--fail);
+      }
+
+      /* ---------- Divisores de sección ---------- */
+      .divider {
+      }
+      .divider .num {
+        font-family: var(--mono);
+        font-size: 0.5em;
+        letter-spacing: 0.3em;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 0.8em;
+      }
+      .divider h2 {
+        font-size: 2.4em;
+        font-weight: 800;
+        max-width: 18ch;
+      }
+      .divider .desc {
+        font-size: 0.66em;
+        color: var(--muted);
+        max-width: 42ch;
+        margin-top: 0.8em;
+        line-height: 1.5;
+      }
+
+      /* ---------- Listas de verificación ---------- */
+      .check {
+        list-style: none;
+        margin-left: 0;
+        font-size: 0.62em;
+      }
+      .check li {
+        display: flex;
+        gap: 0.7em;
+        align-items: flex-start;
+        padding: 0.42em 0;
+        border-bottom: 1px solid var(--wire);
+      }
+      .check li:last-child {
+        border-bottom: none;
+      }
+      .check li::before {
+        content: "□";
+        font-family: var(--mono);
+        color: var(--signal);
+        flex: 0 0 auto;
+        font-size: 1.05em;
+        line-height: 1.3;
+      }
+      .check.done li::before {
+        content: "✓";
+        color: var(--pass);
+      }
+
+      /* ---------- Lista numerada tipo pasos ---------- */
+      .steps {
+        list-style: none;
+        margin-left: 0;
+        font-size: 0.6em;
+        counter-reset: s;
+      }
+      .steps li {
+        position: relative;
+        padding-left: 2.3em;
+        margin-bottom: 0.6em;
+        counter-increment: s;
+      }
+      .steps li::before {
+        content: counter(s, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 0.05em;
+        font-family: var(--mono);
+        font-size: 0.85em;
+        color: var(--signal);
+        border: 1px solid var(--wire);
+        border-radius: 3px;
+        padding: 0.05em 0.38em;
+      }
+
+      /* ---------- Dato destacado ---------- */
+      .stat {
+        border-left: 3px solid var(--pass);
+        padding-left: 0.8em;
+      }
+      .stat .n {
+        font-family: var(--display);
+        font-size: 1.5em;
+        font-weight: 800;
+        color: var(--pass);
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .stat .l {
+        font-size: 0.5em;
+        color: var(--muted);
+        display: block;
+        margin-top: 0.35em;
+        line-height: 1.35;
+      }
+      .stat.amber {
+        border-left-color: var(--signal);
+      }
+      .stat.amber .n {
+        color: var(--signal);
+      }
+      .stat.blue {
+        border-left-color: var(--info);
+      }
+      .stat.blue .n {
+        color: var(--info);
+      }
+      .stat.red {
+        border-left-color: var(--fail);
+      }
+      .stat.red .n {
+        color: var(--fail);
+      }
+
+      .note {
+        font-size: 0.5em;
+        color: var(--muted);
+        font-family: var(--body);
+        border-top: 1px solid var(--wire);
+        padding-top: 0.6em;
+        margin-top: 0.9em;
+        line-height: 1.45;
+      }
+      .small {
+        font-size: 0.56em;
+        line-height: 1.45;
+      }
+      .xsmall {
+        font-size: 0.48em;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+      .mono {
+        font-family: var(--mono);
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .amber {
+        color: var(--signal);
+      }
+      .green {
+        color: var(--pass);
+      }
+      .red {
+        color: var(--fail);
+      }
+      .blue {
+        color: var(--info);
+      }
+      .center {
+        text-align: center;
+      }
+      .mt {
+        margin-top: 0.9em;
+      }
+      .mt-sm {
+        margin-top: 0.5em;
+      }
+
+      /* ---------- Pie fijo: código de la evidencia en curso ---------- */
+      #ev-footer {
+        position: fixed;
+        left: 26px;
+        bottom: 16px;
+        z-index: 40;
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        text-transform: uppercase;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+      }
+      #ev-footer.on {
+        opacity: 0.85;
+      }
+      #ev-footer b {
+        color: var(--signal);
+        font-weight: 500;
+      }
+
+      .reveal .progress {
+        height: 3px;
+        color: var(--signal);
+      }
+      .reveal .controls {
+        color: var(--muted);
+      }
+      .reveal .slide-number {
+        background: transparent;
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* ---------- Accesibilidad / responsive ---------- */
+      .reveal .slides section:focus {
+        outline: none;
+      }
+      @media (max-width: 700px) {
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .grid-2-1 {
+          grid-template-columns: 1fr;
+        }
+        .evcode {
+          font-size: 1em;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal .slides section,
+        #ev-footer {
+          transition: none !important;
+        }
+      }
+      @media print {
+        .reveal-viewport {
+          background: #fff;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="ev-footer"></div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- ══════════════════════════ PORTADA ══════════════════════════ -->
+        <section data-ev="Sesión de clase">
+          <section class="cover">
+            <div class="kicker">
+              Análisis y desarrollo de software · Fase de ejecución
+            </div>
+            <h1>De las pruebas al despliegue</h1>
+            <div class="rule"></div>
+            <p class="sub">
+              Cerramos la <strong>Guía 9</strong> documentando y reportando las
+              pruebas del software, y abrimos la
+              <strong>Guía 10</strong> preparando la plataforma tecnológica
+              donde ese software va a vivir.
+            </p>
+            <div class="meta-strip" style="margin-top: 1.4em">
+              <div>
+                <span class="k">Hoy</span><span class="v">4 evidencias</span>
+              </div>
+              <div>
+                <span class="k">Guía 9</span
+                ><span class="v">AA3 · EV01 y EV02</span>
+              </div>
+              <div>
+                <span class="k">Guía 10</span
+                ><span class="v">AA1 · EV01 y AA2 · EV01</span>
+              </div>
+              <div>
+                <span class="k">Competencias</span
+                ><span class="v">220501096 · 220501097</span>
+              </div>
+            </div>
+            <aside class="notes">
+              Abrir preguntando en qué punto va cada equipo con el plan de
+              pruebas de la guía 9. Aclarar que hoy no se diseñan pruebas
+              nuevas: se ejecutan, se registran y se reportan las ya
+              planificadas.
+            </aside>
+          </section>
+
+          <!-- Agenda -->
+          <section>
+            <div class="eyebrow">Ruta de la sesión</div>
+            <h2>Cuatro entregables, dos guías</h2>
+            <table class="compact mt">
+              <tr>
+                <th style="width: 26%">Evidencia</th>
+                <th style="width: 38%">Qué se entrega</th>
+                <th style="width: 16%">Formato</th>
+                <th style="width: 20%">Duración de la actividad</th>
+              </tr>
+              <tr>
+                <td class="mono">GA9 · AA3 · EV01</td>
+                <td>
+                  Video de la ejecución de pruebas + formatos de seguimiento
+                  diligenciados
+                </td>
+                <td>Video libre + PDF</td>
+                <td rowspan="2">32 horas</td>
+              </tr>
+              <tr>
+                <td class="mono">GA9 · AA3 · EV02</td>
+                <td>Reporte del plan de pruebas ejecutadas</td>
+                <td>PDF</td>
+              </tr>
+              <tr>
+                <td class="mono">GA10 · AA1 · EV01</td>
+                <td>
+                  Informe de conceptos y principios de hardware e instalación de
+                  software
+                </td>
+                <td>PDF</td>
+                <td>6 horas</td>
+              </tr>
+              <tr>
+                <td class="mono">GA10 · AA2 · EV01</td>
+                <td>
+                  Plan de validación de características mínimas de hardware
+                </td>
+                <td>PDF o Word</td>
+                <td>8 horas</td>
+              </tr>
+            </table>
+            <p class="note">
+              Las tres primeras se entregan en PDF. Los cuatro documentos
+              exigen, como mínimo,
+              <span class="amber">portada, introducción y conclusiones</span>.
+            </p>
+            <aside class="notes">
+              Dejar esta tabla como el mapa de la sesión. Volveremos a ella al
+              cierre.
+            </aside>
+          </section>
+
+          <!-- Firma: leer el código -->
+          <section>
+            <div class="eyebrow">Antes de empezar</div>
+            <h2>Sepa leer el código de la evidencia</h2>
+            <div class="evcode mt">
+              <span class="seg s1"
+                >GA9<span class="lbl">Guía de aprendizaje</span></span
+              >
+              <span class="sep">–</span>
+              <span class="seg s2"
+                >220501096<span class="lbl">Competencia</span></span
+              >
+              <span class="sep">–</span>
+              <span class="seg s3"
+                >AA3<span class="lbl">Actividad de aprendizaje</span></span
+              >
+              <span class="sep">–</span>
+              <span class="seg s4">EV01<span class="lbl">Evidencia</span></span>
+            </div>
+            <p class="small mt">
+              Ese código es el nombre del espacio de entrega en la plataforma.
+              Si el archivo que sube no corresponde exactamente a ese código, la
+              evidencia no se evalúa aunque el contenido esté bien hecho.
+            </p>
+            <div class="card info mt">
+              <span class="lead">Convención de nombres sugerida</span>
+              <code>GA9-220501096-AA3-EV01_ApellidoNombre.pdf</code>
+            </div>
+            <aside class="notes">
+              Insistir: el error administrativo más frecuente es subir la
+              evidencia en el espacio equivocado. Pedirles que copien la
+              convención de nombres.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ══════════════════════════ BLOQUE A ══════════════════════════ -->
+        <section data-ev="GA9-220501096-AA3">
+          <section class="divider">
+            <div class="num">Bloque 1 · Guía 9 · Competencia 220501096</div>
+            <h2>
+              Documentar y realizar pruebas, de acuerdo con la planificación
+            </h2>
+            <div
+              class="rule"
+              style="
+                height: 2px;
+                background: linear-gradient(90deg, var(--signal), transparent);
+                margin: 1.2em 0;
+              "
+            ></div>
+            <p class="desc">
+              Actividad <span class="mono amber">GA9-220501096-AA3</span> · 32
+              horas · Componente formativo “Las pruebas de software”.
+            </p>
+            <p class="desc">
+              Se ejecutan las pruebas de la solución de software y se lleva un
+              registro detallado del proceso con los instrumentos que ustedes
+              mismos diseñaron en la actividad anterior.
+            </p>
+            <aside class="notes">
+              Recordar que los instrumentos ya fueron diseñados en AA2. Aquí
+              solo se diligencian.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Dónde estamos</div>
+            <h2>Planificar → ejecutar → reportar</h2>
+            <div class="grid-3 mt">
+              <div class="card">
+                <span class="lead">Ya hecho</span>
+                <h3>Planificar</h3>
+                <p class="muted">
+                  Plan de pruebas, casos, datos de entrada, criterios de
+                  aceptación, formatos en blanco.
+                </p>
+              </div>
+              <div class="card pass">
+                <span class="lead">Evidencia 01</span>
+                <h3>Ejecutar y registrar</h3>
+                <p class="muted">
+                  Se corre cada caso sobre el software real, se graba la
+                  pantalla y se diligencian los formatos.
+                </p>
+              </div>
+              <div class="card info">
+                <span class="lead">Evidencia 02</span>
+                <h3>Consolidar y reportar</h3>
+                <p class="muted">
+                  Se resumen resultados, se mide, se establece trazabilidad y se
+                  definen acciones correctivas.
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              La diferencia entre EV01 y EV02 es el nivel de agregación:
+              <span class="amber">EV01 es el detalle caso por caso</span>;
+              <span class="blue">EV02 es la lectura global</span> que permite
+              tomar decisiones sobre el producto.
+            </p>
+            <aside class="notes">
+              Este es el punto que más confunden: entregan dos veces lo mismo.
+              Marcar la diferencia aquí y repetirla al final del bloque.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Vocabulario mínimo</div>
+            <h2>Hablemos con precisión</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 22%">Término</th>
+                <th>Qué significa</th>
+                <th style="width: 34%">Error frecuente</th>
+              </tr>
+              <tr>
+                <td><strong>Caso de prueba</strong></td>
+                <td>
+                  Condición a verificar, con pasos, datos y resultado esperado
+                  definidos <em>antes</em> de ejecutar.
+                </td>
+                <td>
+                  Escribir el resultado esperado después de ver qué hizo el
+                  sistema.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Defecto</strong></td>
+                <td>
+                  Diferencia entre el resultado esperado y el obtenido,
+                  atribuible al producto.
+                </td>
+                <td>Reportar como defecto un error de datos de prueba.</td>
+              </tr>
+              <tr>
+                <td><strong>Severidad</strong></td>
+                <td>Impacto técnico del defecto en el funcionamiento.</td>
+                <td rowspan="2">
+                  Usarlas como sinónimos. Un defecto cosmético en el logo del
+                  inicio puede ser de severidad baja y prioridad alta.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Prioridad</strong></td>
+                <td>Urgencia con que el negocio necesita la corrección.</td>
+              </tr>
+              <tr>
+                <td><strong>Evidencia</strong></td>
+                <td>
+                  Registro verificable de que la prueba ocurrió: captura, video,
+                  log, formato firmado.
+                </td>
+                <td>Afirmar el resultado sin adjuntar respaldo.</td>
+              </tr>
+            </table>
+            <aside class="notes">
+              Pedir un ejemplo de severidad baja + prioridad alta salido de su
+              propio proyecto.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Qué se ejecuta</div>
+            <h2>Tipos de prueba que deberían aparecer</h2>
+            <div class="grid-2 mt">
+              <div class="card">
+                <h3>Por nivel</h3>
+                <p class="muted" style="margin: 0">
+                  Unitaria · Integración · Sistema · Aceptación. Suben en
+                  alcance: de una función aislada al producto completo frente al
+                  usuario.
+                </p>
+              </div>
+              <div class="card info">
+                <h3>Por conocimiento del código</h3>
+                <p class="muted" style="margin: 0">
+                  Caja negra (solo entradas y salidas) · Caja blanca
+                  (recorriendo la lógica interna) · Caja gris.
+                </p>
+              </div>
+              <div class="card pass">
+                <h3>Funcionales</h3>
+                <p class="muted" style="margin: 0">
+                  ¿Hace lo que el requisito dice? Validaciones, cálculos,
+                  flujos, permisos, mensajes de error.
+                </p>
+              </div>
+              <div class="card fail">
+                <h3>No funcionales</h3>
+                <p class="muted" style="margin: 0">
+                  Rendimiento, carga, seguridad, usabilidad, compatibilidad de
+                  navegador, accesibilidad.
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              <span class="amber">Regresión:</span> volver a ejecutar pruebas
+              que ya pasaban, para confirmar que una corrección no rompió otra
+              cosa. Es obligatoria después de cada ciclo de arreglos.
+            </p>
+            <aside class="notes">
+              Si su plan de pruebas solo tiene casos funcionales de caja negra,
+              el reporte va a quedar pobre. Sugerir al menos dos pruebas no
+              funcionales.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ══════════════════════════ EV01 ══════════════════════════ -->
+        <section data-ev="GA9-220501096-AA3-EV01">
+          <section>
+            <div class="eyebrow">Evidencia 1 de 4</div>
+            <h2>
+              Documenta pruebas de software, de acuerdo a la planificación
+            </h2>
+            <div class="evcode" style="font-size: 0.95em; margin: 0.8em 0 0">
+              <span class="s1">GA9</span><span class="sep">–</span
+              ><span class="s2">220501096</span><span class="sep">–</span
+              ><span class="s3">AA3</span><span class="sep">–</span
+              ><span class="s4">EV01</span>
+            </div>
+            <div class="meta-strip" style="margin-top: 1.2em">
+              <div>
+                <span class="k">Producto</span
+                ><span class="v">Video + formatos diligenciados</span>
+              </div>
+              <div>
+                <span class="k">Formato</span
+                ><span class="v">Video libre · formatos en PDF</span>
+              </div>
+              <div>
+                <span class="k">Extensión</span><span class="v">Libre</span>
+              </div>
+            </div>
+            <p class="small mt">
+              Se deben
+              <strong>ejecutar y documentar todas las pruebas</strong> que se
+              realizan a la solución de software, usando los formatos
+              previamente establecidos.
+            </p>
+            <aside class="notes">
+              Leer literalmente los tres requisitos de la guía en la siguiente
+              diapositiva.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Lo que exige la guía, textualmente</div>
+            <h2>Tres condiciones, ninguna opcional</h2>
+            <ol class="steps mt">
+              <li>
+                <strong>Grabación de pantalla</strong> de la ejecución de las
+                pruebas de software ejecutadas.
+              </li>
+              <li>
+                <strong>Formatos de seguimiento diligenciados</strong> de las
+                pruebas realizadas.
+              </li>
+              <li>
+                <strong>Normas básicas de presentación</strong> de un documento
+                escrito: como mínimo portada, introducción y conclusiones.
+              </li>
+            </ol>
+            <div class="card fail mt">
+              <span class="lead">Criterio de rechazo</span>
+              Si falta el video, o si los formatos están en blanco o
+              incompletos, la evidencia se devuelve. No importa que el software
+              funcione bien: aquí se evalúa el <em>registro</em> del proceso, no
+              el producto.
+            </div>
+            <aside class="notes">
+              Enfatizar: la evidencia es el registro, no el software.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Instrumento 1</div>
+            <h2>Anatomía de un formato de caso de prueba</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 24%">Campo</th>
+                <th>Para qué sirve</th>
+              </tr>
+              <tr>
+                <td class="mono">ID del caso</td>
+                <td>
+                  Identificador único y estable. Permite referenciarlo desde el
+                  defecto y desde la matriz de trazabilidad.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Requisito asociado</td>
+                <td>
+                  Amarra la prueba al requisito funcional que verifica. Sin esto
+                  no hay trazabilidad.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Precondiciones</td>
+                <td>
+                  Estado necesario antes de empezar: usuario creado, sesión
+                  cerrada, base con datos de prueba.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Datos de entrada</td>
+                <td>
+                  Valores exactos usados. Deben ser reproducibles por otra
+                  persona.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Pasos</td>
+                <td>
+                  Secuencia numerada y sin ambigüedad de lo que hace el
+                  probador.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Resultado esperado</td>
+                <td>
+                  Se define antes de ejecutar. Es el criterio contra el que se
+                  compara.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Resultado obtenido</td>
+                <td>Lo que realmente ocurrió, descrito de forma objetiva.</td>
+              </tr>
+              <tr>
+                <td class="mono">Estado</td>
+                <td>
+                  <span class="chip pass">PASA</span>
+                  <span class="chip fail">FALLA</span>
+                  <span class="chip wait">BLOQUEADO</span>
+                  <span class="chip info">NO EJECUTADO</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Evidencia</td>
+                <td>
+                  Minuto del video, nombre de la captura o del log adjunto.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Ejecutó / Fecha</td>
+                <td>Responsable y momento. Hace auditable el registro.</td>
+              </tr>
+            </table>
+            <aside class="notes">
+              Comparar con el formato que cada equipo diseñó en AA2 y pedirles
+              que verifiquen si les falta algún campo.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Instrumento 1 · ejemplo</div>
+            <h2>Formato diligenciado</h2>
+            <table class="compact">
+              <tr>
+                <th class="mono" style="width: 16%">Campo</th>
+                <th>Contenido</th>
+              </tr>
+              <tr>
+                <td class="mono">CP-014</td>
+                <td>
+                  <strong>Inicio de sesión con contraseña incorrecta</strong> ·
+                  Requisito RF-03
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Precondición</td>
+                <td>
+                  Usuario <code>ana.torres</code> registrado y activo. Navegador
+                  sin sesión abierta.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Datos</td>
+                <td>
+                  usuario: <code>ana.torres</code> · contraseña:
+                  <code>Clave.123</code> (incorrecta)
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Pasos</td>
+                <td>
+                  1. Abrir <code>/login</code> · 2. Digitar credenciales · 3.
+                  Pulsar “Iniciar sesión”
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Esperado</td>
+                <td>
+                  Permanece en <code>/login</code>, muestra el mensaje “Usuario
+                  o contraseña incorrectos” y no revela cuál de los dos falló.
+                  Contador de intentos +1.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Obtenido</td>
+                <td>
+                  Muestra el mensaje “La contraseña no coincide para el usuario
+                  ana.torres”. El contador de intentos no incrementa.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Estado</td>
+                <td>
+                  <span class="chip fail">FALLA</span> &nbsp; Defecto asociado:
+                  <span class="mono">DEF-007</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Evidencia</td>
+                <td>
+                  Video <code>pruebas_sesion.mp4</code> · min 04:12 – 04:38
+                </td>
+              </tr>
+            </table>
+            <p class="note">
+              El resultado obtenido está redactado sin juicios (“está mal
+              hecho”, “el programador se equivocó”): describe hechos
+              observables. Así se escribe un registro que sirve de evidencia.
+            </p>
+            <aside class="notes">
+              Preguntar a la clase por qué este defecto es de seguridad y no
+              solo de redacción: revela la existencia del usuario ante un
+              atacante.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Instrumento 2</div>
+            <h2>Bitácora de defectos</h2>
+            <table class="compact">
+              <tr>
+                <th class="mono">ID</th>
+                <th>Descripción</th>
+                <th>Severidad</th>
+                <th>Prioridad</th>
+                <th>Caso</th>
+                <th>Estado</th>
+              </tr>
+              <tr>
+                <td class="mono">DEF-007</td>
+                <td>El mensaje de error revela la existencia del usuario</td>
+                <td class="amber">Media</td>
+                <td class="red">Alta</td>
+                <td class="mono">CP-014</td>
+                <td><span class="chip wait">Abierto</span></td>
+              </tr>
+              <tr>
+                <td class="mono">DEF-008</td>
+                <td>El total del carrito no recalcula al eliminar un ítem</td>
+                <td class="red">Alta</td>
+                <td class="red">Alta</td>
+                <td class="mono">CP-021</td>
+                <td><span class="chip wait">En corrección</span></td>
+              </tr>
+              <tr>
+                <td class="mono">DEF-009</td>
+                <td>El formulario acepta fechas de nacimiento futuras</td>
+                <td class="amber">Media</td>
+                <td class="amber">Media</td>
+                <td class="mono">CP-009</td>
+                <td><span class="chip pass">Cerrado</span></td>
+              </tr>
+              <tr>
+                <td class="mono">DEF-010</td>
+                <td>
+                  Desalineación del pie de página en pantallas menores a 768 px
+                </td>
+                <td class="green">Baja</td>
+                <td class="green">Baja</td>
+                <td class="mono">CP-033</td>
+                <td><span class="chip wait">Abierto</span></td>
+              </tr>
+            </table>
+            <div class="grid-3 mt gap-sm">
+              <div class="card">
+                <h3>Un defecto, un registro</h3>
+                <p class="muted" style="margin: 0">
+                  Nunca agrupar tres fallos distintos en una sola fila.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Reproducible</h3>
+                <p class="muted" style="margin: 0">
+                  Otra persona debe poder provocar el mismo fallo siguiendo lo
+                  escrito.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Con ciclo de vida</h3>
+                <p class="muted" style="margin: 0">
+                  Abierto → en corrección → verificado → cerrado (o reabierto).
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Si usan una herramienta (Jira, Trello, GitHub Issues), sirve
+              igual: exportar a PDF.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">La grabación de pantalla</div>
+            <h2>Qué debe verse en el video</h2>
+            <div class="grid-2-1">
+              <ul class="check">
+                <li>
+                  La aplicación real corriendo, no diapositivas ni maquetas
+                </li>
+                <li>
+                  El identificador del caso antes de ejecutarlo (dicho en voz o
+                  mostrado en pantalla)
+                </li>
+                <li>
+                  Los pasos ejecutados en tiempo real, incluidos los datos que
+                  se digitan
+                </li>
+                <li>
+                  El resultado, exitoso o fallido, sin cortes en la parte
+                  incómoda
+                </li>
+                <li>
+                  Narración corta que explique qué se espera y qué ocurrió
+                </li>
+              </ul>
+              <div>
+                <div class="card info">
+                  <span class="lead">Herramientas gratuitas</span>
+                  <p style="margin: 0">
+                    <strong>OBS Studio</strong> — multiplataforma, graba
+                    pantalla y micrófono.<br />
+                    <strong>Barra de juegos de Xbox</strong> — Windows,
+                    <code>Win + G</code>.<br />
+                    <strong>QuickTime</strong> — macOS.<br />
+                    <strong>Kazam / SimpleScreenRecorder</strong> — Linux.
+                  </p>
+                </div>
+                <div class="card mt">
+                  <span class="lead">Antes de grabar</span>
+                  <p style="margin: 0">
+                    Cerrar pestañas y notificaciones personales. Usar datos de
+                    prueba, nunca datos reales de personas.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p class="note">
+              Sugerencia de duración: entre 5 y 15 minutos. Si son muchos casos,
+              graben varios videos cortos numerados en lugar de uno
+              interminable.
+            </p>
+            <aside class="notes">
+              Recordar la protección de datos personales: nada de cédulas o
+              correos reales en pantalla.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Presentación del documento</div>
+            <h2>La estructura escrita también se evalúa</h2>
+            <div class="grid-2 mt">
+              <div class="card">
+                <h3>Portada</h3>
+                <p class="muted" style="margin: 0">
+                  Título de la evidencia, código completo, nombres de los
+                  integrantes, ficha, programa, instructor, ciudad y fecha.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Introducción</h3>
+                <p class="muted" style="margin: 0">
+                  Qué software se probó, con qué alcance, en qué ambiente y con
+                  qué instrumentos. Tres párrafos bastan.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Desarrollo</h3>
+                <p class="muted" style="margin: 0">
+                  Los formatos diligenciados, numerados y con título. Antes de
+                  cada bloque, una frase que lo contextualice.
+                </p>
+              </div>
+              <div class="card pass">
+                <h3>Conclusiones</h3>
+                <p class="muted" style="margin: 0">
+                  Qué aprendieron del comportamiento del software, no un resumen
+                  de lo ya dicho. Deben desprenderse de los datos.
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              Una conclusión útil suena así: “El 60 % de los defectos se
+              concentró en el módulo de autenticación, lo que sugiere revisar
+              sus validaciones antes de continuar.” Una conclusión vacía suena
+              así: “Se aprendió mucho sobre las pruebas de software.”
+            </p>
+            <aside class="notes">
+              Este es el punto donde más se pierden puntos por descuido.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Antes de subir</div>
+            <h2>Lista de verificación · EV01</h2>
+            <ul class="check">
+              <li>
+                Todos los casos planificados quedaron ejecutados y con estado
+                registrado
+              </li>
+              <li>
+                Cada caso con estado <span class="chip fail">FALLA</span> tiene
+                un defecto asociado en la bitácora
+              </li>
+              <li>
+                El video muestra la aplicación real y se puede relacionar con
+                los casos por minuto
+              </li>
+              <li>
+                Los formatos están diligenciados, no en blanco, y exportados a
+                PDF
+              </li>
+              <li>El documento tiene portada, introducción y conclusiones</li>
+              <li>
+                Los archivos están nombrados con el código de la evidencia
+              </li>
+              <li>
+                Se subió en el espacio
+                <span class="mono amber">GA9-220501096-AA3-EV01</span>
+              </li>
+            </ul>
+            <aside class="notes">
+              Dar dos minutos para que cada equipo marque mentalmente en qué
+              punto va.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ══════════════════════════ EV02 ══════════════════════════ -->
+        <section data-ev="GA9-220501096-AA3-EV02">
+          <section>
+            <div class="eyebrow">Evidencia 2 de 4</div>
+            <h2>Reporte de plan de pruebas ejecutadas</h2>
+            <div class="evcode" style="font-size: 0.95em; margin: 0.8em 0 0">
+              <span class="s1">GA9</span><span class="sep">–</span
+              ><span class="s2">220501096</span><span class="sep">–</span
+              ><span class="s3">AA3</span><span class="sep">–</span
+              ><span class="s4">EV02</span>
+            </div>
+            <div class="meta-strip" style="margin-top: 1.2em">
+              <div>
+                <span class="k">Producto</span
+                ><span class="v">Reporte del plan de pruebas ejecutadas</span>
+              </div>
+              <div>
+                <span class="k">Formato</span><span class="v">PDF</span>
+              </div>
+              <div>
+                <span class="k">Extensión</span><span class="v">Libre</span>
+              </div>
+            </div>
+            <p class="small mt">
+              Es el <strong>consolidado de los resultados</strong> de las
+              pruebas aplicadas, con el fin de llevar
+              <strong>trazabilidad del comportamiento del software</strong> y
+              proceder a realizar las respectivas
+              <strong>acciones correctivas</strong>.
+            </p>
+            <aside class="notes">
+              Tres palabras clave de la guía: consolidado, trazabilidad,
+              acciones correctivas. El reporte debe evidenciar las tres.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">La pregunta de siempre</div>
+            <h2>¿En qué se diferencia de EV01?</h2>
+            <div class="grid-2 mt">
+              <div class="card">
+                <span class="lead">EV01 · el detalle</span>
+                <p style="margin: 0" class="muted">
+                  Responde: <em>¿qué pasó en cada caso?</em><br />Audiencia: el
+                  equipo técnico.<br />Formato: registros caso por caso, sin
+                  interpretación.
+                </p>
+              </div>
+              <div class="card info">
+                <span class="lead">EV02 · la lectura</span>
+                <p style="margin: 0" class="muted">
+                  Responde:
+                  <em>¿en qué estado está el software y qué hacemos ahora?</em
+                  ><br />Audiencia: el líder del proyecto o el cliente.<br />Formato:
+                  cifras, tendencias, riesgos y decisiones.
+                </p>
+              </div>
+            </div>
+            <div class="card fail mt">
+              <span class="lead">No hagan esto</span>
+              Copiar los mismos formatos de EV01 y cambiarles la portada. Es el
+              error más común y el más fácil de detectar.
+            </div>
+            <aside class="notes">
+              Analogía: EV01 son las historias clínicas de cada paciente; EV02
+              es el informe epidemiológico del hospital.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Estructura sugerida</div>
+            <h2>Qué lleva el reporte</h2>
+            <ol class="steps">
+              <li>
+                <strong>Portada</strong> e <strong>introducción</strong> —
+                propósito del reporte, versión del software evaluada y periodo
+                de ejecución.
+              </li>
+              <li>
+                <strong>Alcance y ambiente de pruebas</strong> — módulos
+                cubiertos, módulos excluidos, hardware, sistema operativo,
+                navegador y versiones.
+              </li>
+              <li>
+                <strong>Resumen ejecutivo</strong> — el estado del producto en
+                cinco líneas y las cifras principales.
+              </li>
+              <li>
+                <strong>Resultados consolidados</strong> — tabla y gráfico de
+                casos por estado y por módulo.
+              </li>
+              <li>
+                <strong>Análisis de defectos</strong> — distribución por
+                severidad, módulos más afectados, defectos abiertos que
+                bloquean.
+              </li>
+              <li>
+                <strong>Matriz de trazabilidad</strong> — requisito ↔ caso de
+                prueba ↔ defecto.
+              </li>
+              <li>
+                <strong>Acciones correctivas</strong> — qué se corrige, quién
+                responde, cuándo y cómo se verificará.
+              </li>
+              <li>
+                <strong>Conclusiones y recomendación</strong> — ¿el software
+                está listo para pasar a implantación? Con argumento.
+              </li>
+            </ol>
+            <aside class="notes">
+              El punto 8 es el que convierte un listado en un reporte
+              profesional: hay que arriesgar una recomendación.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Resultados consolidados</div>
+            <h2>Medir para poder decidir</h2>
+            <div class="grid-4 mt">
+              <div class="stat blue">
+                <span class="n">96 %</span
+                ><span class="l"
+                  >Cobertura de ejecución<br />casos ejecutados /
+                  planificados</span
+                >
+              </div>
+              <div class="stat">
+                <span class="n">81 %</span
+                ><span class="l"
+                  >Tasa de aprobación<br />casos que pasan / ejecutados</span
+                >
+              </div>
+              <div class="stat red">
+                <span class="n">3</span
+                ><span class="l">Defectos abiertos de<br />severidad alta</span>
+              </div>
+              <div class="stat amber">
+                <span class="n">0,42</span
+                ><span class="l"
+                  >Densidad de defectos<br />por caso ejecutado</span
+                >
+              </div>
+            </div>
+            <table class="compact mt">
+              <tr>
+                <th>Módulo</th>
+                <th>Planificados</th>
+                <th>Ejecutados</th>
+                <th class="green">Pasa</th>
+                <th class="red">Falla</th>
+                <th>Bloqueados</th>
+                <th>% aprobación</th>
+              </tr>
+              <tr>
+                <td>Autenticación</td>
+                <td>14</td>
+                <td>14</td>
+                <td>9</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="red">64 %</td>
+              </tr>
+              <tr>
+                <td>Registro de usuarios</td>
+                <td>12</td>
+                <td>12</td>
+                <td>11</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="green">92 %</td>
+              </tr>
+              <tr>
+                <td>Gestión de productos</td>
+                <td>18</td>
+                <td>17</td>
+                <td>15</td>
+                <td>2</td>
+                <td>1</td>
+                <td class="green">88 %</td>
+              </tr>
+              <tr>
+                <td>Reportes</td>
+                <td>6</td>
+                <td>5</td>
+                <td>4</td>
+                <td>1</td>
+                <td>1</td>
+                <td class="amber">80 %</td>
+              </tr>
+              <tr>
+                <td class="amber"><strong>Total</strong></td>
+                <td><strong>50</strong></td>
+                <td><strong>48</strong></td>
+                <td><strong>39</strong></td>
+                <td><strong>9</strong></td>
+                <td><strong>2</strong></td>
+                <td><strong>81 %</strong></td>
+              </tr>
+            </table>
+            <p class="note">
+              Las cifras por sí solas no concluyen nada. Lo que concluye es la
+              lectura: el módulo de autenticación concentra el 55 % de los
+              fallos y es el que bloquea el paso a implantación.
+            </p>
+            <aside class="notes">
+              Pedirles que en su reporte incluyan al menos un gráfico de barras
+              generado desde su propia tabla.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">El corazón del reporte</div>
+            <h2>Matriz de trazabilidad</h2>
+            <table class="compact">
+              <tr>
+                <th class="mono">Requisito</th>
+                <th>Descripción</th>
+                <th class="mono">Casos</th>
+                <th>Estado</th>
+                <th class="mono">Defectos</th>
+                <th>Cubierto</th>
+              </tr>
+              <tr>
+                <td class="mono">RF-01</td>
+                <td>Registrar un usuario nuevo</td>
+                <td class="mono">CP-001 a CP-006</td>
+                <td><span class="chip pass">Todos pasan</span></td>
+                <td>—</td>
+                <td class="green">Sí</td>
+              </tr>
+              <tr>
+                <td class="mono">RF-03</td>
+                <td>Autenticar usuario registrado</td>
+                <td class="mono">CP-012 a CP-018</td>
+                <td><span class="chip fail">5 fallan</span></td>
+                <td class="mono">DEF-007, DEF-011</td>
+                <td class="amber">Parcial</td>
+              </tr>
+              <tr>
+                <td class="mono">RF-07</td>
+                <td>Generar reporte mensual en PDF</td>
+                <td class="mono">CP-041</td>
+                <td><span class="chip wait">Bloqueado</span></td>
+                <td class="mono">DEF-014</td>
+                <td class="red">No</td>
+              </tr>
+              <tr>
+                <td class="mono">RNF-02</td>
+                <td>Respuesta menor a 3 s con 25 sesiones</td>
+                <td class="mono">CP-050</td>
+                <td><span class="chip pass">Pasa</span></td>
+                <td>—</td>
+                <td class="green">Sí</td>
+              </tr>
+            </table>
+            <div class="grid-2 mt gap-sm">
+              <div class="card info">
+                <h3>Hacia atrás</h3>
+                <p class="muted" style="margin: 0">
+                  Todo requisito debe tener al menos un caso que lo verifique.
+                  Un requisito sin casos es un riesgo no medido.
+                </p>
+              </div>
+              <div class="card info">
+                <h3>Hacia adelante</h3>
+                <p class="muted" style="margin: 0">
+                  Todo caso debe apuntar a un requisito. Un caso huérfano
+                  probablemente está probando algo que nadie pidió.
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Ejercicio rápido en clase: que revisen si algún requisito de su
+              proyecto quedó sin casos.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Cerrar el ciclo</div>
+            <h2>Acciones correctivas y verificación</h2>
+            <table class="compact">
+              <tr>
+                <th class="mono">Defecto</th>
+                <th>Acción correctiva</th>
+                <th>Responsable</th>
+                <th>Fecha</th>
+                <th>Verificación</th>
+              </tr>
+              <tr>
+                <td class="mono">DEF-007</td>
+                <td>
+                  Unificar el mensaje de error de autenticación e implementar
+                  contador de intentos
+                </td>
+                <td>Backend</td>
+                <td>Ciclo 2</td>
+                <td class="mono">
+                  Reprueba CP-014 + regresión CP-012 a CP-018
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">DEF-008</td>
+                <td>Recalcular el total al eliminar ítem del carrito</td>
+                <td>Frontend</td>
+                <td>Ciclo 2</td>
+                <td class="mono">Reprueba CP-021</td>
+              </tr>
+              <tr>
+                <td class="mono">DEF-014</td>
+                <td>
+                  Instalar la extensión de generación de PDF en el ambiente de
+                  pruebas
+                </td>
+                <td>Infraestructura</td>
+                <td>Ciclo 2</td>
+                <td class="mono">Desbloquear y ejecutar CP-041</td>
+              </tr>
+            </table>
+            <div class="grid-2 mt gap-sm">
+              <div class="card pass">
+                <h3>Reprueba (retest)</h3>
+                <p class="muted" style="margin: 0">
+                  Volver a ejecutar <em>el caso que falló</em>, para confirmar
+                  que la corrección funcionó.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Regresión</h3>
+                <p class="muted" style="margin: 0">
+                  Volver a ejecutar <em>casos que ya pasaban</em>, para
+                  confirmar que la corrección no dañó nada más.
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              Una acción correctiva sin responsable, fecha y forma de
+              verificación es una intención, no una acción.
+            </p>
+            <aside class="notes">
+              Aquí conectar con la guía 10: DEF-014 es un defecto de ambiente,
+              no de código. Es exactamente el tipo de problema que se previene
+              preparando bien la plataforma tecnológica.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Antes de subir</div>
+            <h2>Lista de verificación · EV02</h2>
+            <ul class="check">
+              <li>El reporte consolida, no repite los formatos de EV01</li>
+              <li>
+                Incluye la versión del software y el ambiente donde se probó
+              </li>
+              <li>
+                Presenta cifras de ejecución y aprobación, con al menos un
+                gráfico
+              </li>
+              <li>
+                Incluye la matriz de trazabilidad requisito ↔ caso ↔ defecto
+              </li>
+              <li>
+                Cada defecto abierto tiene acción correctiva, responsable y
+                verificación
+              </li>
+              <li>
+                Cierra con una recomendación argumentada sobre el estado del
+                producto
+              </li>
+              <li>Portada, introducción y conclusiones · exportado a PDF</li>
+              <li>
+                Se subió en el espacio
+                <span class="mono amber">GA9-220501096-AA3-EV02</span>
+              </li>
+            </ul>
+            <aside class="notes">
+              Con esto cerramos la guía 9. Preguntar dudas antes de cambiar de
+              bloque.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ══════════════════════════ BLOQUE B ══════════════════════════ -->
+        <section data-ev="GA10-220501097">
+          <section class="divider">
+            <div class="num">Bloque 2 · Guía 10 · Competencia 220501097</div>
+            <h2>
+              Implementar la solución de software de acuerdo con los requisitos
+              de operación
+            </h2>
+            <div
+              class="rule"
+              style="
+                height: 2px;
+                background: linear-gradient(90deg, var(--info), transparent);
+                margin: 1.2em 0;
+              "
+            ></div>
+            <p class="desc">
+              Proyecto formativo: construcción de software integrador de
+              tecnologías orientadas a servicios.
+            </p>
+            <p class="desc">
+              La competencia cubre el despliegue de productos y servicios de
+              software: preparación de la plataforma tecnológica, verificación
+              de características mínimas de hardware, planes de instalación,
+              configuración de servicios y documentación de los procesos de
+              implantación.
+            </p>
+            <aside class="notes">
+              Marcar el cambio de rol: dejamos de ser quien construye y probamos
+              y pasamos a ser quien pone el software a operar.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Cambio de perspectiva</div>
+            <h2>El software ya funciona. ¿Dónde va a vivir?</h2>
+            <div class="grid-3 mt">
+              <div class="card">
+                <h3>Plataforma</h3>
+                <p class="muted" style="margin: 0">
+                  Servidor, sistema operativo, servicios y red que sostienen la
+                  aplicación.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Capacidad</h3>
+                <p class="muted" style="margin: 0">
+                  ¿El hardware aguanta la carga esperada de usuarios y datos?
+                </p>
+              </div>
+              <div class="card">
+                <h3>Documentación</h3>
+                <p class="muted" style="margin: 0">
+                  Planes de instalación y configuración que permiten repetir el
+                  despliegue.
+                </p>
+              </div>
+            </div>
+            <div class="card info mt">
+              <span class="lead">Por qué importa</span>
+              Un software impecable falla en producción por causas que no están
+              en el código: memoria insuficiente, una extensión de PHP ausente,
+              un puerto cerrado, un cable de categoría equivocada. Ese es el
+              terreno de esta competencia.
+            </div>
+            <aside class="notes">
+              Retomar el DEF-014 del ejemplo anterior como caso concreto.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ══════════════════════════ GA10 AA1 EV01 ══════════════════════════ -->
+        <section data-ev="GA10-220501097-AA1-EV01">
+          <section>
+            <div class="eyebrow">Evidencia 3 de 4</div>
+            <h2>
+              Conceptos y principios de hardware e instalación de software
+            </h2>
+            <div class="evcode" style="font-size: 0.95em; margin: 0.8em 0 0">
+              <span class="s1">GA10</span><span class="sep">–</span
+              ><span class="s2">220501097</span><span class="sep">–</span
+              ><span class="s3">AA1</span><span class="sep">–</span
+              ><span class="s4">EV01</span>
+            </div>
+            <div class="meta-strip" style="margin-top: 1.2em">
+              <div>
+                <span class="k">Producto</span
+                ><span class="v">Documento informe</span>
+              </div>
+              <div>
+                <span class="k">Formato</span><span class="v">PDF</span>
+              </div>
+              <div>
+                <span class="k">Duración</span><span class="v">6 horas</span>
+              </div>
+              <div>
+                <span class="k">Componente</span
+                ><span class="v">Conceptos básicos de redes y networking</span>
+              </div>
+            </div>
+            <p class="small mt">
+              Consolida los conceptos de redes y networking, esenciales en el
+              <strong>alistamiento de infraestructura tecnológica</strong>
+              durante la fase de implantación.
+            </p>
+            <aside class="notes">
+              Solo 6 horas: es un informe conceptual, no un proyecto de
+              laboratorio.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Léalo como una rúbrica</div>
+            <h2>Cuatro contenidos obligatorios en el informe</h2>
+            <ol class="steps mt">
+              <li>
+                <strong
+                  >Características que debe tener el sistema operativo
+                  seleccionado</strong
+                >, con base en la plataforma que su equipo eligió.
+              </li>
+              <li>
+                <strong>Organizaciones que construyen estándares</strong> para
+                el área de redes y networking.
+              </li>
+              <li>
+                <strong>Las dos grandes familias de protocolos</strong> respecto
+                a la transmisión y recepción de datos.
+              </li>
+              <li>
+                <strong>Medios de transmisión</strong>: guiados y no guiados.
+              </li>
+            </ol>
+            <div class="card info mt">
+              <span class="lead">Estructura exigida</span> Portada ·
+              introducción · <strong>objetivo</strong> · desarrollo de la
+              temática · conclusiones ·
+              <strong>referencias bibliográficas en normas APA</strong>. Esta
+              evidencia pide dos apartados más que las anteriores.
+            </div>
+            <aside class="notes">
+              Que subrayen los cuatro puntos: son literalmente el índice del
+              informe.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Punto de partida</div>
+            <h2>La red, en dos vistas</h2>
+            <div class="grid-2 mt">
+              <div class="card">
+                <h3>Vista física</h3>
+                <p class="muted" style="margin: 0">
+                  Lo que se puede tocar y se ve en un plano: equipos, tarjetas
+                  de red, cableado, canaletas, patch panel, switches, routers,
+                  puntos de acceso, rack, distancias.<br /><br />Responde:
+                  <em>¿cómo están conectados los equipos?</em>
+                </p>
+              </div>
+              <div class="card info">
+                <h3>Vista lógica</h3>
+                <p class="muted" style="margin: 0">
+                  Lo que se configura: direccionamiento IP, máscaras, VLAN,
+                  subredes, tablas de enrutamiento, DNS, DHCP, reglas de
+                  firewall, permisos.<br /><br />Responde:
+                  <em>¿cómo se comunican y qué pueden alcanzar?</em>
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              Dos equipos conectados al mismo switch (misma topología física)
+              pueden estar en VLAN distintas y no verse entre sí (topología
+              lógica diferente). En implantación, la mayoría de los problemas de
+              “no conecta” son lógicos, no físicos.
+            </p>
+            <aside class="notes">
+              Ejemplo cercano: el laboratorio del centro de formación.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Contenido obligatorio 3</div>
+            <h2>Las dos grandes familias de protocolos</h2>
+            <table class="compact mt">
+              <tr>
+                <th style="width: 22%"></th>
+                <th style="width: 39%">Modelo OSI</th>
+                <th style="width: 39%">Modelo TCP/IP</th>
+              </tr>
+              <tr>
+                <td class="mono">Origen</td>
+                <td>ISO, 1984. Marco de referencia teórico.</td>
+                <td>
+                  Departamento de Defensa de EE. UU. / IETF. Nace de la
+                  implementación real de ARPANET.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Capas</td>
+                <td>7 capas</td>
+                <td>4 capas</td>
+              </tr>
+              <tr>
+                <td class="mono">Propósito</td>
+                <td>
+                  Enseñar, comparar y diagnosticar. Es el lenguaje común para
+                  hablar de redes.
+                </td>
+                <td>
+                  Funcionar. Es el conjunto de protocolos sobre el que corre
+                  Internet hoy.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">Uso real</td>
+                <td>Ningún producto lo implementa literalmente.</td>
+                <td>Toda la infraestructura actual.</td>
+              </tr>
+            </table>
+            <div class="card mt">
+              <span class="lead">Cómo plantearlo en el informe</span> Presente
+              ambas como los dos grandes marcos de protocolos, muestre la
+              equivalencia entre sus capas y baje al detalle de la capa de
+              transporte, donde conviven las dos familias que gobiernan
+              directamente la <em>transmisión y recepción</em>:
+              <strong>TCP</strong> y <strong>UDP</strong>.
+            </div>
+            <aside class="notes">
+              Aclarar la ambigüedad del enunciado y dar la salida: cubrir
+              OSI/TCP-IP y además TCP/UDP. Así queda cubierto sea cual sea la
+              lectura del evaluador.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Modelo OSI</div>
+            <h2>Siete capas, de arriba hacia abajo</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 6%">#</th>
+                <th style="width: 20%">Capa</th>
+                <th style="width: 38%">Función</th>
+                <th>Ejemplos</th>
+              </tr>
+              <tr>
+                <td class="mono amber">7</td>
+                <td>Aplicación</td>
+                <td>Interfaz entre el usuario y la red</td>
+                <td class="mono">HTTP, HTTPS, FTP, SMTP, DNS</td>
+              </tr>
+              <tr>
+                <td class="mono amber">6</td>
+                <td>Presentación</td>
+                <td>Formato, cifrado y compresión de los datos</td>
+                <td class="mono">TLS/SSL, JPEG, ASCII</td>
+              </tr>
+              <tr>
+                <td class="mono amber">5</td>
+                <td>Sesión</td>
+                <td>Establece, mantiene y cierra la conversación</td>
+                <td class="mono">NetBIOS, RPC, SIP</td>
+              </tr>
+              <tr>
+                <td class="mono green">4</td>
+                <td>Transporte</td>
+                <td>Segmenta, controla errores y flujo extremo a extremo</td>
+                <td class="mono">TCP, UDP · puertos</td>
+              </tr>
+              <tr>
+                <td class="mono blue">3</td>
+                <td>Red</td>
+                <td>Direccionamiento lógico y enrutamiento entre redes</td>
+                <td class="mono">IP, ICMP, OSPF · router</td>
+              </tr>
+              <tr>
+                <td class="mono blue">2</td>
+                <td>Enlace de datos</td>
+                <td>
+                  Direccionamiento físico (MAC) y detección de errores en el
+                  enlace
+                </td>
+                <td class="mono">Ethernet, PPP · switch</td>
+              </tr>
+              <tr>
+                <td class="mono red">1</td>
+                <td>Física</td>
+                <td>Transmisión de bits como señales por el medio</td>
+                <td class="mono">Cables, conectores, ondas</td>
+              </tr>
+            </table>
+            <p class="note">
+              Truco de estudio: la unidad de datos cambia por capa.
+              <span class="green">Segmento</span> en transporte,
+              <span class="blue">paquete</span> en red,
+              <span class="blue">trama</span> en enlace,
+              <span class="red">bit</span> en física.
+            </p>
+            <aside class="notes">
+              Preguntar en qué capa está el problema si el ping funciona pero la
+              página no carga.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Modelo TCP/IP</div>
+            <h2>Cuatro capas y su equivalencia</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 26%">TCP/IP</th>
+                <th style="width: 30%">Equivale a OSI</th>
+                <th>Protocolos principales</th>
+              </tr>
+              <tr>
+                <td class="amber"><strong>Aplicación</strong></td>
+                <td>Capas 7, 6 y 5</td>
+                <td class="mono">HTTP, HTTPS, DNS, DHCP, FTP, SMTP, SSH</td>
+              </tr>
+              <tr>
+                <td class="green"><strong>Transporte</strong></td>
+                <td>Capa 4</td>
+                <td class="mono">TCP, UDP</td>
+              </tr>
+              <tr>
+                <td class="blue"><strong>Internet</strong></td>
+                <td>Capa 3</td>
+                <td class="mono">IPv4, IPv6, ICMP, ARP</td>
+              </tr>
+              <tr>
+                <td class="red"><strong>Acceso a la red</strong></td>
+                <td>Capas 2 y 1</td>
+                <td class="mono">Ethernet (IEEE 802.3), Wi-Fi (IEEE 802.11)</td>
+              </tr>
+            </table>
+            <div class="card info mt">
+              <span class="lead">Aplicado a su proyecto</span> Cuando un usuario
+              abre su aplicación PHP: <span class="mono">HTTPS</span> en
+              aplicación, <span class="mono">TCP puerto 443</span> en
+              transporte, <span class="mono">IP</span> del servidor en Internet,
+              <span class="mono">Ethernet o Wi-Fi</span> en acceso a la red.
+              Todo el recorrido cabe en cuatro capas.
+            </div>
+            <aside class="notes">
+              Buen ejemplo para el desarrollo de la temática del informe:
+              aterrizar el modelo al propio software.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Capa de transporte</div>
+            <h2>TCP frente a UDP</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 26%">Criterio</th>
+                <th style="width: 37%">TCP</th>
+                <th style="width: 37%">UDP</th>
+              </tr>
+              <tr>
+                <td class="mono">Conexión</td>
+                <td>Orientado a conexión (saludo de tres vías)</td>
+                <td>Sin conexión, envía y sigue</td>
+              </tr>
+              <tr>
+                <td class="mono">Confiabilidad</td>
+                <td>Confirma la recepción y retransmite lo perdido</td>
+                <td>No garantiza entrega ni orden</td>
+              </tr>
+              <tr>
+                <td class="mono">Orden</td>
+                <td>Reordena los segmentos en destino</td>
+                <td>Llegan como lleguen</td>
+              </tr>
+              <tr>
+                <td class="mono">Sobrecarga</td>
+                <td>Cabecera de 20 bytes, más control</td>
+                <td>Cabecera de 8 bytes, muy liviano</td>
+              </tr>
+              <tr>
+                <td class="mono">Velocidad</td>
+                <td>Menor, por el control</td>
+                <td>Mayor, por la ausencia de control</td>
+              </tr>
+              <tr>
+                <td class="mono">Se usa en</td>
+                <td>Web, correo, transferencia de archivos, bases de datos</td>
+                <td>Streaming, voz sobre IP, juegos en línea, DNS</td>
+              </tr>
+            </table>
+            <p class="note">
+              Regla práctica: si perder un dato es inaceptable, TCP. Si llegar
+              tarde es peor que perder un dato, UDP. Una aplicación web
+              transaccional como la de su proyecto va sobre
+              <span class="amber">TCP</span>.
+            </p>
+            <aside class="notes">
+              Ejemplo: en una videollamada preferimos un microcorte a que el
+              audio se retrase 4 segundos esperando retransmisiones.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Contenido obligatorio 2</div>
+            <h2>Quién escribe los estándares</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 16%">Sigla</th>
+                <th style="width: 36%">Nombre</th>
+                <th>Qué aporta a redes y networking</th>
+              </tr>
+              <tr>
+                <td class="mono amber">ISO</td>
+                <td>International Organization for Standardization</td>
+                <td>
+                  Modelo de referencia OSI y familia ISO/IEC de normas de
+                  calidad y seguridad de la información
+                </td>
+              </tr>
+              <tr>
+                <td class="mono amber">IEEE</td>
+                <td>Institute of Electrical and Electronics Engineers</td>
+                <td>
+                  Familia 802: <span class="mono">802.3</span> Ethernet,
+                  <span class="mono">802.11</span> Wi-Fi,
+                  <span class="mono">802.15</span> Bluetooth,
+                  <span class="mono">802.1Q</span> VLAN
+                </td>
+              </tr>
+              <tr>
+                <td class="mono amber">IETF</td>
+                <td>Internet Engineering Task Force</td>
+                <td>
+                  Protocolos de Internet publicados como documentos
+                  <span class="mono">RFC</span>: TCP, IP, HTTP, DNS
+                </td>
+              </tr>
+              <tr>
+                <td class="mono amber">ITU-T</td>
+                <td>Unión Internacional de Telecomunicaciones</td>
+                <td>
+                  Recomendaciones de telecomunicaciones: series G (transmisión y
+                  fibra), V (módems), H (multimedia)
+                </td>
+              </tr>
+              <tr>
+                <td class="mono amber">ANSI</td>
+                <td>American National Standards Institute</td>
+                <td>
+                  Coordina la normalización en EE. UU. y representa al país ante
+                  ISO
+                </td>
+              </tr>
+              <tr>
+                <td class="mono amber">TIA / EIA</td>
+                <td>Telecommunications Industry Association</td>
+                <td>
+                  Cableado estructurado:
+                  <span class="mono">TIA/EIA-568</span> define categorías y el
+                  orden de los pares en el conector
+                </td>
+              </tr>
+              <tr>
+                <td class="mono amber">ICANN / IANA</td>
+                <td>Corporación y autoridad de asignación de números</td>
+                <td>
+                  Administra el espacio de direcciones IP, los dominios de nivel
+                  superior y los números de puerto
+                </td>
+              </tr>
+              <tr>
+                <td class="mono amber">W3C</td>
+                <td>World Wide Web Consortium</td>
+                <td>Estándares de la web: HTML, CSS, accesibilidad WCAG</td>
+              </tr>
+            </table>
+            <aside class="notes">
+              Con nombrar cuatro o cinco bien explicados basta para la
+              evidencia; nombrar quince sin explicar no suma.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Contenido obligatorio 4 · parte A</div>
+            <h2>Medios guiados</h2>
+            <p class="small">
+              La señal viaja confinada dentro de un conductor físico.
+            </p>
+            <table class="compact">
+              <tr>
+                <th style="width: 20%">Medio</th>
+                <th style="width: 30%">Características</th>
+                <th style="width: 22%">Alcance típico</th>
+                <th>Uso</th>
+              </tr>
+              <tr>
+                <td><strong>Par trenzado UTP</strong></td>
+                <td>
+                  Cuatro pares de cobre trenzados, sin blindaje. Económico y
+                  fácil de instalar.
+                </td>
+                <td class="mono">100 m por segmento</td>
+                <td>Cableado horizontal de oficinas y aulas</td>
+              </tr>
+              <tr>
+                <td><strong>Par trenzado STP / FTP</strong></td>
+                <td>
+                  Con blindaje contra interferencia electromagnética. Más
+                  costoso y rígido.
+                </td>
+                <td class="mono">100 m</td>
+                <td>Entornos industriales o con motores cerca</td>
+              </tr>
+              <tr>
+                <td><strong>Cable coaxial</strong></td>
+                <td>
+                  Conductor central y malla. Buena resistencia a interferencias.
+                </td>
+                <td class="mono">185 m – 500 m</td>
+                <td>Televisión por cable, enlaces antiguos</td>
+              </tr>
+              <tr>
+                <td><strong>Fibra multimodo</strong></td>
+                <td>Núcleo ancho, fuente LED o VCSEL. Varios haces de luz.</td>
+                <td class="mono">300 – 550 m</td>
+                <td>Backbone dentro de un edificio o campus</td>
+              </tr>
+              <tr>
+                <td><strong>Fibra monomodo</strong></td>
+                <td>
+                  Núcleo estrecho, fuente láser. Inmune a interferencia
+                  electromagnética.
+                </td>
+                <td class="mono">decenas de km</td>
+                <td>Enlaces entre sedes y troncales de operador</td>
+              </tr>
+            </table>
+            <div class="card mt">
+              <span class="lead">Categorías de par trenzado · TIA/EIA-568</span>
+              <span class="mono">Cat 5e</span> 1 Gbps a 100 m ·
+              <span class="mono">Cat 6</span> 1 Gbps a 100 m y 10 Gbps hasta 55
+              m · <span class="mono">Cat 6A</span> 10 Gbps a 100 m ·
+              <span class="mono">Cat 7 / 7A</span> blindado, mayor ancho de
+              banda.
+            </div>
+            <aside class="notes">
+              Si van a montar el servidor en la sede, Cat 6 o 6A es la elección
+              razonable hoy.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Contenido obligatorio 4 · parte B</div>
+            <h2>Medios no guiados</h2>
+            <p class="small">
+              La señal se propaga por el aire o el vacío, sin conductor físico.
+            </p>
+            <table class="compact">
+              <tr>
+                <th style="width: 22%">Medio</th>
+                <th style="width: 30%">Cómo se propaga</th>
+                <th style="width: 22%">Alcance</th>
+                <th>Consideración</th>
+              </tr>
+              <tr>
+                <td><strong>Radiofrecuencia</strong></td>
+                <td>Ondas omnidireccionales que atraviesan obstáculos</td>
+                <td class="mono">metros a kilómetros</td>
+                <td>Base del Wi-Fi y de la telefonía móvil</td>
+              </tr>
+              <tr>
+                <td><strong>Microondas terrestres</strong></td>
+                <td>Haz direccional entre antenas parabólicas</td>
+                <td class="mono">hasta ~50 km por salto</td>
+                <td>Requiere línea de vista despejada</td>
+              </tr>
+              <tr>
+                <td><strong>Microondas satelitales</strong></td>
+                <td>Enlace tierra – satélite – tierra</td>
+                <td class="mono">cobertura global</td>
+                <td>Latencia alta en satélites geoestacionarios</td>
+              </tr>
+              <tr>
+                <td><strong>Infrarrojo</strong></td>
+                <td>Luz no visible, punto a punto</td>
+                <td class="mono">pocos metros</td>
+                <td>No atraviesa paredes. Controles remotos</td>
+              </tr>
+            </table>
+            <div class="card info mt">
+              <span class="lead">Wi-Fi · IEEE 802.11</span>
+              <span class="mono">802.11n</span> (2,4 y 5 GHz) ·
+              <span class="mono">802.11ac</span> (5 GHz) ·
+              <span class="mono">802.11ax / Wi-Fi 6</span> (2,4, 5 y 6 GHz,
+              mejor desempeño con muchos clientes conectados).
+            </div>
+            <p class="note">
+              Para un servidor de aplicación, siempre medio guiado. El Wi-Fi
+              introduce variabilidad de latencia y pérdida de paquetes que no
+              conviene en el lado del servidor.
+            </p>
+            <aside class="notes">
+              Buena frase para las conclusiones del informe.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Contenido obligatorio 1</div>
+            <h2>Características que debe tener el sistema operativo</h2>
+            <p class="small">
+              Se argumentan con base en la plataforma que su equipo seleccionó,
+              no en abstracto.
+            </p>
+            <div class="grid-2 mt gap-sm">
+              <div class="card">
+                <h3>Arquitectura y soporte</h3>
+                <p class="muted" style="margin: 0">
+                  64 bits, versión con soporte extendido vigente,
+                  actualizaciones de seguridad activas.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Servicios de red</h3>
+                <p class="muted" style="margin: 0">
+                  Servidor web, DNS, DHCP, servicios de directorio, gestión de
+                  puertos y firewall integrado.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Compatibilidad con el stack</h3>
+                <p class="muted" style="margin: 0">
+                  Debe soportar las versiones de PHP, del motor de base de datos
+                  y de las extensiones que usa su aplicación.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Multiusuario y multitarea</h3>
+                <p class="muted" style="margin: 0">
+                  Gestión de sesiones concurrentes, cuotas, permisos por usuario
+                  y grupo.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Seguridad</h3>
+                <p class="muted" style="margin: 0">
+                  Control de acceso, registro de eventos, cifrado del sistema de
+                  archivos, endurecimiento.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Administración remota</h3>
+                <p class="muted" style="margin: 0">
+                  SSH o escritorio remoto, scripting, automatización de tareas
+                  programadas.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Estabilidad y disponibilidad</h3>
+                <p class="muted" style="margin: 0">
+                  Tolerancia a operación continua, recuperación ante fallos,
+                  respaldos.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Licenciamiento y costo</h3>
+                <p class="muted" style="margin: 0">
+                  Tipo de licencia, costo por servidor o por núcleo, y su
+                  impacto en el presupuesto del proyecto.
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Pedir que comparen al menos dos opciones concretas (por ejemplo
+              una distribución Linux de servidor frente a Windows Server) y
+              justifiquen la elección.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Presentación</div>
+            <h2>Estructura y normas APA</h2>
+            <div class="grid-2-1">
+              <div>
+                <ol class="steps">
+                  <li><strong>Portada</strong></li>
+                  <li>
+                    <strong>Introducción</strong> — contexto y para qué sirve el
+                    informe
+                  </li>
+                  <li>
+                    <strong>Objetivo</strong> — una sola frase, con verbo en
+                    infinitivo
+                  </li>
+                  <li>
+                    <strong>Desarrollo de la temática</strong> — los cuatro
+                    contenidos obligatorios
+                  </li>
+                  <li><strong>Conclusiones</strong></li>
+                  <li>
+                    <strong>Referencias bibliográficas</strong> — normas APA
+                    vigentes
+                  </li>
+                </ol>
+              </div>
+              <div class="card info">
+                <span class="lead">Referencia APA · formato general</span>
+                <p class="xsmall" style="margin: 0; color: var(--paper)">
+                  Autor, A. A. (Año).
+                  <em style="font-style: italic; color: var(--paper)"
+                    >Título de la obra en cursiva</em
+                  >
+                  (edición). Editorial. URL o DOI
+                </p>
+                <p class="xsmall mt-sm" style="margin: 0">
+                  En el texto: (Autor, año). Toda referencia de la lista debe
+                  estar citada en el cuerpo, y toda cita del cuerpo debe
+                  aparecer en la lista.
+                </p>
+              </div>
+            </div>
+            <div class="card fail mt">
+              <span class="lead">Cuidado</span>
+              Copiar y pegar de una página sin citar es plagio y se sanciona.
+              Parafrasear y citar la fuente es lo esperado. Si consultan un
+              modelo de lenguaje, verifiquen la información con una fuente
+              citable y decláren­lo si su instructor lo pide.
+            </div>
+            <aside class="notes">
+              Sugerir fuentes citables: documentación de IEEE, RFC del IETF,
+              libros de Tanenbaum o Stallings, documentación oficial del sistema
+              operativo.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Antes de subir</div>
+            <h2>Lista de verificación · GA10-AA1-EV01</h2>
+            <ul class="check">
+              <li>
+                Explica las características del sistema operativo
+                <em>de la plataforma que ustedes eligieron</em>
+              </li>
+              <li>
+                Nombra y describe las organizaciones que construyen estándares
+                de redes
+              </li>
+              <li>
+                Desarrolla las dos grandes familias de protocolos, con su
+                comparación
+              </li>
+              <li>
+                Describe medios de transmisión guiados y no guiados, con
+                ejemplos y alcances
+              </li>
+              <li>
+                Tiene portada, introducción,
+                <span class="amber">objetivo</span>, desarrollo, conclusiones y
+                referencias
+              </li>
+              <li>
+                Las referencias siguen normas APA vigentes y están citadas en el
+                texto
+              </li>
+              <li>
+                Exportado a PDF y subido en
+                <span class="mono amber">GA10-220501097-AA1-EV01</span>
+              </li>
+            </ul>
+            <aside class="notes">
+              Recordar que esta es la única de las cuatro evidencias que exige
+              objetivo y referencias APA.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ══════════════════════════ GA10 AA2 EV01 ══════════════════════════ -->
+        <section data-ev="GA10-220501097-AA2-EV01">
+          <section>
+            <div class="eyebrow">Evidencia 4 de 4</div>
+            <h2>Plan de validación de características mínimas de hardware</h2>
+            <div class="evcode" style="font-size: 0.95em; margin: 0.8em 0 0">
+              <span class="s1">GA10</span><span class="sep">–</span
+              ><span class="s2">220501097</span><span class="sep">–</span
+              ><span class="s3">AA2</span><span class="sep">–</span
+              ><span class="s4">EV01</span>
+            </div>
+            <div class="meta-strip" style="margin-top: 1.2em">
+              <div>
+                <span class="k">Producto</span
+                ><span class="v">Documento de plan de validación</span>
+              </div>
+              <div>
+                <span class="k">Formato</span><span class="v">PDF o Word</span>
+              </div>
+              <div>
+                <span class="k">Duración</span><span class="v">8 horas</span>
+              </div>
+              <div>
+                <span class="k">Componente</span
+                ><span class="v">Sistemas operativos de red</span>
+              </div>
+            </div>
+            <p class="small mt">
+              Se debe
+              <strong
+                >listar de manera ordenada cada uno de los elementos</strong
+              >
+              que se consideran para verificar si se poseen o no las
+              características mínimas de hardware para desplegar una aplicación.
+            </p>
+            <aside class="notes">
+              Ojo: aquí el verbo es "listar de manera ordenada". El producto
+              natural es una tabla, no un ensayo.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">El caso dado</div>
+            <h2>Tres condiciones que definen todo el dimensionamiento</h2>
+            <div class="grid-3 mt">
+              <div class="card">
+                <span class="lead">Condición 1</span>
+                <h3>Aplicación web en PHP</h3>
+                <p class="muted" style="margin: 0">
+                  Implica servidor web, intérprete de PHP y sus extensiones.
+                  Descarta plataformas incompatibles.
+                </p>
+              </div>
+              <div class="card">
+                <span class="lead">Condición 2</span>
+                <h3>Información persistente</h3>
+                <p class="muted" style="margin: 0">
+                  Identificación y registro de usuario. Implica motor de base de
+                  datos, almacenamiento y respaldos.
+                </p>
+              </div>
+              <div class="card">
+                <span class="lead">Condición 3</span>
+                <h3>
+                  ~250 usuarios activos
+                  <span class="amber">no concurrentes</span>
+                </h3>
+                <p class="muted" style="margin: 0">
+                  Define la carga esperada y, con ella, CPU, memoria y ancho de
+                  banda.
+                </p>
+              </div>
+            </div>
+            <p class="note">
+              Todo elemento del plan de validación debe poder rastrearse hasta
+              una de estas tres condiciones. Si un requisito no se justifica en
+              ninguna, sobra.
+            </p>
+            <aside class="notes">
+              Este es el criterio de calidad del trabajo: justificación, no
+              copiar una lista genérica de internet.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Concepto clave</div>
+            <h2>Usuario activo no es usuario concurrente</h2>
+            <div class="grid-2 mt">
+              <div class="card">
+                <h3>Usuario activo</h3>
+                <p class="muted" style="margin: 0">
+                  Tiene cuenta y usa el sistema con regularidad, en algún
+                  momento del día o de la semana.
+                </p>
+              </div>
+              <div class="card pass">
+                <h3>Usuario concurrente</h3>
+                <p class="muted" style="margin: 0">
+                  Está haciendo una petición al servidor
+                  <em>en el mismo instante</em>. Es el número que realmente
+                  consume recursos.
+                </p>
+              </div>
+            </div>
+            <div class="card info mt">
+              <span class="lead">Estimación para el caso</span>
+              <p
+                class="mono"
+                style="margin: 0; font-size: 1.05em; color: var(--paper)"
+              >
+                250 usuarios activos × 5 % a 10 % de concurrencia ≈
+                <span class="amber"
+                  >13 a 25 sesiones simultáneas en el pico</span
+                >
+              </p>
+              <p class="xsmall mt-sm" style="margin: 0">
+                La regla del 5–10 % es una estimación de trabajo, no una ley.
+                Decláren­la como supuesto en el documento y justifíquenla; si
+                conocen el horario de uso del sistema, ajústenla.
+              </p>
+            </div>
+            <p class="note">
+              El enunciado dice <strong>no concurrentes</strong> justamente para
+              que ustedes noten esta diferencia. Un plan que dimensione para 250
+              sesiones simultáneas sobredimensiona el servidor y encarece el
+              proyecto sin necesidad.
+            </p>
+            <aside class="notes">
+              Este es el punto de la evidencia. Si un equipo no lo distingue, el
+              resto del plan queda mal calibrado.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Los elementos a validar</div>
+            <h2>Qué se lista en el plan</h2>
+            <div class="grid-4 mt gap-sm">
+              <div class="card">
+                <h3>Procesador</h3>
+                <p class="muted" style="margin: 0">
+                  Núcleos, hilos, frecuencia, arquitectura de 64 bits, soporte
+                  de virtualización.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Memoria RAM</h3>
+                <p class="muted" style="margin: 0">
+                  Capacidad total, tipo, y memoria libre real después del
+                  sistema operativo.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Almacenamiento</h3>
+                <p class="muted" style="margin: 0">
+                  Capacidad, tecnología (SSD o HDD), velocidad de lectura y
+                  escritura, espacio para respaldos.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Red</h3>
+                <p class="muted" style="margin: 0">
+                  Tarjeta, velocidad del puerto, ancho de banda disponible, IP
+                  fija, puertos habilitados.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Sistema operativo</h3>
+                <p class="muted" style="margin: 0">
+                  Versión, arquitectura, soporte vigente y compatibilidad con el
+                  stack.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Software base</h3>
+                <p class="muted" style="margin: 0">
+                  Servidor web, versión de PHP y extensiones, motor de base de
+                  datos.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Energía y respaldo</h3>
+                <p class="muted" style="margin: 0">
+                  UPS, plan de copias de seguridad, ventilación del sitio donde
+                  queda el equipo.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Licenciamiento</h3>
+                <p class="muted" style="margin: 0">
+                  Tipo de licencia de cada componente y su costo asociado.
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Los últimos dos son los que casi nadie incluye y los que
+              diferencian un buen trabajo.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Cómo se justifica una cifra</div>
+            <h2>Memoria RAM, paso a paso</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 44%">Componente</th>
+                <th style="width: 28%">Consumo estimado</th>
+                <th>Razón</th>
+              </tr>
+              <tr>
+                <td>Sistema operativo de servidor</td>
+                <td class="mono">0,5 – 1 GB</td>
+                <td>Servicios base en una instalación mínima</td>
+              </tr>
+              <tr>
+                <td>25 procesos PHP concurrentes × ~50 MB</td>
+                <td class="mono">≈ 1,25 GB</td>
+                <td>Un proceso por petición simultánea en el pico</td>
+              </tr>
+              <tr>
+                <td>Motor de base de datos</td>
+                <td class="mono">1 – 2 GB</td>
+                <td>Caché de datos e índices para evitar lecturas a disco</td>
+              </tr>
+              <tr>
+                <td>Servidor web y caché</td>
+                <td class="mono">0,3 – 0,5 GB</td>
+                <td>Conexiones y archivos estáticos</td>
+              </tr>
+              <tr>
+                <td class="amber"><strong>Subtotal</strong></td>
+                <td class="mono amber"><strong>≈ 3,5 GB</strong></td>
+                <td>Más un margen del 30 % para picos y crecimiento</td>
+              </tr>
+            </table>
+            <div class="grid-2 mt gap-sm">
+              <div class="stat amber">
+                <span class="n">4 GB</span
+                ><span class="l"
+                  >Mínimo funcional para operar el caso descrito</span
+                >
+              </div>
+              <div class="stat">
+                <span class="n">8 GB</span
+                ><span class="l"
+                  >Recomendado, con margen para crecimiento y respaldos en
+                  caliente</span
+                >
+              </div>
+            </div>
+            <p class="note">
+              No memoricen el número: reproduzcan el razonamiento. Lo que se
+              evalúa es que cada cifra del plan tenga detrás una justificación
+              como esta.
+            </p>
+            <aside class="notes">
+              Los valores por proceso PHP dependen de la aplicación; medirlos
+              con la propia app es lo ideal.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Resto del dimensionamiento</div>
+            <h2>Mínimo y recomendado</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 22%">Elemento</th>
+                <th style="width: 26%">Mínimo</th>
+                <th style="width: 26%">Recomendado</th>
+                <th>Justificación</th>
+              </tr>
+              <tr>
+                <td><strong>Procesador</strong></td>
+                <td class="mono">2 núcleos · 2,0 GHz · 64 bits</td>
+                <td class="mono">4 núcleos · 2,5 GHz</td>
+                <td>
+                  PHP atiende una petición por proceso; los núcleos determinan
+                  cuántas se procesan en paralelo
+                </td>
+              </tr>
+              <tr>
+                <td><strong>RAM</strong></td>
+                <td class="mono">4 GB</td>
+                <td class="mono">8 GB</td>
+                <td>Cálculo de la diapositiva anterior más margen</td>
+              </tr>
+              <tr>
+                <td><strong>Almacenamiento</strong></td>
+                <td class="mono">40 GB</td>
+                <td class="mono">120 GB SSD</td>
+                <td>
+                  SO + aplicación + base de datos + registros + copias de
+                  seguridad y crecimiento a 12 meses
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Tipo de disco</strong></td>
+                <td class="mono">HDD 7200 rpm</td>
+                <td class="mono">SSD NVMe</td>
+                <td>La base de datos es sensible a la latencia de escritura</td>
+              </tr>
+              <tr>
+                <td><strong>Red</strong></td>
+                <td class="mono">100 Mbps</td>
+                <td class="mono">1 Gbps · IP fija</td>
+                <td>25 sesiones simultáneas descargando páginas de ~1,5 MB</td>
+              </tr>
+              <tr>
+                <td><strong>Respaldo eléctrico</strong></td>
+                <td class="mono">UPS 15 min</td>
+                <td class="mono">UPS 30 min + apagado automático</td>
+                <td>Evita corrupción de la base de datos ante un corte</td>
+              </tr>
+            </table>
+            <p class="note">
+              Presenten siempre las dos columnas. “Mínimo” es lo que permite
+              operar; “recomendado” es lo que permite operar sin degradación
+              durante la vida útil prevista.
+            </p>
+            <aside class="notes">
+              Si el proyecto se despliega en la nube, la tabla es igual: cambia
+              el nombre del recurso, no el razonamiento.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Software base</div>
+            <h2>El stack que impone la condición 1</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 24%">Componente</th>
+                <th style="width: 32%">Qué verificar</th>
+                <th>Por qué</th>
+              </tr>
+              <tr>
+                <td><strong>Servidor web</strong></td>
+                <td class="mono">Apache 2.4+ o Nginx 1.20+</td>
+                <td>
+                  Recibe las peticiones HTTP/HTTPS y las entrega al intérprete
+                </td>
+              </tr>
+              <tr>
+                <td><strong>PHP</strong></td>
+                <td class="mono">Versión con soporte activo · PHP-FPM</td>
+                <td>Una versión sin soporte no recibe parches de seguridad</td>
+              </tr>
+              <tr>
+                <td><strong>Extensiones de PHP</strong></td>
+                <td class="mono">
+                  pdo, mysqli, mbstring, openssl, json, session
+                </td>
+                <td>
+                  La persistencia y el manejo de sesión de usuario dependen de
+                  ellas
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Base de datos</strong></td>
+                <td class="mono">MySQL 8 / MariaDB 10.6+ / PostgreSQL 14+</td>
+                <td>
+                  Almacena la identificación y el registro de usuarios
+                  (condición 2)
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Certificado TLS</strong></td>
+                <td class="mono">Certificado válido en el puerto 443</td>
+                <td>Las credenciales de usuario no pueden viajar sin cifrar</td>
+              </tr>
+            </table>
+            <div class="card info mt">
+              <span class="lead"
+                >Licenciamiento · el otro tema del componente formativo</span
+              >
+              Clasifiquen cada componente: <strong>software libre</strong> (GPL,
+              MIT, Apache), <strong>propietario</strong> (licencia por servidor,
+              por núcleo o por usuario), <strong>OEM</strong> (atado al equipo)
+              o <strong>por suscripción</strong>. El costo total de licencias es
+              parte del plan de validación.
+            </div>
+            <aside class="notes">
+              Aquí conectar con la evidencia anterior: la elección del SO
+              condiciona el costo de licenciamiento.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">El instrumento</div>
+            <h2>La tabla del plan de validación</h2>
+            <table class="compact">
+              <tr>
+                <th class="mono">ID</th>
+                <th>Elemento</th>
+                <th>Requisito mínimo</th>
+                <th>Método de verificación</th>
+                <th>Resultado</th>
+                <th>Cumple</th>
+              </tr>
+              <tr>
+                <td class="mono">HW-01</td>
+                <td>Procesador</td>
+                <td class="mono">2 núcleos · 64 bits</td>
+                <td class="mono">lscpu / systeminfo</td>
+                <td class="mono">4 núcleos · x86_64</td>
+                <td><span class="chip pass">Sí</span></td>
+              </tr>
+              <tr>
+                <td class="mono">HW-02</td>
+                <td>Memoria RAM</td>
+                <td class="mono">4 GB</td>
+                <td class="mono">free -h / Administrador de tareas</td>
+                <td class="mono">4 GB</td>
+                <td><span class="chip pass">Sí</span></td>
+              </tr>
+              <tr>
+                <td class="mono">HW-03</td>
+                <td>Almacenamiento libre</td>
+                <td class="mono">40 GB</td>
+                <td class="mono">df -h</td>
+                <td class="mono">28 GB</td>
+                <td><span class="chip fail">No</span></td>
+              </tr>
+              <tr>
+                <td class="mono">SW-01</td>
+                <td>Versión de PHP</td>
+                <td class="mono">Con soporte activo</td>
+                <td class="mono">php -v</td>
+                <td class="mono">8.2.12</td>
+                <td><span class="chip pass">Sí</span></td>
+              </tr>
+              <tr>
+                <td class="mono">SW-02</td>
+                <td>Extensión pdo_mysql</td>
+                <td class="mono">Habilitada</td>
+                <td class="mono">php -m | grep pdo</td>
+                <td class="mono">No aparece</td>
+                <td><span class="chip fail">No</span></td>
+              </tr>
+              <tr>
+                <td class="mono">RD-01</td>
+                <td>Puerto de red</td>
+                <td class="mono">100 Mbps</td>
+                <td class="mono">ethtool / Estado de la conexión</td>
+                <td class="mono">1 Gbps</td>
+                <td><span class="chip pass">Sí</span></td>
+              </tr>
+            </table>
+            <p class="note">
+              Toda fila con <span class="chip fail">No</span> obliga a una
+              <span class="amber">acción de remediación</span>: ampliar disco,
+              instalar la extensión, cambiar de equipo. Ese es el cierre lógico
+              del plan, igual que las acciones correctivas en el reporte de
+              pruebas.
+            </p>
+            <aside class="notes">
+              Señalar el paralelo con EV02: mismo esquema mental, distinto
+              objeto. Ahí se validaba software, aquí infraestructura.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Cómo se verifica en la práctica</div>
+            <h2>Comandos para levantar los datos reales</h2>
+            <div class="grid-2">
+              <div>
+                <h4 class="mono amber">Linux</h4>
+                <pre><code class="language-bash">lscpu                 # procesador y núcleos
+free -h               # memoria total y disponible
+df -h                 # espacio en disco por partición
+lsblk -d -o NAME,ROTA # 0 = SSD, 1 = disco mecánico
+ip -br addr           # interfaces y direcciones
+uname -a              # kernel y arquitectura
+php -v && php -m      # versión y extensiones
+mysql --version</code></pre>
+              </div>
+              <div>
+                <h4 class="mono amber">Windows</h4>
+                <pre><code class="language-powershell">systeminfo
+Get-ComputerInfo | Select CsName,OsName,CsProcessors
+Get-CimInstance Win32_PhysicalMemory
+Get-PSDrive C
+Get-NetAdapter
+php -v; php -m</code></pre>
+                <div class="card info mt">
+                  <span class="lead">Prueba de carga</span> Para comprobar el
+                  comportamiento con 25 sesiones simultáneas:
+                  <span class="mono">Apache JMeter</span>,
+                  <span class="mono">ab</span> o <span class="mono">k6</span>.
+                  Adjuntar el resultado eleva mucho la calidad del plan.
+                </div>
+              </div>
+            </div>
+            <p class="note">
+              Adjunten capturas de la salida de cada comando: son la evidencia
+              de que la verificación se hizo sobre un equipo real.
+            </p>
+            <aside class="notes">
+              Sugerir que hagan la verificación sobre su propio portátil si no
+              tienen servidor: sirve igual como ejercicio.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Antes de subir</div>
+            <h2>Lista de verificación · GA10-AA2-EV01</h2>
+            <ul class="check">
+              <li>
+                Los elementos están listados de manera ordenada, con
+                identificador
+              </li>
+              <li>
+                Se distingue explícitamente usuario activo de usuario
+                concurrente
+              </li>
+              <li>
+                Cada requisito se justifica contra una de las tres condiciones
+                del caso
+              </li>
+              <li>
+                Se presentan valores mínimos y recomendados, no un solo número
+              </li>
+              <li>Se incluye el método de verificación de cada elemento</li>
+              <li>Se contempla el licenciamiento del software base</li>
+              <li>
+                Se citan las fuentes usadas para definir los elementos del plan
+              </li>
+              <li>
+                Tiene portada e introducción · PDF o Word · espacio
+                <span class="mono amber">GA10-220501097-AA2-EV01</span>
+              </li>
+            </ul>
+            <aside class="notes">
+              Esta evidencia acepta Word; las otras tres exigen PDF. Que no se
+              confundan.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ══════════════════════════ CIERRE ══════════════════════════ -->
+        <section data-ev="Cierre">
+          <section>
+            <div class="eyebrow">Resumen</div>
+            <h2>Los cuatro entregables</h2>
+            <table class="compact">
+              <tr>
+                <th class="mono" style="width: 24%">Espacio de entrega</th>
+                <th style="width: 34%">Producto</th>
+                <th style="width: 16%">Formato</th>
+                <th>Lo que no puede faltar</th>
+              </tr>
+              <tr>
+                <td class="mono">GA9-…-AA3-EV01</td>
+                <td>Video de pruebas + formatos diligenciados</td>
+                <td>Video + PDF</td>
+                <td>
+                  Que el video muestre la app real y se relacione con los casos
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">GA9-…-AA3-EV02</td>
+                <td>Reporte del plan de pruebas ejecutadas</td>
+                <td>PDF</td>
+                <td>Cifras, trazabilidad y acciones correctivas</td>
+              </tr>
+              <tr>
+                <td class="mono">GA10-…-AA1-EV01</td>
+                <td>Informe de redes y networking</td>
+                <td>PDF</td>
+                <td>Los cuatro contenidos + objetivo + referencias APA</td>
+              </tr>
+              <tr>
+                <td class="mono">GA10-…-AA2-EV01</td>
+                <td>Plan de validación de hardware</td>
+                <td>PDF o Word</td>
+                <td>
+                  Distinguir usuarios activos de concurrentes y justificar cada
+                  cifra
+                </td>
+              </tr>
+            </table>
+            <p class="note">
+              Los cuatro documentos exigen, como mínimo,
+              <span class="amber">portada, introducción y conclusiones</span>.
+              El informe de la evidencia 3 exige además
+              <span class="amber">objetivo y referencias APA</span>.
+            </p>
+            <aside class="notes">
+              Volver aquí para consolidar. Confirmar fechas de entrega según el
+              cronograma del programa.
+            </aside>
+          </section>
+
+          <section>
+            <div class="eyebrow">Cómo distribuir el tiempo</div>
+            <h2>Sugerencia de trabajo</h2>
+            <table class="compact">
+              <tr>
+                <th style="width: 20%">Bloque</th>
+                <th style="width: 14%">Horas</th>
+                <th>Enfoque</th>
+              </tr>
+              <tr>
+                <td class="mono">GA9 · AA3</td>
+                <td class="mono">32 h</td>
+                <td>
+                  El grueso: ejecutar todos los casos, grabar, diligenciar y
+                  luego consolidar. Reserven las últimas 6 horas solo para el
+                  reporte de EV02.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">GA10 · AA1</td>
+                <td class="mono">6 h</td>
+                <td>
+                  Investigación y redacción. Repartan los cuatro contenidos
+                  entre los integrantes y unifiquen el estilo al final.
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">GA10 · AA2</td>
+                <td class="mono">8 h</td>
+                <td>
+                  2 h de cálculo y justificación, 3 h de verificación sobre un
+                  equipo real, 3 h de redacción del plan.
+                </td>
+              </tr>
+            </table>
+            <div class="card fail mt">
+              <span class="lead">Los tres errores que más cuestan</span>
+              Entregar EV02 como una copia de EV01 · dimensionar para 250
+              usuarios concurrentes en lugar de 25 · subir el archivo en el
+              espacio equivocado.
+            </div>
+            <aside class="notes">
+              Terminar preguntando qué evidencia les preocupa más y usar el
+              tiempo restante en esa.
+            </aside>
+          </section>
+
+          <section
+            class="center"
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              height: 100%;
+            "
+          >
+            <div
+              class="evcode"
+              style="justify-content: center; font-size: 1.05em"
+            >
+              <span class="s1">GA9</span><span class="sep">·</span
+              ><span class="s2">EV01</span><span class="sep">·</span
+              ><span class="s3">EV02</span><span class="sep">·</span
+              ><span class="s4">GA10</span>
+            </div>
+            <h2 style="margin-top: 0.9em; font-size: 2em">Preguntas</h2>
+            <p class="small muted" style="max-width: 30ch; margin: 0 auto">
+              Traigan a la próxima sesión el estado real de su ejecución de
+              pruebas. Sobre eso trabajamos.
+            </p>
+            <aside class="notes">
+              Espacio abierto. Si sobra tiempo, revisar en vivo el formato de
+              casos de prueba de un equipo.
+            </aside>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/zoom/zoom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/search/search.min.js"></script>
+    <script>
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.055,
+        minScale: 0.2,
+        maxScale: 2.0,
+        hash: true,
+        slideNumber: "c/t",
+        transition: reduceMotion ? "none" : "fade",
+        transitionSpeed: "fast",
+        backgroundTransition: "none",
+        controls: true,
+        progress: true,
+        center: false,
+        pdfSeparateFragments: false,
+        plugins: [RevealNotes, RevealHighlight, RevealZoom, RevealSearch],
+      });
+
+      /* Pie fijo: muestra el código de la evidencia que se está explicando */
+      const footer = document.getElementById("ev-footer");
+      function updateFooter() {
+        const stack =
+          Reveal.getCurrentSlide().closest(".slides > section") ||
+          Reveal.getCurrentSlide();
+        const ev = stack.dataset.ev;
+        if (ev) {
+          footer.innerHTML = ev.includes("-")
+            ? ev.replace(/^([^-]+)-/, "<b>$1</b>-")
+            : "<b>" + ev + "</b>";
+          footer.classList.add("on");
+        } else {
+          footer.classList.remove("on");
+        }
+      }
+      Reveal.on("ready", updateFooter);
+      Reveal.on("slidechanged", updateFooter);
+    </script>
+  </body>
+</html>
