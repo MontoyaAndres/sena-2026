@@ -1,0 +1,1976 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Despliegue de aplicaciones y servicios · GA10-220501097</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+
+    <style>
+      :root {
+        --plano: #08283f;
+        --plano-2: #0c3654;
+        --tinta: #e9f4fa;
+        --tinta-2: #9cbbcd;
+        --linea: #5fbfe3;
+        --linea-suave: rgba(95, 191, 227, 0.2);
+        --linea-tenue: rgba(95, 191, 227, 0.1);
+        --senal: #f2a65a;
+        --disp: "Barlow Condensed", "Arial Narrow", sans-serif;
+        --body: "IBM Plex Sans", system-ui, sans-serif;
+        --mono: "IBM Plex Mono", monospace;
+      }
+
+      /* ---------- hoja de plano ---------- */
+      html,
+      body {
+        background: var(--plano);
+      }
+      .reveal-viewport {
+        background-color: var(--plano);
+        background-image:
+          linear-gradient(var(--linea-tenue) 1px, transparent 1px),
+          linear-gradient(90deg, var(--linea-tenue) 1px, transparent 1px),
+          linear-gradient(rgba(95, 191, 227, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(95, 191, 227, 0.045) 1px, transparent 1px);
+        background-size:
+          96px 96px,
+          96px 96px,
+          16px 16px,
+          16px 16px;
+      }
+      .marco {
+        position: fixed;
+        inset: 16px;
+        border: 1px solid var(--linea-suave);
+        pointer-events: none;
+        z-index: 40;
+      }
+      .marco::before,
+      .marco::after {
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border: 1px solid rgba(95, 191, 227, 0.45);
+      }
+      .marco::before {
+        top: -1px;
+        left: -1px;
+        border-right: 0;
+        border-bottom: 0;
+      }
+      .marco::after {
+        bottom: -1px;
+        right: -1px;
+        border-left: 0;
+        border-top: 0;
+      }
+
+      /* ---------- cajetín (title block) ---------- */
+      .cajetin {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        z-index: 41;
+        width: 340px;
+        border: 1px solid var(--linea-suave);
+        background: rgba(8, 40, 63, 0.92);
+        backdrop-filter: blur(2px);
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: grid;
+        grid-template-columns: 1fr 78px 76px;
+      }
+      .cajetin .celda {
+        padding: 6px 9px 7px;
+        border-right: 1px solid var(--linea-suave);
+        min-width: 0;
+      }
+      .cajetin .celda:last-child {
+        border-right: 0;
+      }
+      .cajetin .rot {
+        font-size: 9px;
+        color: var(--tinta-2);
+        opacity: 0.75;
+        display: block;
+        line-height: 1.4;
+      }
+      .cajetin .val {
+        font-size: 15px;
+        color: var(--tinta);
+        font-weight: 600;
+        line-height: 1.25;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cajetin .val.acento {
+        color: var(--senal);
+      }
+
+      /* ---------- base tipográfica ---------- */
+      .reveal {
+        font-family: var(--body);
+        font-size: 30px;
+        font-weight: 300;
+        color: var(--tinta);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 0 8px 74px;
+        height: 100%;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: var(--disp);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+        line-height: 1.02;
+        margin: 0;
+        color: var(--tinta);
+        text-shadow: none;
+      }
+      .reveal h1 {
+        font-size: 2.55em;
+      }
+      .reveal h2 {
+        font-size: 1.75em;
+      }
+      .reveal h3 {
+        font-size: 1.05em;
+        letter-spacing: 0.04em;
+        color: var(--linea);
+      }
+      .reveal p {
+        line-height: 1.5;
+        margin: 0.5em 0;
+      }
+      .reveal strong {
+        font-weight: 600;
+        color: #fff;
+      }
+      .reveal em {
+        color: var(--senal);
+        font-style: normal;
+        font-weight: 500;
+      }
+      .reveal a {
+        color: var(--linea);
+        text-decoration: none;
+        border-bottom: 1px solid var(--linea-suave);
+      }
+
+      /* rótulo superior */
+      .rotulo {
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        font-size: 0.52em;
+        color: var(--senal);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 10px;
+      }
+      .rotulo::after {
+        content: "";
+        height: 1px;
+        background: var(--linea-suave);
+        flex: 1;
+      }
+
+      .bajada {
+        font-size: 0.66em;
+        color: var(--tinta-2);
+        max-width: 26em;
+        margin-top: 10px;
+        line-height: 1.55;
+      }
+      .reveal h2 + .bajada {
+        margin-top: 14px;
+      }
+
+      /* ---------- rejillas y fichas ---------- */
+      .g2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 22px;
+      }
+      .g3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 22px;
+      }
+      .g4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .ficha {
+        border: 1px solid var(--linea-suave);
+        padding: 14px 16px 16px;
+        background: rgba(12, 54, 84, 0.38);
+        position: relative;
+      }
+      .ficha::before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        width: 10px;
+        height: 10px;
+        border-top: 1px solid var(--senal);
+        border-left: 1px solid var(--senal);
+      }
+      .ficha .tit {
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.62em;
+        font-weight: 600;
+        color: var(--tinta);
+        margin-bottom: 6px;
+      }
+      .ficha .txt {
+        font-size: 0.5em;
+        color: var(--tinta-2);
+        line-height: 1.55;
+      }
+      .ficha .num {
+        font-family: var(--disp);
+        font-size: 0.5em;
+        color: var(--senal);
+        letter-spacing: 0.14em;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      /* listas */
+      .reveal ul {
+        list-style: none;
+        margin: 18px 0 0;
+        padding: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding-left: 24px;
+        margin: 0 0 12px;
+        font-size: 0.72em;
+        line-height: 1.5;
+        color: var(--tinta);
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 0.55em;
+        width: 9px;
+        height: 1px;
+        background: var(--senal);
+      }
+      .reveal ul ul {
+        margin-top: 10px;
+      }
+      .reveal ul ul li {
+        font-size: 0.85em;
+        color: var(--tinta-2);
+      }
+      .reveal ol {
+        margin: 18px 0 0 0;
+        padding-left: 0;
+        list-style: none;
+        counter-reset: paso;
+      }
+      .reveal ol li {
+        counter-increment: paso;
+        position: relative;
+        padding-left: 44px;
+        margin-bottom: 14px;
+        font-size: 0.7em;
+        line-height: 1.5;
+      }
+      .reveal ol li::before {
+        content: counter(paso, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 0.05em;
+        font-family: var(--disp);
+        font-size: 1em;
+        color: var(--senal);
+        letter-spacing: 0.06em;
+      }
+
+      /* tabla */
+      .reveal table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 0.52em;
+      }
+      .reveal table th {
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        font-size: 1.02em;
+        color: var(--senal);
+        text-align: left;
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--linea-suave);
+      }
+      .reveal table td {
+        padding: 9px 12px;
+        border-bottom: 1px solid var(--linea-tenue);
+        color: var(--tinta-2);
+        vertical-align: top;
+      }
+      .reveal table td:first-child {
+        color: var(--tinta);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      /* código */
+      .reveal pre {
+        display: block;
+        width: 100%;
+        margin: 18px 0 0;
+        box-shadow: none;
+        font-size: 0.42em;
+        background: rgba(4, 22, 36, 0.75);
+        border: 1px solid var(--linea-suave);
+        border-left: 2px solid var(--senal);
+      }
+      .reveal pre code {
+        display: block;
+        padding: 14px 16px;
+        font-family: var(--mono);
+        line-height: 1.7;
+        color: #cde9f6;
+        max-height: none;
+        overflow: visible;
+        white-space: pre-wrap;
+      }
+      .reveal pre code .c {
+        color: #6e93a8;
+      }
+      .reveal pre code .k {
+        color: var(--senal);
+      }
+      .reveal code:not(pre code) {
+        font-family: var(--mono);
+        font-size: 0.85em;
+        color: var(--linea);
+        background: rgba(95, 191, 227, 0.1);
+        padding: 1px 6px;
+      }
+
+      /* diagrama de capas */
+      .pila {
+        border: 1px solid var(--linea-suave);
+        padding: 8px;
+        background: rgba(12, 54, 84, 0.3);
+      }
+      .pila .capa {
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.5em;
+        padding: 8px 10px;
+        margin-bottom: 6px;
+        text-align: center;
+        border: 1px solid var(--linea-tenue);
+        background: rgba(95, 191, 227, 0.06);
+        color: var(--tinta-2);
+      }
+      .pila .capa:last-child {
+        margin-bottom: 0;
+      }
+      .pila .capa.app {
+        background: rgba(242, 166, 90, 0.16);
+        border-color: rgba(242, 166, 90, 0.45);
+        color: #ffd9ae;
+      }
+      .pila .capa.so {
+        background: rgba(95, 191, 227, 0.16);
+        border-color: rgba(95, 191, 227, 0.4);
+        color: var(--tinta);
+      }
+      .pila .capa.fina {
+        font-size: 0.42em;
+        padding: 5px 10px;
+      }
+      .pila-cab {
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.5em;
+        color: var(--senal);
+        margin-bottom: 8px;
+      }
+
+      /* línea de tiempo RPO/RTO */
+      .tiempo {
+        margin-top: 26px;
+        position: relative;
+        padding: 0 4px;
+      }
+      .tiempo .eje {
+        height: 1px;
+        background: var(--linea-suave);
+        position: relative;
+        margin: 44px 0 0;
+      }
+      .tiempo .hito {
+        position: absolute;
+        top: -8px;
+        width: 1px;
+        height: 17px;
+        background: var(--linea);
+      }
+      .tiempo .hito span {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 15px;
+        color: var(--tinta);
+        white-space: nowrap;
+      }
+      .tiempo .hito.falla {
+        background: var(--senal);
+        height: 25px;
+        top: -12px;
+      }
+      .tiempo .hito.falla span {
+        color: var(--senal);
+      }
+      .tiempo .tramo {
+        position: absolute;
+        top: 26px;
+        height: 26px;
+        border: 1px solid rgba(242, 166, 90, 0.5);
+        border-top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .tiempo .tramo b {
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 16px;
+        color: var(--senal);
+        background: var(--plano);
+        padding: 0 10px;
+        font-weight: 600;
+        position: relative;
+        top: 22px;
+      }
+
+      /* portada y separadores */
+      .portada {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        padding-bottom: 96px;
+      }
+      .portada h1 {
+        font-size: 3.1em;
+        max-width: 15ch;
+      }
+      .portada .meta {
+        display: flex;
+        gap: 38px;
+        margin-top: 34px;
+        padding-top: 20px;
+        border-top: 1px solid var(--linea-suave);
+        font-family: var(--disp);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.5em;
+        color: var(--tinta-2);
+      }
+      .portada .meta b {
+        display: block;
+        color: var(--tinta);
+        font-size: 1.25em;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+      }
+
+      .sep {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        padding-bottom: 96px;
+      }
+      .sep .codigo {
+        font-family: var(--disp);
+        font-size: 5.4em;
+        line-height: 0.85;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(95, 191, 227, 0.55);
+        letter-spacing: 0.02em;
+      }
+      .sep h2 {
+        font-size: 2.1em;
+        max-width: 17ch;
+        margin-top: 18px;
+      }
+
+      .nota {
+        margin-top: 26px;
+        border-left: 2px solid var(--senal);
+        padding: 4px 0 4px 16px;
+        font-size: 0.52em;
+        color: var(--tinta-2);
+        line-height: 1.55;
+        max-width: 34em;
+      }
+      .nota b {
+        color: var(--senal);
+        font-weight: 600;
+      }
+
+      .entrega {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 26px;
+        margin-top: 22px;
+      }
+      .entrega div {
+        font-size: 0.5em;
+        color: var(--tinta-2);
+        padding-left: 26px;
+        position: relative;
+        line-height: 1.5;
+      }
+      .entrega div::before {
+        content: "□";
+        position: absolute;
+        left: 0;
+        top: -2px;
+        color: var(--senal);
+        font-size: 1.15em;
+      }
+
+      .reveal .progress {
+        color: var(--senal);
+        height: 2px;
+      }
+      .reveal .controls {
+        color: var(--linea);
+      }
+      .reveal .slide-number {
+        display: none;
+      }
+
+      @media (max-width: 800px) {
+        .cajetin {
+          width: calc(100% - 32px);
+          grid-template-columns: 1fr 70px 66px;
+        }
+        .g3,
+        .g4 {
+          grid-template-columns: 1fr 1fr;
+        }
+        .entrega {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media print {
+        .cajetin,
+        .marco {
+          position: absolute;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="marco"></div>
+
+    <div class="cajetin" aria-hidden="true">
+      <div class="celda">
+        <span class="rot">Tema</span
+        ><span class="val" id="cj-tema">Presentación</span>
+      </div>
+      <div class="celda">
+        <span class="rot">Código</span
+        ><span class="val acento" id="cj-codigo">AA3–AA6</span>
+      </div>
+      <div class="celda">
+        <span class="rot">Hoja</span><span class="val" id="cj-hoja">01</span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ PORTADA ============ -->
+        <section data-tema="Portada" data-codigo="GA10">
+          <div class="portada">
+            <div class="rotulo">
+              Programa · Análisis y desarrollo de software
+            </div>
+            <h1>Despliegue de aplicaciones y servicios</h1>
+            <p class="bajada">
+              De la instalación local al servidor en Internet: plataformas de
+              desarrollo, alta disponibilidad, virtualización, contenedores y
+              publicación.
+            </p>
+            <div class="meta">
+              <span>Guía<b>GA10-220501097</b></span>
+              <span>Actividades<b>AA3 · AA4 · AA5 · AA6</b></span>
+              <span>Duración total<b>64 horas</b></span>
+            </div>
+          </div>
+          <aside class="notes">
+            Presentación de apoyo para las cuatro actividades. Recorrido:
+            primero montamos el servidor en nuestro equipo, luego entendemos
+            cómo se mantiene disponible, después lo empaquetamos con
+            virtualización y contenedores, y por último lo publicamos en
+            Internet.
+          </aside>
+        </section>
+
+        <!-- ============ RUTA ============ -->
+        <section data-tema="Ruta de aprendizaje" data-codigo="GA10">
+          <div class="rotulo">La ruta completa</div>
+          <h2>Cuatro actividades, una sola historia</h2>
+          <p class="bajada">
+            Cada actividad responde a una pregunta distinta sobre el mismo sitio
+            web.
+          </p>
+          <div class="g4">
+            <div class="ficha">
+              <span class="num">AA3 · 8 H</span>
+              <div class="tit">Plan de instalación</div>
+              <div class="txt">
+                ¿Con qué software levanto el servidor en mi propio computador?
+              </div>
+            </div>
+            <div class="ficha">
+              <span class="num">AA4 · 8 H</span>
+              <div class="tit">Servicios y arquitectura</div>
+              <div class="txt">
+                ¿Cómo evito que todo se caiga cuando falla una máquina?
+              </div>
+            </div>
+            <div class="ficha">
+              <span class="num">AA5 · 40 H</span>
+              <div class="tit">Servidor y base de datos</div>
+              <div class="txt">
+                ¿Cómo lo armo dentro de una máquina virtual y de un contenedor?
+              </div>
+            </div>
+            <div class="ficha">
+              <span class="num">AA6 · 8 H</span>
+              <div class="tit">Publicación</div>
+              <div class="txt">
+                ¿Cómo lo subo a Internet con hosting y dominio?
+              </div>
+            </div>
+          </div>
+          <div class="nota">
+            <b>Hilo conductor:</b> la misma plantilla web viaja con ustedes por
+            las cuatro actividades. Primero corre en <code>localhost</code>, al
+            final corre en una dirección pública.
+          </div>
+          <aside class="notes">
+            Insistir en que la evidencia de cada actividad es un informe con
+            paso a paso y capturas de pantalla. La plantilla web puede ser la
+            misma en AA3 y AA6.
+          </aside>
+        </section>
+
+        <!-- ============ AA3 ============ -->
+        <section data-tema="Plan de instalación" data-codigo="AA3-EV01">
+          <section data-tema="Plan de instalación" data-codigo="AA3-EV01">
+            <div class="sep">
+              <div class="rotulo">Actividad de aprendizaje · 8 horas</div>
+              <div class="codigo">AA3</div>
+              <h2>Elaborar el plan de instalación</h2>
+              <p class="bajada">
+                Plataformas de desarrollo e implantación: LAMP, WAMP, XAMPP,
+                WIMA. Primer contacto con máquinas virtuales y contenedores.
+              </p>
+            </div>
+          </section>
+
+          <section data-tema="¿Qué es un stack?" data-codigo="AA3-EV01">
+            <div class="rotulo">Concepto base</div>
+            <h2>Un stack es una receta</h2>
+            <p class="bajada">
+              Una página web no se abre sola en un servidor. Necesita cuatro
+              ingredientes que trabajan en capas, y el stack es la combinación
+              ya probada de esos cuatro.
+            </p>
+            <div class="g4">
+              <div class="ficha">
+                <span class="num">Capa 1</span>
+                <div class="tit">Sistema operativo</div>
+                <div class="txt">
+                  Linux, Windows o macOS. Es la mesa donde se apoya todo lo
+                  demás.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">Capa 2</span>
+                <div class="tit">Servidor web</div>
+                <div class="txt">
+                  Apache o Nginx. Recibe la petición del navegador y entrega la
+                  página.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">Capa 3</span>
+                <div class="tit">Base de datos</div>
+                <div class="txt">
+                  MySQL o MariaDB. Guarda usuarios, productos, publicaciones.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">Capa 4</span>
+                <div class="tit">Lenguaje</div>
+                <div class="txt">
+                  PHP, Python o Perl. Pone la lógica: calcula, consulta, decide.
+                </div>
+              </div>
+            </div>
+            <div class="nota">
+              Si cambia un ingrediente, cambia el nombre del stack. Eso es todo
+              lo que significan las siglas.
+            </div>
+            <aside class="notes">
+              Analogía: el stack es como un combo de restaurante. Los mismos
+              ingredientes se pueden comprar por separado, pero el combo ya
+              viene armado y probado.
+            </aside>
+          </section>
+
+          <section data-tema="Plataformas" data-codigo="AA3-EV01">
+            <div class="rotulo">Comparación</div>
+            <h2>Las siglas, sin misterio</h2>
+            <table>
+              <tr>
+                <th>Plataforma</th>
+                <th>Sistema operativo</th>
+                <th>Servidor</th>
+                <th>Base de datos</th>
+                <th>Lenguaje</th>
+              </tr>
+              <tr>
+                <td>LAMP</td>
+                <td>Linux</td>
+                <td>Apache</td>
+                <td>MySQL / MariaDB</td>
+                <td>PHP · Python · Perl</td>
+              </tr>
+              <tr>
+                <td>WAMP</td>
+                <td>Windows</td>
+                <td>Apache</td>
+                <td>MySQL</td>
+                <td>PHP</td>
+              </tr>
+              <tr>
+                <td>MAMP</td>
+                <td>macOS</td>
+                <td>Apache</td>
+                <td>MySQL</td>
+                <td>PHP</td>
+              </tr>
+              <tr>
+                <td>XAMPP</td>
+                <td>Multiplataforma (X)</td>
+                <td>Apache</td>
+                <td>MariaDB</td>
+                <td>PHP · Perl</td>
+              </tr>
+              <tr>
+                <td>WIMA / WISA</td>
+                <td>Windows</td>
+                <td>IIS</td>
+                <td>MySQL o SQL Server</td>
+                <td>ASP.NET</td>
+              </tr>
+              <tr>
+                <td>MEAN / MERN</td>
+                <td>Node.js</td>
+                <td>Express</td>
+                <td>MongoDB</td>
+                <td>JavaScript</td>
+              </tr>
+            </table>
+            <div class="nota">
+              <b>Para la evidencia:</b> XAMPP es la opción más cómoda si
+              trabajan en Windows, porque instala Apache, MariaDB y PHP en un
+              solo paso.
+            </div>
+            <aside class="notes">
+              Pedir que identifiquen la letra que cambia en cada fila: casi
+              siempre es el sistema operativo o el servidor web.
+            </aside>
+          </section>
+
+          <section data-tema="Requisitos no funcionales" data-codigo="AA3-EV01">
+            <div class="rotulo">Antes de instalar</div>
+            <h2>La plataforma se elige por requisitos</h2>
+            <p class="bajada">
+              Los requisitos funcionales dicen qué hace el sistema. Los no
+              funcionales dicen cómo debe comportarse, y son los que deciden la
+              arquitectura.
+            </p>
+            <div class="g3">
+              <div class="ficha">
+                <div class="tit">Rendimiento</div>
+                <div class="txt">
+                  Cuántos usuarios simultáneos y con qué tiempo de respuesta.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Disponibilidad</div>
+                <div class="txt">
+                  Cuántas horas al año puede estar fuera de servicio.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Escalabilidad</div>
+                <div class="txt">
+                  Si debe crecer y cómo: más máquinas o máquinas más grandes.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Seguridad</div>
+                <div class="txt">
+                  Cifrado, control de acceso, protección de datos personales.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Compatibilidad</div>
+                <div class="txt">
+                  Sistemas operativos, navegadores y versiones que debe
+                  soportar.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Mantenibilidad</div>
+                <div class="txt">
+                  Qué tan fácil es actualizar, respaldar y monitorear.
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              Ejemplo concreto: si el cliente exige 99,9% de disponibilidad, un
+              solo servidor local no alcanza. Ese requisito no funcional obliga
+              a pensar en clúster, que es justamente AA4.
+            </aside>
+          </section>
+
+          <section data-tema="Paso a paso local" data-codigo="AA3-EV01">
+            <div class="rotulo">Práctica</div>
+            <h2>Desplegar la plantilla en local</h2>
+            <ol>
+              <li>Descargar una plantilla HTML gratuita y descomprimirla.</li>
+              <li>
+                Instalar la plataforma elegida (por ejemplo XAMPP) con las
+                opciones por defecto.
+              </li>
+              <li>
+                Abrir el panel de control e iniciar los servicios
+                <code>Apache</code> y <code>MySQL</code>.
+              </li>
+              <li>
+                Copiar la carpeta de la plantilla dentro de
+                <code>C:\xampp\htdocs\</code>.
+              </li>
+              <li>
+                Verificar en el navegador:
+                <code>http://localhost/mi-plantilla/</code>
+              </li>
+              <li>
+                Capturar pantalla de cada paso mientras lo hacen, no después.
+              </li>
+            </ol>
+            <div class="nota">
+              <b>Si el puerto 80 está ocupado</b> (Skype, IIS u otro programa),
+              cambien Apache al puerto 8080 y prueben con
+              <code>http://localhost:8080/</code>.
+            </div>
+            <aside class="notes">
+              Error clásico: dejar la plantilla en Descargas y abrirla con doble
+              clic. Eso abre el archivo, no lo sirve. Debe verse localhost en la
+              barra de direcciones.
+            </aside>
+          </section>
+
+          <section data-tema="Evidencia AA3" data-codigo="AA3-EV01">
+            <div class="rotulo">Evidencia GA10-220501097-AA3-EV01</div>
+            <h2>Software instalado en la plataforma del cliente</h2>
+            <p class="bajada">
+              Informe en PDF, extensión libre, con el paso a paso de la
+              instalación y del montaje de la plantilla.
+            </p>
+            <div class="entrega">
+              <div>Portada con nombre, programa, ficha y fecha</div>
+              <div>Introducción</div>
+              <div>Plantilla HTML seleccionada, con su fuente</div>
+              <div>Plataforma elegida y por qué</div>
+              <div>Paso a paso con capturas de pantalla propias</div>
+              <div>Captura final del sitio corriendo en localhost</div>
+              <div>Fuentes consultadas</div>
+              <div>Archivo en formato PDF</div>
+            </div>
+            <aside class="notes">
+              Recordar que las capturas deben ser del computador del aprendiz,
+              con su propio nombre de carpeta visible. Imágenes tomadas de
+              Internet no evidencian el trabajo.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ AA4 ============ -->
+        <section
+          data-tema="Redundancia y alta disponibilidad"
+          data-codigo="AA4-EV01"
+        >
+          <section
+            data-tema="Redundancia y alta disponibilidad"
+            data-codigo="AA4-EV01"
+          >
+            <div class="sep">
+              <div class="rotulo">Actividad de aprendizaje · 8 horas</div>
+              <div class="codigo">AA4</div>
+              <h2>Configurar los servicios requeridos</h2>
+              <p class="bajada">
+                Clústeres, análisis de riesgo e impacto, RPO y RTO, recuperación
+                de desastres y continuidad del negocio.
+              </p>
+            </div>
+          </section>
+
+          <section data-tema="Alta disponibilidad" data-codigo="AA4-EV01">
+            <div class="rotulo">Concepto base</div>
+            <h2>Disponibilidad se mide en nueves</h2>
+            <p class="bajada">
+              Disponibilidad es el porcentaje de tiempo que el servicio
+              responde. Se ve pequeño en la tabla, pero la diferencia entre un
+              nueve y otro es enorme.
+            </p>
+            <table>
+              <tr>
+                <th>Nivel</th>
+                <th>Disponibilidad</th>
+                <th>Fuera de servicio al año</th>
+                <th>Ejemplo típico</th>
+              </tr>
+              <tr>
+                <td>Dos nueves</td>
+                <td>99 %</td>
+                <td>3 días y medio</td>
+                <td>Sitio informativo pequeño</td>
+              </tr>
+              <tr>
+                <td>Tres nueves</td>
+                <td>99,9 %</td>
+                <td>8 horas y media</td>
+                <td>Comercio electrónico</td>
+              </tr>
+              <tr>
+                <td>Cuatro nueves</td>
+                <td>99,99 %</td>
+                <td>52 minutos</td>
+                <td>Banca en línea</td>
+              </tr>
+              <tr>
+                <td>Cinco nueves</td>
+                <td>99,999 %</td>
+                <td>5 minutos</td>
+                <td>Telefonía, salud, pagos</td>
+              </tr>
+            </table>
+            <div class="nota">
+              Cada nueve adicional multiplica el costo. Por eso la
+              disponibilidad se negocia con el cliente en un acuerdo de nivel de
+              servicio (<b>SLA</b>), no se promete de más.
+            </div>
+            <aside class="notes">
+              Preguntar al grupo: ¿cuántos nueves necesita la plataforma de
+              matrículas del SENA? Es un buen debate porque la respuesta depende
+              del momento del año.
+            </aside>
+          </section>
+
+          <section data-tema="Redundancia y SPOF" data-codigo="AA4-EV01">
+            <div class="rotulo">Principio de diseño</div>
+            <h2>Redundancia: nunca una sola pieza crítica</h2>
+            <p class="bajada">
+              Un punto único de falla (SPOF) es cualquier componente que, si se
+              daña, tumba todo el servicio. Redundancia es tener repuesto listo
+              para cada uno.
+            </p>
+            <div class="g3">
+              <div class="ficha">
+                <div class="tit">Energía</div>
+                <div class="txt">
+                  UPS y planta eléctrica. Dos acometidas independientes.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Red</div>
+                <div class="txt">
+                  Dos proveedores de Internet y switches duplicados.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Servidores</div>
+                <div class="txt">
+                  Varios nodos atendiendo detrás de un balanceador.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Almacenamiento</div>
+                <div class="txt">
+                  RAID y réplicas de la base de datos en otra máquina.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Datos</div>
+                <div class="txt">
+                  Copias de seguridad probadas y guardadas en otro sitio.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Personas</div>
+                <div class="txt">
+                  Más de una persona sabe operar el sistema y hay documentación.
+                </div>
+              </div>
+            </div>
+            <div class="nota">
+              La llanta de repuesto no sirve si nunca se revisó. Un respaldo que
+              nunca se ha restaurado <b>no es un respaldo</b>, es una esperanza.
+            </div>
+            <aside class="notes">
+              Buen momento para preguntar cuál es el SPOF más común en los
+              proyectos de los aprendices: casi siempre es que el proyecto vive
+              solo en el portátil de una persona.
+            </aside>
+          </section>
+
+          <section data-tema="Clúster" data-codigo="AA4-EV01">
+            <div class="rotulo">Arquitectura</div>
+            <h2>Un clúster es un equipo de máquinas</h2>
+            <p class="bajada">
+              Varios computadores (nodos) conectados que se comportan hacia
+              afuera como uno solo. Si un nodo cae, los demás siguen atendiendo.
+            </p>
+            <div class="g3">
+              <div class="ficha">
+                <span class="num">01</span>
+                <div class="tit">Nodos</div>
+                <div class="txt">
+                  Los servidores que hacen el trabajo real. Pueden ser físicos o
+                  virtuales.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">02</span>
+                <div class="tit">Balanceador de carga</div>
+                <div class="txt">
+                  Reparte las peticiones entre los nodos disponibles. HAProxy,
+                  Nginx, ELB.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">03</span>
+                <div class="tit">Heartbeat</div>
+                <div class="txt">
+                  Señal periódica que confirma que cada nodo sigue vivo.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">04</span>
+                <div class="tit">IP virtual</div>
+                <div class="txt">
+                  Una sola dirección de entrada que se mueve al nodo que esté
+                  activo.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">05</span>
+                <div class="tit">Almacenamiento compartido</div>
+                <div class="txt">
+                  SAN, NAS o replicación para que todos vean los mismos datos.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">06</span>
+                <div class="tit">Failover</div>
+                <div class="txt">
+                  El traspaso automático de la carga cuando un nodo falla.
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              Herramientas para nombrar en el informe: Pacemaker y Corosync,
+              Keepalived, HAProxy, Kubernetes, MySQL Group Replication, Proxmox
+              VE, VMware vSphere HA.
+            </aside>
+          </section>
+
+          <section data-tema="Tipos de clúster" data-codigo="AA4-EV01">
+            <div class="rotulo">Clasificación</div>
+            <h2>Tres tipos, tres propósitos</h2>
+            <div class="g3">
+              <div class="ficha">
+                <div class="tit">Alta disponibilidad</div>
+                <div class="txt">
+                  Objetivo: que el servicio no se caiga. Nodos en activo-pasivo
+                  o activo-activo con failover automático. Ejemplo: base de
+                  datos de un hospital.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Balanceo de carga</div>
+                <div class="txt">
+                  Objetivo: atender mucho tráfico. Las peticiones se reparten
+                  entre nodos iguales. Ejemplo: tienda en línea en temporada
+                  alta.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Alto rendimiento (HPC)</div>
+                <div class="txt">
+                  Objetivo: resolver un cálculo enorme. Los nodos se reparten
+                  partes del mismo problema. Ejemplo: modelos del clima.
+                </div>
+              </div>
+            </div>
+            <h3 style="margin-top: 30px">Tipos de procesamiento</h3>
+            <div class="g3" style="margin-top: 12px">
+              <div class="ficha">
+                <div class="tit">Paralelo</div>
+                <div class="txt">
+                  El trabajo se divide y se ejecuta al tiempo en varios nodos.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Distribuido</div>
+                <div class="txt">
+                  Tareas independientes repartidas entre nodos que se coordinan
+                  por red.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Por lotes o transaccional</div>
+                <div class="txt">
+                  Colas de trabajos programados, u operaciones cortas y
+                  constantes.
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              Activo-activo: todos los nodos trabajan. Activo-pasivo: uno
+              trabaja y el otro espera. El primero aprovecha más recursos, el
+              segundo es más simple de configurar.
+            </aside>
+          </section>
+
+          <section data-tema="RPO y RTO" data-codigo="AA4-EV01">
+            <div class="rotulo">Métricas de recuperación</div>
+            <h2>RPO y RTO en una línea de tiempo</h2>
+            <p class="bajada">
+              Son las dos preguntas que todo cliente debe responder antes de un
+              desastre: cuántos datos puedo perder y cuánto tiempo puedo estar
+              caído.
+            </p>
+            <div class="tiempo">
+              <div class="eje">
+                <div class="hito" style="left: 16%">
+                  <span>Último respaldo</span>
+                </div>
+                <div class="hito falla" style="left: 50%">
+                  <span>Falla</span>
+                </div>
+                <div class="hito" style="left: 88%">
+                  <span>Servicio restablecido</span>
+                </div>
+                <div class="tramo" style="left: 16%; width: 34%">
+                  <b>RPO · datos que se pierden</b>
+                </div>
+                <div class="tramo" style="left: 50%; width: 38%">
+                  <b>RTO · tiempo sin servicio</b>
+                </div>
+              </div>
+            </div>
+            <div class="nota" style="margin-top: 76px">
+              <b>RPO</b> se reduce respaldando más seguido o replicando en
+              tiempo real. <b>RTO</b> se reduce con failover automático y
+              procedimientos ensayados.
+            </div>
+            <aside class="notes">
+              Ejemplo para fijar la idea: si respaldo cada 24 horas, mi RPO es
+              de 24 horas; si la falla ocurre a las 11 p.m. perdí casi un día
+              completo de registros. Preguntar cuánto valdría ese día en una
+              tienda.
+            </aside>
+          </section>
+
+          <section data-tema="Continuidad" data-codigo="AA4-EV01">
+            <div class="rotulo">Gestión</div>
+            <h2>Del riesgo al plan de continuidad</h2>
+            <ol>
+              <li>
+                <strong>Análisis de riesgo.</strong> Qué puede fallar, con qué
+                probabilidad y con qué impacto.
+              </li>
+              <li>
+                <strong>Análisis de impacto (BIA).</strong> Cuánto cuesta cada
+                hora caído en dinero, reputación y aspectos legales.
+              </li>
+              <li>
+                <strong>Gestión de prioridad.</strong> Qué servicios se levantan
+                primero: los críticos antes que los accesorios.
+              </li>
+              <li>
+                <strong>Plan de recuperación de desastres (DRP).</strong>
+                Procedimiento técnico para volver a operar.
+              </li>
+              <li>
+                <strong>Plan de continuidad del negocio (BCP).</strong> Cómo
+                sigue funcionando la organización mientras se recupera.
+              </li>
+              <li>
+                <strong>Gestión de crisis y pruebas.</strong> Quién decide,
+                quién comunica, y simulacros periódicos.
+              </li>
+            </ol>
+            <div class="nota">
+              Un plan que nunca se ha probado es un documento, no un plan. Las
+              <b>pruebas de operación</b> son las que lo vuelven real.
+            </div>
+            <aside class="notes">
+              Aclarar la diferencia DRP vs BCP: el DRP es técnico, el BCP es
+              organizacional e incluye personas, sedes alternas y comunicación
+              con clientes.
+            </aside>
+          </section>
+
+          <section data-tema="Ventajas y desventajas" data-codigo="AA4-EV01">
+            <div class="rotulo">Balance honesto</div>
+            <h2>Los clústeres también cuestan</h2>
+            <div class="g2">
+              <div class="ficha">
+                <div class="tit">Ventajas</div>
+                <div class="txt">
+                  Alta disponibilidad y tolerancia a fallos.<br />
+                  Escalabilidad horizontal: se agregan nodos.<br />
+                  Mejor rendimiento bajo mucha carga.<br />
+                  Mantenimiento sin apagar el servicio.<br />
+                  Recuperación más rápida ante desastres.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Desventajas</div>
+                <div class="txt">
+                  Mayor costo en equipos, licencias y red.<br />
+                  Configuración y operación complejas.<br />
+                  Requiere personal con más especialización.<br />
+                  Sincronizar datos entre nodos es difícil.<br />
+                  Riesgo de <em>split-brain</em> si se pierde el heartbeat.
+                </div>
+              </div>
+            </div>
+            <div class="nota">
+              Regla práctica: la arquitectura debe costar menos que la caída que
+              evita.
+            </div>
+            <aside class="notes">
+              Split-brain: dos nodos creen que son el activo y escriben al
+              tiempo, corrompiendo los datos. Se evita con quórum y con
+              dispositivos de aislamiento (fencing).
+            </aside>
+          </section>
+
+          <section data-tema="Evidencia AA4" data-codigo="AA4-EV01">
+            <div class="rotulo">Evidencia GA10-220501097-AA4-EV01</div>
+            <h2>Conceptos y principios de configuración de servicios</h2>
+            <p class="bajada">
+              Informe en PDF sobre arquitectura de clústeres. Esta evidencia sí
+              exige objetivo, conclusiones y referencias en normas APA vigentes.
+            </p>
+            <div class="entrega">
+              <div>Portada</div>
+              <div>Introducción</div>
+              <div>Objetivo</div>
+              <div>Herramientas y tecnologías de clúster</div>
+              <div>Características y tipos de clúster</div>
+              <div>Tipos de procesamiento</div>
+              <div>Ventajas y desventajas</div>
+              <div>Conclusiones</div>
+              <div>Referencias en normas APA</div>
+              <div>Archivo en formato PDF</div>
+            </div>
+            <aside class="notes">
+              Esta es la única de las cuatro evidencias que pide explícitamente
+              objetivo, conclusiones y APA. Vale la pena repetirlo.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ AA5 ============ -->
+        <section
+          data-tema="Virtualización y contenedores"
+          data-codigo="AA5-EV01"
+        >
+          <section
+            data-tema="Virtualización y contenedores"
+            data-codigo="AA5-EV01"
+          >
+            <div class="sep">
+              <div class="rotulo">Actividad de aprendizaje · 40 horas</div>
+              <div class="codigo">AA5</div>
+              <h2>Configurar el software en el servidor y la base de datos</h2>
+              <p class="bajada">
+                La actividad más extensa: montar Ubuntu con Apache y MySQL,
+                primero virtualizado y después en contenedores.
+              </p>
+            </div>
+          </section>
+
+          <section data-tema="Virtualización" data-codigo="AA5-EV01">
+            <div class="rotulo">Concepto base</div>
+            <h2>Virtualizar es partir una máquina en varias</h2>
+            <p class="bajada">
+              Un programa llamado hipervisor toma el hardware real y lo reparte
+              entre varias máquinas virtuales, cada una con su propio sistema
+              operativo completo.
+            </p>
+            <div class="g2">
+              <div class="ficha">
+                <div class="tit">Hipervisor tipo 1 · bare metal</div>
+                <div class="txt">
+                  Se instala directamente sobre el hardware, sin sistema
+                  operativo debajo. Más rápido y seguro. Se usa en centros de
+                  datos.<br /><br /><em
+                    >VMware ESXi · Proxmox VE · Hyper-V · KVM</em
+                  >
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Hipervisor tipo 2 · hospedado</div>
+                <div class="txt">
+                  Se instala como un programa más dentro de Windows o macOS. Más
+                  fácil de usar, algo más lento. Ideal para aprender y
+                  probar.<br /><br /><em
+                    >VirtualBox · VMware Workstation · UTM</em
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="nota">
+              <b>Para la evidencia</b> usen tipo 2: VirtualBox es gratuito y
+              corre en cualquier portátil con 8 GB de RAM.
+            </div>
+            <aside class="notes">
+              Si el aprendiz ve el error VT-x deshabilitado, debe activar la
+              virtualización en la BIOS. Es la falla más frecuente de esta
+              actividad.
+            </aside>
+          </section>
+
+          <section data-tema="VM vs contenedor" data-codigo="AA5-EV01">
+            <div class="rotulo">La comparación clave</div>
+            <h2>Máquina virtual o contenedor</h2>
+            <div class="g2">
+              <div>
+                <div class="pila-cab">Máquina virtual</div>
+                <div class="pila">
+                  <div class="capa app">App A</div>
+                  <div class="capa fina">Librerías</div>
+                  <div class="capa so">Sistema operativo huésped</div>
+                  <div class="capa fina">Hipervisor</div>
+                  <div class="capa fina">Sistema operativo anfitrión</div>
+                  <div class="capa fina">Hardware</div>
+                </div>
+              </div>
+              <div>
+                <div class="pila-cab">Contenedor</div>
+                <div class="pila">
+                  <div class="capa app">App A</div>
+                  <div class="capa fina">Librerías</div>
+                  <div class="capa fina">Motor de contenedores (Docker)</div>
+                  <div class="capa so">Sistema operativo anfitrión</div>
+                  <div class="capa fina">Hardware</div>
+                </div>
+              </div>
+            </div>
+            <div class="nota">
+              La diferencia está en una sola capa: el contenedor
+              <b>no lleva su propio sistema operativo</b>, comparte el núcleo
+              del anfitrión. Por eso pesa megabytes y arranca en segundos,
+              mientras la máquina virtual pesa gigabytes y arranca en minutos.
+            </div>
+            <aside class="notes">
+              Analogía: la máquina virtual es una casa completa con cimientos
+              propios; el contenedor es un apartamento en un edificio, con
+              paredes propias pero estructura compartida.
+            </aside>
+          </section>
+
+          <section data-tema="Cuándo usar cada uno" data-codigo="AA5-EV01">
+            <div class="rotulo">Criterio de decisión</div>
+            <h2>No compiten: se complementan</h2>
+            <table>
+              <tr>
+                <th>Criterio</th>
+                <th>Máquina virtual</th>
+                <th>Contenedor</th>
+              </tr>
+              <tr>
+                <td>Aislamiento</td>
+                <td>Fuerte, incluye el núcleo</td>
+                <td>A nivel de proceso</td>
+              </tr>
+              <tr>
+                <td>Tamaño</td>
+                <td>Gigabytes</td>
+                <td>Megabytes</td>
+              </tr>
+              <tr>
+                <td>Arranque</td>
+                <td>Minutos</td>
+                <td>Segundos</td>
+              </tr>
+              <tr>
+                <td>Sistema operativo</td>
+                <td>Puede ser distinto al anfitrión</td>
+                <td>Comparte el núcleo del anfitrión</td>
+              </tr>
+              <tr>
+                <td>Ideal para</td>
+                <td>
+                  Correr Windows y Linux juntos, laboratorios, sistemas antiguos
+                </td>
+                <td>
+                  Desplegar y replicar aplicaciones, microservicios, CI/CD
+                </td>
+              </tr>
+              <tr>
+                <td>Portabilidad</td>
+                <td>Media: se exporta la imagen completa</td>
+                <td>Alta: la misma imagen corre en cualquier parte</td>
+              </tr>
+            </table>
+            <div class="nota">
+              En la nube casi siempre se usan los dos: contenedores
+              <b>que corren dentro de</b> máquinas virtuales.
+            </div>
+            <aside class="notes">
+              Mencionar que Kubernetes orquesta contenedores sobre nodos que
+              suelen ser máquinas virtuales. Así queda claro que no es o lo uno
+              o lo otro.
+            </aside>
+          </section>
+
+          <section data-tema="Ruta A · virtualización" data-codigo="AA5-EV01">
+            <div class="rotulo">Ruta A · primera parte del informe</div>
+            <h2>Ubuntu con Apache y MySQL en VirtualBox</h2>
+            <ol style="font-size: 0.9em">
+              <li>Instalar VirtualBox y descargar la ISO de Ubuntu Server.</li>
+              <li>
+                Crear la máquina: 2 CPU, 2 GB de RAM, 20 GB de disco, red en
+                modo puente.
+              </li>
+              <li>Instalar Ubuntu y actualizar el sistema.</li>
+              <li>Instalar y verificar los servicios.</li>
+            </ol>
+            <pre><code><span class="c"># actualizar el sistema</span>
+sudo apt update &amp;&amp; sudo apt upgrade -y
+
+<span class="c"># servidor web</span>
+sudo apt install apache2 -y
+sudo systemctl enable --now apache2
+
+<span class="c"># base de datos</span>
+sudo apt install mysql-server -y
+sudo mysql_secure_installation</code></pre>
+            <aside class="notes">
+              Red en modo puente para poder entrar desde el navegador del
+              anfitrión con la IP de la VM. Con NAT tocaría redireccionar
+              puertos.
+            </aside>
+          </section>
+
+          <section data-tema="Ruta B · contenedores" data-codigo="AA5-EV01">
+            <div class="rotulo">Ruta B · segunda parte del informe</div>
+            <h2>Lo mismo, en contenedores</h2>
+            <p class="bajada">
+              Un archivo <code>docker-compose.yml</code> describe la misma
+              máquina: servidor web, base de datos y la plantilla publicada.
+            </p>
+            <pre><code><span class="k">services</span>:
+  web:
+    image: httpd:2.4
+    ports: ["8080:80"]
+    volumes: ["./sitio:/usr/local/apache2/htdocs"]
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: claveSegura
+      MYSQL_DATABASE: pruebas
+    ports: ["3306:3306"]
+    volumes: ["datos:/var/lib/mysql"]
+
+<span class="k">volumes</span>:
+  datos:</code></pre>
+            <pre style="margin-top: 12px"><code>docker compose up -d
+docker ps</code></pre>
+            <div class="nota">
+              Compare los tiempos: instalar la VM toma cerca de media hora;
+              levantar estos contenedores toma menos de un minuto.
+              <b
+                >Esa comparación es material excelente para las conclusiones.</b
+              >
+            </div>
+            <aside class="notes">
+              El volumen datos hace que la base de datos sobreviva si se borra
+              el contenedor. Buen momento para explicar persistencia.
+            </aside>
+          </section>
+
+          <section data-tema="Verificación" data-codigo="AA5-EV01">
+            <div class="rotulo">Requisito explícito de la evidencia</div>
+            <h2>Demostrar que los servicios corren</h2>
+            <p class="bajada">
+              El informe debe incluir pruebas, no solo capturas de la
+              instalación. Estas cuatro bastan.
+            </p>
+            <div class="g2">
+              <div class="ficha">
+                <span class="num">Prueba 01</span>
+                <div class="tit">Estado de los servicios</div>
+                <div class="txt">
+                  <code>systemctl status apache2</code><br /><code
+                    >systemctl status mysql</code
+                  ><br />Deben aparecer como <em>active (running)</em>.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">Prueba 02</span>
+                <div class="tit">Respuesta web</div>
+                <div class="txt">
+                  <code>curl -I http://localhost</code><br />Debe responder
+                  <em>HTTP/1.1 200 OK</em>, y verse la página en el navegador.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">Prueba 03</span>
+                <div class="tit">Base de datos</div>
+                <div class="txt">
+                  <code>sudo mysql -u root -p</code> y luego
+                  <code>SHOW DATABASES;</code> para listar las bases creadas.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">Prueba 04</span>
+                <div class="tit">Puertos abiertos</div>
+                <div class="txt">
+                  <code>ss -tulpn | grep -E '80|3306'</code><br />Confirma quién
+                  está escuchando en cada puerto.
+                </div>
+              </div>
+            </div>
+            <aside class="notes">
+              Sugerir que las capturas incluyan la fecha y hora del sistema
+              visible. Eso hace la evidencia verificable.
+            </aside>
+          </section>
+
+          <section data-tema="Evidencia AA5" data-codigo="AA5-EV01">
+            <div class="rotulo">Evidencia GA10-220501097-AA5-EV01</div>
+            <h2>Configuración de servicios, bases de datos y software</h2>
+            <p class="bajada">
+              Informe en PDF o Word con los dos procesos completos: primero
+              virtualización, después contenedores.
+            </p>
+            <div class="entrega">
+              <div>Portada</div>
+              <div>Introducción</div>
+              <div>Parte 1: paso a paso con virtualización</div>
+              <div>Parte 2: paso a paso con contenedores</div>
+              <div>Ubuntu, MySQL y Apache en ambos casos</div>
+              <div>Capturas de pantalla de cada paso</div>
+              <div>Pruebas de que los servicios están corriendo</div>
+              <div>Fuentes consultadas</div>
+            </div>
+            <div class="nota">
+              Es la actividad de <b>40 horas</b>: se espera el doble de trabajo
+              que en las demás, porque son dos montajes completos.
+            </div>
+            <aside class="notes">
+              Sugerir cerrar el informe con una tabla comparativa propia entre
+              las dos rutas. Eleva mucho la calidad del trabajo.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ AA6 ============ -->
+        <section data-tema="Publicación en Internet" data-codigo="AA6-EV01">
+          <section data-tema="Publicación en Internet" data-codigo="AA6-EV01">
+            <div class="sep">
+              <div class="rotulo">Actividad de aprendizaje · 8 horas</div>
+              <div class="codigo">AA6</div>
+              <h2>Cargar archivos en el sitio de publicación</h2>
+              <p class="bajada">
+                Publicación tradicional: hosting, dominio, DNS y carga de
+                archivos por FTP.
+              </p>
+            </div>
+          </section>
+
+          <section data-tema="Hosting, dominio y DNS" data-codigo="AA6-EV01">
+            <div class="rotulo">Concepto base</div>
+            <h2>Tres cosas distintas que se confunden</h2>
+            <div class="g3">
+              <div class="ficha">
+                <div class="tit">Hosting</div>
+                <div class="txt">
+                  La casa. El espacio en un servidor encendido las 24 horas
+                  donde viven sus archivos.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Dominio</div>
+                <div class="txt">
+                  La dirección. El nombre fácil de recordar que la gente escribe
+                  en el navegador.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">DNS</div>
+                <div class="txt">
+                  El directorio. Traduce el nombre a la dirección IP donde está
+                  la casa.
+                </div>
+              </div>
+            </div>
+            <div class="nota">
+              Se contratan por separado y luego se conectan: en el panel del
+              dominio se apuntan los <b>registros DNS</b> (A o NS) hacia el
+              servidor del hosting. Ese apunte puede tardar unas horas en
+              propagarse.
+            </div>
+            <aside class="notes">
+              Si el sitio no carga después de configurar el dominio, casi
+              siempre es propagación DNS. Se verifica con nslookup o
+              dnschecker.org antes de tocar nada más.
+            </aside>
+          </section>
+
+          <section data-tema="Tipos de hosting" data-codigo="AA6-EV01">
+            <div class="rotulo">Panorama</div>
+            <h2>Del más compartido al más propio</h2>
+            <table>
+              <tr>
+                <th>Tipo</th>
+                <th>Cómo funciona</th>
+                <th>Cuándo conviene</th>
+              </tr>
+              <tr>
+                <td>Compartido</td>
+                <td>
+                  Muchos sitios en un mismo servidor, con panel tipo cPanel
+                </td>
+                <td>Sitios pequeños y prácticas académicas</td>
+              </tr>
+              <tr>
+                <td>VPS</td>
+                <td>
+                  Una máquina virtual con recursos reservados y acceso root
+                </td>
+                <td>Proyectos que necesitan configuración propia</td>
+              </tr>
+              <tr>
+                <td>Dedicado</td>
+                <td>Un servidor físico completo para un solo cliente</td>
+                <td>Alto tráfico o exigencias de cumplimiento</td>
+              </tr>
+              <tr>
+                <td>Nube</td>
+                <td>Recursos elásticos que crecen y decrecen bajo demanda</td>
+                <td>Cargas variables, se paga por consumo</td>
+              </tr>
+              <tr>
+                <td>Estático / Pages</td>
+                <td>Solo HTML, CSS y JS servidos desde una CDN</td>
+                <td>Plantillas, portafolios, documentación</td>
+              </tr>
+            </table>
+            <aside class="notes">
+              Conectar con AA4: la redundancia y el clúster que estudiamos son
+              justamente lo que el proveedor de hosting ya montó por dentro.
+            </aside>
+          </section>
+
+          <section data-tema="Opciones gratuitas" data-codigo="AA6-EV01">
+            <div class="rotulo">Para la práctica</div>
+            <h2>Alternativas sin costo</h2>
+            <div class="g2">
+              <div class="ficha">
+                <div class="tit">Hosting con panel y FTP</div>
+                <div class="txt">
+                  InfinityFree, GoogieHost, AwardSpace. Ofrecen panel de
+                  control, FTP y base de datos MySQL. Son los que mejor se
+                  parecen a un hosting real y por eso sirven para mostrar el
+                  proceso tradicional completo.
+                </div>
+              </div>
+              <div class="ficha">
+                <div class="tit">Hosting estático desde repositorio</div>
+                <div class="txt">
+                  GitHub Pages, Netlify, Vercel, Firebase Hosting. Publican en
+                  minutos y con HTTPS, pero solo sitios estáticos y sin FTP: se
+                  sube por Git o arrastrando la carpeta.
+                </div>
+              </div>
+            </div>
+            <div class="nota">
+              <b>Sobre el dominio gratuito:</b> lo que casi siempre se obtiene
+              sin costo es un <em>subdominio</em> del proveedor, del estilo
+              <code>miproyecto.host.com</code>. Un dominio propio, con extensión
+              como <code>.com</code>, normalmente se paga. Verifiquen
+              condiciones antes de elegir, porque estos servicios cambian con
+              frecuencia.
+            </div>
+            <aside class="notes">
+              Aclarar que si eligen GitHub Pages no habrá capturas de FTP; en
+              ese caso deben documentar el flujo con Git. Ambas rutas son
+              válidas mientras el sitio quede accesible por Internet.
+            </aside>
+          </section>
+
+          <section data-tema="Paso a paso publicación" data-codigo="AA6-EV01">
+            <div class="rotulo">Práctica</div>
+            <h2>De la carpeta local a Internet</h2>
+            <ol>
+              <li>
+                Crear la cuenta en el proveedor de hosting y confirmar el
+                correo.
+              </li>
+              <li>
+                Registrar el dominio o subdominio y anotar los datos entregados.
+              </li>
+              <li>Apuntar los registros DNS del dominio hacia el hosting.</li>
+              <li>
+                Obtener las credenciales de FTP: servidor, usuario y contraseña.
+              </li>
+              <li>
+                Conectarse con FileZilla y subir la plantilla a la carpeta
+                <code>htdocs</code> o <code>public_html</code>.
+              </li>
+              <li>
+                Verificar que el archivo principal se llame
+                <code>index.html</code>.
+              </li>
+              <li>
+                Activar el certificado SSL y abrir el sitio con
+                <code>https://</code>.
+              </li>
+            </ol>
+            <div class="nota">
+              Error frecuente: subir la carpeta comprimida o dejar el sitio
+              dentro de una subcarpeta. Los archivos van <b>sueltos</b> en la
+              raíz pública.
+            </div>
+            <aside class="notes">
+              Pedir que la captura final muestre la URL pública completa en la
+              barra de direcciones y el candado del certificado.
+            </aside>
+          </section>
+
+          <section data-tema="Evidencia AA6" data-codigo="AA6-EV01">
+            <div class="rotulo">Evidencia GA10-220501097-AA6-EV01</div>
+            <h2>Archivos cargados en la plataforma de producción</h2>
+            <p class="bajada">
+              Informe en PDF con el paso a paso de la configuración de dominio y
+              hosting, y el despliegue de la plantilla.
+            </p>
+            <div class="entrega">
+              <div>Portada</div>
+              <div>Introducción</div>
+              <div>Plataforma de dominio elegida</div>
+              <div>Plataforma de hosting elegida</div>
+              <div>Plantilla utilizada, con su fuente</div>
+              <div>Paso a paso con capturas propias</div>
+              <div>URL pública funcionando, visible en la captura</div>
+              <div>Fuentes consultadas</div>
+            </div>
+            <aside class="notes">
+              Recomendar que dejen el sitio en línea al menos hasta que el
+              instructor evalúe. Si lo bajan antes, la URL no se puede
+              verificar.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ INFORMES ============ -->
+        <section data-tema="Cómo se entrega" data-codigo="GA10">
+          <div class="rotulo">Aplica a las cuatro evidencias</div>
+          <h2>El informe también se califica</h2>
+          <div class="g2">
+            <div class="ficha">
+              <div class="tit">Estructura mínima</div>
+              <div class="txt">
+                Portada con nombre, programa, ficha, instructor y fecha.<br />
+                Introducción: qué se hizo y para qué.<br />
+                Objetivo (obligatorio en AA4).<br />
+                Desarrollo: el paso a paso con capturas.<br />
+                Conclusiones (obligatorias en AA4).<br />
+                Referencias y fuentes consultadas.
+              </div>
+            </div>
+            <div class="ficha">
+              <div class="tit">Errores que cuestan nota</div>
+              <div class="txt">
+                Capturas tomadas de Internet en vez de propias.<br />
+                Imágenes borrosas o recortadas sin contexto.<br />
+                Texto copiado y pegado sin citar la fuente.<br />
+                Entregar en Word cuando se pide PDF.<br />
+                No incluir la prueba de que el servicio funciona.<br />
+                Referencias sin normas APA en AA4.
+              </div>
+            </div>
+          </div>
+          <div class="nota">
+            Consejo práctico: escriban el informe <b>mientras</b> hacen la
+            práctica. Reconstruirlo después siempre sale peor y toma más tiempo.
+          </div>
+          <aside class="notes">
+            Sugerir una plantilla común de informe para toda la ficha, así se
+            enfocan en el contenido técnico.
+          </aside>
+        </section>
+
+        <!-- ============ CIERRE ============ -->
+        <section data-tema="Cierre" data-codigo="GA10">
+          <div class="sep">
+            <div class="rotulo">Resumen de la ruta</div>
+            <h2>La misma página, cuatro veces más lejos</h2>
+            <div class="g4" style="margin-top: 26px">
+              <div class="ficha">
+                <span class="num">AA3</span>
+                <div class="tit">localhost</div>
+                <div class="txt">
+                  Corre en su equipo con un stack instalado.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">AA4</span>
+                <div class="tit">Sin caídas</div>
+                <div class="txt">
+                  Diseñada para resistir fallas con redundancia.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">AA5</span>
+                <div class="tit">Empaquetada</div>
+                <div class="txt">
+                  Reproducible en una VM y en un contenedor.
+                </div>
+              </div>
+              <div class="ficha">
+                <span class="num">AA6</span>
+                <div class="tit">En Internet</div>
+                <div class="txt">
+                  Accesible desde cualquier parte por una URL.
+                </div>
+              </div>
+            </div>
+            <p class="bajada" style="margin-top: 30px">
+              Preguntas, dudas y casos particulares.
+            </p>
+          </div>
+          <aside class="notes">
+            Cerrar preguntando a cada aprendiz qué plataforma piensa usar en
+            AA3, para detectar temprano a quien esté perdido.
+          </aside>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.055,
+        center: false,
+        hash: true,
+        slideNumber: false,
+        transition: "fade",
+        transitionSpeed: "fast",
+        backgroundTransition: "none",
+        plugins: [RevealNotes],
+      });
+
+      const tema = document.getElementById("cj-tema");
+      const codigo = document.getElementById("cj-codigo");
+      const hoja = document.getElementById("cj-hoja");
+
+      function actualizarCajetin() {
+        const s = Reveal.getCurrentSlide();
+        if (!s) return;
+        const origen = s.dataset.tema
+          ? s
+          : s.parentElement.dataset.tema
+            ? s.parentElement
+            : s;
+        tema.textContent = origen.dataset.tema || "—";
+        codigo.textContent = origen.dataset.codigo || "GA10";
+        const total = Reveal.getTotalSlides();
+        const i = Reveal.getSlidePastCount() + 1;
+        hoja.textContent =
+          String(i).padStart(2, "0") + "/" + String(total).padStart(2, "0");
+      }
+
+      Reveal.on("ready", actualizarCajetin);
+      Reveal.on("slidechanged", actualizarCajetin);
+    </script>
+  </body>
+</html>
