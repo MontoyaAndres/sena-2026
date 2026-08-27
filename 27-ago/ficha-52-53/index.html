@@ -1,0 +1,1300 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Implantación de software · AA7 a AA10</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --tinta: #12212f;
+        --tinta-60: rgba(18, 33, 47, 0.62);
+        --tinta-25: rgba(18, 33, 47, 0.22);
+        --papel: #e4e9ec;
+        --panel: #f8fafb;
+        --via: #0e7c86;
+        --alerta: #d6455d;
+        --ambar: #e0921f;
+        --linea: rgba(18, 33, 47, 0.14);
+      }
+
+      html,
+      body {
+        background: var(--papel);
+      }
+      .reveal {
+        font-family: "Public Sans", system-ui, sans-serif;
+        font-size: 26px;
+        color: var(--tinta);
+        background:
+          linear-gradient(
+              to right,
+              rgba(18, 33, 47, 0.045) 1px,
+              transparent 1px
+            )
+            0 0/64px 64px,
+          var(--papel);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        height: 100%;
+      }
+
+      /* --- tipografía --- */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Bricolage Grotesque", sans-serif;
+        color: var(--tinta);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        line-height: 1.03;
+        margin: 0 0 0.35em;
+        text-shadow: none;
+      }
+      .reveal h1 {
+        font-size: 2.55em;
+        font-weight: 800;
+      }
+      .reveal h2 {
+        font-size: 1.75em;
+        font-weight: 800;
+      }
+      .reveal h3 {
+        font-size: 1.05em;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.25em;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.7em;
+      }
+      .reveal strong {
+        font-weight: 600;
+        color: var(--tinta);
+      }
+      .reveal em {
+        font-style: normal;
+        color: var(--via);
+        font-weight: 600;
+      }
+      .reveal .lead {
+        font-size: 1.12em;
+        max-width: 26ch;
+      }
+      .reveal .sub {
+        color: var(--tinta-60);
+        font-size: 0.86em;
+        max-width: 60ch;
+      }
+
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.62em;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--tinta-60);
+        margin: 0 0 1.1em;
+      }
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      /* --- listas --- */
+      .reveal ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding-left: 1.15em;
+        margin: 0 0 0.55em;
+        line-height: 1.4;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 0.42em;
+        height: 0.42em;
+        background: var(--via);
+        transform: rotate(45deg);
+      }
+      .reveal ol {
+        margin: 0;
+        padding-left: 1.3em;
+      }
+      .reveal ol li {
+        margin: 0 0 0.5em;
+        line-height: 1.4;
+      }
+
+      /* --- píldoras de estado --- */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.55em;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.4em 0.8em;
+        border: 1px solid var(--linea);
+        border-radius: 999px;
+        background: var(--panel);
+        color: var(--tinta-60);
+      }
+      .pill.live {
+        color: var(--via);
+        border-color: rgba(14, 124, 134, 0.35);
+        background: rgba(14, 124, 134, 0.07);
+      }
+      .pill.warn {
+        color: var(--alerta);
+        border-color: rgba(214, 69, 93, 0.3);
+        background: rgba(214, 69, 93, 0.06);
+      }
+      .dot {
+        width: 0.5em;
+        height: 0.5em;
+        border-radius: 50%;
+        background: currentColor;
+        display: inline-block;
+      }
+      .pill.live .dot {
+        animation: latido 2.2s ease-in-out infinite;
+      }
+      @keyframes latido {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.25;
+        }
+      }
+
+      /* --- paneles y rejillas --- */
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .g4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--linea);
+        border-radius: 3px;
+        padding: 18px 20px;
+      }
+      .card h3 {
+        margin-bottom: 0.3em;
+      }
+      .card p {
+        font-size: 0.78em;
+        color: var(--tinta-60);
+        margin: 0;
+        line-height: 1.4;
+      }
+      .card .tag {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.58em;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        color: var(--via);
+        display: block;
+        margin-bottom: 0.6em;
+      }
+      .card.acento {
+        border-left: 3px solid var(--via);
+      }
+      .card.avisa {
+        border-left: 3px solid var(--ambar);
+      }
+
+      /* --- filas tipo tablero --- */
+      .fila {
+        display: grid;
+        grid-template-columns: 5.5em 1fr 7em 5em;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 4px;
+        border-bottom: 1px solid var(--linea);
+        font-size: 0.8em;
+      }
+      .fila:first-of-type {
+        border-top: 1px solid var(--linea);
+      }
+      .fila .cod {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        color: var(--via);
+        font-size: 0.92em;
+      }
+      .fila .txt {
+        line-height: 1.3;
+      }
+      .fila .met {
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--tinta-60);
+        font-size: 0.85em;
+      }
+
+      /* --- tabla --- */
+      .reveal table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.72em;
+      }
+      .reveal table th {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.82em;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--tinta-60);
+        text-align: left;
+        padding: 0 12px 10px 0;
+        border-bottom: 1px solid var(--tinta-25);
+      }
+      .reveal table td {
+        padding: 11px 12px 11px 0;
+        border-bottom: 1px solid var(--linea);
+        vertical-align: top;
+        line-height: 1.35;
+      }
+      .reveal table td:first-child {
+        font-weight: 600;
+      }
+
+      /* --- bloque de código --- */
+      .term {
+        background: var(--tinta);
+        color: #dce6e8;
+        border-radius: 3px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.62em;
+        line-height: 1.9;
+        padding: 16px 18px;
+      }
+      .term .c {
+        color: #7e97a0;
+      }
+      .term .k {
+        color: #5fd3c6;
+      }
+
+      /* --- portada de sección --- */
+      .marca {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: 7em;
+        font-weight: 800;
+        line-height: 0.8;
+        color: transparent;
+        -webkit-text-stroke: 2px var(--tinta-25);
+        letter-spacing: -0.04em;
+      }
+      .hero-rule {
+        height: 1px;
+        background: var(--tinta-25);
+        margin: 1.1em 0;
+      }
+
+      /* --- barra de estado inferior (firma) --- */
+      .rail {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 40;
+        display: flex;
+        align-items: stretch;
+        border-top: 1px solid var(--linea);
+        background: rgba(228, 233, 236, 0.94);
+        backdrop-filter: blur(6px);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+      }
+      .rail-item {
+        flex: 1;
+        padding: 9px 14px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--tinta-60);
+        border-right: 1px solid var(--linea);
+        text-transform: uppercase;
+      }
+      .rail-item .rdot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--tinta-25);
+        flex: none;
+      }
+      .rail-item .rh {
+        margin-left: auto;
+        opacity: 0.7;
+      }
+      .rail-item.is-live {
+        color: var(--via);
+        background: rgba(14, 124, 134, 0.08);
+        font-weight: 600;
+      }
+      .rail-item.is-live .rdot {
+        background: var(--via);
+      }
+      .rail-fin {
+        padding: 9px 16px;
+        color: var(--tinta-60);
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 800px) {
+        .rail {
+          font-size: 9px;
+        }
+        .rail-item {
+          padding: 8px;
+          gap: 6px;
+        }
+        .rail-item .rh {
+          display: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .reveal .progress {
+        color: var(--via);
+        height: 3px;
+      }
+      .reveal .controls {
+        color: var(--tinta-60);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ PORTADA ============ -->
+        <section data-act="0">
+          <p class="eyebrow">SENA · GA10-220501097 · Actividades AA7 a AA10</p>
+          <h1>Publicar no es<br />terminar.</h1>
+          <div class="hero-rule"></div>
+          <p class="lead">
+            Las cuatro últimas entregas de la fase de implantación: probar lo
+            que subiste, mantenerlo vivo, poder moverlo y dejarlo documentado.
+          </p>
+          <p class="sub mono" style="font-size: 0.62em; letter-spacing: 0.08em">
+            42 HORAS · 4 EVIDENCIAS · TODAS EN PDF
+          </p>
+          <aside class="notes">
+            Arranque preguntando: “¿en qué momento un proyecto de software se
+            considera entregado?”. La respuesta típica es “cuando funciona”, y
+            ahí entra el tema.
+          </aside>
+        </section>
+
+        <!-- ============ MAPA ============ -->
+        <section data-act="0">
+          <p class="eyebrow">Mapa de la fase</p>
+          <h2>Cuatro entregas, un mismo hilo</h2>
+          <div class="fila">
+            <span class="cod">AA7</span
+            ><span class="txt"
+              >Pruebas de funcionalidad del sitio ya publicado</span
+            ><span class="met">Informe</span><span class="met">12 h</span>
+          </div>
+          <div class="fila">
+            <span class="cod">AA8</span
+            ><span class="txt"
+              >Plan de mantenimiento preventivo y correctivo</span
+            ><span class="met">Plan + cronograma</span
+            ><span class="met">7 h</span>
+          </div>
+          <div class="fila">
+            <span class="cod">AA9</span
+            ><span class="txt">Migración y respaldo de datos</span
+            ><span class="met">Lista de chequeo</span
+            ><span class="met">7 h</span>
+          </div>
+          <div class="fila">
+            <span class="cod">AA10</span
+            ><span class="txt">Manual técnico del sistema</span
+            ><span class="met">Manual</span><span class="met">16 h</span>
+          </div>
+          <p class="sub" style="margin-top: 22px">
+            Las cuatro responden a una sola pregunta:
+            <em>¿este software puede vivir sin ti?</em>
+          </p>
+          <aside class="notes">
+            Insista en el hilo conductor: cada evidencia es un documento que
+            otra persona tendría que poder usar sin llamarte.
+          </aside>
+        </section>
+
+        <!-- ============ AA7 ============ -->
+        <section data-act="AA7">
+          <section data-act="AA7">
+            <p class="eyebrow">Actividad de aprendizaje 7 · 12 horas</p>
+            <div class="marca">AA7</div>
+            <h2 style="margin-top: 0.35em">Pruebas de funcionalidad</h2>
+            <p class="lead">
+              Ya tienes el sitio publicado con un dominio y un hosting. Ahora
+              hay que demostrar que funciona.
+            </p>
+            <p>
+              <span class="pill live"
+                ><span class="dot"></span>EV01 · Informe en PDF</span
+              >
+              <span class="pill">Extensión libre</span>
+            </p>
+            <aside class="notes">
+              La evidencia es un informe de investigación con fuentes, no un
+              pantallazo del sitio.
+            </aside>
+          </section>
+
+          <section data-act="AA7">
+            <p class="eyebrow">Pregunta 1 de 4</p>
+            <h2>¿El dominio quedó bien configurado?</h2>
+            <div class="grid g2">
+              <div>
+                <p class="sub">
+                  Un dominio es un nombre que apunta a una dirección IP. Revisar
+                  la configuración es revisar esos apuntadores, llamados
+                  <strong>registros DNS</strong>.
+                </p>
+                <table>
+                  <tr>
+                    <td>A</td>
+                    <td>El dominio apunta a la IP del servidor</td>
+                  </tr>
+                  <tr>
+                    <td>CNAME</td>
+                    <td>Un alias, típico para <span class="mono">www</span></td>
+                  </tr>
+                  <tr>
+                    <td>MX</td>
+                    <td>A dónde llega el correo</td>
+                  </tr>
+                  <tr>
+                    <td>TXT</td>
+                    <td>Verificaciones y SPF</td>
+                  </tr>
+                  <tr>
+                    <td>NS</td>
+                    <td>Quién manda en la zona DNS</td>
+                  </tr>
+                </table>
+              </div>
+              <div>
+                <div class="term">
+                  <span class="c"># ¿a qué IP resuelve?</span><br />
+                  <span class="k">nslookup</span> midominio.com<br />
+                  <span class="k">dig</span> midominio.com A +short<br /><br />
+                  <span class="c"># ¿quién lo administra?</span><br />
+                  <span class="k">whois</span> midominio.com<br /><br />
+                  <span class="c"># ¿responde el servidor?</span><br />
+                  <span class="k">ping</span> midominio.com
+                </div>
+                <p class="sub" style="margin-top: 14px; font-size: 0.72em">
+                  La propagación de un cambio DNS puede tardar hasta 48 horas
+                  según el TTL. Si acabas de cambiar algo, espera antes de
+                  asustarte.
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Muestre en vivo un nslookup a un dominio conocido. Ver la IP real
+              hace que el concepto aterrice.
+            </aside>
+          </section>
+
+          <section data-act="AA7">
+            <p class="eyebrow">Pregunta 1 · lista rápida</p>
+            <h2>Dominio: qué revisar</h2>
+            <div class="grid g2">
+              <div class="card acento">
+                <span class="tag">RESUELVE</span>
+                <h3>Con y sin www</h3>
+                <p>
+                  Las dos formas deben llevar al mismo sitio, no una a la página
+                  del hosting.
+                </p>
+              </div>
+              <div class="card acento">
+                <span class="tag">CERTIFICADO</span>
+                <h3>HTTPS válido y vigente</h3>
+                <p>
+                  Candado sin advertencias, certificado emitido para ese dominio
+                  y con fecha vigente.
+                </p>
+              </div>
+              <div class="card acento">
+                <span class="tag">REDIRECCIÓN</span>
+                <h3>HTTP manda a HTTPS</h3>
+                <p>
+                  Nadie debería quedarse en la versión insegura por escribir mal
+                  la dirección.
+                </p>
+              </div>
+              <div class="card avisa">
+                <span class="tag">VENCIMIENTO</span>
+                <h3>Fecha de renovación</h3>
+                <p>
+                  Un dominio vencido tumba el sitio completo. Va en el plan de
+                  mantenimiento de AA8.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section data-act="AA7">
+            <p class="eyebrow">Pregunta 2 de 4</p>
+            <h2>¿Se ve igual en todos los navegadores?</h2>
+            <p class="lead" style="max-width: 34ch">
+              No. Y esa es la razón por la que existen las pruebas de
+              compatibilidad.
+            </p>
+            <div class="grid g3" style="margin-top: 24px">
+              <div class="card">
+                <span class="tag">BLINK</span>
+                <h3>Chrome, Edge, Opera, Brave</h3>
+                <p>
+                  El motor más extendido. Es el que casi todos usamos para
+                  desarrollar, y por eso el que menos sorpresas da.
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">GECKO</span>
+                <h3>Firefox</h3>
+                <p>
+                  Suele diferir en formularios, fuentes y propiedades CSS
+                  recientes.
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">WEBKIT</span>
+                <h3>Safari, todo iOS</h3>
+                <p>
+                  En iPhone y iPad cualquier navegador usa WebKit por dentro. Es
+                  donde más aparecen fallos.
+                </p>
+              </div>
+            </div>
+            <p class="sub" style="margin-top: 24px">
+              Diferencias típicas: versiones de CSS soportadas, formatos de
+              imagen y video, tipografías, validación de formularios y permisos
+              de cámara o ubicación. Herramientas:
+              <strong>Can I use</strong> para consultar soporte,
+              <strong>BrowserStack</strong> o <strong>LambdaTest</strong> para
+              probar sin tener los equipos.
+            </p>
+            <aside class="notes">
+              Ejemplo concreto: un input type=date se ve distinto en cada
+              navegador. Vale la pena mostrarlo.
+            </aside>
+          </section>
+
+          <section data-act="AA7">
+            <p class="eyebrow">Pregunta 3 de 4</p>
+            <h2>¿Y en el celular?</h2>
+            <div class="grid g2">
+              <div>
+                <h3>Qué cambia</h3>
+                <ul>
+                  <li>Pantalla angosta y vertical</li>
+                  <li>Se toca con el dedo, no con un puntero</li>
+                  <li>Conexión más lenta y con datos limitados</li>
+                  <li>Teclado que tapa media pantalla</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Qué revisar</h3>
+                <ul>
+                  <li>
+                    Etiqueta <span class="mono">viewport</span> en el HTML
+                  </li>
+                  <li>Nada obliga a hacer scroll horizontal</li>
+                  <li>Botones de mínimo 44 × 44 píxeles</li>
+                  <li>Texto legible sin hacer zoom</li>
+                  <li>Menú y formularios usables con una mano</li>
+                </ul>
+              </div>
+            </div>
+            <p class="sub" style="margin-top: 14px">
+              Prueba con el modo dispositivo de las DevTools (F12), pero
+              <strong>cierra siempre con un celular real</strong>: el emulador
+              no simula la conexión, el teclado ni el dedo.
+            </p>
+          </section>
+
+          <section data-act="AA7">
+            <p class="eyebrow">Pregunta 4 de 4</p>
+            <h2>¿Qué se prueba en una aplicación web?</h2>
+            <table>
+              <tr>
+                <th>Frente</th>
+                <th>Qué se verifica</th>
+                <th>Cómo</th>
+              </tr>
+              <tr>
+                <td>Enlaces</td>
+                <td>Ninguno lleva a error 404 ni a una página en blanco</td>
+                <td>Recorrido manual, rastreadores de enlaces</td>
+              </tr>
+              <tr>
+                <td>Formularios</td>
+                <td>
+                  Campos obligatorios, validaciones, datos que sí llegan a la
+                  base
+                </td>
+                <td>Casos de prueba con datos válidos e inválidos</td>
+              </tr>
+              <tr>
+                <td>Sesiones</td>
+                <td>
+                  Registro, ingreso, salida, recuperar contraseña, permisos por
+                  rol
+                </td>
+                <td>Un usuario de prueba por cada rol</td>
+              </tr>
+              <tr>
+                <td>Rendimiento</td>
+                <td>Tiempo de carga y comportamiento con varios usuarios</td>
+                <td>PageSpeed Insights, JMeter</td>
+              </tr>
+              <tr>
+                <td>Seguridad</td>
+                <td>HTTPS, inyección SQL, rutas privadas sin sesión</td>
+                <td>Revisión guiada por OWASP Top 10</td>
+              </tr>
+              <tr>
+                <td>Contenido</td>
+                <td>
+                  Ortografía, imágenes que cargan, datos de contacto reales
+                </td>
+                <td>Revisión editorial</td>
+              </tr>
+              <tr>
+                <td>Accesibilidad</td>
+                <td>Contraste, texto alternativo, navegación con teclado</td>
+                <td>WAVE, Lighthouse</td>
+              </tr>
+            </table>
+            <aside class="notes">
+              Recuérdeles registrar evidencia de cada prueba: qué se probó, qué
+              se esperaba, qué pasó.
+            </aside>
+          </section>
+
+          <section data-act="AA7">
+            <p class="eyebrow">Cómo armar la entrega</p>
+            <h2>Estructura del informe</h2>
+            <div class="grid g2">
+              <div>
+                <ol>
+                  <li>Portada</li>
+                  <li>Introducción y objetivo</li>
+                  <li>Verificación del dominio y del hosting</li>
+                  <li>Pruebas de compatibilidad entre navegadores</li>
+                  <li>Pruebas en dispositivos móviles</li>
+                  <li>Elementos probados y resultados</li>
+                  <li>Conclusiones</li>
+                  <li>Referencias</li>
+                </ol>
+              </div>
+              <div class="card acento">
+                <span class="tag">CLAVE</span>
+                <h3>Registra cada prueba igual</h3>
+                <p style="margin-bottom: 0.8em">
+                  Caso · Pasos · Resultado esperado · Resultado obtenido ·
+                  Estado.
+                </p>
+                <p>
+                  Una tabla con esas cinco columnas convierte un informe
+                  descriptivo en una evidencia verificable. Acompáñala con
+                  capturas de pantalla fechadas.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- ============ AA8 ============ -->
+        <section data-act="AA8">
+          <section data-act="AA8">
+            <p class="eyebrow">Actividad de aprendizaje 8 · 7 horas</p>
+            <div class="marca">AA8</div>
+            <h2 style="margin-top: 0.35em">Plan de mantenimiento y soporte</h2>
+            <p class="lead">
+              El software se daña, cambia el entorno y aparecen nuevas
+              necesidades. El plan dice quién responde, cuándo y cómo.
+            </p>
+            <p>
+              <span class="pill live"
+                ><span class="dot"></span>EV01 · Plan + cronograma</span
+              >
+              <span class="pill warn">Sobre tu propio proyecto formativo</span>
+            </p>
+          </section>
+
+          <section data-act="AA8">
+            <p class="eyebrow">La norma</p>
+            <h2>ISO/IEC 14764</h2>
+            <p class="sub">
+              Es el estándar internacional de
+              <strong>mantenimiento del software</strong>: define el proceso,
+              sus etapas y la documentación asociada. La guía de aprendizaje la
+              menciona como “ISO 14724”; el número correcto de la norma de
+              mantenimiento es <strong>14764</strong>. Cítala bien en tu
+              documento y anota la referencia.
+            </p>
+            <div class="grid g4" style="margin-top: 26px">
+              <div class="card">
+                <span class="tag">CORRECTIVO</span>
+                <p>Arregla fallas que ya ocurrieron.</p>
+              </div>
+              <div class="card">
+                <span class="tag">PREVENTIVO</span>
+                <p>Actúa antes de que la falla ocurra.</p>
+              </div>
+              <div class="card">
+                <span class="tag">ADAPTATIVO</span>
+                <p>Ajusta el sistema a un entorno que cambió.</p>
+              </div>
+              <div class="card">
+                <span class="tag">PERFECTIVO</span>
+                <p>Mejora rendimiento o funcionalidad.</p>
+              </div>
+            </div>
+            <p class="sub" style="margin-top: 22px">
+              La guía te pide desarrollar los dos primeros, pero mencionar los
+              cuatro muestra dominio del tema.
+            </p>
+          </section>
+
+          <section data-act="AA8">
+            <p class="eyebrow">Preventivo vs. correctivo</p>
+            <h2>La diferencia, en una frase</h2>
+            <div class="grid g2">
+              <div class="card acento">
+                <span class="tag">PREVENTIVO · PROGRAMADO</span>
+                <h3>Antes de que falle</h3>
+                <ul style="font-size: 0.78em; margin-top: 0.6em">
+                  <li>Respaldos periódicos de la base</li>
+                  <li>Actualización de dependencias</li>
+                  <li>Revisión de logs y espacio en disco</li>
+                  <li>Renovación de dominio y certificado</li>
+                  <li>Limpieza de datos temporales</li>
+                </ul>
+              </div>
+              <div class="card avisa">
+                <span class="tag">CORRECTIVO · REACTIVO</span>
+                <h3>Después de que falló</h3>
+                <ul style="font-size: 0.78em; margin-top: 0.6em">
+                  <li>Reporte del usuario o alerta del sistema</li>
+                  <li>Diagnóstico y reproducción del error</li>
+                  <li>Corrección y pruebas de regresión</li>
+                  <li>Despliegue del ajuste</li>
+                  <li>Registro en la bitácora de incidencias</li>
+                </ul>
+              </div>
+            </div>
+            <p class="sub" style="margin-top: 18px">
+              Un buen plan preventivo reduce el correctivo. Eso es exactamente
+              lo que debes argumentar en la introducción de tu documento.
+            </p>
+          </section>
+
+          <section data-act="AA8">
+            <p class="eyebrow">Los siete apartados que pide la evidencia</p>
+            <h2>Qué va en cada uno</h2>
+            <table>
+              <tr>
+                <td>Descripción del sistema</td>
+                <td>
+                  Qué hace tu aplicación, para quién, con qué tecnologías y
+                  dónde está desplegada.
+                </td>
+              </tr>
+              <tr>
+                <td>Proceso de implementación</td>
+                <td>
+                  Cómo se organiza el mantenimiento: roles, canales de soporte,
+                  horarios, herramientas de seguimiento.
+                </td>
+              </tr>
+              <tr>
+                <td>Análisis de modificación y problemas</td>
+                <td>
+                  Cómo se recibe una solicitud, se clasifica por prioridad y se
+                  estima su impacto antes de tocar código.
+                </td>
+              </tr>
+              <tr>
+                <td>Implementación de la modificación</td>
+                <td>
+                  El paso a paso técnico: rama, cambio, pruebas, revisión y
+                  despliegue controlado.
+                </td>
+              </tr>
+              <tr>
+                <td>Aceptación y revisión</td>
+                <td>
+                  Quién aprueba que el cambio quedó bien y con qué criterio se
+                  cierra el caso.
+                </td>
+              </tr>
+              <tr>
+                <td>Migración</td>
+                <td>
+                  Qué pasa si el sistema debe moverse de servidor, de proveedor
+                  o de versión.
+                </td>
+              </tr>
+              <tr>
+                <td>Retiro</td>
+                <td>
+                  Cómo se da de baja el sistema: aviso a usuarios, respaldo
+                  final y destino de los datos.
+                </td>
+              </tr>
+            </table>
+            <aside class="notes">
+              Estos siete apartados son literalmente el índice del documento.
+              Que no inventen otra estructura.
+            </aside>
+          </section>
+
+          <section data-act="AA8">
+            <p class="eyebrow">Segunda parte de la entrega</p>
+            <h2>El cronograma</h2>
+            <table>
+              <tr>
+                <th>Tarea</th>
+                <th>Tipo</th>
+                <th>Frecuencia</th>
+                <th>Responsable</th>
+              </tr>
+              <tr>
+                <td>Respaldo completo de la base de datos</td>
+                <td>Preventivo</td>
+                <td>Diaria, 2:00 a. m.</td>
+                <td>Administrador</td>
+              </tr>
+              <tr>
+                <td>Revisión de logs de error</td>
+                <td>Preventivo</td>
+                <td>Semanal</td>
+                <td>Desarrollador</td>
+              </tr>
+              <tr>
+                <td>Actualización de dependencias y parches</td>
+                <td>Preventivo</td>
+                <td>Mensual</td>
+                <td>Desarrollador</td>
+              </tr>
+              <tr>
+                <td>Prueba de restauración del respaldo</td>
+                <td>Preventivo</td>
+                <td>Trimestral</td>
+                <td>Administrador</td>
+              </tr>
+              <tr>
+                <td>Renovación de dominio y certificado SSL</td>
+                <td>Preventivo</td>
+                <td>Anual</td>
+                <td>Líder del proyecto</td>
+              </tr>
+              <tr>
+                <td>Atención de incidencias reportadas</td>
+                <td>Correctivo</td>
+                <td>Según prioridad</td>
+                <td>Mesa de soporte</td>
+              </tr>
+            </table>
+            <p class="sub" style="margin-top: 18px">
+              Puedes presentarlo también como diagrama de Gantt. Lo importante
+              es que tenga
+              <strong>tarea, tipo, frecuencia y responsable</strong>.
+            </p>
+          </section>
+        </section>
+
+        <!-- ============ AA9 ============ -->
+        <section data-act="AA9">
+          <section data-act="AA9">
+            <p class="eyebrow">Actividad de aprendizaje 9 · 7 horas</p>
+            <div class="marca">AA9</div>
+            <h2 style="margin-top: 0.35em">Migración y respaldo de datos</h2>
+            <p class="lead">
+              Mover un sistema sin perder datos. La evidencia es una lista de
+              chequeo, no un ensayo.
+            </p>
+            <p>
+              <span class="pill live"
+                ><span class="dot"></span>EV01 · Lista de chequeo</span
+              >
+              <span class="pill">Con portada e introducción</span>
+            </p>
+          </section>
+
+          <section data-act="AA9">
+            <p class="eyebrow">Dos conceptos que se confunden</p>
+            <h2>Respaldar y migrar</h2>
+            <div class="grid g2">
+              <div class="card acento">
+                <span class="tag">RESPALDO</span>
+                <h3>Copia para volver atrás</h3>
+                <p style="margin-bottom: 0.9em">
+                  Se hace de forma rutinaria y su única prueba de que sirve es
+                  haberlo restaurado alguna vez.
+                </p>
+                <p>
+                  <strong>Regla 3-2-1:</strong> 3 copias de los datos, en 2
+                  medios distintos, 1 de ellas fuera del sitio.
+                </p>
+              </div>
+              <div class="card acento">
+                <span class="tag">MIGRACIÓN</span>
+                <h3>Traslado a otro lugar</h3>
+                <p style="margin-bottom: 0.9em">
+                  Cambio de servidor, de proveedor, de motor de base de datos o
+                  de versión.
+                </p>
+                <p>
+                  Ocurre una vez, con fecha y hora acordadas, y siempre con un
+                  <strong>plan de reversión</strong> por si algo sale mal.
+                </p>
+              </div>
+            </div>
+            <p class="sub" style="margin-top: 20px">
+              Antes de migrar se respalda. Después de migrar se verifica. Y si
+              falla, se revierte con el respaldo. Los dos conceptos se
+              necesitan.
+            </p>
+          </section>
+
+          <section data-act="AA9">
+            <p class="eyebrow">Modelo de instrumento</p>
+            <h2>Lista de chequeo de migración</h2>
+            <table>
+              <tr>
+                <th>#</th>
+                <th>Ítem por verificar</th>
+                <th>Momento</th>
+                <th>Cumple</th>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>
+                  Inventario de datos, archivos y configuraciones a migrar
+                </td>
+                <td>Antes</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Respaldo completo realizado y verificado</td>
+                <td>Antes</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Entorno destino con versiones compatibles</td>
+                <td>Antes</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Ventana de mantenimiento comunicada a los usuarios</td>
+                <td>Antes</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Conteo de registros igual en origen y destino</td>
+                <td>Después</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>
+                  Integridad referencial y codificación de caracteres correctas
+                </td>
+                <td>Después</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Pruebas funcionales superadas en el nuevo entorno</td>
+                <td>Después</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>Plan de reversión disponible y probado</td>
+                <td>Siempre</td>
+                <td>Sí / No / N. A.</td>
+              </tr>
+            </table>
+            <p class="sub" style="margin-top: 16px">
+              Agrega columnas de <strong>responsable</strong>,
+              <strong>fecha</strong> y <strong>observaciones</strong>. Sin firma
+              y fecha, una lista de chequeo no es evidencia.
+            </p>
+            <aside class="notes">
+              Pídales adaptar los ítems a su propio proyecto: si no usan base de
+              datos relacional, el ítem 6 cambia.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ AA10 ============ -->
+        <section data-act="AA10">
+          <section data-act="AA10">
+            <p class="eyebrow">Actividad de aprendizaje 10 · 16 horas</p>
+            <div class="marca">AA10</div>
+            <h2 style="margin-top: 0.35em">Manual técnico</h2>
+            <p class="lead">
+              La entrega más larga de la fase. Es el documento que le permite a
+              otro equipo instalar, entender y modificar tu sistema.
+            </p>
+            <p>
+              <span class="pill live"
+                ><span class="dot"></span>EV01 · Manual técnico</span
+              >
+              <span class="pill">Guía de referencia: DNP</span>
+            </p>
+          </section>
+
+          <section data-act="AA10">
+            <p class="eyebrow">Para quién escribes</p>
+            <h2>Técnico no es lo mismo que de usuario</h2>
+            <div class="grid g2">
+              <div class="card acento">
+                <span class="tag">MANUAL TÉCNICO</span>
+                <h3>Lo lee quien mantiene</h3>
+                <p>
+                  Arquitectura, base de datos, dependencias, scripts. Asume
+                  conocimiento técnico y responde: ¿cómo está hecho y cómo lo
+                  instalo?
+                </p>
+              </div>
+              <div class="card">
+                <span class="tag">MANUAL DE USUARIO</span>
+                <h3>Lo lee quien usa</h3>
+                <p>
+                  Pantallas, pasos y capturas. Sin jerga. Responde: ¿cómo hago
+                  mi tarea con esta aplicación?
+                </p>
+              </div>
+            </div>
+            <p class="sub" style="margin-top: 20px">
+              El error más común de esta evidencia es entregar un manual de
+              usuario con nombre de manual técnico.
+            </p>
+          </section>
+
+          <section data-act="AA10">
+            <p class="eyebrow">Los siete elementos obligatorios</p>
+            <h2>Contenido del manual</h2>
+            <table>
+              <tr>
+                <td>Prerrequisitos de instalación</td>
+                <td>
+                  Sistema operativo, versiones de lenguaje y motor de base de
+                  datos, memoria, puertos, dependencias.
+                </td>
+              </tr>
+              <tr>
+                <td>Frameworks y estándares</td>
+                <td>
+                  Con qué se construyó y bajo qué convenciones: arquitectura,
+                  patrón, guía de estilo de código.
+                </td>
+              </tr>
+              <tr>
+                <td>Diagrama de casos de uso</td>
+                <td>Actores y funciones del sistema. Notación UML.</td>
+              </tr>
+              <tr>
+                <td>Modelo entidad-relación</td>
+                <td>
+                  Tablas, atributos, llaves y cardinalidades de la base de
+                  datos.
+                </td>
+              </tr>
+              <tr>
+                <td>Diccionario de datos</td>
+                <td>
+                  Campo por campo: nombre, tipo, longitud, si admite nulos,
+                  descripción.
+                </td>
+              </tr>
+              <tr>
+                <td>Scripts de instalación</td>
+                <td>
+                  Creación de la base, datos iniciales, comandos de despliegue.
+                  Copiables y probados.
+                </td>
+              </tr>
+              <tr>
+                <td>Diagrama de componentes</td>
+                <td>
+                  Módulos del sistema y cómo se conectan entre sí y con
+                  servicios externos.
+                </td>
+              </tr>
+            </table>
+            <p class="sub" style="margin-top: 16px">
+              Consulta el anexo <span class="mono">Guia-ManualTecnico</span> del
+              Departamento Nacional de Planeación que acompaña la guía.
+            </p>
+          </section>
+
+          <section data-act="AA10">
+            <p class="eyebrow">Prueba de calidad</p>
+            <h2>La prueba del compañero</h2>
+            <p class="lead" style="max-width: 32ch">
+              Entrégale el manual a alguien que nunca vio tu proyecto y pídele
+              que lo instale.
+            </p>
+            <ul style="margin-top: 18px">
+              <li>
+                Si tiene que preguntarte algo, ese algo falta en el manual
+              </li>
+              <li>
+                Si un comando no se puede copiar y pegar, no está terminado
+              </li>
+              <li>
+                Si el diccionario de datos no coincide con la base real, está
+                desactualizado
+              </li>
+            </ul>
+            <aside class="notes">
+              Buena dinámica de clase: intercambiar manuales entre parejas y
+              anotar cada punto donde se trabaron.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ CIERRE ============ -->
+        <section data-act="0">
+          <p class="eyebrow">Antes de subir cada evidencia</p>
+          <h2>Revisión final</h2>
+          <div class="grid g2">
+            <div>
+              <h3>Las cuatro llevan</h3>
+              <ul>
+                <li>Portada con nombre, ficha y código de la evidencia</li>
+                <li>Introducción</li>
+                <li>Fuentes citadas y referenciadas</li>
+                <li>Formato PDF</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Errores que cuestan la entrega</h3>
+              <ul>
+                <li>Copiar y pegar sin citar la fuente</li>
+                <li>Hablar de un proyecto genérico en vez del propio</li>
+                <li>Subir el archivo al espacio equivocado</li>
+                <li>Entregar en Word cuando piden PDF</li>
+              </ul>
+            </div>
+          </div>
+          <div class="hero-rule"></div>
+          <p class="sub">
+            <strong>Norma para AA8:</strong> ISO/IEC 14764 — Mantenimiento del
+            software. <strong>Anexo para AA10:</strong> guía de manual técnico y
+            de operaciones, Departamento Nacional de Planeación.
+          </p>
+        </section>
+
+        <section data-act="0">
+          <p class="eyebrow">Fin</p>
+          <h1>Un software<br />que sobrevive<br />a su autor.</h1>
+          <div class="hero-rule"></div>
+          <p class="sub">Eso es lo que evalúan estas cuatro evidencias.</p>
+        </section>
+      </div>
+    </div>
+
+    <div class="rail" id="rail">
+      <div class="rail-item" data-key="AA7">
+        <span class="rdot"></span>AA7 · Pruebas<span class="rh">12 h</span>
+      </div>
+      <div class="rail-item" data-key="AA8">
+        <span class="rdot"></span>AA8 · Mantenimiento<span class="rh">7 h</span>
+      </div>
+      <div class="rail-item" data-key="AA9">
+        <span class="rdot"></span>AA9 · Migración<span class="rh">7 h</span>
+      </div>
+      <div class="rail-item" data-key="AA10">
+        <span class="rdot"></span>AA10 · Manual<span class="rh">16 h</span>
+      </div>
+      <div class="rail-fin">GA10-220501097</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script>
+      const deck = new Reveal({
+        width: 1280,
+        height: 720,
+        margin: 0.055,
+        hash: true,
+        slideNumber: "c/t",
+        transition: "fade",
+        transitionSpeed: "fast",
+        plugins: [RevealNotes],
+      });
+
+      function marcarRail(slide) {
+        const seccion = slide.closest("section[data-act]");
+        const activa = seccion ? seccion.dataset.act : "0";
+        document.querySelectorAll(".rail-item").forEach((el) => {
+          el.classList.toggle("is-live", el.dataset.key === activa);
+        });
+      }
+
+      deck.initialize().then(() => {
+        marcarRail(deck.getCurrentSlide());
+        deck.on("slidechanged", (e) => marcarRail(e.currentSlide));
+      });
+    </script>
+  </body>
+</html>
