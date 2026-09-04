@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cómo se entrega un software — Manual, capacitación y actas</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --ink: #12263a;
+        --paper: #edefea;
+        --paper-2: #e3e6de;
+        --stamp: #b23a2f;
+        --pen: #2e5c8a;
+        --pencil: #6f7a7f;
+      }
+
+      /* ---------- base ---------- */
+      .reveal {
+        font-family:
+          "Source Sans 3",
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        font-size: 30px;
+        color: var(--ink);
+        background: var(--paper);
+      }
+      .reveal-viewport {
+        background: var(--paper);
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 2vh 1vw 0;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: "Zilla Slab", Georgia, serif;
+        color: var(--ink);
+        text-transform: none;
+        letter-spacing: -0.01em;
+        line-height: 1.08;
+        margin: 0 0 0.5em;
+        font-weight: 600;
+      }
+      .reveal h1 {
+        font-size: 2.5em;
+        font-weight: 700;
+      }
+      .reveal h2 {
+        font-size: 1.85em;
+      }
+      .reveal h3 {
+        font-size: 1.15em;
+        font-weight: 500;
+        color: var(--pen);
+        margin-bottom: 0.35em;
+      }
+
+      .reveal p,
+      .reveal li {
+        line-height: 1.45;
+        max-width: 26em;
+      }
+      .reveal strong {
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .reveal em {
+        color: var(--pencil);
+      }
+
+      .reveal ul {
+        list-style: none;
+        margin-left: 0;
+      }
+      .reveal ul li {
+        position: relative;
+        padding-left: 1.1em;
+        margin-bottom: 0.5em;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 0.42em;
+        height: 0.42em;
+        background: var(--pen);
+      }
+      .reveal ol {
+        margin-left: 1.1em;
+      }
+      .reveal ol li {
+        margin-bottom: 0.5em;
+        padding-left: 0.2em;
+      }
+      .reveal ol li::marker {
+        font-family: "Zilla Slab", serif;
+        color: var(--stamp);
+        font-weight: 600;
+      }
+
+      .lead {
+        font-size: 1.15em;
+        color: var(--pencil);
+        max-width: 24em;
+      }
+      .small {
+        font-size: 0.72em;
+        color: var(--pencil);
+        max-width: 32em;
+      }
+      .rule {
+        width: 3.2em;
+        height: 3px;
+        background: var(--stamp);
+        margin: 0 0 1.2em;
+      }
+
+      /* ---------- portada ---------- */
+      #portada {
+        padding-top: 6vh;
+      }
+      #portada h1 {
+        font-size: 2.9em;
+        max-width: 12em;
+      }
+      #portada .meta {
+        font-size: 0.8em;
+        color: var(--pencil);
+        margin-top: 2em;
+        line-height: 1.7;
+      }
+      #portada .meta span {
+        display: block;
+      }
+
+      /* ---------- separadores de módulo ---------- */
+      .divisor {
+        background: var(--ink);
+      }
+      .divisor h2,
+      .divisor h1 {
+        color: var(--paper);
+      }
+      .divisor p {
+        color: #afc0ce;
+      }
+      .divisor .codigo {
+        font-family: "Zilla Slab", serif;
+        font-size: 1.1em;
+        color: var(--stamp);
+        letter-spacing: 0.04em;
+        margin-bottom: 0.4em;
+      }
+      .divisor .rule {
+        background: var(--stamp);
+      }
+      .reveal .divisor {
+        padding-top: 12vh;
+      }
+
+      /* ---------- cuadrícula ---------- */
+      .grid {
+        display: grid;
+        gap: 1.4em;
+        align-items: start;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .grid p,
+      .grid li {
+        max-width: none;
+      }
+      .grid h3 {
+        margin-top: 0;
+      }
+
+      .ficha {
+        border-top: 2px solid var(--ink);
+        padding-top: 0.7em;
+      }
+      .ficha .n {
+        font-family: "Zilla Slab", serif;
+        font-size: 0.8em;
+        color: var(--stamp);
+        display: block;
+        margin-bottom: 0.15em;
+      }
+      .ficha p {
+        font-size: 0.82em;
+      }
+      .ficha ul li {
+        font-size: 0.8em;
+        margin-bottom: 0.32em;
+      }
+
+      .nota {
+        border-left: 3px solid var(--stamp);
+        padding: 0.15em 0 0.15em 1em;
+        font-size: 0.85em;
+        max-width: 26em;
+        color: var(--ink);
+        margin-top: 1.2em;
+      }
+      .nota b {
+        color: var(--stamp);
+        font-weight: 600;
+      }
+
+      /* ---------- barra de tiempos ---------- */
+      .tiempos {
+        display: flex;
+        margin: 1.4em 0 0.6em;
+        font-size: 0.7em;
+      }
+      .tiempos div {
+        padding: 0.7em 0.8em;
+        color: var(--paper);
+        background: var(--pen);
+        border-right: 2px solid var(--paper);
+      }
+      .tiempos div:last-child {
+        border-right: 0;
+      }
+      .tiempos div b {
+        display: block;
+        color: #fff;
+        font-size: 1.25em;
+        font-family: "Zilla Slab", serif;
+      }
+      .tiempos .t1 {
+        flex: 5;
+        background: #6e8ca8;
+      }
+      .tiempos .t2 {
+        flex: 20;
+      }
+      .tiempos .t3 {
+        flex: 15;
+        background: #1f4468;
+      }
+      .tiempos .t4 {
+        flex: 5;
+        background: #6e8ca8;
+      }
+
+      /* ---------- sello ---------- */
+      .sello {
+        border: 3px solid var(--stamp);
+        color: var(--stamp);
+        padding: 0.5em 1em 0.6em;
+        transform: rotate(-7deg);
+        display: inline-block;
+        font-family: "Zilla Slab", serif;
+        line-height: 1.2;
+        opacity: 0.92;
+        box-shadow:
+          inset 0 0 0 2px var(--paper),
+          inset 0 0 0 5px var(--stamp);
+      }
+      .sello b {
+        font-size: 1.5em;
+        font-weight: 700;
+        display: block;
+        color: var(--stamp);
+      }
+      .sello span {
+        font-size: 0.6em;
+        letter-spacing: 0.02em;
+      }
+
+      /* ---------- checklist ---------- */
+      .check li {
+        padding-left: 1.6em;
+      }
+      .check li::before {
+        content: "";
+        width: 0.75em;
+        height: 0.75em;
+        border: 2px solid var(--pen);
+        background: transparent;
+        top: 0.42em;
+      }
+
+      /* ---------- pie de página ---------- */
+      #pie {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.7rem 1.4rem;
+        font-family: "Source Sans 3", sans-serif;
+        font-size: 0.72rem;
+        color: var(--pencil);
+        border-top: 1px solid var(--paper-2);
+        background: var(--paper);
+        z-index: 5;
+        pointer-events: none;
+      }
+      #pie.oscuro {
+        color: #8fa3b4;
+        background: var(--ink);
+        border-color: #25405c;
+      }
+      .reveal .slide-number {
+        background: transparent;
+        color: var(--pencil);
+        font-size: 0.7em;
+        right: 1.4rem;
+        bottom: 0.55rem;
+      }
+
+      @media (max-width: 900px) {
+        .g2,
+        .g3 {
+          grid-template-columns: 1fr;
+        }
+        .reveal {
+          font-size: 26px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal .slides section {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============ PORTADA ============ -->
+        <section id="portada" data-modulo="Presentación">
+          <div class="rule"></div>
+          <h1>Cómo se entrega un software</h1>
+          <p class="lead">
+            El proyecto no termina cuando el código funciona. Termina cuando el
+            cliente sabe usarlo y firma que lo recibió.
+          </p>
+          <p class="meta">
+            <span>Fase de implantación</span>
+            <span>Actividades AA11, AA12 y AA13 — 24 horas</span>
+          </p>
+          <aside class="notes">
+            Arrancar preguntando: “¿cuándo consideran ustedes que un proyecto
+            está terminado?”. Casi siempre responden “cuando funciona”. Ese es
+            el punto de entrada de toda la sesión.
+          </aside>
+        </section>
+
+        <!-- ============ MAPA ============ -->
+        <section data-modulo="Presentación">
+          <h2>Tres entregables, un mismo objetivo</h2>
+          <p class="lead">
+            Que el cliente pueda usar el sistema sin ustedes al lado.
+          </p>
+          <div class="grid g3" style="margin-top: 1.4em">
+            <div class="ficha">
+              <span class="n">AA11</span>
+              <h3>Manual de usuario</h3>
+              <p>
+                El documento que explica, paso a paso, cómo se usa cada función.
+              </p>
+            </div>
+            <div class="ficha">
+              <span class="n">AA12</span>
+              <h3>Capacitación</h3>
+              <p>
+                Un libreto de 45 minutos y un video tutorial para enseñarle al
+                usuario.
+              </p>
+            </div>
+            <div class="ficha">
+              <span class="n">AA13</span>
+              <h3>Actas</h3>
+              <p>
+                La prueba escrita de que capacitamos y de que el cliente
+                recibió.
+              </p>
+            </div>
+          </div>
+          <p class="nota">
+            Los tres se entregan en <b>PDF</b>, más el video en MP4. La
+            extensión es libre: se califica la calidad, no el número de páginas.
+          </p>
+          <aside class="notes">
+            Dejar clara la secuencia: primero documento, luego enseño, luego
+            firmo. Ese orden es el mismo que usan las empresas en un cierre real
+            de proyecto.
+          </aside>
+        </section>
+
+        <!-- ============ MÓDULO 1 ============ -->
+        <section>
+          <section class="divisor" data-modulo="AA11 — Manual de usuario">
+            <p class="codigo">AA11</p>
+            <div class="rule"></div>
+            <h2>El manual de usuario</h2>
+            <p>Escribir para alguien que nunca ha visto el sistema.</p>
+            <aside class="notes">Primer módulo. 8 horas de la guía.</aside>
+          </section>
+
+          <section data-modulo="AA11 — Manual de usuario">
+            <h2>¿Para quién se escribe?</h2>
+            <p>
+              No para el profesor y no para otro programador. Se escribe para
+              <strong>el usuario final</strong>: la persona que va a usar el
+              sistema todos los días y que no sabe qué es una tabla ni un
+              endpoint.
+            </p>
+            <div class="grid g2" style="margin-top: 1.2em">
+              <div class="ficha">
+                <span class="n">Así no</span>
+                <p>
+                  “El módulo valida el token JWT y persiste el registro en la
+                  entidad Usuario.”
+                </p>
+              </div>
+              <div class="ficha">
+                <span class="n">Así sí</span>
+                <p>
+                  “Escriba su correo y contraseña, y presione <em>Ingresar</em>.
+                  Si los datos son correctos verá el menú principal.”
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Este es el error número uno del manual: está escrito en lenguaje
+              técnico. Pedirles que lean su propio borrador en voz alta a
+              alguien de la familia.
+            </aside>
+          </section>
+
+          <section data-modulo="AA11 — Manual de usuario">
+            <h2>Qué debe contener</h2>
+            <p class="lead">Seis elementos que exige la guía de aprendizaje.</p>
+            <ol style="margin-top: 1em; font-size: 0.9em">
+              <li>Guía de cómo usar cada función del sistema.</li>
+              <li>
+                Descripción general y detallada de componentes, menús y
+                submenús.
+              </li>
+              <li>Instrucciones de ingreso al sistema.</li>
+              <li>Instrucciones para registrar y consultar información.</li>
+              <li>Flujos de trabajo.</li>
+              <li>Imágenes representativas o capturas de pantalla.</li>
+            </ol>
+            <aside class="notes">
+              Estos seis puntos son literalmente la lista de chequeo con la que
+              se califica. Sugerir que cada uno sea un capítulo del documento.
+            </aside>
+          </section>
+
+          <section data-modulo="AA11 — Manual de usuario">
+            <h2>Cómo se escribe un paso</h2>
+            <div class="grid g2">
+              <div>
+                <h3>La receta</h3>
+                <ul style="font-size: 0.88em">
+                  <li>Un verbo por instrucción, en orden.</li>
+                  <li>Nombrar los botones tal como aparecen en pantalla.</li>
+                  <li>Decir qué pasa después de cada acción.</li>
+                  <li>Una captura por cada pantalla que se menciona.</li>
+                  <li>Señalar en la captura dónde hay que hacer clic.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Ejemplo</h3>
+                <p style="font-size: 0.85em">
+                  1. En el menú principal seleccione
+                  <strong>Clientes</strong>.<br />
+                  2. Presione <strong>Nuevo cliente</strong>.<br />
+                  3. Complete nombre, documento y teléfono.<br />
+                  4. Presione <strong>Guardar</strong>. El cliente aparecerá en
+                  la lista.
+                </p>
+              </div>
+            </div>
+            <p class="nota">
+              Si un paso necesita explicación de por qué, va en una nota aparte.
+              <b>Las instrucciones no se mezclan con la teoría.</b>
+            </p>
+            <aside class="notes">
+              Mostrar en vivo una captura mal tomada (pantalla completa,
+              ilegible) frente a una recortada y señalada. La diferencia se
+              entiende sola.
+            </aside>
+          </section>
+
+          <section data-modulo="AA11 — Manual de usuario">
+            <h2>Cómo se entrega</h2>
+            <div class="grid g2">
+              <div>
+                <h3>Estructura mínima del documento</h3>
+                <ul style="font-size: 0.88em">
+                  <li>Portada</li>
+                  <li>Introducción</li>
+                  <li>Contenido del manual</li>
+                  <li>Fuentes consultadas</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Datos de la entrega</h3>
+                <ul style="font-size: 0.88em">
+                  <li>Formato PDF</li>
+                  <li>Extensión libre</li>
+                  <li>Evidencia GA10-220501097-AA11-EV01</li>
+                </ul>
+              </div>
+            </div>
+            <p class="nota">
+              Material de apoyo: la
+              <b>guía para la elaboración de manuales de usuario</b> del
+              Departamento Nacional de Planeación, en el anexo
+              Guia-Manual-Usuario.
+            </p>
+            <aside class="notes">
+              Recordar que citar la guía del DNP en las fuentes ya suma: la guía
+              pide explícitamente incluir cualquier fuente utilizada.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ MÓDULO 2 ============ -->
+        <section>
+          <section class="divisor" data-modulo="AA12 — Capacitación">
+            <p class="codigo">AA12</p>
+            <div class="rule"></div>
+            <h2>Capacitar y probar</h2>
+            <p>Del documento a la práctica, con el usuario en frente.</p>
+          </section>
+
+          <section data-modulo="AA12 — Capacitación">
+            <h2>Dos productos distintos</h2>
+            <div class="grid g2" style="margin-top: 1em">
+              <div class="ficha">
+                <span class="n">Producto 1</span>
+                <h3>Libreto de capacitación</h3>
+                <p>
+                  El guion escrito de una sesión de <strong>45 minutos</strong>:
+                  qué dice, qué muestra y en qué orden. Se entrega en PDF.
+                </p>
+              </div>
+              <div class="ficha">
+                <span class="n">Producto 2</span>
+                <h3>Video tutorial</h3>
+                <p>
+                  Grabación de las funcionalidades más importantes del software.
+                  Se entrega en MP4 y se usa como apoyo durante la sesión.
+                </p>
+              </div>
+            </div>
+            <p class="nota">
+              Ambos se dirigen a <b>un solo tipo de usuario</b>. Si el sistema
+              tiene varios roles, elijan uno: no se capacita igual a un cajero
+              que a un administrador.
+            </p>
+            <aside class="notes">
+              Insistir en la elección del rol. Es el criterio que más se pasa
+              por alto y el que hace que el libreto quede genérico.
+            </aside>
+          </section>
+
+          <section data-modulo="AA12 — Capacitación">
+            <h2>Los 45 minutos, repartidos</h2>
+            <div class="tiempos">
+              <div class="t1"><b>5</b> Apertura y objetivos</div>
+              <div class="t2"><b>20</b> Recorrido guiado con el video</div>
+              <div class="t3"><b>15</b> Práctica del usuario</div>
+              <div class="t4"><b>5</b> Preguntas y cierre</div>
+            </div>
+            <p class="small">
+              La sesión no es una exposición: el usuario tiene que tocar el
+              sistema antes de irse. Ese bloque de práctica es el que decide si
+              la capacitación sirvió.
+            </p>
+            <aside class="notes">
+              Esta repartición es una propuesta, no una regla de la guía. Pueden
+              ajustarla, pero deben poder justificar por qué.
+            </aside>
+          </section>
+
+          <section data-modulo="AA12 — Capacitación">
+            <h2>Qué escribir en el libreto</h2>
+            <ul style="font-size: 0.92em">
+              <li>Objetivo de la sesión y a qué rol va dirigida.</li>
+              <li>
+                Momento a momento: minuto, tema y qué se muestra en pantalla.
+              </li>
+              <li>Lo que el capacitador dice en cada bloque.</li>
+              <li>El ejercicio práctico que hará el usuario.</li>
+              <li>Preguntas frecuentes previstas y su respuesta.</li>
+              <li>Materiales necesarios: video, manual, datos de prueba.</li>
+            </ul>
+            <p class="nota">
+              Consejo para el video: guion primero, grabación después.
+              <b
+                >Audio limpio, clics lentos y máximo 5 minutos por
+                funcionalidad.</b
+              >
+            </p>
+          </section>
+
+          <section data-modulo="AA12 — Capacitación">
+            <h2>Las pruebas de aceptación</h2>
+            <p>
+              Son las pruebas que hace <strong>el cliente</strong>, no el equipo
+              de desarrollo. Consisten en verificar, una por una, que las
+              funcionalidades acordadas hacen lo que se pidió.
+            </p>
+            <div class="grid g2" style="margin-top: 1.2em">
+              <div class="ficha">
+                <span class="n">Antes</span>
+                <p>
+                  Se prepara una lista de escenarios reales de trabajo con datos
+                  de prueba.
+                </p>
+              </div>
+              <div class="ficha">
+                <span class="n">Después</span>
+                <p>
+                  El resultado de cada escenario queda registrado y firmado. Eso
+                  es lo que sustenta el acta.
+                </p>
+              </div>
+            </div>
+            <aside class="notes">
+              Conectar aquí con AA13: sin pruebas de aceptación no hay nada que
+              certificar en el acta de entrega.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ MÓDULO 3 ============ -->
+        <section>
+          <section class="divisor" data-modulo="AA13 — Actas">
+            <p class="codigo">AA13</p>
+            <div class="rule"></div>
+            <h2>Las actas de cierre</h2>
+            <p>Lo que no queda por escrito, no ocurrió.</p>
+          </section>
+
+          <section data-modulo="AA13 — Actas">
+            <h2>Se construye el modelo, no el acta llena</h2>
+            <p class="lead">
+              La evidencia pide dos plantillas listas para diligenciar, con sus
+              campos y sus espacios de firma.
+            </p>
+            <div class="grid g2" style="margin-top: 1.2em">
+              <div class="ficha">
+                <span class="n">Acta 1</span>
+                <h3>Satisfacción de la capacitación</h3>
+                <ul>
+                  <li>Fecha, hora y lugar de la capacitación</li>
+                  <li>Quién la realizó</li>
+                  <li>Objetivos abordados</li>
+                  <li>Temas desarrollados</li>
+                  <li>Conclusiones y observaciones</li>
+                </ul>
+              </div>
+              <div class="ficha">
+                <span class="n">Acta 2</span>
+                <h3>Entrega final del software</h3>
+                <ul>
+                  <li>Datos de quien recibe el sistema</li>
+                  <li>Descripción del producto entregado</li>
+                  <li>Observaciones</li>
+                  <li>Firmas</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="notes">
+              Recalcar: los ítems de la guía son el mínimo. La guía invita
+              explícitamente a complementar con otras fuentes.
+            </aside>
+          </section>
+
+          <section data-modulo="AA13 — Actas">
+            <h2>Qué agregar para que quede completa</h2>
+            <ul style="font-size: 0.92em">
+              <li>Número consecutivo del acta y nombre del proyecto.</li>
+              <li>Lista de asistentes con documento, cargo y firma.</li>
+              <li>Versión del software y ambiente donde quedó instalado.</li>
+              <li>
+                Relación de lo que se entrega: manual, video, credenciales,
+                código.
+              </li>
+              <li>Compromisos pendientes con responsable y fecha.</li>
+              <li>Espacio de aceptación del cliente.</li>
+            </ul>
+            <p class="nota">
+              Igual que el manual, el documento lleva
+              <b>portada, introducción y fuentes</b>.
+            </p>
+          </section>
+
+          <section data-modulo="AA13 — Actas">
+            <h2>Con esas firmas, el proyecto cierra</h2>
+            <p class="lead">
+              El acta protege a las dos partes: define qué se entregó, en qué
+              estado y desde cuándo corre el soporte.
+            </p>
+            <div style="margin-top: 2em">
+              <span class="sello">
+                <b>Recibido a satisfacción</b>
+                <span>Fecha ____________ &nbsp;&nbsp; Firma ____________</span>
+              </span>
+            </div>
+            <aside class="notes">
+              Cerrar el módulo con la idea de responsabilidad profesional: la
+              firma es lo que separa un ejercicio de clase de una entrega real.
+            </aside>
+          </section>
+        </section>
+
+        <!-- ============ CHECKLIST ============ -->
+        <section data-modulo="Cierre">
+          <h2>Lista de chequeo de la entrega</h2>
+          <div class="grid g3" style="margin-top: 1.2em">
+            <div class="ficha">
+              <span class="n">AA11</span>
+              <ul class="check">
+                <li>Manual en PDF</li>
+                <li>Los seis elementos incluidos</li>
+                <li>Capturas de cada pantalla</li>
+                <li>Portada, introducción, fuentes</li>
+              </ul>
+            </div>
+            <div class="ficha">
+              <span class="n">AA12</span>
+              <ul class="check">
+                <li>Libreto en PDF, 45 minutos</li>
+                <li>Rol de usuario definido</li>
+                <li>Video en MP4</li>
+                <li>Escenarios de prueba listos</li>
+              </ul>
+            </div>
+            <div class="ficha">
+              <span class="n">AA13</span>
+              <ul class="check">
+                <li>Modelo de acta de capacitación</li>
+                <li>Modelo de acta de entrega</li>
+                <li>Campos de firma</li>
+                <li>Portada, introducción, fuentes</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            Sugerir que copien esta lámina como lista de verificación antes de
+            subir cada evidencia a la plataforma.
+          </aside>
+        </section>
+
+        <!-- ============ CIERRE ============ -->
+        <section data-modulo="Cierre">
+          <div class="rule"></div>
+          <h2>Un buen sistema mal entregado<br />se deja de usar en un mes</h2>
+          <p class="lead">
+            El manual, la capacitación y las actas son lo que convierte el
+            trabajo de todo el proyecto en algo que alguien más puede usar.
+          </p>
+          <p class="small" style="margin-top: 2.5em">
+            Fuentes: guía de aprendizaje GA10-220501097, componente formativo
+            “Actividades de documentación y entrega de software en procesos de
+            implantación” y guía para la elaboración de manuales de usuario de
+            los sistemas de información, Departamento Nacional de Planeación.
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <div id="pie"><span id="pie-modulo"></span></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script>
+      const reduce = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      Reveal.initialize({
+        hash: true,
+        center: false,
+        slideNumber: "c/t",
+        transition: reduce ? "none" : "fade",
+        transitionSpeed: "fast",
+        margin: 0.06,
+        width: 1280,
+        height: 720,
+        plugins: [RevealNotes],
+      });
+
+      const pie = document.getElementById("pie");
+      const etiqueta = document.getElementById("pie-modulo");
+      function actualizarPie(slide) {
+        const s = slide.closest("section[data-modulo]") || slide;
+        etiqueta.textContent = s.dataset.modulo || "";
+        pie.classList.toggle("oscuro", s.classList.contains("divisor"));
+      }
+      Reveal.on("ready", (e) => actualizarPie(e.currentSlide));
+      Reveal.on("slidechanged", (e) => actualizarPie(e.currentSlide));
+    </script>
+  </body>
+</html>
