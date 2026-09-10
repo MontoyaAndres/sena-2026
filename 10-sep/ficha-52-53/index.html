@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guía 10 · Resumen de evidencias — ADSO 228118</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+    />
+
+    <style>
+      :root {
+        --paper: #edf1e9;
+        --ink: #152118;
+        --green: #39a900;
+        --deep: #0c3b2a;
+        --amber: #b9740a;
+        --rule: #c4d0be;
+        --muted: #59685b;
+      }
+
+      .reveal {
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+        font-size: 26px;
+        color: var(--ink);
+      }
+      .reveal-viewport {
+        background: var(--paper);
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal .display {
+        font-family: "Archivo", system-ui, sans-serif;
+        font-variation-settings: "wdth" 112;
+        text-transform: none;
+        letter-spacing: -0.015em;
+        line-height: 1.04;
+        margin: 0;
+        color: var(--deep);
+      }
+      .reveal .slides section {
+        text-align: left;
+        height: 100%;
+        padding: 8px 0 0;
+      }
+      .reveal p {
+        line-height: 1.45;
+        margin: 0 0 0.6em;
+      }
+      .reveal ul {
+        margin: 0;
+        padding-left: 1.05em;
+        list-style: none;
+      }
+      .reveal ul li {
+        position: relative;
+        margin: 0 0 0.52em;
+        line-height: 1.4;
+        padding-left: 0.15em;
+      }
+      .reveal ul li::before {
+        content: "";
+        position: absolute;
+        left: -0.95em;
+        top: 0.62em;
+        width: 8px;
+        height: 2px;
+        background: var(--green);
+      }
+      .reveal a {
+        color: var(--deep);
+      }
+      .reveal strong {
+        font-weight: 600;
+        color: var(--deep);
+      }
+
+      /* ---------- portada ---------- */
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 34px;
+      }
+      .cover .kicker {
+        font-size: 0.66em;
+        color: var(--muted);
+      }
+      .cover h1 {
+        font-size: 3.35em;
+        font-weight: 800;
+        font-variation-settings: "wdth" 118;
+      }
+      .cover h1 span {
+        display: block;
+        font-size: 0.42em;
+        font-weight: 500;
+        color: var(--ink);
+        font-variation-settings: "wdth" 100;
+        letter-spacing: 0;
+        margin-top: 0.5em;
+        max-width: 19em;
+        line-height: 1.25;
+      }
+
+      /* pipeline hero */
+      .pipe {
+        display: flex;
+        align-items: flex-start;
+        gap: 0;
+        margin-top: 6px;
+      }
+      .pipe .stop {
+        flex: 1;
+        position: relative;
+        padding-top: 26px;
+      }
+      .pipe .stop::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--rule);
+      }
+      .pipe .stop.on::before {
+        background: var(--green);
+      }
+      .pipe .stop::after {
+        content: "";
+        position: absolute;
+        top: -4px;
+        left: 0;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: var(--paper);
+        border: 3px solid var(--rule);
+      }
+      .pipe .stop.on::after {
+        border-color: var(--green);
+        background: var(--green);
+      }
+      .pipe .stop b {
+        display: block;
+        font-family: "Archivo";
+        font-weight: 600;
+        font-size: 0.72em;
+        color: var(--deep);
+      }
+      .pipe .stop i {
+        display: block;
+        font-style: normal;
+        font-size: 0.6em;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      /* ---------- cabecera de lámina ---------- */
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 10px;
+        margin-bottom: 26px;
+      }
+      .head .who {
+        font-size: 0.62em;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .head .who::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        background: var(--green);
+        flex: none;
+      }
+      .tra .head .who::before {
+        background: var(--amber);
+      }
+      .head .count {
+        font-size: 0.58em;
+        color: var(--muted);
+      }
+
+      .reveal h2 {
+        font-size: 1.62em;
+        font-weight: 700;
+        max-width: 20em;
+      }
+      .code {
+        font-size: 0.56em;
+        color: var(--green);
+        font-family: "Archivo";
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        margin-bottom: 10px;
+      }
+      .tra .code {
+        color: var(--amber);
+      }
+      .lead {
+        font-size: 0.82em;
+        color: var(--ink);
+        margin: 18px 0 20px;
+        max-width: 30em;
+      }
+
+      .cols {
+        display: grid;
+        grid-template-columns: 1.55fr 1fr;
+        gap: 52px;
+        align-items: start;
+      }
+      .cols ul {
+        font-size: 0.74em;
+      }
+      .cols ul li::before {
+        background: var(--green);
+      }
+      .tra .cols ul li::before {
+        background: var(--amber);
+      }
+
+      /* ficha de entrega */
+      .ficha {
+        border-left: 3px solid var(--green);
+        padding: 2px 0 2px 20px;
+      }
+      .tra .ficha {
+        border-left-color: var(--amber);
+      }
+      .ficha div {
+        margin-bottom: 16px;
+      }
+      .ficha dt {
+        font-size: 0.56em;
+        color: var(--muted);
+        margin-bottom: 3px;
+      }
+      .ficha dd {
+        margin: 0;
+        font-size: 0.72em;
+        font-weight: 500;
+        color: var(--deep);
+        line-height: 1.3;
+      }
+      .ficha .hrs {
+        font-family: "Archivo";
+        font-weight: 700;
+        font-size: 1.35em;
+        color: var(--deep);
+        font-variation-settings: "wdth" 118;
+      }
+
+      /* ---------- divisores ---------- */
+      .divider {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+      }
+      .divider .num {
+        font-family: "Archivo";
+        font-weight: 800;
+        font-size: 4.6em;
+        line-height: 0.85;
+        color: var(--green);
+        font-variation-settings: "wdth" 120;
+      }
+      .tra.divider .num {
+        color: var(--amber);
+      }
+      .divider h2 {
+        font-size: 1.9em;
+      }
+      .divider p {
+        font-size: 0.8em;
+        color: var(--muted);
+        max-width: 24em;
+      }
+
+      /* ---------- listas de dos columnas ---------- */
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 44px;
+        font-size: 0.76em;
+      }
+      .card {
+        border-top: 2px solid var(--deep);
+        padding-top: 14px;
+      }
+      .card h3 {
+        font-size: 0.95em;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .card p {
+        color: var(--muted);
+        font-size: 0.92em;
+      }
+
+      /* ---------- checklist final ---------- */
+      .check {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 34px;
+        font-size: 0.6em;
+        margin-top: 14px;
+      }
+      .check button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: 0;
+        border-bottom: 1px solid var(--rule);
+        padding: 7px 4px;
+        color: var(--ink);
+        font: inherit;
+        cursor: pointer;
+      }
+      .check button:hover {
+        background: rgba(57, 169, 0, 0.07);
+      }
+      .check button:focus-visible {
+        outline: 2px solid var(--deep);
+        outline-offset: 2px;
+      }
+      .check .box {
+        width: 16px;
+        height: 16px;
+        flex: none;
+        border: 2px solid var(--rule);
+        display: grid;
+        place-items: center;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .check .box svg {
+        width: 11px;
+        height: 11px;
+        opacity: 0;
+        transform: scale(0.5);
+        transition:
+          opacity 0.15s,
+          transform 0.15s;
+      }
+      .check button[aria-pressed="true"] .box {
+        background: var(--green);
+        border-color: var(--green);
+      }
+      .check button[aria-pressed="true"] .box svg {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .check button[aria-pressed="true"] .lbl {
+        color: var(--muted);
+      }
+      .check .tra-item[aria-pressed="true"] .box {
+        background: var(--amber);
+        border-color: var(--amber);
+      }
+      .tally {
+        font-family: "Archivo";
+        font-weight: 700;
+        font-size: 1.5em;
+        color: var(--deep);
+        font-variation-settings: "wdth" 118;
+        margin-top: 22px;
+      }
+      .tally small {
+        font-family: "IBM Plex Sans";
+        font-weight: 400;
+        font-size: 0.42em;
+        color: var(--muted);
+        display: block;
+        margin-top: 4px;
+      }
+
+      /* ---------- riel de progreso ---------- */
+      #rail {
+        position: fixed;
+        left: 5%;
+        right: 5%;
+        bottom: 16px;
+        display: flex;
+        gap: 3px;
+        z-index: 40;
+        align-items: flex-end;
+      }
+      #rail span {
+        flex: 1;
+        height: 3px;
+        background: var(--rule);
+        transition:
+          height 0.2s,
+          background 0.2s;
+      }
+      #rail span.tec.done {
+        background: #a8ce93;
+      }
+      #rail span.tra.done {
+        background: #e0be8a;
+      }
+      #rail span.now {
+        height: 11px;
+      }
+      #rail span.tec.now {
+        background: var(--green);
+      }
+      #rail span.tra.now {
+        background: var(--amber);
+      }
+      #rail.hide {
+        opacity: 0;
+      }
+
+      .reveal .controls {
+        color: var(--deep);
+      }
+      .reveal .progress {
+        display: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- PORTADA -->
+        <section class="cover">
+          <div class="kicker">
+            Análisis y desarrollo de software · Programa 228118 · Fase de
+            ejecución
+          </div>
+          <h1>
+            Guía 10
+            <span
+              >Implantación del software y cultura emprendedora: qué pide cada
+              evidencia y en qué vamos.</span
+            >
+          </h1>
+          <div class="pipe">
+            <div class="stop">
+              <b>Desarrollo</b><i>lo que ya construimos</i>
+            </div>
+            <div class="stop"><b>Pruebas</b><i>guías anteriores</i></div>
+            <div class="stop on">
+              <b>Producción</b><i>aquí estamos: la implantación</i>
+            </div>
+          </div>
+        </section>
+
+        <!-- MAPA -->
+        <section>
+          <div class="head">
+            <div class="who">Panorama de la guía</div>
+            <div class="count">192 horas · 17 evidencias</div>
+          </div>
+          <div class="two">
+            <div class="card">
+              <h3>Implementar la solución de software (220501097)</h3>
+              <p>
+                13 evidencias · 144 horas. Todo lo que hay que hacer para llevar
+                el producto del computador propio a un servidor real: alistar la
+                plataforma, instalar, configurar servicios, publicar, probar,
+                documentar, capacitar y entregar.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Cultura emprendedora y empresarial (240201529)</h3>
+              <p>
+                4 evidencias · 48 horas. Un recorrido corto y propio:
+                reconocerse como emprendedor, definir una idea de negocio,
+                modelarla en Lean Canvas y ponerle números.
+              </p>
+            </div>
+          </div>
+          <p
+            style="
+              font-size: 0.72em;
+              color: var(--muted);
+              margin-top: 34px;
+              max-width: 34em;
+            "
+          >
+            La estrategia es estudio de casos: cada evidencia parte de una
+            situación concreta y termina en un documento entregable.
+          </p>
+        </section>
+
+        <!-- REGLAS DE PRESENTACIÓN -->
+        <section>
+          <div class="head">
+            <div class="who">Aplica a casi todas las evidencias</div>
+            <div class="count">Antes de subir nada</div>
+          </div>
+          <h2>La forma también se califica</h2>
+          <div class="cols" style="margin-top: 26px">
+            <ul>
+              <li>
+                Portada e introducción siempre. Varias evidencias piden además
+                objetivo, desarrollo del tema y conclusiones.
+              </li>
+              <li>
+                Referencias en normas APA vigentes, y cita de cualquier fuente
+                que hayas usado, incluidas las páginas de donde bajaste
+                plantillas.
+              </li>
+              <li>
+                Los informes de instalación y despliegue van con capturas de
+                pantalla; sin imágenes no se ve el paso a paso.
+              </li>
+              <li>
+                Extensión libre salvo el DOFA (2 páginas) y el pitch (59
+                segundos).
+              </li>
+            </ul>
+            <dl class="ficha">
+              <div>
+                <dt>Formato más frecuente</dt>
+                <dd>PDF</dd>
+              </div>
+              <div>
+                <dt>Excepciones</dt>
+                <dd>Video en MP4 (AA12 y pitch) · Excel (plan de negocio)</dd>
+              </div>
+              <div>
+                <dt>Cómo se evalúa</dt>
+                <dd>Lista de chequeo IE-GA10 por cada evidencia</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <!-- las láminas de evidencias se insertan aquí por JS -->
+        <section id="cierre-anchor" hidden></section>
+
+        <!-- EVALUACIÓN -->
+        <section>
+          <div class="head">
+            <div class="who">Cómo nos van a calificar</div>
+            <div class="count">Actividades de evaluación</div>
+          </div>
+          <h2>Tres tipos de evidencia, un mismo instrumento</h2>
+          <div class="two" style="margin-top: 28px">
+            <div class="card">
+              <h3>Conocimiento</h3>
+              <p>
+                Informes de investigación: redes y networking, configuración de
+                servicios y DOFA personal. Se mira que los conceptos estén
+                completos y bien sustentados.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Desempeño y producto</h3>
+              <p>
+                Todo lo demás: planes, montajes, manuales, actas, videos y
+                estados financieros. Se mira que lo hecho corresponda al
+                proyecto formativo y funcione.
+              </p>
+            </div>
+          </div>
+          <p
+            style="
+              font-size: 0.72em;
+              color: var(--muted);
+              margin-top: 34px;
+              max-width: 34em;
+            "
+          >
+            Cada evidencia tiene su lista de chequeo (IE-GA10-…). Vale la pena
+            leerla antes de entregar: dice exactamente qué se revisa.
+          </p>
+        </section>
+
+        <!-- CHECKLIST -->
+        <section id="cierre">
+          <div class="head">
+            <div class="who">Tu propio balance</div>
+            <div class="count">Marca lo que ya entregaste</div>
+          </div>
+          <h2 style="font-size: 1.35em">¿Cómo vas?</h2>
+          <div class="check" id="check"></div>
+          <div class="tally" id="tally">
+            0 de 17 evidencias entregadas<small
+              >La marcación es solo para esta sesión; no se guarda.</small
+            >
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="rail" aria-hidden="true"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script>
+      const EV = [
+        {
+          c: "tec",
+          code: "GA10-220501097-AA1-EV01",
+          t: "Conceptos y principios de hardware e instalación de software",
+          lead: "Un informe con las bases de redes que sostienen todo el alistamiento de la infraestructura.",
+          what: [
+            "Características que debe tener el sistema operativo, según la plataforma que elijas.",
+            "Qué organizaciones construyen los estándares de redes y networking.",
+            "Cuáles son las dos grandes familias de protocolos de transmisión y recepción de datos.",
+            "Medios de transmisión guiados y no guiados.",
+          ],
+          prod: "Documento informe",
+          fmt: "PDF",
+          h: "6",
+          comp: "Conceptos básicos de redes y networking",
+          extra:
+            "Con portada, introducción, objetivo, desarrollo, conclusiones y referencias APA.",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA2-EV01",
+          t: "Plan de validación de características mínimas de hardware",
+          lead: "Una lista ordenada de todo lo que hay que verificar en un equipo antes de desplegar esta aplicación:",
+          what: [
+            "Aplicación web hecha en PHP.",
+            "Guarda información persistente para identificar y registrar usuarios.",
+            "Proyecta unos 250 usuarios activos no concurrentes.",
+            "Por cada elemento, di qué se mide y cuál es el mínimo aceptable.",
+          ],
+          prod: "Plan de validación",
+          fmt: "PDF o Word",
+          h: "8",
+          comp: "Sistemas operativos de red",
+          extra:
+            "Portada, introducción y las fuentes con que definiste cada mínimo.",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA3-EV01",
+          t: "Software instalado en la plataforma del cliente",
+          lead: "Montar un servidor de aplicaciones local completo y desplegar allí una página de prueba.",
+          what: [
+            "Elige una plantilla HTML gratuita como producto de prueba.",
+            "Elige tu plataforma: LAMP, XAMPP, WAMP, WIMA u otra.",
+            "Documenta la instalación y el montaje paso a paso, con capturas de pantalla.",
+            "Cierra mostrando la plantilla funcionando en local.",
+          ],
+          prod: "Informe paso a paso",
+          fmt: "PDF",
+          h: "8",
+          comp: "Identificación de requerimientos",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA4-EV01",
+          t: "Conceptos y principios acerca de configuración de servicios",
+          lead: "Informe sobre arquitecturas de clúster, el tema base de la alta disponibilidad.",
+          what: [
+            "Herramientas y tecnologías que se usan en una arquitectura de clústeres.",
+            "Características, tipos de clúster y tipos de procesamiento que permiten.",
+            "Ventajas y desventajas de estas arquitecturas.",
+            "Alrededor: análisis de riesgo e impacto, RPO y RTO, recuperación de desastres y continuidad del negocio.",
+          ],
+          prod: "Documento informe",
+          fmt: "PDF",
+          h: "8",
+          comp: "Gestión de redundancia y alta disponibilidad",
+          extra: "Estructura completa y referencias APA.",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA5-EV01",
+          t: "Configuración de servicios, bases de datos y software",
+          lead: "La evidencia más larga de la guía: la misma máquina montada dos veces, primero virtualizada y después en contenedores.",
+          what: [
+            "Sistema operativo Ubuntu, en cualquier versión.",
+            "Gestor de base de datos MySQL.",
+            "Servidor de aplicaciones Apache.",
+            "Informe con el paso a paso de cada camino, con capturas, y una prueba de que los servicios están corriendo.",
+          ],
+          prod: "Informe de configuración",
+          fmt: "PDF o Word",
+          h: "40",
+          comp: "Tecnologías de virtualización: desde servidores hasta contenedores",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA6-EV01",
+          t: "Archivos cargados en la plataforma de producción",
+          lead: "Sacar el sitio a internet por la vía tradicional: hosting y dominio.",
+          what: [
+            "Elige una plataforma de dominio gratuito y otra de hosting.",
+            "Configura cada servicio y documenta el proceso.",
+            "Publica una plantilla gratuita o tu propia página.",
+            "Deja la dirección de internet donde se puede ver funcionando.",
+          ],
+          prod: "Informe paso a paso",
+          fmt: "PDF",
+          h: "8",
+          comp: "Publicación de aplicaciones tradicionales",
+          extra: "Capturas de pantalla y las fuentes o sitios utilizados.",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA7-EV01",
+          t: "Realización de pruebas de funcionalidad del software",
+          lead: "Investigación sobre cómo se prueba un sitio que ya está publicado. Responde estas cuatro preguntas:",
+          what: [
+            "¿Cómo verificar si un dominio quedó bien configurado?",
+            "¿Una aplicación web se ve igual en todos los navegadores?",
+            "¿Cómo se ve esa aplicación en el navegador del celular?",
+            "¿Qué elementos se deben probar en una aplicación web?",
+          ],
+          prod: "Documento de investigación",
+          fmt: "PDF",
+          h: "12",
+          comp: "Publicación de aplicaciones tradicionales",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA8-EV01",
+          t: "Plan de mantenimiento y soporte del software",
+          lead: "Plan y cronograma de mantenimiento preventivo y correctivo para tu propio proyecto formativo, con base en la ISO 14724.",
+          what: [
+            "Descripción del sistema y proceso de implementación.",
+            "Análisis de modificación y problemas.",
+            "Implementación de la modificación.",
+            "Aceptación y revisión del mantenimiento, migración y retiro.",
+          ],
+          prod: "Plan + cronograma",
+          fmt: "PDF",
+          h: "7",
+          comp: "Documentación y entrega de software",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA9-EV01",
+          t: "Documentación de migración y respaldo de los datos",
+          lead: "Construir una lista de chequeo propia para no perder el rastro de lo que cambia en una migración.",
+          what: [
+            "Debe recoger las modificaciones hechas durante la migración del software.",
+            "Y también las adaptaciones que se hicieron para que todo siguiera funcionando.",
+            "Puede ser una lista de chequeo u otro instrumento equivalente: aquí cuenta tu criterio.",
+          ],
+          prod: "Lista de chequeo",
+          fmt: "PDF",
+          h: "7",
+          comp: "Documentación y entrega de software",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA10-EV01",
+          t: "Documentos técnicos del software",
+          lead: "El manual técnico del aplicativo que has desarrollado en el programa. Siete elementos obligatorios:",
+          what: [
+            "Prerrequisitos de instalación y frameworks o estándares con que se construyó.",
+            "Diagrama de casos de uso y diagrama de componentes.",
+            "Modelo entidad-relación y diccionario de datos.",
+            "Scripts de instalación.",
+          ],
+          prod: "Manual técnico",
+          fmt: "PDF",
+          h: "16",
+          comp: "Documentación y entrega de software",
+          extra: "Guíate con el anexo del Departamento Nacional de Planeación.",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA11-EV01",
+          t: "Manual de usuario",
+          lead: "El mismo aplicativo explicado para quien no lo programó.",
+          what: [
+            "Cómo usar las funciones del sistema.",
+            "Descripción de componentes, menús y submenús.",
+            "Instrucciones de ingreso y de consulta de información.",
+            "Flujos de trabajo y capturas de pantalla.",
+          ],
+          prod: "Manual de usuario",
+          fmt: "PDF",
+          h: "8",
+          comp: "Documentación y entrega de software",
+          extra: "Anexo de referencia: guía de manual de usuario del DNP.",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA12-EV01",
+          t: "Plan de capacitación y pruebas de aceptación",
+          lead: "Dos piezas: un video tutorial y el libreto de la capacitación que harías con los usuarios finales.",
+          what: [
+            "Video con las funcionalidades más importantes del software del proyecto.",
+            "Libreto de las acciones para capacitar, pensado en 45 minutos.",
+            "Ambas piezas dirigidas a un grupo de usuarios concreto, si el software tiene varios roles.",
+          ],
+          prod: "Libreto + video tutorial",
+          fmt: "PDF y MP4",
+          h: "8",
+          comp: "Documentación y entrega de software",
+        },
+
+        {
+          c: "tec",
+          code: "GA10-220501097-AA13-EV01",
+          t: "Actas de capacitación y de entrega",
+          lead: "Solo los modelos de las dos actas que cierran la implantación.",
+          what: [
+            "Acta de capacitación: momento, quién capacitó, objetivos, temas y conclusiones.",
+            "Acta final de entrega: quién recibe el sistema, descripción del producto, observaciones y firmas.",
+            "Puedes añadir lo que consideres pertinente: la guía da mínimos, no límites.",
+          ],
+          prod: "Modelos de las dos actas",
+          fmt: "PDF",
+          h: "8",
+          comp: "Documentación y entrega de software",
+        },
+
+        {
+          c: "tra",
+          code: "GA10-240201529-AA1-EV01",
+          t: "DOFA personal",
+          lead: "Una matriz sobre ti como emprendedor, no sobre la empresa.",
+          what: [
+            "Adentro: debilidades y fortalezas en educación, liderazgo, experiencia previa, recursos, ventas y conocimiento del producto.",
+            "Afuera: amenazas y oportunidades como estabilidad del proyecto, leyes, temas tributarios y financieros.",
+            "Cierra respondiendo cómo eso impulsa tu emprendimiento y qué estrategia usarías frente a las amenazas.",
+          ],
+          prod: "Matriz DOFA y análisis",
+          fmt: "PDF",
+          h: "12",
+          comp: "Ser emprendedor",
+          extra:
+            "Máximo 2 páginas: es la única evidencia con tope de extensión escrita.",
+        },
+
+        {
+          c: "tra",
+          code: "GA10-240201529-AA2-EV01",
+          t: "Pitch de la idea de negocio",
+          lead: "Un video corto y vertical contando qué problema resuelve tu negocio.",
+          what: [
+            "Identifica un problema real por el que alguien pagaría una solución.",
+            "Propón el producto, servicio o experiencia y a quién va dirigido.",
+            "Ponle nombre y valida que no exista en la Cámara de Comercio (homonimia).",
+            "Grábalo en vertical con el celular; la calidad media basta si se entiende.",
+          ],
+          prod: "Video tipo TikTok",
+          fmt: "MP4, máximo 59 segundos",
+          h: "24",
+          comp: "Análisis de oportunidades para emprender",
+        },
+
+        {
+          c: "tra",
+          code: "GA10-240201529-AA2-EV02",
+          t: "Modelo Canvas del emprendimiento",
+          lead: "La misma idea, ahora en la matriz Lean Canvas con sus nueve bloques.",
+          what: [
+            "Problema, solución y métricas clave.",
+            "Propuesta única de valor y ventaja injusta.",
+            "Canales y segmento de clientes.",
+            "Estructura de costos y flujos de ingresos.",
+          ],
+          prod: "Matriz Lean Canvas",
+          fmt: "PDF",
+          h: "—",
+          comp: "Entendiendo la empresa",
+          extra: "Se puede armar en Word o PowerPoint y exportar.",
+        },
+
+        {
+          c: "tra",
+          code: "GA10-240201529-AA3-EV01",
+          t: "Plan de negocio",
+          lead: "Los números que dicen si la idea se sostiene.",
+          what: [
+            "Presupuesto de ventas: precios unitarios, unidades, costos fijos y variables, margen de contribución y utilidad.",
+            "Presupuesto de personal: cuántas personas, salarios y prestaciones sociales.",
+            "Activos fijos necesarios y capital inicial, indicando de dónde sale.",
+            "Con todo eso, el flujo de caja y el balance inicial.",
+          ],
+          prod: "Estados financieros",
+          fmt: "Archivo en Excel",
+          h: "12",
+          comp: "Fundamentos financieros para emprender",
+        },
+      ];
+
+      /* --- construir las láminas de evidencia --- */
+      const slides = document.querySelector(".slides");
+      const anchor = document.getElementById("cierre-anchor");
+      const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+
+      EV.forEach((e, i) => {
+        const s = document.createElement("section");
+        s.className = e.c === "tra" ? "tra" : "tec";
+        s.dataset.idx = i;
+        s.innerHTML = `
+    <div class="head">
+      <div class="who">${e.c === "tra" ? "Cultura emprendedora 240201529" : "Implementar la solución de software 220501097"}</div>
+      <div class="count">Evidencia ${i + 1} de ${EV.length}</div>
+    </div>
+    <div class="code">${e.code}</div>
+    <h2>${esc(e.t)}</h2>
+    <p class="lead">${esc(e.lead)}</p>
+    <div class="cols">
+      <ul>${e.what.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>
+      <dl class="ficha">
+        <div><dt>Producto a entregar</dt><dd>${esc(e.prod)}</dd></div>
+        <div><dt>Formato</dt><dd>${esc(e.fmt)}</dd></div>
+        <div><dt>Horas previstas</dt><dd class="hrs">${e.h}</dd></div>
+        <div><dt>Material de apoyo</dt><dd>${esc(e.comp)}</dd></div>
+      </dl>
+    </div>
+    ${e.extra ? `<p style="font-size:.64em;color:var(--muted);margin-top:26px;max-width:38em;">${esc(e.extra)}</p>` : ""}
+  `;
+        slides.insertBefore(s, anchor);
+      });
+
+      /* divisores antes de cada bloque */
+      function divider(cls, num, title, text) {
+        const d = document.createElement("section");
+        d.className = "divider " + cls;
+        d.innerHTML = `<div class="num">${num}</div><h2>${title}</h2><p>${text}</p>`;
+        return d;
+      }
+      slides.insertBefore(
+        divider(
+          "tec",
+          "13",
+          "Llevar el software a producción",
+          "De alistar la plataforma hasta firmar el acta de entrega. 144 horas de la guía.",
+        ),
+        slides.querySelector('section[data-idx="0"]'),
+      );
+      slides.insertBefore(
+        divider(
+          "tra",
+          "4",
+          "Convertir una idea en negocio",
+          "Cuatro entregas encadenadas: quién eres, qué idea tienes, cómo la modelas y cuánto cuesta. 48 horas.",
+        ),
+        slides.querySelector('section[data-idx="13"]'),
+      );
+      anchor.remove();
+
+      /* --- checklist --- */
+      const wrap = document.getElementById("check");
+      const tally = document.getElementById("tally");
+      EV.forEach((e, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("aria-pressed", "false");
+        if (e.c === "tra") b.className = "tra-item";
+        b.innerHTML = `<span class="box"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 6.5l3.2 3.2L11 2.6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">${i + 1}. ${esc(e.t)}</span>`;
+        b.onclick = () => {
+          b.setAttribute(
+            "aria-pressed",
+            b.getAttribute("aria-pressed") === "true" ? "false" : "true",
+          );
+          const n = wrap.querySelectorAll('[aria-pressed="true"]').length;
+          tally.innerHTML = `${n} de ${EV.length} evidencias entregadas<small>La marcación es solo para esta sesión; no se guarda.</small>`;
+        };
+        wrap.appendChild(b);
+      });
+
+      /* --- riel de progreso --- */
+      const rail = document.getElementById("rail");
+      EV.forEach((e) => {
+        const s = document.createElement("span");
+        s.className = e.c;
+        rail.appendChild(s);
+      });
+
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.055,
+        hash: true,
+        controls: true,
+        progress: false,
+        slideNumber: false,
+        transition: "fade",
+        transitionSpeed: "fast",
+        backgroundTransition: "none",
+      }).then(() => {
+        Reveal.on("slidechanged", update);
+        update();
+      });
+      function update() {
+        const cur = Reveal.getCurrentSlide();
+        const idx =
+          cur.dataset.idx !== undefined ? parseInt(cur.dataset.idx, 10) : -1;
+        rail.classList.toggle("hide", idx < 0);
+        [...rail.children].forEach((s, i) => {
+          s.classList.toggle("now", i === idx);
+          s.classList.toggle("done", i < idx);
+        });
+      }
+    </script>
+  </body>
+</html>
