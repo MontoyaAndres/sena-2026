@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documentar la calidad del software · EV03 y EV04</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --papel: #fbfcff;
+        --cuadricula: #e3ebf7;
+        --tinta: #1b2b5e;
+        --tinta-suave: #4a5a85;
+        --resaltador: #ffe45c;
+        --margen: #e0474c;
+        --ok: #2e8b57;
+        --titulo: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+        --cuerpo: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+        --mano: "Caveat", "Comic Sans MS", cursive;
+      }
+
+      /* Hoja cuadriculada de cuaderno */
+      .reveal-viewport {
+        background-color: var(--papel);
+        background-image:
+          linear-gradient(var(--cuadricula) 1px, transparent 1px),
+          linear-gradient(90deg, var(--cuadricula) 1px, transparent 1px);
+        background-size: 28px 28px;
+      }
+      .reveal-viewport::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 72px;
+        width: 2px;
+        background: var(--margen);
+        opacity: 0.55;
+        z-index: 0;
+      }
+
+      .reveal {
+        font-family: var(--cuerpo);
+        font-size: 30px;
+        color: var(--tinta);
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slides section {
+        padding: 0 40px 0 70px;
+        box-sizing: border-box;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: var(--titulo);
+        color: var(--tinta);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+        margin: 0 0 0.5em;
+      }
+      .reveal h1 {
+        font-size: 2.6em;
+        font-weight: 800;
+      }
+      .reveal h2 {
+        font-size: 1.6em;
+        font-weight: 800;
+      }
+      .reveal h3 {
+        font-size: 1.05em;
+        font-weight: 700;
+        margin-bottom: 0.3em;
+      }
+      .reveal p,
+      .reveal li {
+        line-height: 1.4;
+      }
+      .reveal ul,
+      .reveal ol {
+        margin-left: 1em;
+      }
+      .reveal li {
+        margin-bottom: 0.35em;
+      }
+      .reveal strong {
+        color: var(--tinta);
+      }
+
+      .resaltado {
+        background: linear-gradient(transparent 55%, var(--resaltador) 55%);
+        padding: 0 0.1em;
+      }
+      .suave {
+        color: var(--tinta-suave);
+      }
+      .pequeno {
+        font-size: 0.75em;
+      }
+
+      .nota-mano {
+        font-family: var(--mano);
+        color: var(--margen);
+        font-size: 1.25em;
+        line-height: 1.1;
+      }
+
+      /* Portada */
+      .portada .codigo {
+        font-family: var(--mano);
+        font-size: 1.4em;
+        color: var(--margen);
+        transform: rotate(-2deg);
+        display: inline-block;
+        margin-bottom: 0.3em;
+      }
+      .portada h1 {
+        max-width: 15ch;
+      }
+      .portada .sub {
+        font-size: 1.05em;
+        max-width: 36ch;
+      }
+
+      /* Columnas */
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+      .cols-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+      }
+
+      /* Hoja/formato */
+      .hoja {
+        background: #fff;
+        border: 2px solid var(--tinta);
+        padding: 22px 26px;
+        box-shadow: 6px 6px 0 var(--tinta);
+      }
+      .hoja h3 {
+        font-size: 1em;
+      }
+      .hoja.evidencia .etq {
+        font-family: var(--mano);
+        color: var(--margen);
+        font-size: 1.2em;
+      }
+
+      /* Tablas tipo formato */
+      .reveal table.formato {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.62em;
+        background: #fff;
+        margin: 0;
+      }
+      .reveal table.formato th,
+      .reveal table.formato td {
+        border: 1.5px solid var(--tinta);
+        padding: 7px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .reveal table.formato th {
+        background: var(--tinta);
+        color: #fff;
+        font-family: var(--titulo);
+        font-weight: 700;
+      }
+      .reveal table.formato td.lleno {
+        font-family: var(--mano);
+        font-size: 1.45em;
+        color: #2340a8;
+        line-height: 1.05;
+      }
+      .reveal table.formato .enc td {
+        background: #f1f5fc;
+        font-weight: 700;
+      }
+      .si {
+        color: var(--ok);
+        font-weight: 700;
+      }
+      .no {
+        color: var(--margen);
+        font-weight: 700;
+      }
+
+      /* Anatomía del formato */
+      .anatomia {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 36px;
+        align-items: center;
+      }
+      .anatomia .bloque {
+        border: 2px solid var(--tinta);
+        background: #fff;
+        padding: 10px 14px;
+        font-size: 0.7em;
+      }
+      .anatomia .bloque + .bloque {
+        border-top: none;
+      }
+      .anatomia .bloque b {
+        font-family: var(--titulo);
+      }
+      .anatomia .alto {
+        min-height: 120px;
+      }
+
+      /* Mal vs bien */
+      .vs .caja {
+        border: 2px dashed var(--margen);
+        padding: 18px 22px;
+        background: #fff;
+      }
+      .vs .caja.bien {
+        border: 2px solid var(--ok);
+      }
+      .vs .marca {
+        font-family: var(--mano);
+        font-size: 1.4em;
+      }
+      .vs .caja .marca {
+        color: var(--margen);
+      }
+      .vs .caja.bien .marca {
+        color: var(--ok);
+      }
+      .linea {
+        border-bottom: 1.5px solid var(--tinta-suave);
+        display: inline-block;
+        min-width: 60%;
+      }
+
+      /* Bitácora manuscrita */
+      .pagina-bitacora {
+        background: #fff;
+        background-image: repeating-linear-gradient(
+          transparent 0 39px,
+          #cfdbef 39px 40px
+        );
+        border-left: 3px solid var(--margen);
+        padding: 12px 30px 18px 30px;
+        font-family: var(--mano);
+        font-size: 1.1em;
+        line-height: 40px;
+        color: #2340a8;
+        box-shadow: 6px 6px 0 var(--tinta);
+        border-top: 2px solid var(--tinta);
+        border-right: 2px solid var(--tinta);
+        border-bottom: 2px solid var(--tinta);
+      }
+      .pagina-bitacora b {
+        color: var(--tinta);
+        font-weight: 700;
+      }
+      .pagina-bitacora .tachado {
+        text-decoration: line-through;
+        color: var(--margen);
+      }
+
+      /* Chips de marcos */
+      .marco {
+        border-left: 6px solid var(--tinta);
+        background: #fff;
+        padding: 10px 16px;
+      }
+      .marco h3 {
+        margin-bottom: 0.1em;
+      }
+      .marco p {
+        margin: 0;
+        font-size: 0.72em;
+        color: var(--tinta-suave);
+      }
+
+      /* Lista de chequeo */
+      .reveal ul.check {
+        list-style: none;
+        margin-left: 0;
+      }
+      .reveal ul.check li {
+        padding-left: 1.6em;
+        position: relative;
+      }
+      .reveal ul.check li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.28em;
+        width: 0.85em;
+        height: 0.85em;
+        border: 2px solid var(--tinta);
+        background: #fff;
+      }
+      .reveal ul.check li.visible::after,
+      .reveal ul.check li.hecho::after {
+        content: "✓";
+        position: absolute;
+        left: 0.12em;
+        top: -0.12em;
+        color: var(--ok);
+        font-weight: 700;
+        font-size: 1.15em;
+      }
+
+      .reveal ul.x {
+        list-style: none;
+        margin-left: 0;
+      }
+      .reveal ul.x li {
+        padding-left: 1.4em;
+        position: relative;
+      }
+      .reveal ul.x li::before {
+        content: "✗";
+        position: absolute;
+        left: 0;
+        color: var(--margen);
+        font-weight: 700;
+      }
+
+      /* Pasos */
+      .pasos {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      .paso {
+        background: #fff;
+        border: 2px solid var(--tinta);
+        padding: 14px;
+        font-size: 0.7em;
+      }
+      .paso .n {
+        font-family: var(--titulo);
+        font-weight: 800;
+        font-size: 2em;
+        color: var(--margen);
+        line-height: 1;
+      }
+
+      .cita {
+        font-family: var(--titulo);
+        font-weight: 700;
+        font-size: 1.5em;
+        line-height: 1.15;
+        max-width: 22ch;
+      }
+
+      .reveal .slide-number {
+        background: transparent;
+        color: var(--tinta-suave);
+        font-family: var(--cuerpo);
+        font-size: 16px;
+      }
+      .reveal .controls {
+        color: var(--tinta);
+      }
+      .reveal .progress {
+        color: var(--margen);
+        height: 5px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal .slides section {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1. Portada -->
+        <section class="portada">
+          <span class="codigo">GA11-220501098-AA1 · EV03 y EV04</span>
+          <h1>Documentar la calidad del software</h1>
+          <p class="sub">
+            Cómo diseñar y llenar formatos de calidad, y cómo llevar una
+            bitácora del proyecto.
+          </p>
+          <aside class="notes">
+            Presentar el objetivo: al final de la clase deben saber qué
+            entregar, cómo diseñar sus formatos y cómo escribir la bitácora.
+          </aside>
+        </section>
+
+        <!-- 2. Qué entregamos -->
+        <section>
+          <h2>¿Qué vamos a entregar?</h2>
+          <div class="cols">
+            <div class="hoja evidencia">
+              <span class="etq">Evidencia EV03</span>
+              <h3>Formatos de calidad diligenciados</h3>
+              <p class="pequeno">
+                Tomar los instrumentos que diseñaron en la EV02, mejorarlos si
+                hace falta y <strong>llenarlos</strong> con datos de su
+                proyecto.
+              </p>
+              <p class="pequeno suave">
+                Entrega: un PDF con portada, introducción, formatos y
+                conclusiones.
+              </p>
+            </div>
+            <div class="hoja evidencia">
+              <span class="etq">Evidencia EV04</span>
+              <h3>Bitácora del proyecto</h3>
+              <p class="pequeno">
+                Un diario donde registran, día a día, avances, ideas, datos,
+                problemas y soluciones del proyecto.
+              </p>
+              <p class="pequeno suave">
+                Entrega: un PDF con portada, introducción, bitácora y
+                conclusiones.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Qué es calidad -->
+        <section>
+          <h2>Primero: ¿qué es calidad del software?</h2>
+          <p class="cita">
+            Un software tiene calidad cuando
+            <span class="resaltado">hace lo que debe</span>, lo hace bien y es
+            fácil de mantener.
+          </p>
+          <p class="fragment">
+            Piénsenlo como un restaurante: no basta con que la comida sepa rica.
+            También importa que llegue a tiempo, que la cocina esté limpia y que
+            otro cocinero pueda repetir la receta.
+          </p>
+          <p class="fragment nota-mano">
+            Esa "receta escrita" es la documentación.
+          </p>
+        </section>
+
+        <!-- 4. Por qué documentar -->
+        <section>
+          <h2>¿Por qué documentar?</h2>
+          <p class="cita">
+            Lo que no se escribe, no se puede revisar ni mejorar.
+          </p>
+          <ul>
+            <li class="fragment">
+              Deja evidencia de lo que se hizo y cómo se hizo.
+            </li>
+            <li class="fragment">
+              Permite encontrar errores antes de que lleguen al usuario.
+            </li>
+            <li class="fragment">
+              Ayuda a que otra persona continúe el trabajo sin empezar de cero.
+            </li>
+            <li class="fragment">
+              Es lo que piden las normas y los clientes para confiar en el
+              producto.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 5. Marcos de trabajo -->
+        <section>
+          <h2>Marcos de trabajo de referencia</h2>
+          <p class="pequeno suave">
+            Son "guías oficiales" que dicen qué es trabajar con calidad. Tomamos
+            de ellos las buenas prácticas.
+          </p>
+          <div class="cols-3">
+            <div class="marco">
+              <h3>ISO/IEC 25010</h3>
+              <p>
+                Define las características que debe tener un producto de
+                software de calidad.
+              </p>
+            </div>
+            <div class="marco">
+              <h3>ISO 9001</h3>
+              <p>
+                Gestión de la calidad en cualquier organización: procesos,
+                registros y mejora continua.
+              </p>
+            </div>
+            <div class="marco">
+              <h3>ISO/IEC 29110</h3>
+              <p>
+                Calidad pensada para equipos y empresas pequeñas de desarrollo.
+              </p>
+            </div>
+            <div class="marco">
+              <h3>CMMI</h3>
+              <p>
+                Mide qué tan maduros y ordenados son los procesos de un equipo.
+              </p>
+            </div>
+            <div class="marco">
+              <h3>ISO/IEC 12207</h3>
+              <p>Describe los procesos del ciclo de vida del software.</p>
+            </div>
+            <div class="marco">
+              <h3>Scrum / ágil</h3>
+              <p>
+                Trabajo por iteraciones, con revisiones y retrospectivas
+                frecuentes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. ISO 25010 -->
+        <section>
+          <h2>¿Qué revisamos? Las características de ISO/IEC 25010</h2>
+          <table class="formato" style="font-size: 0.66em">
+            <tr>
+              <th>Característica</th>
+              <th>Pregunta sencilla</th>
+            </tr>
+            <tr>
+              <td>Adecuación funcional</td>
+              <td>¿Hace todo lo que pidió el cliente?</td>
+            </tr>
+            <tr>
+              <td>Eficiencia de desempeño</td>
+              <td>¿Responde rápido y sin gastar recursos de más?</td>
+            </tr>
+            <tr>
+              <td>Compatibilidad</td>
+              <td>¿Funciona junto a otros sistemas?</td>
+            </tr>
+            <tr>
+              <td>Usabilidad</td>
+              <td>¿Es fácil de aprender y usar?</td>
+            </tr>
+            <tr>
+              <td>Fiabilidad</td>
+              <td>¿Funciona sin caerse?</td>
+            </tr>
+            <tr>
+              <td>Seguridad</td>
+              <td>¿Protege los datos y el acceso?</td>
+            </tr>
+            <tr>
+              <td>Mantenibilidad</td>
+              <td>¿Es fácil de corregir y modificar?</td>
+            </tr>
+            <tr>
+              <td>Portabilidad</td>
+              <td>¿Se puede llevar a otro equipo o entorno?</td>
+            </tr>
+          </table>
+          <aside class="notes">
+            La versión 2023 de la norma renombra algunas características y
+            agrega "seguridad física" (safety). Para el nivel del curso basta
+            con estas ocho.
+          </aside>
+        </section>
+
+        <!-- 7. Buenas prácticas -->
+        <section>
+          <h2>Buenas prácticas que vamos a aplicar</h2>
+          <div class="cols">
+            <ul>
+              <li class="fragment">
+                <strong>Revisar los requisitos</strong> antes de programar.
+              </li>
+              <li class="fragment">
+                <strong>Control de versiones</strong> con Git y mensajes claros.
+              </li>
+              <li class="fragment">
+                <strong>Revisión de código</strong> entre compañeros.
+              </li>
+              <li class="fragment">
+                <strong>Plan y casos de prueba</strong> escritos.
+              </li>
+            </ul>
+            <ul>
+              <li class="fragment">
+                <strong>Registrar cada defecto</strong> encontrado.
+              </li>
+              <li class="fragment">
+                <strong>Actas</strong> de las reuniones del equipo.
+              </li>
+              <li class="fragment">
+                <strong>Definición de terminado</strong>: cuándo una tarea está
+                lista.
+              </li>
+              <li class="fragment">
+                <strong>Mejora continua</strong>: revisar y ajustar (ciclo
+                PHVA).
+              </li>
+            </ul>
+          </div>
+          <p class="fragment nota-mano">
+            Cada práctica necesita un formato para dejar evidencia → eso es la
+            EV03.
+          </p>
+        </section>
+
+        <!-- 8. Separador EV03 -->
+        <section>
+          <p class="nota-mano">Parte 1</p>
+          <h1>EV03: los instrumentos</h1>
+          <p class="sub">Diseño y diligenciamiento de formatos de calidad.</p>
+        </section>
+
+        <!-- 9. Qué es un instrumento -->
+        <section>
+          <h2>¿Qué es un instrumento?</h2>
+          <p>
+            Es un <span class="resaltado">formato o plantilla</span> que sirve
+            para recoger la misma información siempre de la misma manera.
+          </p>
+          <p class="fragment">
+            Como el formulario de una cita médica: todos los pacientes llenan
+            los mismos campos, así nadie olvida nada.
+          </p>
+          <div class="fragment">
+            <h3 style="margin-top: 0.8em">Instrumentos típicos de calidad</h3>
+            <div class="cols-3 pequeno">
+              <div>Lista de chequeo de requisitos</div>
+              <div>Lista de chequeo de revisión de código</div>
+              <div>Caso de prueba</div>
+              <div>Registro de defectos</div>
+              <div>Acta de reunión</div>
+              <div>Matriz de trazabilidad</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. Anatomía -->
+        <section>
+          <h2>Partes de un buen formato</h2>
+          <div class="anatomia">
+            <div>
+              <div class="bloque">
+                <b>Encabezado:</b> nombre del formato, código, versión, fecha.
+              </div>
+              <div class="bloque">
+                <b>Datos generales:</b> proyecto, responsable, módulo.
+              </div>
+              <div class="bloque">
+                <b>Instrucciones:</b> una o dos líneas de cómo llenarlo.
+              </div>
+              <div class="bloque alto">
+                <b>Cuerpo:</b> criterios, preguntas o tabla de datos.
+              </div>
+              <div class="bloque"><b>Observaciones:</b> espacio libre.</div>
+              <div class="bloque">
+                <b>Firmas / aprobación:</b> quién elaboró y quién revisó.
+              </div>
+            </div>
+            <div>
+              <p>
+                Si un formato tiene estas seis partes, cualquier persona sabe
+                <strong
+                  >qué es, quién lo llenó, cuándo y qué resultado dio</strong
+                >.
+              </p>
+              <p class="nota-mano">
+                El código y la versión permiten saber cuál es el formato
+                vigente.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. Reglas de oro -->
+        <section>
+          <h2>Sencillo, amigable y fácil de entender</h2>
+          <ul class="check">
+            <li class="fragment">Lenguaje claro, sin palabras rebuscadas.</li>
+            <li class="fragment">Una sola idea por campo o pregunta.</li>
+            <li class="fragment">
+              Opciones cerradas cuando se pueda: Sí / No / No aplica.
+            </li>
+            <li class="fragment">Espacio suficiente para escribir.</li>
+            <li class="fragment">Instrucciones cortas al inicio.</li>
+            <li class="fragment">Máximo una o dos páginas por formato.</li>
+          </ul>
+        </section>
+
+        <!-- 12. Mal vs bien -->
+        <section class="vs">
+          <h2>¿Cuál es más fácil de llenar?</h2>
+          <div class="cols">
+            <div class="caja">
+              <p class="marca">Confuso</p>
+              <p class="pequeno">
+                Evalúe la calidad integral del código fuente conforme a los
+                estándares pertinentes y describa hallazgos:
+              </p>
+              <p><span class="linea">&nbsp;</span></p>
+              <p><span class="linea">&nbsp;</span></p>
+            </div>
+            <div class="caja bien fragment">
+              <p class="marca">Claro</p>
+              <p class="pequeno">¿El código compila sin errores? ☐ Sí ☐ No</p>
+              <p class="pequeno">
+                ¿Las variables tienen nombres claros? ☐ Sí ☐ No
+              </p>
+              <p class="pequeno">
+                ¿Tiene comentarios donde se necesitan? ☐ Sí ☐ No
+              </p>
+              <p class="pequeno">
+                Observación:
+                <span class="linea" style="min-width: 40%">&nbsp;</span>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13. Ejemplo: lista de chequeo -->
+        <section>
+          <h2>Ejemplo diligenciado: revisión de código</h2>
+          <table class="formato">
+            <tr class="enc">
+              <td colspan="2">
+                FORMATO: Lista de chequeo de revisión de código · Código:
+                LC-RC-01 · Versión: 1.0
+              </td>
+              <td colspan="2">Fecha: 15/09/2026</td>
+            </tr>
+            <tr class="enc">
+              <td colspan="2">Proyecto: Sistema de inventario "StockFácil"</td>
+              <td colspan="2">Revisor: Laura Gómez · Autor: Andrés Ruiz</td>
+            </tr>
+            <tr>
+              <th>#</th>
+              <th>Criterio</th>
+              <th>Cumple</th>
+              <th>Observación</th>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>El código compila sin errores</td>
+              <td class="si">Sí</td>
+              <td class="lleno">OK</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Los nombres de variables son descriptivos</td>
+              <td class="no">No</td>
+              <td class="lleno">Cambiar "x1" por "cantidadProducto"</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>No hay código repetido</td>
+              <td class="si">Sí</td>
+              <td class="lleno">—</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Se validan los datos de entrada</td>
+              <td class="no">No</td>
+              <td class="lleno">Falta validar precio negativo</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>El cambio está subido a Git con mensaje claro</td>
+              <td class="si">Sí</td>
+              <td class="lleno">commit a3f9c2</td>
+            </tr>
+            <tr class="enc">
+              <td colspan="4">
+                Resultado:
+                <span
+                  class="lleno"
+                  style="
+                    font-family: var(--mano);
+                    font-size: 1.4em;
+                    color: #2340a8;
+                  "
+                  >3 de 5 cumplen. Devolver al autor para corregir 2 y 4.</span
+                >
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- 14. Ejemplo: registro de defectos -->
+        <section>
+          <h2>Ejemplo diligenciado: registro de defectos</h2>
+          <table class="formato">
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Descripción</th>
+              <th>Severidad</th>
+              <th>Responsable</th>
+              <th>Estado</th>
+            </tr>
+            <tr>
+              <td>D-001</td>
+              <td>12/09</td>
+              <td class="lleno">
+                Al guardar un producto sin nombre, el sistema se cierra
+              </td>
+              <td>Alta</td>
+              <td>Andrés</td>
+              <td class="si">Corregido</td>
+            </tr>
+            <tr>
+              <td>D-002</td>
+              <td>13/09</td>
+              <td class="lleno">El botón "Buscar" no responde en celular</td>
+              <td>Media</td>
+              <td>Laura</td>
+              <td>En proceso</td>
+            </tr>
+            <tr>
+              <td>D-003</td>
+              <td>14/09</td>
+              <td class="lleno">
+                Error de ortografía en el menú: "Inventorio"
+              </td>
+              <td>Baja</td>
+              <td>Camilo</td>
+              <td class="no">Abierto</td>
+            </tr>
+          </table>
+          <p class="pequeno suave" style="margin-top: 0.8em">
+            Severidad: <strong>Alta</strong> = bloquea el sistema ·
+            <strong>Media</strong> = molesta pero se puede seguir ·
+            <strong>Baja</strong> = detalle visual.
+          </p>
+          <p class="fragment nota-mano">
+            Diligenciar = llenar con datos reales de su proyecto, no dejar el
+            formato en blanco.
+          </p>
+        </section>
+
+        <!-- 15. Pasos EV03 -->
+        <section>
+          <h2>Paso a paso para la EV03</h2>
+          <div class="pasos">
+            <div class="paso">
+              <div class="n">1</div>
+              Leer el componente formativo y repasar los marcos de trabajo.
+            </div>
+            <div class="paso">
+              <div class="n">2</div>
+              Elegir las buenas prácticas que aplican a su proyecto.
+            </div>
+            <div class="paso">
+              <div class="n">3</div>
+              Revisar los formatos de la EV02 y simplificarlos si hace falta.
+            </div>
+            <div class="paso">
+              <div class="n">4</div>
+              Llenarlos con información real y armar el PDF.
+            </div>
+          </div>
+        </section>
+
+        <!-- 16. Separador EV04 -->
+        <section>
+          <p class="nota-mano">Parte 2</p>
+          <h1>EV04: la bitácora</h1>
+          <p class="sub">El diario de viaje del proyecto.</p>
+        </section>
+
+        <!-- 17. Qué es una bitácora -->
+        <section>
+          <h2>¿Qué es una bitácora?</h2>
+          <p>
+            Viene de los barcos: el capitán anotaba cada día el rumbo, el clima
+            y lo que pasaba. Así, si algo salía mal, se podía reconstruir el
+            viaje.
+          </p>
+          <p class="fragment">
+            En software es lo mismo:
+            <span class="resaltado">apuntes físicos o digitales</span> donde el
+            equipo registra avances y resultados del proyecto, fecha por fecha.
+          </p>
+          <p class="fragment nota-mano">
+            Se escribe mientras se trabaja, no al final.
+          </p>
+        </section>
+
+        <!-- 18. Qué se anota -->
+        <section>
+          <h2>¿Qué se anota en cada entrada?</h2>
+          <div class="cols">
+            <ul>
+              <li><strong>Fecha y número</strong> de la entrada</li>
+              <li><strong>Responsable</strong></li>
+              <li><strong>Actividad</strong> realizada</li>
+              <li><strong>Avances</strong> logrados</li>
+              <li><strong>Datos</strong>: tiempos, resultados de pruebas</li>
+            </ul>
+            <ul>
+              <li><strong>Observaciones</strong></li>
+              <li><strong>Ideas</strong> que surgieron</li>
+              <li><strong>Obstáculos</strong> encontrados</li>
+              <li><strong>Solución</strong> aplicada</li>
+              <li>
+                <strong>Próximo paso</strong> y evidencia (captura, enlace)
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 19. Ejemplo bitácora -->
+        <section>
+          <h2>Así se ve una entrada</h2>
+          <div class="pagina-bitacora">
+            <b>Entrada N.º 07 · 16/09/2026 · Responsable: Laura Gómez</b><br />
+            <b>Actividad:</b> pruebas del módulo de registro de productos.<br />
+            <b>Avance:</b> se ejecutaron 8 casos de prueba, 6 pasaron y 2
+            fallaron.<br />
+            <b>Obstáculo:</b> el campo precio acepta valores negativos (defecto
+            D-004).<br />
+            <b>Idea:</b> agregar validación en el formulario y en la base de
+            datos.<br />
+            <b>Solución:</b>
+            <span class="tachado">validar solo en el formulario</span> validar
+            en ambos lados.<br />
+            <b>Próximo paso:</b> repetir las pruebas el 17/09. Evidencia:
+            captura_prueba07.png
+          </div>
+          <aside class="notes">
+            Resaltar que la bitácora se conecta con los formatos: el defecto
+            D-004 también aparece en el registro de defectos de la EV03.
+          </aside>
+        </section>
+
+        <!-- 20. Consejos -->
+        <section>
+          <h2>Consejos para una buena bitácora</h2>
+          <ul>
+            <li class="fragment">
+              Escríbanla <strong>el mismo día</strong>; al día siguiente ya se
+              olvidan detalles.
+            </li>
+            <li class="fragment">
+              Sean <strong>específicos</strong>: "se corrigió el login" es poco;
+              digan qué fallaba y cómo lo arreglaron.
+            </li>
+            <li class="fragment">
+              Anoten también <strong>los errores y lo que no funcionó</strong>;
+              eso enseña mucho.
+            </li>
+            <li class="fragment">
+              Numeren las entradas y usen
+              <strong>siempre la misma estructura</strong>.
+            </li>
+            <li class="fragment">
+              Relacionen la bitácora con sus formatos: códigos de defectos,
+              commits, actas.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 21. Diferencias -->
+        <section>
+          <h2>Formato vs. bitácora</h2>
+          <table class="formato" style="font-size: 0.72em">
+            <tr>
+              <th></th>
+              <th>Formatos (EV03)</th>
+              <th>Bitácora (EV04)</th>
+            </tr>
+            <tr>
+              <td><strong>¿Qué es?</strong></td>
+              <td>Plantilla con campos fijos</td>
+              <td>Diario cronológico</td>
+            </tr>
+            <tr>
+              <td><strong>¿Cuándo se usa?</strong></td>
+              <td>En un momento puntual: una revisión, una prueba</td>
+              <td>Todos los días de trabajo</td>
+            </tr>
+            <tr>
+              <td><strong>¿Qué registra?</strong></td>
+              <td>Si algo cumple o no un criterio</td>
+              <td>Lo que pasó, lo que se pensó y lo que se decidió</td>
+            </tr>
+            <tr>
+              <td><strong>Ejemplo</strong></td>
+              <td>Lista de chequeo, registro de defectos</td>
+              <td>"Hoy probamos el módulo X y encontramos..."</td>
+            </tr>
+          </table>
+          <p class="fragment nota-mano">No compiten: se complementan.</p>
+        </section>
+
+        <!-- 22. Estructura documento -->
+        <section>
+          <h2>Cómo presentar el PDF (ambas evidencias)</h2>
+          <div class="cols">
+            <div>
+              <h3>Partes mínimas</h3>
+              <ol>
+                <li>
+                  <strong>Portada:</strong> título, nombre del aprendiz, ficha,
+                  programa, instructor, fecha.
+                </li>
+                <li><strong>Introducción</strong></li>
+                <li><strong>Desarrollo:</strong> formatos o bitácora.</li>
+                <li><strong>Conclusiones</strong></li>
+                <li class="suave">Referencias (recomendado)</li>
+              </ol>
+            </div>
+            <div class="hoja pequeno">
+              <h3>Fórmula rápida</h3>
+              <p>
+                <strong>Introducción:</strong> ¿qué es este documento?, ¿para
+                qué sirve?, ¿qué contiene?
+              </p>
+              <p>
+                <strong>Conclusiones:</strong> ¿qué aprendí?, ¿qué práctica
+                ayudó más?, ¿qué mejoraría?
+              </p>
+              <p class="nota-mano">
+                3 a 5 párrafos cortos en cada una son suficientes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 23. Errores comunes -->
+        <section>
+          <h2>Errores que debemos evitar</h2>
+          <ul class="x">
+            <li class="fragment">
+              Entregar los formatos vacíos, sin diligenciar.
+            </li>
+            <li class="fragment">
+              Formatos tan largos o complicados que nadie quiere llenarlos.
+            </li>
+            <li class="fragment">Una bitácora escrita toda el último día.</li>
+            <li class="fragment">
+              Entradas como "trabajé en el proyecto" sin ningún detalle.
+            </li>
+            <li class="fragment">
+              Olvidar la portada, la introducción o las conclusiones.
+            </li>
+            <li class="fragment">Entregar en Word en vez de PDF.</li>
+          </ul>
+        </section>
+
+        <!-- 24. Checklist final -->
+        <section>
+          <h2>Antes de enviar, revisen</h2>
+          <div class="cols">
+            <div>
+              <h3>EV03</h3>
+              <ul class="check pequeno">
+                <li>Formatos con encabezado, código y versión</li>
+                <li>Todos los campos llenos con datos reales</li>
+                <li>Buenas prácticas y marco de referencia mencionados</li>
+                <li>Portada, introducción y conclusiones</li>
+                <li>Archivo en PDF</li>
+              </ul>
+            </div>
+            <div>
+              <h3>EV04</h3>
+              <ul class="check pequeno">
+                <li>Entradas numeradas y con fecha</li>
+                <li>Avances, obstáculos y soluciones en cada entrada</li>
+                <li>Evidencias o referencias a formatos</li>
+                <li>Portada, introducción y conclusiones</li>
+                <li>Archivo en PDF</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 25. Cierre -->
+        <section>
+          <p class="cita">
+            La calidad no se improvisa:
+            <span class="resaltado">se planea, se registra y se mejora</span>.
+          </p>
+          <p class="nota-mano" style="margin-top: 1em">¿Preguntas?</p>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.06,
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        center: true,
+        plugins: [RevealNotes],
+      });
+    </script>
+  </body>
+</html>
