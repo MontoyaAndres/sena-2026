@@ -1,0 +1,3511 @@
+<title>Ajustar procesos de software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap"
+/>
+<style>
+  /*!
+* reveal.js 5.1.0
+* https://revealjs.com
+* MIT licensed
+*
+* Copyright (C) 2011-2024 Hakim El Hattab, https://hakim.se
+*/
+  .reveal .r-stretch,
+  .reveal .stretch {
+    max-width: none;
+    max-height: none;
+  }
+  .reveal pre.r-stretch code,
+  .reveal pre.stretch code {
+    height: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+  }
+  .reveal .r-fit-text {
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .reveal .r-stack {
+    display: grid;
+    grid-template-rows: 100%;
+  }
+  .reveal .r-stack > * {
+    grid-area: 1/1;
+    margin: auto;
+  }
+  .reveal .r-hstack,
+  .reveal .r-vstack {
+    display: flex;
+  }
+  .reveal .r-hstack img,
+  .reveal .r-hstack video,
+  .reveal .r-vstack img,
+  .reveal .r-vstack video {
+    min-width: 0;
+    min-height: 0;
+    object-fit: contain;
+  }
+  .reveal .r-vstack {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .reveal .r-hstack {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .reveal .items-stretch {
+    align-items: stretch;
+  }
+  .reveal .items-start {
+    align-items: flex-start;
+  }
+  .reveal .items-center {
+    align-items: center;
+  }
+  .reveal .items-end {
+    align-items: flex-end;
+  }
+  .reveal .justify-between {
+    justify-content: space-between;
+  }
+  .reveal .justify-around {
+    justify-content: space-around;
+  }
+  .reveal .justify-start {
+    justify-content: flex-start;
+  }
+  .reveal .justify-center {
+    justify-content: center;
+  }
+  .reveal .justify-end {
+    justify-content: flex-end;
+  }
+  html.reveal-full-page {
+    width: 100%;
+    height: 100%;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    height: 100svh;
+    overflow: hidden;
+  }
+  .reveal-viewport {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    line-height: 1;
+    margin: 0;
+    background-color: #fff;
+    color: #000;
+    --r-controls-spacing: 12px;
+  }
+  .reveal-viewport:fullscreen {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+  }
+  .reveal .fragment {
+    transition: all 0.2s ease;
+  }
+  .reveal .fragment:not(.custom) {
+    opacity: 0;
+    visibility: hidden;
+    will-change: opacity;
+  }
+  .reveal .fragment.visible {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.disabled {
+    transition: none;
+  }
+  .reveal .fragment.grow {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.grow.visible {
+    transform: scale(1.3);
+  }
+  .reveal .fragment.shrink {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.shrink.visible {
+    transform: scale(0.7);
+  }
+  .reveal .fragment.zoom-in {
+    transform: scale(0.1);
+  }
+  .reveal .fragment.zoom-in.visible {
+    transform: none;
+  }
+  .reveal .fragment.fade-out {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.fade-out.visible {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .reveal .fragment.semi-fade-out {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.semi-fade-out.visible {
+    opacity: 0.5;
+    visibility: inherit;
+  }
+  .reveal .fragment.strike {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.strike.visible {
+    text-decoration: line-through;
+  }
+  .reveal .fragment.fade-up {
+    transform: translate(0, 40px);
+  }
+  .reveal .fragment.fade-up.visible {
+    transform: translate(0, 0);
+  }
+  .reveal .fragment.fade-down {
+    transform: translate(0, -40px);
+  }
+  .reveal .fragment.fade-down.visible {
+    transform: translate(0, 0);
+  }
+  .reveal .fragment.fade-right {
+    transform: translate(-40px, 0);
+  }
+  .reveal .fragment.fade-right.visible {
+    transform: translate(0, 0);
+  }
+  .reveal .fragment.fade-left {
+    transform: translate(40px, 0);
+  }
+  .reveal .fragment.fade-left.visible {
+    transform: translate(0, 0);
+  }
+  .reveal .fragment.current-visible,
+  .reveal .fragment.fade-in-then-out {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .reveal .fragment.current-visible.current-fragment,
+  .reveal .fragment.fade-in-then-out.current-fragment {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.fade-in-then-semi-out {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .reveal .fragment.fade-in-then-semi-out.visible {
+    opacity: 0.5;
+    visibility: inherit;
+  }
+  .reveal .fragment.fade-in-then-semi-out.current-fragment {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.highlight-blue,
+  .reveal .fragment.highlight-current-blue,
+  .reveal .fragment.highlight-current-green,
+  .reveal .fragment.highlight-current-red,
+  .reveal .fragment.highlight-green,
+  .reveal .fragment.highlight-red {
+    opacity: 1;
+    visibility: inherit;
+  }
+  .reveal .fragment.highlight-red.visible {
+    color: #ff2c2d;
+  }
+  .reveal .fragment.highlight-green.visible {
+    color: #17ff2e;
+  }
+  .reveal .fragment.highlight-blue.visible {
+    color: #1b91ff;
+  }
+  .reveal .fragment.highlight-current-red.current-fragment {
+    color: #ff2c2d;
+  }
+  .reveal .fragment.highlight-current-green.current-fragment {
+    color: #17ff2e;
+  }
+  .reveal .fragment.highlight-current-blue.current-fragment {
+    color: #1b91ff;
+  }
+  .reveal:after {
+    content: "";
+    font-style: italic;
+  }
+  .reveal iframe {
+    z-index: 1;
+  }
+  .reveal a {
+    position: relative;
+  }
+  @keyframes bounce-right {
+    0%,
+    10%,
+    25%,
+    40%,
+    50% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(10px);
+    }
+    30% {
+      transform: translateX(-5px);
+    }
+  }
+  @keyframes bounce-left {
+    0%,
+    10%,
+    25%,
+    40%,
+    50% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-10px);
+    }
+    30% {
+      transform: translateX(5px);
+    }
+  }
+  @keyframes bounce-down {
+    0%,
+    10%,
+    25%,
+    40%,
+    50% {
+      transform: translateY(0);
+    }
+    20% {
+      transform: translateY(10px);
+    }
+    30% {
+      transform: translateY(-5px);
+    }
+  }
+  .reveal .controls {
+    display: none;
+    position: absolute;
+    top: auto;
+    bottom: var(--r-controls-spacing);
+    right: var(--r-controls-spacing);
+    left: auto;
+    z-index: 11;
+    color: #000;
+    pointer-events: none;
+    font-size: 10px;
+  }
+  .reveal .controls button {
+    position: absolute;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    color: currentColor;
+    transform: scale(0.9999);
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease,
+      transform 0.2s ease;
+    z-index: 2;
+    pointer-events: auto;
+    font-size: inherit;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .reveal .controls .controls-arrow:after,
+  .reveal .controls .controls-arrow:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.6em;
+    height: 0.5em;
+    border-radius: 0.25em;
+    background-color: currentColor;
+    transition:
+      all 0.15s ease,
+      background-color 0.8s ease;
+    transform-origin: 0.2em 50%;
+    will-change: transform;
+  }
+  .reveal .controls .controls-arrow {
+    position: relative;
+    width: 3.6em;
+    height: 3.6em;
+  }
+  .reveal .controls .controls-arrow:before {
+    transform: translateX(0.5em) translateY(1.55em) rotate(45deg);
+  }
+  .reveal .controls .controls-arrow:after {
+    transform: translateX(0.5em) translateY(1.55em) rotate(-45deg);
+  }
+  .reveal .controls .controls-arrow:hover:before {
+    transform: translateX(0.5em) translateY(1.55em) rotate(40deg);
+  }
+  .reveal .controls .controls-arrow:hover:after {
+    transform: translateX(0.5em) translateY(1.55em) rotate(-40deg);
+  }
+  .reveal .controls .controls-arrow:active:before {
+    transform: translateX(0.5em) translateY(1.55em) rotate(36deg);
+  }
+  .reveal .controls .controls-arrow:active:after {
+    transform: translateX(0.5em) translateY(1.55em) rotate(-36deg);
+  }
+  .reveal .controls .navigate-left {
+    right: 6.4em;
+    bottom: 3.2em;
+    transform: translateX(-10px);
+  }
+  .reveal .controls .navigate-left.highlight {
+    animation: bounce-left 2s 50 both ease-out;
+  }
+  .reveal .controls .navigate-right {
+    right: 0;
+    bottom: 3.2em;
+    transform: translateX(10px);
+  }
+  .reveal .controls .navigate-right .controls-arrow {
+    transform: rotate(180deg);
+  }
+  .reveal .controls .navigate-right.highlight {
+    animation: bounce-right 2s 50 both ease-out;
+  }
+  .reveal .controls .navigate-up {
+    right: 3.2em;
+    bottom: 6.4em;
+    transform: translateY(-10px);
+  }
+  .reveal .controls .navigate-up .controls-arrow {
+    transform: rotate(90deg);
+  }
+  .reveal .controls .navigate-down {
+    right: 3.2em;
+    bottom: -1.4em;
+    padding-bottom: 1.4em;
+    transform: translateY(10px);
+  }
+  .reveal .controls .navigate-down .controls-arrow {
+    transform: rotate(-90deg);
+  }
+  .reveal .controls .navigate-down.highlight {
+    animation: bounce-down 2s 50 both ease-out;
+  }
+  .reveal .controls[data-controls-back-arrows="faded"] .navigate-up.enabled {
+    opacity: 0.3;
+  }
+  .reveal
+    .controls[data-controls-back-arrows="faded"]
+    .navigate-up.enabled:hover {
+    opacity: 1;
+  }
+  .reveal .controls[data-controls-back-arrows="hidden"] .navigate-up.enabled {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .reveal .controls .enabled {
+    visibility: visible;
+    opacity: 0.9;
+    cursor: pointer;
+    transform: none;
+  }
+  .reveal .controls .enabled.fragmented {
+    opacity: 0.5;
+  }
+  .reveal .controls .enabled.fragmented:hover,
+  .reveal .controls .enabled:hover {
+    opacity: 1;
+  }
+  .reveal:not(.rtl)
+    .controls[data-controls-back-arrows="faded"]
+    .navigate-left.enabled {
+    opacity: 0.3;
+  }
+  .reveal:not(.rtl)
+    .controls[data-controls-back-arrows="faded"]
+    .navigate-left.enabled:hover {
+    opacity: 1;
+  }
+  .reveal:not(.rtl)
+    .controls[data-controls-back-arrows="hidden"]
+    .navigate-left.enabled {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .reveal.rtl
+    .controls[data-controls-back-arrows="faded"]
+    .navigate-right.enabled {
+    opacity: 0.3;
+  }
+  .reveal.rtl
+    .controls[data-controls-back-arrows="faded"]
+    .navigate-right.enabled:hover {
+    opacity: 1;
+  }
+  .reveal.rtl
+    .controls[data-controls-back-arrows="hidden"]
+    .navigate-right.enabled {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-down,
+  .reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-up {
+    display: none;
+  }
+  .reveal:not(.has-vertical-slides) .controls .navigate-left,
+  .reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-left {
+    bottom: 1.4em;
+    right: 5.5em;
+  }
+  .reveal:not(.has-vertical-slides) .controls .navigate-right,
+  .reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-right {
+    bottom: 1.4em;
+    right: 0.5em;
+  }
+  .reveal:not(.has-horizontal-slides) .controls .navigate-up {
+    right: 1.4em;
+    bottom: 5em;
+  }
+  .reveal:not(.has-horizontal-slides) .controls .navigate-down {
+    right: 1.4em;
+    bottom: 0.5em;
+  }
+  .reveal.has-dark-background .controls {
+    color: #fff;
+  }
+  .reveal.has-light-background .controls {
+    color: #000;
+  }
+  .reveal.no-hover .controls .controls-arrow:active:before,
+  .reveal.no-hover .controls .controls-arrow:hover:before {
+    transform: translateX(0.5em) translateY(1.55em) rotate(45deg);
+  }
+  .reveal.no-hover .controls .controls-arrow:active:after,
+  .reveal.no-hover .controls .controls-arrow:hover:after {
+    transform: translateX(0.5em) translateY(1.55em) rotate(-45deg);
+  }
+  @media screen and (min-width: 500px) {
+    .reveal-viewport {
+      --r-controls-spacing: 0.8em;
+    }
+    .reveal .controls[data-controls-layout="edges"] {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    .reveal .controls[data-controls-layout="edges"] .navigate-down,
+    .reveal .controls[data-controls-layout="edges"] .navigate-left,
+    .reveal .controls[data-controls-layout="edges"] .navigate-right,
+    .reveal .controls[data-controls-layout="edges"] .navigate-up {
+      bottom: auto;
+      right: auto;
+    }
+    .reveal .controls[data-controls-layout="edges"] .navigate-left {
+      top: 50%;
+      left: var(--r-controls-spacing);
+      margin-top: -1.8em;
+    }
+    .reveal .controls[data-controls-layout="edges"] .navigate-right {
+      top: 50%;
+      right: var(--r-controls-spacing);
+      margin-top: -1.8em;
+    }
+    .reveal .controls[data-controls-layout="edges"] .navigate-up {
+      top: var(--r-controls-spacing);
+      left: 50%;
+      margin-left: -1.8em;
+    }
+    .reveal .controls[data-controls-layout="edges"] .navigate-down {
+      bottom: calc(var(--r-controls-spacing) - 1.4em + 0.3em);
+      left: 50%;
+      margin-left: -1.8em;
+    }
+  }
+  .reveal .progress {
+    position: absolute;
+    display: none;
+    height: 3px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }
+  .reveal .progress:after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 10px;
+    width: 100%;
+    top: -10px;
+  }
+  .reveal .progress span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background-color: currentColor;
+    transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    transform-origin: 0 0;
+    transform: scaleX(0);
+  }
+  .reveal .slide-number {
+    position: absolute;
+    display: block;
+    right: 8px;
+    bottom: 8px;
+    z-index: 31;
+    font-family: Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+  }
+  .reveal .slide-number a {
+    color: currentColor;
+  }
+  .reveal .slide-number-delimiter {
+    margin: 0 3px;
+  }
+  .reveal {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    touch-action: pinch-zoom;
+  }
+  .reveal.embedded {
+    touch-action: pan-y;
+  }
+  .reveal.embedded.is-vertical-slide {
+    touch-action: none;
+  }
+  .reveal .slides {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1;
+    text-align: center;
+    perspective: 600px;
+    perspective-origin: 50% 40%;
+  }
+  .reveal .slides > section {
+    perspective: 600px;
+  }
+  .reveal .slides > section,
+  .reveal .slides > section > section {
+    display: none;
+    position: absolute;
+    width: 100%;
+    pointer-events: auto;
+    z-index: 10;
+    transform-style: flat;
+    transition:
+      transform-origin 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985),
+      transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985),
+      visibility 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985),
+      opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  }
+  .reveal[data-transition-speed="fast"] .slides section {
+    transition-duration: 0.4s;
+  }
+  .reveal[data-transition-speed="slow"] .slides section {
+    transition-duration: 1.2s;
+  }
+  .reveal .slides section[data-transition-speed="fast"] {
+    transition-duration: 0.4s;
+  }
+  .reveal .slides section[data-transition-speed="slow"] {
+    transition-duration: 1.2s;
+  }
+  .reveal .slides > section.stack {
+    padding-top: 0;
+    padding-bottom: 0;
+    pointer-events: none;
+    height: 100%;
+  }
+  .reveal .slides > section.present,
+  .reveal .slides > section > section.present {
+    display: block;
+    z-index: 11;
+    opacity: 1;
+  }
+  .reveal .slides > section:empty,
+  .reveal .slides > section > section:empty,
+  .reveal .slides > section > section[data-background-interactive],
+  .reveal .slides > section[data-background-interactive] {
+    pointer-events: none;
+  }
+  .reveal.center,
+  .reveal.center .slides,
+  .reveal.center .slides section {
+    min-height: 0 !important;
+  }
+  .reveal .slides > section:not(.present),
+  .reveal .slides > section > section:not(.present) {
+    pointer-events: none;
+  }
+  .reveal.overview .slides > section,
+  .reveal.overview .slides > section > section {
+    pointer-events: auto;
+  }
+  .reveal .slides > section.future,
+  .reveal .slides > section.future > section,
+  .reveal .slides > section.past,
+  .reveal .slides > section.past > section,
+  .reveal .slides > section > section.future,
+  .reveal .slides > section > section.past {
+    opacity: 0;
+  }
+  .reveal .slides > section[data-transition="slide"].past,
+  .reveal .slides > section[data-transition~="slide-out"].past,
+  .reveal.slide .slides > section:not([data-transition]).past {
+    transform: translate(-150%, 0);
+  }
+  .reveal .slides > section[data-transition="slide"].future,
+  .reveal .slides > section[data-transition~="slide-in"].future,
+  .reveal.slide .slides > section:not([data-transition]).future {
+    transform: translate(150%, 0);
+  }
+  .reveal .slides > section > section[data-transition="slide"].past,
+  .reveal .slides > section > section[data-transition~="slide-out"].past,
+  .reveal.slide .slides > section > section:not([data-transition]).past {
+    transform: translate(0, -150%);
+  }
+  .reveal .slides > section > section[data-transition="slide"].future,
+  .reveal .slides > section > section[data-transition~="slide-in"].future,
+  .reveal.slide .slides > section > section:not([data-transition]).future {
+    transform: translate(0, 150%);
+  }
+  .reveal .slides > section[data-transition="linear"].past,
+  .reveal .slides > section[data-transition~="linear-out"].past,
+  .reveal.linear .slides > section:not([data-transition]).past {
+    transform: translate(-150%, 0);
+  }
+  .reveal .slides > section[data-transition="linear"].future,
+  .reveal .slides > section[data-transition~="linear-in"].future,
+  .reveal.linear .slides > section:not([data-transition]).future {
+    transform: translate(150%, 0);
+  }
+  .reveal .slides > section > section[data-transition="linear"].past,
+  .reveal .slides > section > section[data-transition~="linear-out"].past,
+  .reveal.linear .slides > section > section:not([data-transition]).past {
+    transform: translate(0, -150%);
+  }
+  .reveal .slides > section > section[data-transition="linear"].future,
+  .reveal .slides > section > section[data-transition~="linear-in"].future,
+  .reveal.linear .slides > section > section:not([data-transition]).future {
+    transform: translate(0, 150%);
+  }
+  .reveal .slides section[data-transition="default"].stack,
+  .reveal.default .slides section.stack {
+    transform-style: preserve-3d;
+  }
+  .reveal .slides > section[data-transition="default"].past,
+  .reveal .slides > section[data-transition~="default-out"].past,
+  .reveal.default .slides > section:not([data-transition]).past {
+    transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+  }
+  .reveal .slides > section[data-transition="default"].future,
+  .reveal .slides > section[data-transition~="default-in"].future,
+  .reveal.default .slides > section:not([data-transition]).future {
+    transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+  }
+  .reveal .slides > section > section[data-transition="default"].past,
+  .reveal .slides > section > section[data-transition~="default-out"].past,
+  .reveal.default .slides > section > section:not([data-transition]).past {
+    transform: translate3d(0, -300px, 0) rotateX(70deg)
+      translate3d(0, -300px, 0);
+  }
+  .reveal .slides > section > section[data-transition="default"].future,
+  .reveal .slides > section > section[data-transition~="default-in"].future,
+  .reveal.default .slides > section > section:not([data-transition]).future {
+    transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+  }
+  .reveal .slides section[data-transition="convex"].stack,
+  .reveal.convex .slides section.stack {
+    transform-style: preserve-3d;
+  }
+  .reveal .slides > section[data-transition="convex"].past,
+  .reveal .slides > section[data-transition~="convex-out"].past,
+  .reveal.convex .slides > section:not([data-transition]).past {
+    transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+  }
+  .reveal .slides > section[data-transition="convex"].future,
+  .reveal .slides > section[data-transition~="convex-in"].future,
+  .reveal.convex .slides > section:not([data-transition]).future {
+    transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+  }
+  .reveal .slides > section > section[data-transition="convex"].past,
+  .reveal .slides > section > section[data-transition~="convex-out"].past,
+  .reveal.convex .slides > section > section:not([data-transition]).past {
+    transform: translate3d(0, -300px, 0) rotateX(70deg)
+      translate3d(0, -300px, 0);
+  }
+  .reveal .slides > section > section[data-transition="convex"].future,
+  .reveal .slides > section > section[data-transition~="convex-in"].future,
+  .reveal.convex .slides > section > section:not([data-transition]).future {
+    transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+  }
+  .reveal .slides section[data-transition="concave"].stack,
+  .reveal.concave .slides section.stack {
+    transform-style: preserve-3d;
+  }
+  .reveal .slides > section[data-transition="concave"].past,
+  .reveal .slides > section[data-transition~="concave-out"].past,
+  .reveal.concave .slides > section:not([data-transition]).past {
+    transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+  }
+  .reveal .slides > section[data-transition="concave"].future,
+  .reveal .slides > section[data-transition~="concave-in"].future,
+  .reveal.concave .slides > section:not([data-transition]).future {
+    transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+  }
+  .reveal .slides > section > section[data-transition="concave"].past,
+  .reveal .slides > section > section[data-transition~="concave-out"].past,
+  .reveal.concave .slides > section > section:not([data-transition]).past {
+    transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
+  }
+  .reveal .slides > section > section[data-transition="concave"].future,
+  .reveal .slides > section > section[data-transition~="concave-in"].future,
+  .reveal.concave .slides > section > section:not([data-transition]).future {
+    transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
+  }
+  .reveal .slides section[data-transition="zoom"],
+  .reveal.zoom .slides section:not([data-transition]) {
+    transition-timing-function: ease;
+  }
+  .reveal .slides > section[data-transition="zoom"].past,
+  .reveal .slides > section[data-transition~="zoom-out"].past,
+  .reveal.zoom .slides > section:not([data-transition]).past {
+    visibility: hidden;
+    transform: scale(16);
+  }
+  .reveal .slides > section[data-transition="zoom"].future,
+  .reveal .slides > section[data-transition~="zoom-in"].future,
+  .reveal.zoom .slides > section:not([data-transition]).future {
+    visibility: hidden;
+    transform: scale(0.2);
+  }
+  .reveal .slides > section > section[data-transition="zoom"].past,
+  .reveal .slides > section > section[data-transition~="zoom-out"].past,
+  .reveal.zoom .slides > section > section:not([data-transition]).past {
+    transform: scale(16);
+  }
+  .reveal .slides > section > section[data-transition="zoom"].future,
+  .reveal .slides > section > section[data-transition~="zoom-in"].future,
+  .reveal.zoom .slides > section > section:not([data-transition]).future {
+    transform: scale(0.2);
+  }
+  .reveal.cube .slides {
+    perspective: 1300px;
+  }
+  .reveal.cube .slides section {
+    padding: 30px;
+    min-height: 700px;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+  }
+  .reveal.center.cube .slides section {
+    min-height: 0;
+  }
+  .reveal.cube .slides section:not(.stack):before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transform: translateZ(-20px);
+  }
+  .reveal.cube .slides section:not(.stack):after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 90%;
+    height: 30px;
+    left: 5%;
+    bottom: 0;
+    background: 0 0;
+    z-index: 1;
+    border-radius: 4px;
+    box-shadow: 0 95px 25px rgba(0, 0, 0, 0.2);
+    transform: translateZ(-90px) rotateX(65deg);
+  }
+  .reveal.cube .slides > section.stack {
+    padding: 0;
+    background: 0 0;
+  }
+  .reveal.cube .slides > section.past {
+    transform-origin: 100% 0;
+    transform: translate3d(-100%, 0, 0) rotateY(-90deg);
+  }
+  .reveal.cube .slides > section.future {
+    transform-origin: 0 0;
+    transform: translate3d(100%, 0, 0) rotateY(90deg);
+  }
+  .reveal.cube .slides > section > section.past {
+    transform-origin: 0 100%;
+    transform: translate3d(0, -100%, 0) rotateX(90deg);
+  }
+  .reveal.cube .slides > section > section.future {
+    transform-origin: 0 0;
+    transform: translate3d(0, 100%, 0) rotateX(-90deg);
+  }
+  .reveal.page .slides {
+    perspective-origin: 0 50%;
+    perspective: 3000px;
+  }
+  .reveal.page .slides section {
+    padding: 30px;
+    min-height: 700px;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+  }
+  .reveal.page .slides section.past {
+    z-index: 12;
+  }
+  .reveal.page .slides section:not(.stack):before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.1);
+    transform: translateZ(-20px);
+  }
+  .reveal.page .slides section:not(.stack):after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 90%;
+    height: 30px;
+    left: 5%;
+    bottom: 0;
+    background: 0 0;
+    z-index: 1;
+    border-radius: 4px;
+    box-shadow: 0 95px 25px rgba(0, 0, 0, 0.2);
+    -webkit-transform: translateZ(-90px) rotateX(65deg);
+  }
+  .reveal.page .slides > section.stack {
+    padding: 0;
+    background: 0 0;
+  }
+  .reveal.page .slides > section.past {
+    transform-origin: 0 0;
+    transform: translate3d(-40%, 0, 0) rotateY(-80deg);
+  }
+  .reveal.page .slides > section.future {
+    transform-origin: 100% 0;
+    transform: translate3d(0, 0, 0);
+  }
+  .reveal.page .slides > section > section.past {
+    transform-origin: 0 0;
+    transform: translate3d(0, -40%, 0) rotateX(80deg);
+  }
+  .reveal.page .slides > section > section.future {
+    transform-origin: 0 100%;
+    transform: translate3d(0, 0, 0);
+  }
+  .reveal .slides section[data-transition="fade"],
+  .reveal.fade .slides section:not([data-transition]),
+  .reveal.fade .slides > section > section:not([data-transition]) {
+    transform: none;
+    transition: opacity 0.5s;
+  }
+  .reveal.fade.overview .slides section,
+  .reveal.fade.overview .slides > section > section {
+    transition: none;
+  }
+  .reveal .slides section[data-transition="none"],
+  .reveal.none .slides section:not([data-transition]) {
+    transform: none;
+    transition: none;
+  }
+  .reveal .pause-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 100;
+    transition: all 1s ease;
+  }
+  .reveal .pause-overlay .resume-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: #ccc;
+    border-radius: 2px;
+    padding: 6px 14px;
+    border: 2px solid #ccc;
+    font-size: 16px;
+    background: 0 0;
+    cursor: pointer;
+  }
+  .reveal .pause-overlay .resume-button:hover {
+    color: #fff;
+    border-color: #fff;
+  }
+  .reveal.paused .pause-overlay {
+    visibility: visible;
+    opacity: 1;
+  }
+  .reveal .no-transition,
+  .reveal .no-transition *,
+  .reveal .slides.disable-slide-transitions section {
+    transition: none !important;
+  }
+  .reveal .slides.disable-slide-transitions section {
+    transform: none !important;
+  }
+  .reveal .backgrounds {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    perspective: 600px;
+  }
+  .reveal .slide-background {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  }
+  .reveal .slide-background-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .reveal .slide-background.stack {
+    display: block;
+  }
+  .reveal .slide-background.present {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+  }
+  .print-pdf .reveal .slide-background {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  .reveal .slide-background video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+  .reveal .slide-background[data-background-size="contain"] video {
+    object-fit: contain;
+  }
+  .reveal > .backgrounds .slide-background[data-background-transition="none"],
+  .reveal[data-background-transition="none"]
+    > .backgrounds
+    .slide-background:not([data-background-transition]) {
+    transition: none;
+  }
+  .reveal > .backgrounds .slide-background[data-background-transition="slide"],
+  .reveal[data-background-transition="slide"]
+    > .backgrounds
+    .slide-background:not([data-background-transition]) {
+    opacity: 1;
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.past[data-background-transition="slide"],
+  .reveal[data-background-transition="slide"]
+    > .backgrounds
+    .slide-background.past:not([data-background-transition]) {
+    transform: translate(-100%, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.future[data-background-transition="slide"],
+  .reveal[data-background-transition="slide"]
+    > .backgrounds
+    .slide-background.future:not([data-background-transition]) {
+    transform: translate(100%, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.past[data-background-transition="slide"],
+  .reveal[data-background-transition="slide"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.past:not([data-background-transition]) {
+    transform: translate(0, -100%);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.future[data-background-transition="slide"],
+  .reveal[data-background-transition="slide"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.future:not([data-background-transition]) {
+    transform: translate(0, 100%);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.past[data-background-transition="convex"],
+  .reveal[data-background-transition="convex"]
+    > .backgrounds
+    .slide-background.past:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.future[data-background-transition="convex"],
+  .reveal[data-background-transition="convex"]
+    > .backgrounds
+    .slide-background.future:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.past[data-background-transition="convex"],
+  .reveal[data-background-transition="convex"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.past:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.future[data-background-transition="convex"],
+  .reveal[data-background-transition="convex"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.future:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.past[data-background-transition="concave"],
+  .reveal[data-background-transition="concave"]
+    > .backgrounds
+    .slide-background.past:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.future[data-background-transition="concave"],
+  .reveal[data-background-transition="concave"]
+    > .backgrounds
+    .slide-background.future:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.past[data-background-transition="concave"],
+  .reveal[data-background-transition="concave"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.past:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.future[data-background-transition="concave"],
+  .reveal[data-background-transition="concave"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.future:not([data-background-transition]) {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
+  }
+  .reveal > .backgrounds .slide-background[data-background-transition="zoom"],
+  .reveal[data-background-transition="zoom"]
+    > .backgrounds
+    .slide-background:not([data-background-transition]) {
+    transition-timing-function: ease;
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.past[data-background-transition="zoom"],
+  .reveal[data-background-transition="zoom"]
+    > .backgrounds
+    .slide-background.past:not([data-background-transition]) {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(16);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background.future[data-background-transition="zoom"],
+  .reveal[data-background-transition="zoom"]
+    > .backgrounds
+    .slide-background.future:not([data-background-transition]) {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.2);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.past[data-background-transition="zoom"],
+  .reveal[data-background-transition="zoom"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.past:not([data-background-transition]) {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(16);
+  }
+  .reveal
+    > .backgrounds
+    .slide-background
+    > .slide-background.future[data-background-transition="zoom"],
+  .reveal[data-background-transition="zoom"]
+    > .backgrounds
+    .slide-background
+    > .slide-background.future:not([data-background-transition]) {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.2);
+  }
+  .reveal[data-transition-speed="fast"] > .backgrounds .slide-background {
+    transition-duration: 0.4s;
+  }
+  .reveal[data-transition-speed="slow"] > .backgrounds .slide-background {
+    transition-duration: 1.2s;
+  }
+  .reveal [data-auto-animate-target^="unmatched"] {
+    will-change: opacity;
+  }
+  .reveal
+    section[data-auto-animate]:not(.stack):not([data-auto-animate="running"])
+    [data-auto-animate-target^="unmatched"] {
+    opacity: 0;
+  }
+  .reveal.overview {
+    perspective-origin: 50% 50%;
+    perspective: 700px;
+  }
+  .reveal.overview .slides {
+    -moz-transform-style: preserve-3d;
+  }
+  .reveal.overview .slides section {
+    height: 100%;
+    top: 0 !important;
+    opacity: 1 !important;
+    overflow: hidden;
+    visibility: visible !important;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .reveal.overview .slides section.present,
+  .reveal.overview .slides section:hover {
+    outline: 10px solid rgba(150, 150, 150, 0.4);
+    outline-offset: 10px;
+  }
+  .reveal.overview .slides section .fragment {
+    opacity: 1;
+    transition: none;
+  }
+  .reveal.overview .slides section:after,
+  .reveal.overview .slides section:before {
+    display: none !important;
+  }
+  .reveal.overview .slides > section.stack {
+    padding: 0;
+    top: 0 !important;
+    background: 0 0;
+    outline: 0;
+    overflow: visible;
+  }
+  .reveal.overview .backgrounds {
+    perspective: inherit;
+    -moz-transform-style: preserve-3d;
+  }
+  .reveal.overview .backgrounds .slide-background {
+    opacity: 1;
+    visibility: visible;
+    outline: 10px solid rgba(150, 150, 150, 0.1);
+    outline-offset: 10px;
+  }
+  .reveal.overview .backgrounds .slide-background.stack {
+    overflow: visible;
+  }
+  .reveal.overview .slides section,
+  .reveal.overview-deactivating .slides section {
+    transition: none;
+  }
+  .reveal.overview .backgrounds .slide-background,
+  .reveal.overview-deactivating .backgrounds .slide-background {
+    transition: none;
+  }
+  .reveal.rtl .slides,
+  .reveal.rtl .slides h1,
+  .reveal.rtl .slides h2,
+  .reveal.rtl .slides h3,
+  .reveal.rtl .slides h4,
+  .reveal.rtl .slides h5,
+  .reveal.rtl .slides h6 {
+    direction: rtl;
+    font-family: sans-serif;
+  }
+  .reveal.rtl code,
+  .reveal.rtl pre {
+    direction: ltr;
+  }
+  .reveal.rtl ol,
+  .reveal.rtl ul {
+    text-align: right;
+  }
+  .reveal.rtl .progress span {
+    transform-origin: 100% 0;
+  }
+  .reveal.has-parallax-background .backgrounds {
+    transition: all 0.8s ease;
+  }
+  .reveal.has-parallax-background[data-transition-speed="fast"] .backgrounds {
+    transition-duration: 0.4s;
+  }
+  .reveal.has-parallax-background[data-transition-speed="slow"] .backgrounds {
+    transition-duration: 1.2s;
+  }
+  .reveal > .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.95);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+  }
+  .reveal > .overlay .spinner {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    margin: -16px 0 0 -16px;
+    z-index: 10;
+    background-image: url(data:image/gif;base64,R0lGODlhIAAgAPMAAJmZmf%2F%2F%2F6%2Bvr8nJybW1tcDAwOjo6Nvb26ioqKOjo7Ozs%2FLy8vz8%2FAAAAAAAAAAAACH%2FC05FVFNDQVBFMi4wAwEAAAAh%2FhpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh%2BQQJCgAAACwAAAAAIAAgAAAE5xDISWlhperN52JLhSSdRgwVo1ICQZRUsiwHpTJT4iowNS8vyW2icCF6k8HMMBkCEDskxTBDAZwuAkkqIfxIQyhBQBFvAQSDITM5VDW6XNE4KagNh6Bgwe60smQUB3d4Rz1ZBApnFASDd0hihh12BkE9kjAJVlycXIg7CQIFA6SlnJ87paqbSKiKoqusnbMdmDC2tXQlkUhziYtyWTxIfy6BE8WJt5YJvpJivxNaGmLHT0VnOgSYf0dZXS7APdpB309RnHOG5gDqXGLDaC457D1zZ%2FV%2FnmOM82XiHRLYKhKP1oZmADdEAAAh%2BQQJCgAAACwAAAAAIAAgAAAE6hDISWlZpOrNp1lGNRSdRpDUolIGw5RUYhhHukqFu8DsrEyqnWThGvAmhVlteBvojpTDDBUEIFwMFBRAmBkSgOrBFZogCASwBDEY%2FCZSg7GSE0gSCjQBMVG023xWBhklAnoEdhQEfyNqMIcKjhRsjEdnezB%2BA4k8gTwJhFuiW4dokXiloUepBAp5qaKpp6%2BHo7aWW54wl7obvEe0kRuoplCGepwSx2jJvqHEmGt6whJpGpfJCHmOoNHKaHx61WiSR92E4lbFoq%2BB6QDtuetcaBPnW6%2BO7wDHpIiK9SaVK5GgV543tzjgGcghAgAh%2BQQJCgAAACwAAAAAIAAgAAAE7hDISSkxpOrN5zFHNWRdhSiVoVLHspRUMoyUakyEe8PTPCATW9A14E0UvuAKMNAZKYUZCiBMuBakSQKG8G2FzUWox2AUtAQFcBKlVQoLgQReZhQlCIJesQXI5B0CBnUMOxMCenoCfTCEWBsJColTMANldx15BGs8B5wlCZ9Po6OJkwmRpnqkqnuSrayqfKmqpLajoiW5HJq7FL1Gr2mMMcKUMIiJgIemy7xZtJsTmsM4xHiKv5KMCXqfyUCJEonXPN2rAOIAmsfB3uPoAK%2B%2BG%2Bw48edZPK%2BM6hLJpQg484enXIdQFSS1u6UhksENEQAAIfkECQoAAAAsAAAAACAAIAAABOcQyEmpGKLqzWcZRVUQnZYg1aBSh2GUVEIQ2aQOE%2BG%2BcD4ntpWkZQj1JIiZIogDFFyHI0UxQwFugMSOFIPJftfVAEoZLBbcLEFhlQiqGp1Vd140AUklUN3eCA51C1EWMzMCezCBBmkxVIVHBWd3HHl9JQOIJSdSnJ0TDKChCwUJjoWMPaGqDKannasMo6WnM562R5YluZRwur0wpgqZE7NKUm%2BFNRPIhjBJxKZteWuIBMN4zRMIVIhffcgojwCF117i4nlLnY5ztRLsnOk%2BaV%2BoJY7V7m76PdkS4trKcdg0Zc0tTcKkRAAAIfkECQoAAAAsAAAAACAAIAAABO4QyEkpKqjqzScpRaVkXZWQEximw1BSCUEIlDohrft6cpKCk5xid5MNJTaAIkekKGQkWyKHkvhKsR7ARmitkAYDYRIbUQRQjWBwJRzChi9CRlBcY1UN4g0%2FVNB0AlcvcAYHRyZPdEQFYV8ccwR5HWxEJ02YmRMLnJ1xCYp0Y5idpQuhopmmC2KgojKasUQDk5BNAwwMOh2RtRq5uQuPZKGIJQIGwAwGf6I0JXMpC8C7kXWDBINFMxS4DKMAWVWAGYsAdNqW5uaRxkSKJOZKaU3tPOBZ4DuK2LATgJhkPJMgTwKCdFjyPHEnKxFCDhEAACH5BAkKAAAALAAAAAAgACAAAATzEMhJaVKp6s2nIkolIJ2WkBShpkVRWqqQrhLSEu9MZJKK9y1ZrqYK9WiClmvoUaF8gIQSNeF1Er4MNFn4SRSDARWroAIETg1iVwuHjYB1kYc1mwruwXKC9gmsJXliGxc%2BXiUCby9ydh1sOSdMkpMTBpaXBzsfhoc5l58Gm5yToAaZhaOUqjkDgCWNHAULCwOLaTmzswadEqggQwgHuQsHIoZCHQMMQgQGubVEcxOPFAcMDAYUA85eWARmfSRQCdcMe0zeP1AAygwLlJtPNAAL19DARdPzBOWSm1brJBi45soRAWQAAkrQIykShQ9wVhHCwCQCACH5BAkKAAAALAAAAAAgACAAAATrEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq%2BE71SRQeyqUToLA7VxF0JDyIQh%2FMVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiRMDjI0Fd30%2FiI2UA5GSS5UDj2l6NoqgOgN4gksEBgYFf0FDqKgHnyZ9OX8HrgYHdHpcHQULXAS2qKpENRg7eAMLC7kTBaixUYFkKAzWAAnLC7FLVxLWDBLKCwaKTULgEwbLA4hJtOkSBNqITT3xEgfLpBtzE%2FjiuL04RGEBgwWhShRgQExHBAAh%2BQQJCgAAACwAAAAAIAAgAAAE7xDISWlSqerNpyJKhWRdlSAVoVLCWk6JKlAqAavhO9UkUHsqlE6CwO1cRdCQ8iEIfzFVTzLdRAmZX3I2SfZiCqGk5dTESJeaOAlClzsJsqwiJwiqnFrb2nS9kmIcgEsjQydLiIlHehhpejaIjzh9eomSjZR%2BipslWIRLAgMDOR2DOqKogTB9pCUJBagDBXR6XB0EBkIIsaRsGGMMAxoDBgYHTKJiUYEGDAzHC9EACcUGkIgFzgwZ0QsSBcXHiQvOwgDdEwfFs0sDzt4S6BK4xYjkDOzn0unFeBzOBijIm1Dgmg5YFQwsCMjp1oJ8LyIAACH5BAkKAAAALAAAAAAgACAAAATwEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq%2BE71SRQeyqUToLA7VxF0JDyIQh%2FMVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiUd6GGl6NoiPOH16iZKNlH6KmyWFOggHhEEvAwwMA0N9GBsEC6amhnVcEwavDAazGwIDaH1ipaYLBUTCGgQDA8NdHz0FpqgTBwsLqAbWAAnIA4FWKdMLGdYGEgraigbT0OITBcg5QwPT4xLrROZL6AuQAPUS7bxLpoWidY0JtxLHKhwwMJBTHgPKdEQAACH5BAkKAAAALAAAAAAgACAAAATrEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq%2BE71SRQeyqUToLA7VxF0JDyIQh%2FMVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiUd6GAULDJCRiXo1CpGXDJOUjY%2BYip9DhToJA4RBLwMLCwVDfRgbBAaqqoZ1XBMHswsHtxtFaH1iqaoGNgAIxRpbFAgfPQSqpbgGBqUD1wBXeCYp1AYZ19JJOYgH1KwA4UBvQwXUBxPqVD9L3sbp2BNk2xvvFPJd%2BMFCN6HAAIKgNggY0KtEBAAh%2BQQJCgAAACwAAAAAIAAgAAAE6BDISWlSqerNpyJKhWRdlSAVoVLCWk6JKlAqAavhO9UkUHsqlE6CwO1cRdCQ8iEIfzFVTzLdRAmZX3I2SfYIDMaAFdTESJeaEDAIMxYFqrOUaNW4E4ObYcCXaiBVEgULe0NJaxxtYksjh2NLkZISgDgJhHthkpU4mW6blRiYmZOlh4JWkDqILwUGBnE6TYEbCgevr0N1gH4At7gHiRpFaLNrrq8HNgAJA70AWxQIH1%2BvsYMDAzZQPC9VCNkDWUhGkuE5PxJNwiUK4UfLzOlD4WvzAHaoG9nxPi5d%2BjYUqfAhhykOFwJWiAAAIfkECQoAAAAsAAAAACAAIAAABPAQyElpUqnqzaciSoVkXVUMFaFSwlpOCcMYlErAavhOMnNLNo8KsZsMZItJEIDIFSkLGQoQTNhIsFehRww2CQLKF0tYGKYSg%2BygsZIuNqJksKgbfgIGepNo2cIUB3V1B3IvNiBYNQaDSTtfhhx0CwVPI0UJe0%2Bbm4g5VgcGoqOcnjmjqDSdnhgEoamcsZuXO1aWQy8KAwOAuTYYGwi7w5h%2BKr0SJ8MFihpNbx%2B4Erq7BYBuzsdiH1jCAzoSfl0rVirNbRXlBBlLX%2BBP0XJLAPGzTkAuAOqb0WT5AH7OcdCm5B8TgRwSRKIHQtaLCwg1RAAAOwAAAAAAAAAAAA%3D%3D);
+    visibility: visible;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+  }
+  .reveal > .overlay header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 5px;
+    z-index: 2;
+    box-sizing: border-box;
+  }
+  .reveal > .overlay header a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 36px;
+    padding: 0 10px;
+    float: right;
+    opacity: 0.6;
+    box-sizing: border-box;
+  }
+  .reveal > .overlay header a:hover {
+    opacity: 1;
+  }
+  .reveal > .overlay header a .icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-position: 50% 50%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+  .reveal > .overlay header a.close .icon {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkklEQVRYR8WX4VHDMAxG6wnoJrABZQPYBCaBTWAD2g1gE5gg6OOsXuxIlr40d81dfrSJ9V4c2VLK7spHuTJ/5wpM07QXuXc5X0opX2tEJcadjHuV80li/FgxTIEK/5QBCICBD6xEhSMGHgQPgBgLiYVAB1dpSqKDawxTohFw4JSEA3clzgIBPCURwE2JucBR7rhPJJv5OpJwDX+SfDjgx1wACQeJG1aChP9K/IMmdZ8DtESV1WyP3Bt4MwM6sj4NMxMYiqUWHQu4KYA/SYkIjOsm3BXYWMKFDwU2khjCQ4ELJUJ4SmClRArOCmSXGuKma0fYD5CbzHxFpCSGAhfAVSSUGDUk2BWZaff2g6GE15BsBQ9nwmpIGDiyHQddwNTMKkbZaf9fajXQca1EX44puJZUsnY0ObGmITE3GVLCbEhQUjGVt146j6oasWN+49Vph2w1pZ5EansNZqKBm1txbU57iRRcZ86RWMDdWtBJUHBHwoQPi1GV+JCbntmvok7iTX4/Up9mgyTc/FJYDTcndgH/AA5A/CHsyEkVAAAAAElFTkSuQmCC);
+  }
+  .reveal > .overlay header a.external .icon {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAcElEQVRYR+2WSQoAIQwEzf8f7XiOMkUQxUPlGkM3hVmiQfQR9GYnH1SsAQlI4DiBqkCMoNb9y2e90IAEJPAcgdznU9+engMaeJ7Azh5Y1U67gAho4DqBqmB1buAf0MB1AlVBek83ZPkmJMGc1wAR+AAqod/B97TRpQAAAABJRU5ErkJggg==);
+  }
+  .reveal > .overlay .viewport {
+    position: absolute;
+    display: flex;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .reveal > .overlay.overlay-preview .viewport iframe {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  .reveal > .overlay.overlay-preview.loaded .viewport iframe {
+    opacity: 1;
+    visibility: visible;
+  }
+  .reveal > .overlay.overlay-preview.loaded .viewport-inner {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 45%;
+    width: 100%;
+    text-align: center;
+    letter-spacing: normal;
+  }
+  .reveal > .overlay.overlay-preview .x-frame-error {
+    opacity: 0;
+    transition: opacity 0.3s ease 0.3s;
+  }
+  .reveal > .overlay.overlay-preview.loaded .x-frame-error {
+    opacity: 1;
+  }
+  .reveal > .overlay.overlay-preview.loaded .spinner {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.2);
+  }
+  .reveal > .overlay.overlay-help .viewport {
+    overflow: auto;
+    color: #fff;
+  }
+  .reveal > .overlay.overlay-help .viewport .viewport-inner {
+    width: 600px;
+    margin: auto;
+    padding: 20px 20px 80px 20px;
+    text-align: center;
+    letter-spacing: normal;
+  }
+  .reveal > .overlay.overlay-help .viewport .viewport-inner .title {
+    font-size: 20px;
+  }
+  .reveal > .overlay.overlay-help .viewport .viewport-inner table {
+    border: 1px solid #fff;
+    border-collapse: collapse;
+    font-size: 16px;
+  }
+  .reveal > .overlay.overlay-help .viewport .viewport-inner table td,
+  .reveal > .overlay.overlay-help .viewport .viewport-inner table th {
+    width: 200px;
+    padding: 14px;
+    border: 1px solid #fff;
+    vertical-align: middle;
+  }
+  .reveal > .overlay.overlay-help .viewport .viewport-inner table th {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .reveal .playback {
+    position: absolute;
+    left: 15px;
+    bottom: 20px;
+    z-index: 30;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .reveal.overview .playback {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .reveal .hljs {
+    min-height: 100%;
+  }
+  .reveal .hljs table {
+    margin: initial;
+  }
+  .reveal .hljs-ln-code,
+  .reveal .hljs-ln-numbers {
+    padding: 0;
+    border: 0;
+  }
+  .reveal .hljs-ln-numbers {
+    opacity: 0.6;
+    padding-right: 0.75em;
+    text-align: right;
+    vertical-align: top;
+  }
+  .reveal .hljs.has-highlights tr:not(.highlight-line) {
+    opacity: 0.4;
+  }
+  .reveal .hljs.has-highlights.fragment {
+    transition: all 0.2s ease;
+  }
+  .reveal .hljs:not(:first-child).fragment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .reveal pre[data-auto-animate-target] {
+    overflow: hidden;
+  }
+  .reveal pre[data-auto-animate-target] code {
+    height: 100%;
+  }
+  .reveal .roll {
+    display: inline-block;
+    line-height: 1.2;
+    overflow: hidden;
+    vertical-align: top;
+    perspective: 400px;
+    perspective-origin: 50% 50%;
+  }
+  .reveal .roll:hover {
+    background: 0 0;
+    text-shadow: none;
+  }
+  .reveal .roll span {
+    display: block;
+    position: relative;
+    padding: 0 2px;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    transform-origin: 50% 0;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+  .reveal .roll:hover span {
+    background: rgba(0, 0, 0, 0.5);
+    transform: translate3d(0, 0, -45px) rotateX(90deg);
+  }
+  .reveal .roll span:after {
+    content: attr(data-title);
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0 2px;
+    backface-visibility: hidden;
+    transform-origin: 50% 0;
+    transform: translate3d(0, 110%, 0) rotateX(-90deg);
+  }
+  .reveal aside.notes {
+    display: none;
+  }
+  .reveal .speaker-notes {
+    display: none;
+    position: absolute;
+    width: 33.3333333333%;
+    height: 100%;
+    top: 0;
+    left: 100%;
+    padding: 14px 18px 14px 18px;
+    z-index: 1;
+    font-size: 18px;
+    line-height: 1.4;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: #222;
+    background-color: #f5f5f5;
+    overflow: auto;
+    box-sizing: border-box;
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    -webkit-overflow-scrolling: touch;
+  }
+  .reveal .speaker-notes .notes-placeholder {
+    color: #ccc;
+    font-style: italic;
+  }
+  .reveal .speaker-notes:focus {
+    outline: 0;
+  }
+  .reveal .speaker-notes:before {
+    content: "Speaker notes";
+    display: block;
+    margin-bottom: 10px;
+    opacity: 0.5;
+  }
+  .reveal.show-notes {
+    max-width: 75%;
+    overflow: visible;
+  }
+  .reveal.show-notes .speaker-notes {
+    display: block;
+  }
+  @media screen and (min-width: 1600px) {
+    .reveal .speaker-notes {
+      font-size: 20px;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .reveal.show-notes {
+      border-left: 0;
+      max-width: none;
+      max-height: 70%;
+      max-height: 70vh;
+      overflow: visible;
+    }
+    .reveal.show-notes .speaker-notes {
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 30vh;
+      border: 0;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .reveal.show-notes {
+      max-height: 60%;
+      max-height: 60vh;
+    }
+    .reveal.show-notes .speaker-notes {
+      top: 100%;
+      height: 40vh;
+    }
+    .reveal .speaker-notes {
+      font-size: 14px;
+    }
+  }
+  .reveal .jump-to-slide {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 30;
+    font-size: 32px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .reveal .jump-to-slide-input {
+    background: 0 0;
+    padding: 8px;
+    font-size: inherit;
+    color: currentColor;
+    border: 0;
+  }
+  .reveal .jump-to-slide-input::placeholder {
+    color: currentColor;
+    opacity: 0.5;
+  }
+  .reveal.has-dark-background .jump-to-slide-input {
+    color: #fff;
+  }
+  .reveal.has-light-background .jump-to-slide-input {
+    color: #222;
+  }
+  .reveal .jump-to-slide-input:focus {
+    outline: 0;
+  }
+  .zoomed .reveal *,
+  .zoomed .reveal :after,
+  .zoomed .reveal :before {
+    backface-visibility: visible !important;
+  }
+  .zoomed .reveal .controls,
+  .zoomed .reveal .progress {
+    opacity: 0;
+  }
+  .zoomed .reveal .roll span {
+    background: 0 0;
+  }
+  .zoomed .reveal .roll span:after {
+    visibility: hidden;
+  }
+  .reveal-viewport.loading-scroll-mode {
+    visibility: hidden;
+  }
+  .reveal-viewport.reveal-scroll {
+    margin: 0 auto;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 1;
+    --r-scrollbar-width: 7px;
+    --r-scrollbar-trigger-size: 5px;
+    --r-controls-spacing: 8px;
+  }
+  @media screen and (max-width: 500px) {
+    .reveal-viewport.reveal-scroll {
+      --r-scrollbar-width: 3px;
+      --r-scrollbar-trigger-size: 3px;
+    }
+  }
+  .reveal-viewport.reveal-scroll .backgrounds,
+  .reveal-viewport.reveal-scroll .controls,
+  .reveal-viewport.reveal-scroll .playback,
+  .reveal-viewport.reveal-scroll .progress,
+  .reveal-viewport.reveal-scroll .slide-number,
+  .reveal-viewport.reveal-scroll .speaker-notes {
+    display: none !important;
+  }
+  .reveal-viewport.reveal-scroll .overlay,
+  .reveal-viewport.reveal-scroll .pause-overlay {
+    position: fixed;
+  }
+  .reveal-viewport.reveal-scroll .reveal {
+    overflow: visible;
+    touch-action: manipulation;
+  }
+  .reveal-viewport.reveal-scroll .slides {
+    position: static;
+    pointer-events: initial;
+    left: auto;
+    top: auto;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    display: block;
+    perspective: none;
+    perspective-origin: 50% 50%;
+  }
+  .reveal-viewport.reveal-scroll .scroll-page {
+    position: relative;
+    width: 100%;
+    height: calc(var(--page-height) + var(--page-scroll-padding));
+    z-index: 1;
+    overflow: visible;
+  }
+  .reveal-viewport.reveal-scroll .scroll-page-sticky {
+    position: sticky;
+    height: var(--page-height);
+    top: 0;
+  }
+  .reveal-viewport.reveal-scroll .scroll-page-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .reveal-viewport.reveal-scroll .scroll-page section {
+    visibility: visible !important;
+    display: block !important;
+    position: absolute !important;
+    width: var(--slide-width) !important;
+    height: var(--slide-height) !important;
+    top: 50% !important;
+    left: 50% !important;
+    opacity: 1 !important;
+    transform: scale(var(--slide-scale)) translate(-50%, -50%) !important;
+    transform-style: flat !important;
+    transform-origin: 0 0 !important;
+  }
+  .reveal-viewport.reveal-scroll .slide-background {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: auto !important;
+    visibility: visible;
+    opacity: 1;
+    touch-action: manipulation;
+  }
+  .reveal-viewport.reveal-scroll[data-scrollbar="auto"]::-webkit-scrollbar,
+  .reveal-viewport.reveal-scroll[data-scrollbar="true"]::-webkit-scrollbar {
+    display: none;
+  }
+  .reveal-viewport.reveal-scroll[data-scrollbar="auto"],
+  .reveal-viewport.reveal-scroll[data-scrollbar="true"] {
+    scrollbar-width: none;
+  }
+  .reveal-viewport.has-dark-background,
+  .reveal.has-dark-background {
+    --r-overlay-element-bg-color: 240, 240, 240;
+    --r-overlay-element-fg-color: 0, 0, 0;
+  }
+  .reveal-viewport.has-light-background,
+  .reveal.has-light-background {
+    --r-overlay-element-bg-color: 0, 0, 0;
+    --r-overlay-element-fg-color: 240, 240, 240;
+  }
+  .reveal-viewport.reveal-scroll .scrollbar {
+    position: sticky;
+    top: 50%;
+    z-index: 20;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .reveal-viewport.reveal-scroll .scrollbar.visible,
+  .reveal-viewport.reveal-scroll .scrollbar:hover {
+    opacity: 1;
+  }
+  .reveal-viewport.reveal-scroll .scrollbar .scrollbar-inner {
+    position: absolute;
+    width: var(--r-scrollbar-width);
+    height: calc(var(--viewport-height) - var(--r-controls-spacing) * 2);
+    right: var(--r-controls-spacing);
+    top: 0;
+    transform: translateY(-50%);
+    border-radius: var(--r-scrollbar-width);
+    z-index: 10;
+  }
+  .reveal-viewport.reveal-scroll .scrollbar .scrollbar-playhead {
+    position: absolute;
+    width: var(--r-scrollbar-width);
+    height: var(--r-scrollbar-width);
+    top: 0;
+    left: 0;
+    border-radius: var(--r-scrollbar-width);
+    background-color: rgba(var(--r-overlay-element-bg-color), 1);
+    z-index: 11;
+    transition: background-color 0.2s ease;
+  }
+  .reveal-viewport.reveal-scroll .scrollbar .scrollbar-slide {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(var(--r-overlay-element-bg-color), 0.2);
+    box-shadow: 0 0 0 1px rgba(var(--r-overlay-element-fg-color), 0.1);
+    border-radius: var(--r-scrollbar-width);
+    transition: background-color 0.2s ease;
+  }
+  .reveal-viewport.reveal-scroll .scrollbar .scrollbar-slide:after {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    top: 0;
+    left: -50%;
+    background: rgba(0, 0, 0, 0);
+    z-index: -1;
+  }
+  .reveal-viewport.reveal-scroll .scrollbar .scrollbar-slide.active,
+  .reveal-viewport.reveal-scroll .scrollbar .scrollbar-slide:hover {
+    background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
+  }
+  .reveal-viewport.reveal-scroll .scrollbar .scrollbar-trigger {
+    position: absolute;
+    width: 100%;
+    transition: background-color 0.2s ease;
+  }
+  .reveal-viewport.reveal-scroll
+    .scrollbar
+    .scrollbar-slide.active.has-triggers {
+    background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
+    z-index: 10;
+  }
+  .reveal-viewport.reveal-scroll
+    .scrollbar
+    .scrollbar-slide.active
+    .scrollbar-trigger:after {
+    content: "";
+    position: absolute;
+    width: var(--r-scrollbar-trigger-size);
+    height: var(--r-scrollbar-trigger-size);
+    border-radius: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(var(--r-overlay-element-bg-color), 1);
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+    opacity: 0.4;
+  }
+  .reveal-viewport.reveal-scroll
+    .scrollbar
+    .scrollbar-slide.active
+    .scrollbar-trigger.active:after,
+  .reveal-viewport.reveal-scroll
+    .scrollbar
+    .scrollbar-slide.active
+    .scrollbar-trigger.active
+    ~ .scrollbar-trigger:after {
+    opacity: 1;
+  }
+  .reveal-viewport.reveal-scroll
+    .scrollbar
+    .scrollbar-slide.active
+    .scrollbar-trigger
+    ~ .scrollbar-trigger.active:after {
+    transform: translate(calc(var(--r-scrollbar-width) * -2), 0);
+    background-color: rgba(var(--r-overlay-element-bg-color), 1);
+  }
+  html.reveal-print * {
+    -webkit-print-color-adjust: exact;
+  }
+  html.reveal-print {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  html.reveal-print body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+  }
+  html.reveal-print .nestedarrow,
+  html.reveal-print .reveal .controls,
+  html.reveal-print .reveal .playback,
+  html.reveal-print .reveal .progress,
+  html.reveal-print .reveal.overview,
+  html.reveal-print .state-background {
+    display: none !important;
+  }
+  html.reveal-print .reveal pre code {
+    overflow: hidden !important;
+  }
+  html.reveal-print .reveal {
+    width: auto !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+  html.reveal-print .reveal .slides {
+    position: static;
+    width: 100% !important;
+    height: auto !important;
+    zoom: 1 !important;
+    pointer-events: initial;
+    left: auto;
+    top: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible;
+    display: block;
+    perspective: none;
+    perspective-origin: 50% 50%;
+  }
+  html.reveal-print .reveal .slides .pdf-page {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    page-break-after: always;
+  }
+  html.reveal-print .reveal .slides .pdf-page:last-of-type {
+    page-break-after: avoid;
+  }
+  html.reveal-print .reveal .slides section {
+    visibility: visible !important;
+    display: block !important;
+    position: absolute !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    min-height: 1px;
+    opacity: 1 !important;
+    transform-style: flat !important;
+    transform: none !important;
+  }
+  html.reveal-print .reveal section.stack {
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-after: avoid !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+  html.reveal-print .reveal img {
+    box-shadow: none;
+  }
+  html.reveal-print .reveal .backgrounds {
+    display: none;
+  }
+  html.reveal-print .reveal .slide-background {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: auto !important;
+  }
+  html.reveal-print .reveal.show-notes {
+    max-width: none;
+    max-height: none;
+  }
+  html.reveal-print .reveal .speaker-notes-pdf {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    z-index: 100;
+  }
+  html.reveal-print .reveal .speaker-notes-pdf[data-layout="separate-page"] {
+    position: relative;
+    color: inherit;
+    background-color: transparent;
+    padding: 20px;
+    page-break-after: always;
+    border: 0;
+  }
+  html.reveal-print .reveal .slide-number-pdf {
+    display: block;
+    position: absolute;
+    font-size: 14px;
+    visibility: visible;
+  }
+  html.reveal-print .aria-status {
+    display: none;
+  }
+  @media print {
+    html:not(.print-pdf) {
+      overflow: visible;
+      width: auto;
+      height: auto;
+    }
+    html:not(.print-pdf) body {
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+    html:not(.print-pdf) .reveal {
+      background: #fff;
+      font-size: 20pt;
+    }
+    html:not(.print-pdf) .reveal .backgrounds,
+    html:not(.print-pdf) .reveal .controls,
+    html:not(.print-pdf) .reveal .progress,
+    html:not(.print-pdf) .reveal .slide-number,
+    html:not(.print-pdf) .reveal .state-background {
+      display: none !important;
+    }
+    html:not(.print-pdf) .reveal li,
+    html:not(.print-pdf) .reveal p,
+    html:not(.print-pdf) .reveal td {
+      font-size: 20pt !important;
+      color: #000;
+    }
+    html:not(.print-pdf) .reveal h1,
+    html:not(.print-pdf) .reveal h2,
+    html:not(.print-pdf) .reveal h3,
+    html:not(.print-pdf) .reveal h4,
+    html:not(.print-pdf) .reveal h5,
+    html:not(.print-pdf) .reveal h6 {
+      color: #000 !important;
+      height: auto;
+      line-height: normal;
+      text-align: left;
+      letter-spacing: normal;
+    }
+    html:not(.print-pdf) .reveal h1 {
+      font-size: 28pt !important;
+    }
+    html:not(.print-pdf) .reveal h2 {
+      font-size: 24pt !important;
+    }
+    html:not(.print-pdf) .reveal h3 {
+      font-size: 22pt !important;
+    }
+    html:not(.print-pdf) .reveal h4 {
+      font-size: 22pt !important;
+      font-variant: small-caps;
+    }
+    html:not(.print-pdf) .reveal h5 {
+      font-size: 21pt !important;
+    }
+    html:not(.print-pdf) .reveal h6 {
+      font-size: 20pt !important;
+      font-style: italic;
+    }
+    html:not(.print-pdf) .reveal a:link,
+    html:not(.print-pdf) .reveal a:visited {
+      color: #000 !important;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+    html:not(.print-pdf) .reveal div,
+    html:not(.print-pdf) .reveal ol,
+    html:not(.print-pdf) .reveal p,
+    html:not(.print-pdf) .reveal ul {
+      visibility: visible;
+      position: static;
+      width: auto;
+      height: auto;
+      display: block;
+      overflow: visible;
+      margin: 0;
+      text-align: left !important;
+    }
+    html:not(.print-pdf) .reveal pre,
+    html:not(.print-pdf) .reveal table {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    html:not(.print-pdf) .reveal pre code {
+      padding: 20px;
+    }
+    html:not(.print-pdf) .reveal blockquote {
+      margin: 20px 0;
+    }
+    html:not(.print-pdf) .reveal .slides {
+      position: static !important;
+      width: auto !important;
+      height: auto !important;
+      left: 0 !important;
+      top: 0 !important;
+      margin-left: 0 !important;
+      margin-top: 0 !important;
+      padding: 0 !important;
+      zoom: 1 !important;
+      transform: none !important;
+      overflow: visible !important;
+      display: block !important;
+      text-align: left !important;
+      perspective: none;
+      perspective-origin: 50% 50%;
+    }
+    html:not(.print-pdf) .reveal .slides section {
+      visibility: visible !important;
+      position: static !important;
+      width: auto !important;
+      height: auto !important;
+      display: block !important;
+      overflow: visible !important;
+      left: 0 !important;
+      top: 0 !important;
+      margin-left: 0 !important;
+      margin-top: 0 !important;
+      padding: 60px 20px !important;
+      z-index: auto !important;
+      opacity: 1 !important;
+      page-break-after: always !important;
+      transform-style: flat !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    html:not(.print-pdf) .reveal .slides section.stack {
+      padding: 0 !important;
+    }
+    html:not(.print-pdf) .reveal .slides section:last-of-type {
+      page-break-after: avoid !important;
+    }
+    html:not(.print-pdf) .reveal .slides section .fragment {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+    html:not(.print-pdf) .reveal .r-fit-text {
+      white-space: normal !important;
+    }
+    html:not(.print-pdf) .reveal section img {
+      display: block;
+      margin: 15px 0;
+      background: #fff;
+      border: 1px solid #666;
+      box-shadow: none;
+    }
+    html:not(.print-pdf) .reveal section small {
+      font-size: 0.8em;
+    }
+    html:not(.print-pdf) .reveal .hljs {
+      max-height: 100%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      word-break: break-word;
+      font-size: 15pt;
+    }
+    html:not(.print-pdf) .reveal .hljs .hljs-ln-numbers {
+      white-space: nowrap;
+    }
+    html:not(.print-pdf) .reveal .hljs td {
+      font-size: inherit !important;
+      color: inherit !important;
+    }
+  }
+</style>
+<style>
+  /* Layout: aula de clase, una idea por diapositiva; tinta azul petróleo sobre papel frío, marcador amarillo para lo que hay que recordar */
+  :root {
+    --paper: #f3f6f5;
+    --ink: #0f3138;
+    --ink-soft: #4a6469;
+    --line: #c9d6d4;
+    --mark: #f2b705;
+    --mark-soft: #fcedb8;
+    --teal: #1d7a74;
+    --teal-soft: #d5ece9;
+    --bad: #b4432f;
+    --bad-soft: #f6ddd7;
+    --card: #ffffff;
+    --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+    --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    color-scheme: light;
+  }
+  html,
+  body {
+    height: 100%;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .reveal-viewport {
+    background: var(--paper);
+  }
+  .reveal {
+    font-family: var(--f-body);
+    font-size: 30px;
+    color: var(--ink);
+  }
+  .reveal .slides {
+    text-align: left;
+  }
+  .reveal .slides section {
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  .reveal h1,
+  .reveal h2,
+  .reveal h3 {
+    font-family: var(--f-display);
+    color: var(--ink);
+    margin: 0 0 0.45em;
+    text-wrap: balance;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .reveal h1 {
+    font-size: 2.4em;
+    font-weight: 800;
+  }
+  .reveal h2 {
+    font-size: 1.6em;
+    font-weight: 800;
+  }
+  .reveal h3 {
+    font-size: 1em;
+    font-weight: 600;
+  }
+  .reveal p {
+    margin: 0 0 0.6em;
+    line-height: 1.4;
+  }
+  .reveal ul,
+  .reveal ol {
+    margin: 0;
+    padding-left: 1.1em;
+    display: block;
+  }
+  .reveal li {
+    margin: 0.25em 0;
+    line-height: 1.35;
+  }
+  .reveal strong {
+    color: var(--ink);
+  }
+  .hl {
+    background: linear-gradient(transparent 55%, var(--mark-soft) 55%);
+    padding: 0 0.1em;
+  }
+  .kicker {
+    font-family: var(--f-mono);
+    font-size: 0.5em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.8em;
+    display: block;
+  }
+  .small {
+    font-size: 0.75em;
+    color: var(--ink-soft);
+  }
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .grid4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .box {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-size: 0.78em;
+    line-height: 1.35;
+  }
+  .box h3 {
+    font-size: 1.15em;
+    margin-bottom: 0.35em;
+  }
+  .box.teal {
+    border-color: var(--teal);
+    background: var(--teal-soft);
+  }
+  .box.mark {
+    border-color: var(--mark);
+    background: var(--mark-soft);
+  }
+  .box.bad {
+    border-color: var(--bad);
+    background: var(--bad-soft);
+  }
+  .tag {
+    display: inline-block;
+    font-family: var(--f-mono);
+    font-size: 0.62em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: var(--ink);
+    color: var(--paper);
+    vertical-align: middle;
+  }
+  .tag.t {
+    background: var(--teal);
+  }
+  .tag.m {
+    background: var(--mark);
+    color: var(--ink);
+  }
+  .tag.b {
+    background: var(--bad);
+  }
+  /* portada */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .cover .code {
+    font-family: var(--f-mono);
+    font-size: 0.55em;
+    color: var(--teal);
+    margin-bottom: 1.2em;
+  }
+  .cover h1 span {
+    background: var(--mark);
+    padding: 0 0.12em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .stamp {
+    display: inline-flex;
+    gap: 18px;
+    margin-top: 1.4em;
+    font-size: 0.6em;
+    flex-wrap: wrap;
+  }
+  .stamp div {
+    border: 2px solid var(--ink);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: var(--f-mono);
+  }
+  /* divisor de sección */
+  .divider {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .divider .big {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 5em;
+    line-height: 0.9;
+    color: var(--teal);
+  }
+  /* ciclo */
+  .cycle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    margin-top: 0.6em;
+  }
+  .cycle .step {
+    flex: 1;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 0.7em;
+    font-weight: 700;
+    min-width: 0;
+  }
+  .cycle .step small {
+    display: block;
+    font-weight: 400;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-size: 0.85em;
+  }
+  .cycle .arr {
+    font-family: var(--f-mono);
+    color: var(--teal);
+    font-size: 0.9em;
+  }
+  .cycle .step.on {
+    background: var(--mark);
+  }
+  /* secuencia antes/después */
+  .seq {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+    margin: 0.3em 0 0.9em;
+  }
+  .seq div {
+    flex: 1;
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 0.6em;
+    border-radius: 6px;
+    background: var(--card);
+    border: 2px solid var(--line);
+    font-weight: 700;
+  }
+  .seq .test {
+    background: var(--teal-soft);
+    border-color: var(--teal);
+  }
+  .seq .late {
+    background: var(--bad-soft);
+    border-color: var(--bad);
+  }
+  .lbl {
+    font-family: var(--f-mono);
+    font-size: 0.5em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  /* tablas */
+  .reveal table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.58em;
+    margin: 0;
+  }
+  .reveal table th {
+    font-family: var(--f-mono);
+    font-weight: 500;
+    text-align: left;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 10px;
+    border: none;
+    font-size: 0.9em;
+  }
+  .reveal table td {
+    padding: 8px 10px;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
+    vertical-align: top;
+    font-variant-numeric: tabular-nums;
+  }
+  .ok {
+    color: var(--teal);
+    font-weight: 700;
+  }
+  .no {
+    color: var(--bad);
+    font-weight: 700;
+  }
+  /* jerarquía */
+  .tree {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.72em;
+  }
+  .tree div {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .tree div b {
+    font-family: var(--f-mono);
+    font-size: 0.8em;
+    color: var(--teal);
+    min-width: 7.5em;
+    font-weight: 500;
+  }
+  .tree .l2 {
+    margin-left: 40px;
+  }
+  .tree .l3 {
+    margin-left: 80px;
+  }
+  .tree .l4 {
+    margin-left: 120px;
+    border-color: var(--mark);
+    background: var(--mark-soft);
+  }
+  .formula {
+    font-family: var(--f-mono);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.62em;
+    margin-top: 0.8em;
+  }
+  /* características ISO */
+  .iso {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .iso div {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-top: 8px solid var(--teal);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.55em;
+    line-height: 1.3;
+  }
+  .iso div b {
+    display: block;
+    font-family: var(--f-display);
+    font-size: 1.3em;
+    margin-bottom: 4px;
+  }
+  /* proceso 25040 */
+  .proc {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .proc div {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.55em;
+    line-height: 1.3;
+  }
+  .proc div i {
+    font-style: normal;
+    font-family: var(--f-mono);
+    display: block;
+    color: var(--teal);
+    font-size: 1.1em;
+    margin-bottom: 6px;
+  }
+  .proc div b {
+    display: block;
+    font-size: 1.15em;
+    margin-bottom: 6px;
+  }
+  /* herramientas */
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .tools div {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 0.55em;
+    line-height: 1.3;
+  }
+  .tools div b {
+    font-family: var(--f-display);
+    font-size: 1.35em;
+    display: block;
+  }
+  .tools div em {
+    font-style: normal;
+    font-family: var(--f-mono);
+    font-size: 0.85em;
+    color: var(--teal);
+    display: block;
+    margin: 2px 0 6px;
+  }
+  /* calculadora */
+  .calc {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 28px;
+    align-items: center;
+  }
+  .calc .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.58em;
+  }
+  .calc .row {
+    display: grid;
+    grid-template-columns: 9.5em 3.5em 1fr 2.6em;
+    gap: 10px;
+    align-items: center;
+  }
+  .calc input[type="range"] {
+    width: 100%;
+    accent-color: var(--teal);
+  }
+  .calc .w {
+    font-family: var(--f-mono);
+    color: var(--ink-soft);
+  }
+  .calc .v {
+    font-family: var(--f-mono);
+    text-align: right;
+  }
+  .score {
+    text-align: center;
+  }
+  .score .n {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 3.6em;
+    line-height: 1;
+  }
+  .score .s {
+    display: inline-block;
+    margin-top: 0.3em;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.7em;
+  }
+  .check li {
+    list-style: none;
+    position: relative;
+    padding-left: 1.4em;
+  }
+  .check li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    width: 0.7em;
+    height: 0.7em;
+    border: 2px solid var(--teal);
+    border-radius: 3px;
+  }
+  .reveal .controls {
+    color: var(--teal);
+  }
+  .reveal .progress {
+    color: var(--mark);
+    height: 6px;
+  }
+  .reveal .slide-number {
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: var(--f-mono);
+    font-size: 14px;
+  }
+  .reveal :focus-visible {
+    outline: 3px solid var(--mark);
+    outline-offset: 2px;
+  }
+</style>
+
+<div class="reveal">
+  <div class="slides">
+    <!-- 1 Portada -->
+    <section>
+      <div class="cover">
+        <div class="code">
+          GA11-220501098-AA3 · Actividad de aprendizaje 3.1.3
+        </div>
+        <h1>
+          Ajustar los procesos de desarrollo
+          <span>según lo que encontró la verificación</span>
+        </h1>
+        <p class="small">
+          Componente formativo: Aplicación de pruebas de software
+        </p>
+        <div class="stamp">
+          <div>30 horas</div>
+          <div>2 evidencias</div>
+          <div>Entrega en PDF</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 Idea central -->
+    <section>
+      <span class="kicker">La idea en una frase</span>
+      <h2>
+        Probamos, encontramos problemas,
+        <span class="hl">cambiamos la forma de trabajar</span> y volvemos a
+        medir.
+      </h2>
+      <div class="cycle">
+        <div class="step">Verificar<small>pruebas y revisiones</small></div>
+        <span class="arr">→</span>
+        <div class="step">Hallazgos<small>defectos, demoras</small></div>
+        <span class="arr">→</span>
+        <div class="step on">Ajustar el proceso<small>EV01</small></div>
+        <span class="arr">→</span>
+        <div class="step on">Medir la calidad otra vez<small>EV02</small></div>
+        <span class="arr">↺</span>
+      </div>
+      <p class="small fragment" style="margin-top: 1em">
+        Ejemplo de la vida real: si un restaurante recibe quejas porque la
+        comida llega fría, no basta con recalentar ese plato. Hay que cambiar el
+        orden en la cocina para que no vuelva a pasar. Eso es
+        <strong>ajustar el proceso</strong>.
+      </p>
+    </section>
+
+    <!-- 3 Las dos evidencias -->
+    <section>
+      <span class="kicker">Qué hay que entregar</span>
+      <h2>Dos documentos, dos preguntas</h2>
+      <div class="grid2">
+        <div class="box teal">
+          <span class="tag t">EV01</span>
+          <h3 style="margin-top: 0.5em">
+            Realiza ajustes en los procesos de desarrollo
+          </h3>
+          <p>
+            <strong>Pregunta:</strong> ¿qué vamos a cambiar en
+            <em>la forma de trabajar</em> y por qué?
+          </p>
+          <p class="small" style="margin: 0">Documento PDF · extensión libre</p>
+        </div>
+        <div class="box mark">
+          <span class="tag m">EV02</span>
+          <h3 style="margin-top: 0.5em">
+            Verificaciones de calidad del producto ajustado
+          </h3>
+          <p>
+            <strong>Pregunta:</strong> después del ajuste, ¿<em
+              >qué tan bueno</em
+            >
+            quedó el software? ¿cómo lo medimos?
+          </p>
+          <p class="small" style="margin: 0">
+            Informe PDF · con portada, introducción y conclusiones
+          </p>
+        </div>
+      </div>
+      <p class="small fragment" style="margin-top: 1em">
+        Truco para recordar: <strong>EV01 mira el proceso</strong> (cómo se
+        hace) y <strong>EV02 mira el producto</strong> (lo que se hizo).
+      </p>
+    </section>
+
+    <!-- 4 Proyecto ejemplo -->
+    <section>
+      <span class="kicker">Caso que usaremos en toda la clase</span>
+      <h2>“StockYa”: inventario para una tienda de barrio</h2>
+      <div class="grid2">
+        <div>
+          <p>
+            El equipo usa <strong>Scrum</strong> con sprints de 2 semanas. En la
+            verificación del último sprint encontraron:
+          </p>
+        </div>
+        <div class="box bad">
+          <ul>
+            <li class="fragment">
+              14 defectos, 4 de ellos críticos, descubiertos
+              <strong>el último día</strong>.
+            </li>
+            <li class="fragment">
+              Historias de usuario sin criterios de aceptación claros.
+            </li>
+            <li class="fragment">
+              El reporte de ventas tarda 9 segundos en cargar.
+            </li>
+            <li class="fragment">
+              Nadie revisa el código de otro antes de unirlo.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="small fragment" style="margin-top: 1em">
+        Con estos hallazgos vamos a construir las dos evidencias.
+      </p>
+    </section>
+
+    <!-- Divisor EV01 -->
+    <section>
+      <div class="divider">
+        <span class="kicker">Evidencia 1</span>
+        <div class="big">EV01</div>
+        <h2 style="margin-top: 0.4em">
+          Realiza ajustes en los procesos de desarrollo
+        </h2>
+        <p class="small">7 pasos, en el mismo orden en que los pide la guía.</p>
+      </div>
+    </section>
+
+    <!-- Paso 1: leer -->
+    <section>
+      <span class="kicker">Paso 1 de 7 · Leer y analizar</span>
+      <h2>Antes de escribir, entender</h2>
+      <div class="grid2">
+        <div>
+          <p>
+            Lean el componente formativo
+            <strong>“Aplicación de pruebas de software”</strong> buscando
+            respuestas a tres preguntas:
+          </p>
+          <ol>
+            <li class="fragment">
+              ¿Qué tipos de prueba existen y cuándo se aplican?
+            </li>
+            <li class="fragment">
+              ¿Qué dice la norma sobre calidad del producto?
+            </li>
+            <li class="fragment">
+              ¿Qué hago con un defecto cuando lo encuentro?
+            </li>
+          </ol>
+        </div>
+        <div class="box mark fragment">
+          <h3>Consejo</h3>
+          <p style="margin: 0">
+            Hagan una tabla de dos columnas mientras leen: <em>“concepto”</em> y
+            <em>“cómo lo uso en mi proyecto”</em>. Esa tabla luego se convierte
+            en el marco teórico del documento.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 2: metodología -->
+    <section>
+      <span class="kicker">Paso 2 de 7 · Reconocer la metodología</span>
+      <h2>¿Con qué “receta” trabaja el equipo?</h2>
+      <table>
+        <tr>
+          <th>Metodología</th>
+          <th>Cómo funciona</th>
+          <th>Dónde se hacen los ajustes</th>
+        </tr>
+        <tr>
+          <td><strong>Scrum</strong></td>
+          <td>Sprints cortos con entregas frecuentes</td>
+          <td>En la <em>retrospectiva</em> de cada sprint</td>
+        </tr>
+        <tr>
+          <td><strong>Kanban</strong></td>
+          <td>Flujo continuo en un tablero con límites de trabajo</td>
+          <td>Cambiando columnas, límites y políticas del tablero</td>
+        </tr>
+        <tr>
+          <td><strong>XP</strong></td>
+          <td>Prácticas técnicas fuertes: TDD, programación en pareja</td>
+          <td>En las prácticas de código y pruebas</td>
+        </tr>
+        <tr>
+          <td><strong>Cascada</strong></td>
+          <td>Fases en orden: una termina y empieza la otra</td>
+          <td>Al cerrar cada fase, con revisiones formales</td>
+        </tr>
+        <tr>
+          <td><strong>RUP</strong></td>
+          <td>Iterativo, por fases y disciplinas, muy documentado</td>
+          <td>Al final de cada iteración</td>
+        </tr>
+      </table>
+      <p class="small fragment" style="margin-top: 0.8em">
+        En el documento escriban
+        <strong>cuál usan, por qué la eligieron</strong> y en qué momento de esa
+        metodología se revisa el proceso.
+      </p>
+    </section>
+
+    <!-- Paso 3: secuencia -->
+    <section>
+      <span class="kicker">Paso 3 de 7 · Proponer cambios en la secuencia</span>
+      <h2>Mover las pruebas <span class="hl">hacia el inicio</span></h2>
+      <div class="lbl">Antes · así trabajaba StockYa</div>
+      <div class="seq">
+        <div>Planear</div>
+        <div>Diseñar</div>
+        <div>Programar</div>
+        <div>Programar</div>
+        <div class="late">Probar todo el último día</div>
+      </div>
+      <div class="fragment">
+        <div class="lbl">Después · secuencia propuesta</div>
+        <div class="seq">
+          <div class="test">Criterios de aceptación</div>
+          <div>Diseñar</div>
+          <div class="test">Prueba unitaria + código</div>
+          <div class="test">Revisión de código</div>
+          <div class="test">Prueba de integración diaria</div>
+        </div>
+      </div>
+      <p class="small fragment">
+        A esto se le llama <strong>shift-left</strong>: entre más temprano se
+        encuentra un defecto, más barato es corregirlo.
+      </p>
+    </section>
+
+    <!-- Paso 4: documentar -->
+    <section>
+      <span class="kicker">Paso 4 de 7 · Documentar los cambios</span>
+      <h2>Cada cambio, en una ficha</h2>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Problema detectado</th>
+          <th>Cambio propuesto</th>
+          <th>Nivel</th>
+          <th>Responsable</th>
+          <th>Estado</th>
+        </tr>
+        <tr>
+          <td>AJ-01</td>
+          <td>Defectos críticos encontrados al final</td>
+          <td>Pruebas unitarias obligatorias antes de unir código</td>
+          <td>Técnico</td>
+          <td>Líder técnico</td>
+          <td>Aplicado</td>
+        </tr>
+        <tr>
+          <td>AJ-02</td>
+          <td>Historias sin criterios de aceptación</td>
+          <td>No entra al sprint una historia sin criterios escritos</td>
+          <td>Operativo</td>
+          <td>Product Owner</td>
+          <td>Aplicado</td>
+        </tr>
+        <tr>
+          <td>AJ-03</td>
+          <td>Reporte de ventas lento (9 s)</td>
+          <td>Índice en la base de datos y prueba de carga</td>
+          <td>Técnico</td>
+          <td>Desarrollador</td>
+          <td>En curso</td>
+        </tr>
+        <tr>
+          <td>AJ-04</td>
+          <td>Código sin revisión</td>
+          <td>Pull request con al menos 1 aprobación</td>
+          <td>Operativo</td>
+          <td>Scrum Master</td>
+          <td>Aplicado</td>
+        </tr>
+      </table>
+      <p class="small fragment" style="margin-top: 0.8em">
+        Agreguen siempre la <strong>fecha</strong> y la
+        <strong>evidencia</strong> (captura, enlace al repositorio, acta).
+      </p>
+    </section>
+
+    <!-- Pasos 5 y 6 -->
+    <section>
+      <span class="kicker">Pasos 5 y 6 de 7 · Aplicar los cambios</span>
+      <h2>Operativo vs. técnico</h2>
+      <div class="grid2">
+        <div class="box teal">
+          <h3>Nivel operativo</h3>
+          <p><em>Cómo se organiza y trabaja el equipo.</em></p>
+          <ul>
+            <li>Definición de “terminado” (Definition of Done)</li>
+            <li>Roles y responsables claros</li>
+            <li>Reuniones: retrospectiva, revisión</li>
+            <li>Listas de chequeo antes de entregar</li>
+            <li>Plantillas de reporte de defectos</li>
+          </ul>
+        </div>
+        <div class="box mark">
+          <h3>Nivel técnico</h3>
+          <p><em>Herramientas, código e infraestructura.</em></p>
+          <ul>
+            <li>Pruebas automáticas (unitarias, integración)</li>
+            <li>Integración continua (CI)</li>
+            <li>Estándares de codificación y análisis estático</li>
+            <li>Ramas y control de versiones con Git</li>
+            <li>Optimización: consultas, caché, índices</li>
+          </ul>
+        </div>
+      </div>
+      <p class="small fragment" style="margin-top: 0.8em">
+        Pregunta rápida: ¿“nadie revisa el código” es operativo o técnico?
+        <span class="fragment"
+          ><strong>Ambos</strong>: la regla es operativa; la herramienta (pull
+          request en GitHub) es técnica.</span
+        >
+      </p>
+    </section>
+
+    <!-- Paso 7: buenas prácticas -->
+    <section>
+      <span class="kicker">Paso 7 de 7 · Buenas prácticas de calidad</span>
+      <h2>No inventamos: nos apoyamos en marcos de referencia</h2>
+      <div class="grid3">
+        <div class="box">
+          <h3>ISO/IEC 25000 (SQuaRE)</h3>
+          Familia de normas sobre la calidad del producto. La 25010 define qué
+          medir y la 25040 cómo evaluar.
+        </div>
+        <div class="box">
+          <h3>ISO/IEC/IEEE 12207</h3>
+          Describe los procesos del ciclo de vida del software: qué procesos
+          deben existir.
+        </div>
+        <div class="box">
+          <h3>CMMI</h3>
+          Niveles de madurez (1 a 5): qué tan definidos y controlados están los
+          procesos.
+        </div>
+        <div class="box">
+          <h3>ISTQB</h3>
+          Buenas prácticas de pruebas: niveles, técnicas y gestión de defectos.
+        </div>
+        <div class="box">
+          <h3>Guía de Scrum</h3>
+          Inspección y adaptación: la retrospectiva es el lugar oficial para
+          mejorar.
+        </div>
+        <div class="box">
+          <h3>ISO 9001</h3>
+          Gestión de la calidad en la organización: ciclo planear, hacer,
+          verificar, actuar (PHVA).
+        </div>
+      </div>
+    </section>
+
+    <!-- Estructura EV01 -->
+    <section>
+      <span class="kicker">EV01 · Cómo armar el documento</span>
+      <h2>Estructura sugerida</h2>
+      <div class="grid2">
+        <ol style="font-size: 0.78em">
+          <li>Portada</li>
+          <li>Introducción</li>
+          <li>Metodología seleccionada y justificación</li>
+          <li>Resultados de la verificación (hallazgos)</li>
+          <li>Secuencia actual vs. secuencia propuesta</li>
+        </ol>
+        <ol start="6" style="font-size: 0.78em">
+          <li>Registro de cambios (tabla de fichas)</li>
+          <li>Cambios aplicados a nivel operativo</li>
+          <li>Cambios aplicados a nivel técnico</li>
+          <li>Buenas prácticas y marco de referencia</li>
+          <li>Conclusiones y referencias</li>
+        </ol>
+      </div>
+      <p class="small fragment" style="margin-top: 1em">
+        Formato: <strong>PDF</strong>. Se sube en el espacio “Realiza ajustes en
+        los procesos de desarrollo. GA11-220501098-AA3-EV01”.
+      </p>
+    </section>
+
+    <!-- Divisor EV02 -->
+    <section>
+      <div class="divider">
+        <span class="kicker">Evidencia 2</span>
+        <div class="big" style="color: var(--mark)">EV02</div>
+        <h2 style="margin-top: 0.4em">
+          Informe de verificación de calidad del producto ajustado
+        </h2>
+        <p class="small">
+          Ahora no miramos cómo trabajamos, sino qué tan bueno quedó lo que
+          hicimos.
+        </p>
+      </div>
+    </section>
+
+    <!-- Bitácora -->
+    <section>
+      <span class="kicker">EV02 · Bitácora de procesos documentales</span>
+      <h2>El diario del proyecto</h2>
+      <p>
+        Una bitácora registra, en orden,
+        <strong>qué se hizo, qué documento salió y quién lo hizo</strong>.
+      </p>
+      <table>
+        <tr>
+          <th>Fecha</th>
+          <th>Actividad</th>
+          <th>Documento generado</th>
+          <th>Responsable</th>
+          <th>Observación</th>
+        </tr>
+        <tr>
+          <td>02/09</td>
+          <td>Definir requisitos de calidad</td>
+          <td>Matriz de requisitos de calidad v1</td>
+          <td>Analista</td>
+          <td>Se priorizó rendimiento</td>
+        </tr>
+        <tr>
+          <td>05/09</td>
+          <td>Diseñar casos de prueba</td>
+          <td>Plan de pruebas v1</td>
+          <td>Tester</td>
+          <td>42 casos</td>
+        </tr>
+        <tr>
+          <td>12/09</td>
+          <td>Ejecutar pruebas</td>
+          <td>Reporte de defectos</td>
+          <td>Tester</td>
+          <td>14 defectos</td>
+        </tr>
+        <tr>
+          <td>16/09</td>
+          <td>Ajustar proceso</td>
+          <td>Registro de cambios (EV01)</td>
+          <td>Equipo</td>
+          <td>4 ajustes</td>
+        </tr>
+        <tr>
+          <td>30/09</td>
+          <td>Re-verificar</td>
+          <td>Informe de calidad (EV02)</td>
+          <td>Equipo</td>
+          <td>2 defectos menores</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- ISO 25010 -->
+    <section>
+      <span class="kicker">EV02 · ¿Qué medimos?</span>
+      <h2>Las características de calidad (ISO/IEC 25010)</h2>
+      <div class="iso">
+        <div>
+          <b>Adecuación funcional</b>¿Hace lo que tiene que hacer, completo y
+          correcto?
+        </div>
+        <div>
+          <b>Eficiencia de desempeño</b>¿Responde rápido y sin gastar recursos
+          de más?
+        </div>
+        <div>
+          <b>Compatibilidad</b>¿Convive e intercambia datos con otros sistemas?
+        </div>
+        <div><b>Usabilidad</b>¿Es fácil de aprender y usar? ¿Es accesible?</div>
+        <div><b>Fiabilidad</b>¿Funciona sin fallar y se recupera si falla?</div>
+        <div><b>Seguridad</b>¿Protege los datos de accesos no autorizados?</div>
+        <div><b>Mantenibilidad</b>¿Es fácil de corregir, cambiar y probar?</div>
+        <div><b>Portabilidad</b>¿Se puede instalar o pasar a otro entorno?</div>
+      </div>
+      <p class="small" style="margin-top: 0.8em">
+        Estas son las 8 de la versión 2011, la más usada en el material. La
+        versión 2023 agrega <em>protección (safety)</em> y renombra usabilidad
+        como <em>capacidad de interacción</em> y portabilidad como
+        <em>flexibilidad</em>.
+      </p>
+    </section>
+
+    <!-- Jerarquía -->
+    <section>
+      <span class="kicker">EV02 · De lo general a un número</span>
+      <h2>Característica → subcaracterística → propiedad → métrica</h2>
+      <div class="tree">
+        <div class="l1 fragment">
+          <b>Característica</b>Eficiencia de desempeño
+        </div>
+        <div class="l2 fragment">
+          <b>Subcaracterística</b>Comportamiento temporal
+        </div>
+        <div class="l3 fragment">
+          <b>Propiedad</b>Tiempo de respuesta del reporte de ventas
+        </div>
+        <div class="l4 fragment">
+          <b>Métrica</b>Segundos promedio en 100 consultas · meta: ≤ 3 s
+        </div>
+      </div>
+      <div class="formula fragment">
+        Tiempo promedio = suma de tiempos ÷ número de consultas &nbsp;→&nbsp;
+        210 s ÷ 100 = 2,1 s ✔
+      </div>
+    </section>
+
+    <!-- Tabla métricas -->
+    <section>
+      <span class="kicker"
+        >EV02 · Resultados de StockYa después del ajuste</span
+      >
+      <h2>La tabla que no puede faltar</h2>
+      <table>
+        <tr>
+          <th>Característica</th>
+          <th>Subcaracterística</th>
+          <th>Métrica</th>
+          <th>Meta</th>
+          <th>Antes</th>
+          <th>Después</th>
+          <th>¿Cumple?</th>
+        </tr>
+        <tr>
+          <td>Adecuación funcional</td>
+          <td>Completitud</td>
+          <td>% de requisitos implementados</td>
+          <td>≥ 95 %</td>
+          <td>82 %</td>
+          <td>97 %</td>
+          <td class="ok">Sí</td>
+        </tr>
+        <tr>
+          <td>Eficiencia</td>
+          <td>Comportamiento temporal</td>
+          <td>Tiempo de respuesta del reporte</td>
+          <td>≤ 3 s</td>
+          <td>9 s</td>
+          <td>2,1 s</td>
+          <td class="ok">Sí</td>
+        </tr>
+        <tr>
+          <td>Fiabilidad</td>
+          <td>Madurez</td>
+          <td>Defectos críticos por sprint</td>
+          <td>0</td>
+          <td>4</td>
+          <td>0</td>
+          <td class="ok">Sí</td>
+        </tr>
+        <tr>
+          <td>Mantenibilidad</td>
+          <td>Capacidad de prueba</td>
+          <td>Cobertura de pruebas unitarias</td>
+          <td>≥ 70 %</td>
+          <td>15 %</td>
+          <td>64 %</td>
+          <td class="no">No</td>
+        </tr>
+        <tr>
+          <td>Usabilidad</td>
+          <td>Aprendizaje</td>
+          <td>% de usuarios que completan una venta sin ayuda</td>
+          <td>≥ 80 %</td>
+          <td>60 %</td>
+          <td>85 %</td>
+          <td class="ok">Sí</td>
+        </tr>
+        <tr>
+          <td>Seguridad</td>
+          <td>Confidencialidad</td>
+          <td>Vulnerabilidades altas (OWASP ZAP)</td>
+          <td>0</td>
+          <td>3</td>
+          <td>0</td>
+          <td class="ok">Sí</td>
+        </tr>
+      </table>
+      <p class="small fragment" style="margin-top: 0.7em">
+        Un “No” también es un buen resultado: muestra honestidad y alimenta el
+        siguiente ajuste.
+      </p>
+    </section>
+
+    <!-- Valor del producto: calculadora -->
+    <section>
+      <span class="kicker">EV02 · Determinar el valor del producto</span>
+      <h2>Promedio ponderado: pruébenlo</h2>
+      <div class="calc">
+        <div class="rows" id="calc-rows"></div>
+        <div class="score">
+          <div class="small">Calidad global</div>
+          <div class="n" id="calc-total">0</div>
+          <div class="s" id="calc-label">—</div>
+          <p class="small" style="margin-top: 1em; text-align: left">
+            Cada característica recibe un <strong>peso</strong> (cuánto importa)
+            y una <strong>nota de 0 a 100</strong>. Nota global = Σ (peso ×
+            nota). Muevan las barras.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Proceso 25040 -->
+    <section>
+      <span class="kicker"
+        >EV02 · Actividades y tareas de la evaluación (ISO/IEC 25040)</span
+      >
+      <h2>El proceso de evaluación en 5 actividades</h2>
+      <div class="proc">
+        <div>
+          <i>1</i><b>Establecer los requisitos</b>Propósito de la evaluación,
+          partes del producto a evaluar y modelo de calidad.
+        </div>
+        <div>
+          <i>2</i><b>Especificar la evaluación</b>Elegir métricas y definir
+          criterios: metas y umbrales.
+        </div>
+        <div>
+          <i>3</i><b>Diseñar la evaluación</b>Plan: actividades, fechas,
+          responsables, herramientas.
+        </div>
+        <div>
+          <i>4</i><b>Ejecutar la evaluación</b>Medir, comparar con los criterios
+          y registrar resultados.
+        </div>
+        <div>
+          <i>5</i><b>Concluir la evaluación</b>Informe, revisión de resultados y
+          lecciones aprendidas.
+        </div>
+      </div>
+      <p class="small fragment" style="margin-top: 1em">
+        En el informe, describan qué <strong>tareas concretas</strong> hicieron
+        en cada actividad. Ejemplo para la 4: “se ejecutaron 42 casos de prueba
+        en Cypress el 28/09”.
+      </p>
+    </section>
+
+    <!-- Herramientas -->
+    <section>
+      <span class="kicker"
+        >EV02 · Herramientas que automatizan la medición</span
+      >
+      <h2>Medir, evaluar y mostrar resultados</h2>
+      <div class="tools">
+        <div>
+          <b>SonarQube</b><em>Mantenibilidad · seguridad</em>Analiza el código:
+          deuda técnica, duplicados, cobertura, vulnerabilidades.
+        </div>
+        <div>
+          <b>JMeter</b><em>Eficiencia de desempeño</em>Simula muchos usuarios y
+          mide tiempos de respuesta.
+        </div>
+        <div>
+          <b>Selenium / Cypress</b><em>Adecuación funcional</em>Automatiza
+          pruebas en el navegador, como lo haría un usuario.
+        </div>
+        <div>
+          <b>JUnit / Jest / PyTest</b
+          ><em>Fiabilidad · mantenibilidad</em>Pruebas unitarias que se corren
+          solas en cada cambio.
+        </div>
+        <div>
+          <b>Postman</b><em>Compatibilidad</em>Prueba las API y el intercambio
+          de datos.
+        </div>
+        <div>
+          <b>OWASP ZAP</b><em>Seguridad</em>Busca vulnerabilidades en
+          aplicaciones web.
+        </div>
+        <div>
+          <b>Lighthouse</b><em>Desempeño · usabilidad</em>Puntúa velocidad y
+          accesibilidad de una página web.
+        </div>
+        <div>
+          <b>GitHub Actions</b><em>Automatización</em>Ejecuta todas las pruebas
+          y análisis en cada push.
+        </div>
+        <div>
+          <b>Jira · Power BI · Excel</b><em>Visualización</em>Seguimiento de
+          defectos, tableros y gráficas de resultados.
+        </div>
+      </div>
+    </section>
+
+    <!-- Estructura EV02 -->
+    <section>
+      <span class="kicker">EV02 · Cómo armar el informe</span>
+      <h2>Estructura mínima</h2>
+      <div class="grid2">
+        <ol style="font-size: 0.74em">
+          <li><strong>Portada</strong> (obligatoria)</li>
+          <li><strong>Introducción</strong> (obligatoria)</li>
+          <li>Objetivo y alcance de la evaluación</li>
+          <li>Bitácora de procesos documentales</li>
+          <li>Buenas prácticas y marco de referencia</li>
+          <li>
+            Modelo de calidad: características, subcaracterísticas, propiedades
+            y métricas
+          </li>
+        </ol>
+        <ol start="7" style="font-size: 0.74em">
+          <li>Actividades y tareas de evaluación</li>
+          <li>Herramientas usadas</li>
+          <li>Resultados (tabla y gráficas)</li>
+          <li>Valor global del producto</li>
+          <li><strong>Conclusiones</strong> (obligatorias)</li>
+          <li>Referencias</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Errores comunes -->
+    <section>
+      <span class="kicker">Antes de entregar</span>
+      <h2>Errores que más se repiten</h2>
+      <div class="grid2">
+        <div class="box bad">
+          <ul>
+            <li>Copiar la definición de la norma sin aplicarla al proyecto.</li>
+            <li>Métricas sin meta: “el sistema es rápido”.</li>
+            <li>Confundir proceso (EV01) con producto (EV02).</li>
+            <li>Nombrar herramientas que nunca se usaron.</li>
+          </ul>
+        </div>
+        <div class="box teal">
+          <ul class="check">
+            <li>Cada métrica tiene fórmula, meta y resultado.</li>
+            <li>Cada cambio tiene ID, nivel, responsable y evidencia.</li>
+            <li>Hay capturas reales de las herramientas.</li>
+            <li>Portada, introducción y conclusiones.</li>
+            <li>Exportado en PDF.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cierre -->
+    <section>
+      <span class="kicker">Para recordar</span>
+      <h2>Tres ideas que se llevan hoy</h2>
+      <ol style="font-size: 0.95em">
+        <li class="fragment">
+          La verificación no termina en una lista de errores: termina en
+          <span class="hl">un mejor proceso</span>.
+        </li>
+        <li class="fragment">
+          Calidad que no se mide con
+          <span class="hl">un número y una meta</span> es solo una opinión.
+        </li>
+        <li class="fragment">
+          EV01 = cómo trabajamos · EV02 = qué tan bueno quedó.
+        </li>
+      </ol>
+      <p class="small fragment" style="margin-top: 1.4em">
+        Actividad: en grupos, tomen su proyecto formativo y escriban 3
+        hallazgos, 3 ajustes (al menos uno operativo y uno técnico) y 3 métricas
+        con su meta.
+      </p>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script>
+  (function () {
+    var data = [
+      ["Adecuación funcional", 25, 95],
+      ["Eficiencia", 20, 90],
+      ["Fiabilidad", 20, 88],
+      ["Mantenibilidad", 15, 64],
+      ["Usabilidad", 10, 85],
+      ["Seguridad", 10, 92],
+    ];
+    var rows = document.getElementById("calc-rows");
+    data.forEach(function (d, i) {
+      var r = document.createElement("div");
+      r.className = "row";
+      r.innerHTML =
+        '<label for="cr' +
+        i +
+        '">' +
+        d[0] +
+        '</label><span class="w">' +
+        d[1] +
+        ' %</span><input id="cr' +
+        i +
+        '" type="range" min="0" max="100" value="' +
+        d[2] +
+        '"><span class="v" id="cv' +
+        i +
+        '">' +
+        d[2] +
+        "</span>";
+      rows.appendChild(r);
+    });
+    function calc() {
+      var t = 0;
+      data.forEach(function (d, i) {
+        var v = +document.getElementById("cr" + i).value;
+        document.getElementById("cv" + i).textContent = v;
+        t += (d[1] * v) / 100;
+      });
+      document.getElementById("calc-total").textContent = t.toFixed(1);
+      var l = document.getElementById("calc-label");
+      if (t >= 85) {
+        l.textContent = "Aceptable";
+        l.style.background = "var(--teal-soft)";
+        l.style.color = "var(--teal)";
+      } else if (t >= 70) {
+        l.textContent = "Aceptable con ajustes";
+        l.style.background = "var(--mark-soft)";
+        l.style.color = "var(--ink)";
+      } else {
+        l.textContent = "No aceptable";
+        l.style.background = "var(--bad-soft)";
+        l.style.color = "var(--bad)";
+      }
+    }
+    rows.addEventListener("input", calc);
+    calc();
+    if (window.Reveal) {
+      Reveal.initialize({
+        hash: false,
+        slideNumber: "c/t",
+        width: 1280,
+        height: 720,
+        margin: 0.06,
+        transition: "slide",
+        center: false,
+        controls: true,
+        progress: true,
+      });
+    }
+  })();
+</script>
