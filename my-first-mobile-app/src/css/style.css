@@ -1,0 +1,15 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* Safari en iPhone usa este color para la zona de la hora/batería */
+html {
+  background-color: #940707;
+}
+
+body {
+  background-color: #fff;
+  min-height: 100vh;
+}

@@ -1,0 +1,10 @@
+{
+  "appId": "com.senamyfirstapp.app",
+  "appName": "my-first-app",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}

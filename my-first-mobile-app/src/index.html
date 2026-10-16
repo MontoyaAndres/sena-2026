@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Awesome Capacitor App</title>
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- Chrome, Firefox OS, and Opera (Android) -->
+    <meta name="theme-color" content="#940707" />
+
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#940707" />
+
+    <!-- iOS Safari (Controls the status bar appearance) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <script
+      type="module"
+      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"
+    ></script>
+
+    <link rel="icon" type="image/x-icon" href="./assets/icon/favicon.ico" />
+    <link rel="manifest" href="./manifest.json" />
+    <!-- iOS: icono al agregar a la pantalla de inicio -->
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="app_sena" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <capacitor-welcome></capacitor-welcome>
+
+    <script src="./js/capacitor-welcome.js" type="module"></script>
+  </body>
+</html>
