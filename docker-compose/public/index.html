@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tienda de Ropa</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>👕 Tienda de Ropa</h1>
+      <p>Administra tus productos: crear, ver, editar y eliminar</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2 id="form-titulo">Nuevo producto</h2>
+        <form id="form-producto">
+          <input type="hidden" id="id" />
+          <label>
+            Nombre
+            <input type="text" id="nombre" placeholder="Camiseta basica" required />
+          </label>
+          <label>
+            Talla
+            <select id="talla" required>
+              <option value="">Selecciona...</option>
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>XXL</option>
+              <option>28</option>
+              <option>30</option>
+              <option>32</option>
+              <option>34</option>
+              <option>36</option>
+            </select>
+          </label>
+          <label>
+            Color
+            <input type="text" id="color" placeholder="Negro" required />
+          </label>
+          <label>
+            Tipo
+            <select id="tipo" required>
+              <option value="">Selecciona...</option>
+              <option>Camiseta</option>
+              <option>Camisa</option>
+              <option>Pantalon</option>
+              <option>Chaqueta</option>
+              <option>Sudadera</option>
+              <option>Vestido</option>
+              <option>Falda</option>
+              <option>Zapatos</option>
+              <option>Accesorio</option>
+            </select>
+          </label>
+          <label>
+            Marca
+            <input type="text" id="marca" placeholder="Nike" required />
+          </label>
+          <label>
+            Precio sin IVA (COP)
+            <input type="number" id="precio" min="0" step="100" placeholder="59900" required />
+          </label>
+          <div class="acciones">
+            <button type="submit" id="btn-guardar">Guardar</button>
+            <button type="button" id="btn-cancelar" class="secundario" hidden>Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="tabla-header">
+          <h2>Productos</h2>
+          <input type="search" id="buscar" placeholder="Buscar por nombre, marca, color..." />
+        </div>
+        <p id="mensaje" class="mensaje" hidden></p>
+        <div class="tabla-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Talla</th>
+                <th>Color</th>
+                <th>Tipo</th>
+                <th>Marca</th>
+                <th>Subtotal</th>
+                <th>IVA (5%)</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tabla-productos"></tbody>
+            <tfoot id="tabla-totales">
+              <tr>
+                <td colspan="6">Totales</td>
+                <td id="suma-subtotal"></td>
+                <td id="suma-iva"></td>
+                <td id="suma-total"></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <p id="vacio" hidden>No hay productos.</p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

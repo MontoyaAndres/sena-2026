@@ -1,0 +1,41 @@
+services:
+  # Base de datos PostgreSQL
+  db:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: sena
+      POSTGRES_PASSWORD: sena123
+      POSTGRES_DB: tienda_ropa
+    ports:
+      - "5432:5432"
+    volumes:
+      # Guarda los datos aunque el contenedor se borre
+      - pgdata:/var/lib/postgresql/data
+      # Crea la tabla y datos de ejemplo la primera vez
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sena -d tienda_ropa"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Aplicacion Node.js (API + pagina web)
+  app:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: db # el nombre del servicio funciona como "dominio" dentro de la red de docker
+      DB_PORT: 5432
+      DB_USER: sena
+      DB_PASSWORD: sena123
+      DB_NAME: tienda_ropa
+    depends_on:
+      db:
+        condition: service_healthy # espera a que postgres este listo
+
+volumes:
+  pgdata:

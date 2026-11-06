@@ -1,0 +1,182 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #f4f5f7;
+  color: #222;
+}
+
+header {
+  background: #2d3a8c;
+  color: white;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 4px;
+}
+
+header p {
+  margin: 0;
+  opacity: 0.85;
+}
+
+main {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 4px;
+}
+
+input,
+select {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: normal;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #2d3a8c;
+  border-color: transparent;
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #2d3a8c;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button.secundario {
+  background: #888;
+}
+
+button.editar {
+  background: #e0a400;
+}
+
+button.eliminar {
+  background: #c62828;
+}
+
+.tabla-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tabla-header h2 {
+  margin: 0;
+}
+
+.tabla-header input {
+  flex: 1;
+  max-width: 300px;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+
+th {
+  background: #f0f1f5;
+}
+
+td.botones {
+  display: flex;
+  gap: 6px;
+}
+
+td.botones button {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+.mensaje {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #e6f4ea;
+  color: #1e6b34;
+}
+
+.mensaje.error {
+  background: #fdecea;
+  color: #b71c1c;
+}
+
+tfoot td {
+  font-weight: 700;
+  background: #f0f1f5;
+  border-top: 2px solid #2d3a8c;
+}
