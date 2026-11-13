@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plato - Andrés Carne de Res</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="marca">Andrés Carne de Res</a>
+    <nav>
+      <a href="/#menu">Menú</a>
+      <a href="admin.html" class="nav-boton">Iniciar sesión</a>
+    </nav>
+  </header>
+
+  <div class="detalle-contenedor">
+    <a href="/#menu" class="volver">← Volver al menú</a>
+
+    <p id="detalle-estado" class="menu-vacio">Cargando plato…</p>
+
+    <article id="detalle" class="detalle" hidden>
+      <img id="detalle-foto" class="detalle-foto" alt="" />
+
+      <div class="detalle-info">
+        <h1 id="detalle-nombre"></h1>
+        <span id="detalle-precio" class="detalle-precio"></span>
+        <p id="detalle-descripcion" class="detalle-descripcion"></p>
+
+        <section id="detalle-ingredientes-seccion" hidden>
+          <h2>Ingredientes</h2>
+          <ul id="detalle-ingredientes" class="ingredientes"></ul>
+        </section>
+      </div>
+    </article>
+
+    <section id="otros" class="otros" hidden>
+      <h2>También te puede gustar</h2>
+      <div id="otros-grid" class="menu-grid"></div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <p>© Andrés Carne de Res</p>
+    <p class="creditos">
+      Fotos de platos vía Wikimedia Commons:
+      <a href="https://commons.wikimedia.org/wiki/File:Bandeja_paisa_antioque%C3%B1a,_Colombia.jpg" target="_blank" rel="noopener">Matt Lemmon</a> (CC BY-SA 2.0),
+      <a href="https://commons.wikimedia.org/wiki/File:Ajiaco_in_Bogot%C3%A1.jpg" target="_blank" rel="noopener">Bernard Gagnon</a> (CC BY-SA 4.0),
+      <a href="https://commons.wikimedia.org/wiki/File:Churrasco_con_yuca.jpg" target="_blank" rel="noopener">Xemenendura</a> (CC BY-SA 4.0).
+    </p>
+  </footer>
+
+  <script src="js/comun.js"></script>
+  <script src="js/plato.js"></script>
+</body>
+</html>

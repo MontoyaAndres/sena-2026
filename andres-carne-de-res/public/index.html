@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrés Carne de Res</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="marca">Andrés Carne de Res</a>
+    <nav>
+      <a href="#menu">Menú</a>
+      <a href="admin.html" class="nav-boton">Iniciar sesión</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero" aria-roledescription="carrusel" aria-label="Andrés Carne de Res">
+    <div class="hero-slides" id="hero-slides"></div>
+
+    <button class="hero-flecha hero-prev" id="hero-prev" aria-label="Anterior">&#10094;</button>
+    <button class="hero-flecha hero-next" id="hero-next" aria-label="Siguiente">&#10095;</button>
+
+    <div class="hero-puntos" id="hero-puntos"></div>
+  </section>
+
+  <section class="razones">
+    <h2>¿Por qué comer en Andrés?</h2>
+    <div class="razones-grid">
+      <article class="razon">
+        <span class="razon-icono" aria-hidden="true">🔥</span>
+        <h3>Carne a la parrilla</h3>
+        <p>Cortes de res seleccionados y asados al carbón, con el punto exacto que te gusta.</p>
+      </article>
+      <article class="razon">
+        <span class="razon-icono" aria-hidden="true">🇨🇴</span>
+        <h3>Sabor colombiano</h3>
+        <p>Ajiaco, bandeja paisa, arepas y más: recetas tradicionales hechas como en casa.</p>
+      </article>
+      <article class="razon">
+        <span class="razon-icono" aria-hidden="true">❤️</span>
+        <h3>Un ambiente único</h3>
+        <p>Corazones de neón, letreros y objetos por todas partes. Cada rincón es una sorpresa.</p>
+      </article>
+      <article class="razon">
+        <span class="razon-icono" aria-hidden="true">🎶</span>
+        <h3>Música y rumba</h3>
+        <p>Comida, música en vivo y baile hasta tarde. Aquí la cena se convierte en fiesta.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="menu" id="menu">
+    <h2>Nuestros platos</h2>
+    <div class="menu-grid" id="menu-grid">
+      <p class="menu-vacio">Cargando platos…</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© Andrés Carne de Res</p>
+    <p class="creditos">
+      Fotos de platos:
+      <a href="https://commons.wikimedia.org/wiki/File:Bandeja_paisa_antioque%C3%B1a,_Colombia.jpg" target="_blank" rel="noopener">Matt Lemmon</a> (CC BY-SA 2.0),
+      <a href="https://commons.wikimedia.org/wiki/File:Ajiaco_in_Bogot%C3%A1.jpg" target="_blank" rel="noopener">Bernard Gagnon</a> (CC BY-SA 4.0),
+      <a href="https://commons.wikimedia.org/wiki/File:Churrasco_con_yuca.jpg" target="_blank" rel="noopener">Xemenendura</a> (CC BY-SA 4.0) vía Wikimedia Commons.
+    </p>
+  </footer>
+
+  <script src="js/comun.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

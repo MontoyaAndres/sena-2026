@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrar menú - Andrés Carne de Res</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="marca">Andrés Carne de Res</a>
+    <nav>
+      <a href="/">Ver sitio</a>
+      <span id="usuario-actual" class="usuario-actual" hidden></span>
+      <button id="btn-salir" class="nav-boton" hidden>Cerrar sesión</button>
+    </nav>
+  </header>
+
+  <!-- Inicio de sesión -->
+  <main id="vista-login" class="login" hidden>
+    <section class="card">
+      <h1>Iniciar sesión</h1>
+      <p class="subtitulo">Ingresa para administrar los platos del menú.</p>
+      <form id="form-login">
+        <label>
+          Usuario
+          <input type="text" id="login-usuario" autocomplete="username" required />
+        </label>
+        <label>
+          Contraseña
+          <input type="password" id="login-password" autocomplete="current-password" required />
+        </label>
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="login-error" class="mensaje error"></p>
+    </section>
+  </main>
+
+  <!-- Panel de administración -->
+  <main id="vista-admin" class="admin" hidden>
+    <section class="card">
+      <h2 id="form-titulo">Nuevo plato</h2>
+      <form id="form-plato">
+        <input type="hidden" id="plato-id" />
+        <label>
+          Nombre
+          <input type="text" id="nombre" required />
+        </label>
+        <label>
+          Descripción
+          <textarea id="descripcion" rows="2"></textarea>
+        </label>
+        <label>
+          Ingredientes <small>(separados por coma)</small>
+          <textarea id="ingredientes" rows="2" placeholder="Arroz, frijoles, huevo…"></textarea>
+        </label>
+        <label>
+          Precio (COP)
+          <input type="number" id="precio" min="0" step="100" required />
+        </label>
+        <label>
+          Foto
+          <input type="file" id="imagen" accept="image/jpeg,image/png,image/webp,image/avif" />
+        </label>
+        <img id="preview" class="preview" alt="Vista previa de la foto" hidden />
+        <div class="acciones">
+          <button type="submit">Guardar</button>
+          <button type="button" id="btn-cancelar" class="secundario" hidden>Cancelar</button>
+        </div>
+      </form>
+      <p id="mensaje" class="mensaje"></p>
+    </section>
+
+    <section>
+      <h2>Platos</h2>
+      <ul id="lista-platos" class="lista"></ul>
+    </section>
+  </main>
+
+  <script src="js/comun.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
