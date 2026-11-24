@@ -196,29 +196,29 @@ authors (1) ───< books >─── (1) categories
 - [x] 5.5 Diseño responsive (mobile first, grid de tarjetas)
 
 ### Fase 6 — Página de inicio (`index.html`)
-- [ ] 6.1 Sección **hero** (título, subtítulo, imagen de fondo, botón "Ver libros")
-- [ ] 6.2 Sección de **libros disponibles** en tarjetas (imagen, título, autor, categoría)
-- [ ] 6.3 Cargar libros desde `GET /api/books`
-- [ ] 6.4 Filtro por categoría y buscador por título
-- [ ] 6.5 Clic en la tarjeta → `book.html?id=X`
-- [ ] 6.6 Clic en el nombre del autor → `author.html?id=Y`
-- [ ] 6.7 Estados de carga, vacío y error
-- [ ] 6.8 **Footer** (información de la biblioteca, enlaces, derechos)
+- [x] 6.1 Sección **hero** (título, subtítulo, imagen de fondo, botón "Ver libros")
+- [x] 6.2 Sección de **libros disponibles** en tarjetas (imagen, título, autor, categoría)
+- [x] 6.3 Cargar libros desde `GET /api/books`
+- [x] 6.4 Filtro por categoría y buscador por título
+- [x] 6.5 Clic en la tarjeta → `book.html?id=X`
+- [x] 6.6 Clic en el nombre del autor → `author.html?id=Y`
+- [x] 6.7 Estados de carga, vacío y error
+- [x] 6.8 **Footer** (información de la biblioteca, enlaces, derechos)
 
 ### Fase 7 — Detalle de libro (`book.html`)
-- [ ] 7.1 Leer `id` de la URL (`URLSearchParams`)
-- [ ] 7.2 Consumir `GET /api/books/:id`
-- [ ] 7.3 Mostrar imagen principal y galería de imágenes (si hay `book_images`)
-- [ ] 7.4 Mostrar título, descripción, categoría y autor
-- [ ] 7.5 Enlace al autor → `author.html?id=Y`
-- [ ] 7.6 Sección "Otros libros del autor"
-- [ ] 7.7 Mensaje si el libro no existe (404)
+- [x] 7.1 Leer `id` de la URL (`URLSearchParams`)
+- [x] 7.2 Consumir `GET /api/books/:id`
+- [x] 7.3 Mostrar imagen principal y galería de imágenes (si hay `book_images`)
+- [x] 7.4 Mostrar título, descripción, categoría y autor
+- [x] 7.5 Enlace al autor → `author.html?id=Y`
+- [x] 7.6 Sección "Otros libros del autor"
+- [x] 7.7 Mensaje si el libro no existe (404)
 
 ### Fase 8 — Página de autor (`author.html`)
-- [ ] 8.1 Leer `id` de la URL
-- [ ] 8.2 Consumir `GET /api/authors/:id` y `GET /api/authors/:id/books`
-- [ ] 8.3 Mostrar nombre, foto y biografía del autor
-- [ ] 8.4 Listar sus libros en tarjetas (clic → detalle)
+- [x] 8.1 Leer `id` de la URL
+- [x] 8.2 Consumir `GET /api/authors/:id` y `GET /api/authors/:id/books`
+- [x] 8.3 Mostrar nombre, foto y biografía del autor
+- [x] 8.4 Listar sus libros en tarjetas (clic → detalle)
 
 ### Fase 9 — Panel de administración (`admin.html`)
 - [x] 9.1 Tabla con todos los libros (imagen, título, autor, categoría, acciones)

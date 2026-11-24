@@ -31,6 +31,26 @@ document.addEventListener(
   true
 );
 
+// ---------- Tarjeta de libro (inicio, detalle y autor) ----------
+// Toda la tarjeta lleva al detalle; el nombre del autor lleva a su página.
+export function bookCardHtml(book) {
+  return `
+    <article class="book-card">
+      <img src="${imgSrc(book.image)}" alt="" loading="lazy" />
+      <div class="book-card-body">
+        <span class="badge">${escapeHtml(book.category.name)}</span>
+        <h3><a class="book-card-link" href="/book.html?id=${book.id}">${escapeHtml(book.title)}</a></h3>
+        <a class="book-card-author" href="/author.html?id=${book.author.id}">${escapeHtml(book.author.name)}</a>
+      </div>
+    </article>`;
+}
+
+// Lee ?id= de la URL. Devuelve un entero positivo o null.
+export function getIdFromUrl() {
+  const id = Number(new URLSearchParams(location.search).get('id'));
+  return Number.isInteger(id) && id > 0 ? id : null;
+}
+
 // ---------- Estados de carga / vacío / error ----------
 export const loadingHtml = (text = 'Cargando…') =>
   `<div class="state"><div class="spinner"></div>${escapeHtml(text)}</div>`;

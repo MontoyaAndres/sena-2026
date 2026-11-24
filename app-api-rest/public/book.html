@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Libro · Biblioteca</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/book.js"></script>
+  </head>
+  <body>
+    <header id="site-header"></header>
+
+    <main class="page">
+      <div class="container" id="book-page"></div>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <!-- Visor de imágenes a pantalla completa -->
+    <dialog id="lightbox" class="lightbox" aria-label="Visor de imágenes">
+      <button class="lightbox-btn lightbox-prev" type="button" data-step="-1" aria-label="Imagen anterior">‹</button>
+      <img id="lightbox-img" alt="" />
+      <button class="lightbox-btn lightbox-next" type="button" data-step="1" aria-label="Imagen siguiente">›</button>
+      <button class="lightbox-btn lightbox-close" type="button" aria-label="Cerrar visor">×</button>
+      <span id="lightbox-counter" class="lightbox-counter"></span>
+    </dialog>
+  </body>
+</html>
