@@ -147,12 +147,12 @@ authors (1) ───< books >─── (1) categories
 - [x] 0.6 Crear la estructura de carpetas
 
 ### Fase 1 — Base de datos (SQLite)
-- [ ] 1.1 Crear `src/db/database.js` con la conexión a `library.sqlite`
-- [ ] 1.2 Activar llaves foráneas: `PRAGMA foreign_keys = ON`
-- [ ] 1.3 Escribir `schema.sql` con las tablas `authors`, `categories`, `books` (y `book_images` si se usa)
-- [ ] 1.4 Ejecutar el schema al iniciar el servidor (`CREATE TABLE IF NOT EXISTS`)
-- [ ] 1.5 Crear `seed.js` con datos de ejemplo (≥ 3 autores, ≥ 4 categorías, ≥ 10 libros)
-- [ ] 1.6 Probar que las tablas se crean y el seed inserta datos
+- [x] 1.1 Crear `src/db/database.js` con la conexión a `library.sqlite`
+- [x] 1.2 Activar llaves foráneas: `PRAGMA foreign_keys = ON`
+- [x] 1.3 Escribir `schema.sql` con las tablas `authors`, `categories`, `books` (y `book_images` si se usa)
+- [x] 1.4 Ejecutar el schema al iniciar el servidor (`CREATE TABLE IF NOT EXISTS`)
+- [x] 1.5 Crear `seed.js` con datos de ejemplo (≥ 3 autores, ≥ 4 categorías, ≥ 10 libros)
+- [x] 1.6 Probar que las tablas se crean y el seed inserta datos
 
 ### Fase 2 — Servidor Express
 - [ ] 2.1 Crear `src/server.js` con Express, `express.json()` y `cors()`
