@@ -10,6 +10,9 @@ API REST con **Node.js + Express + SQLite** y un frontend en **HTML, CSS y JavaS
 - Página de **detalle de libro** con imagen(es) e información completa.
 - Página de **autor** que muestra todos los libros relacionados con ese autor.
 - **Panel de administración** con CRUD (crear, leer, editar, eliminar) de libros.
+- Extras: login para el panel, préstamos, paginación y Docker.
+
+> 📖 La documentación de uso (instalación, variables de entorno, Docker y todos los endpoints) está en el [README](README.md).
 
 ---
 
@@ -33,21 +36,30 @@ app-api-rest/
 ├── PLAN.md
 ├── src/
 │   ├── server.js              # Arranque de Express
+│   ├── config.js              # Variables de entorno (.env)
 │   ├── db/
-│   │   ├── database.js        # Conexión a SQLite
+│   │   ├── database.js        # Conexión a SQLite y migraciones
 │   │   ├── schema.sql         # Creación de tablas
-│   │   └── seed.js            # Datos de ejemplo
+│   │   ├── seed.js            # Datos de ejemplo
+│   │   └── set-password.js    # Crear/cambiar administrador
 │   ├── routes/
 │   │   ├── books.routes.js
 │   │   ├── authors.routes.js
-│   │   └── categories.routes.js
+│   │   ├── categories.routes.js
+│   │   ├── auth.routes.js
+│   │   └── loans.routes.js
 │   ├── controllers/
 │   │   ├── books.controller.js
 │   │   ├── authors.controller.js
-│   │   └── categories.controller.js
+│   │   ├── categories.controller.js
+│   │   ├── auth.controller.js
+│   │   └── loans.controller.js
 │   ├── middlewares/
+│   │   ├── auth.js            # requireAuth y límite de intentos de login
 │   │   ├── errorHandler.js
 │   │   └── upload.js          # Configuración de multer
+│   ├── services/
+│   │   └── auth.js            # Hash de contraseñas y tokens
 │   └── utils/
 │       └── validate.js        # Validaciones de los datos de entrada
 ├── uploads/                   # Imágenes subidas
@@ -56,6 +68,7 @@ app-api-rest/
     ├── book.html              # Detalle de libro
     ├── author.html            # Libros de un autor
     ├── admin.html             # Panel de administración
+    ├── login.html             # Inicio de sesión del panel
     ├── css/
     │   └── styles.css
     └── js/
@@ -65,6 +78,7 @@ app-api-rest/
         ├── home.js
         ├── book.js
         ├── author.js
+        ├── login.js
         └── admin.js
 ```
 
@@ -99,6 +113,7 @@ authors (1) ───< books >─── (1) categories
 | image | TEXT | URL o ruta en `/uploads` |
 | category_id | INTEGER | FK → categories.id |
 | author_id | INTEGER | FK → authors.id |
+| copies | INTEGER | Ejemplares físicos (≥ 0, por defecto 1) |
 | created_at | TEXT | DEFAULT CURRENT_TIMESTAMP |
 
 ### Tabla `book_images` (opcional, para galería de varias imágenes)
@@ -108,6 +123,24 @@ authors (1) ───< books >─── (1) categories
 | book_id | INTEGER | FK → books.id, ON DELETE CASCADE |
 | url | TEXT | NOT NULL |
 
+### Tabla `loans` (extra E.3)
+| Campo | Tipo | Notas |
+|-------|------|-------|
+| id | INTEGER | PK |
+| book_id | INTEGER | FK → books.id |
+| borrower_name | TEXT | NOT NULL |
+| borrower_email | TEXT | opcional |
+| loan_date | TEXT | fecha del préstamo |
+| due_date | TEXT | fecha límite de devolución |
+| returned_at | TEXT | NULL mientras esté activo |
+
+### Tabla `users` (extra E.1)
+| Campo | Tipo | Notas |
+|-------|------|-------|
+| id | INTEGER | PK |
+| username | TEXT | UNIQUE |
+| password_hash | TEXT | scrypt con sal |
+
 ---
 
 ## 🔌 Endpoints de la API
@@ -115,7 +148,7 @@ authors (1) ───< books >─── (1) categories
 ### Libros
 | Método | Ruta | Descripción |
 |--------|------|-------------|
-| GET | `/api/books` | Listar libros (con autor y categoría). Filtros: `?category=`, `?author=`, `?search=` |
+| GET | `/api/books` | Listar libros (con autor y categoría). Filtros: `?category=`, `?author=`, `?search=`, `?available=1`. Con `?page=&limit=` responde paginado |
 | GET | `/api/books/:id` | Detalle de un libro (incluye autor, categoría e imágenes) |
 | POST | `/api/books` | Crear libro |
 | PUT | `/api/books/:id` | Editar libro |
@@ -138,8 +171,19 @@ authors (1) ───< books >─── (1) categories
 | GET | `/api/categories` | Listar categorías |
 | POST / PUT / DELETE | `/api/categories[/:id]` | CRUD de categorías (para el admin) |
 
+### Autenticación y préstamos (extras)
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | `/api/auth/login` | Iniciar sesión → token |
+| GET | `/api/auth/me` | Usuario de la sesión |
+| GET / POST | `/api/loans` | Listar (filtro `status`) y registrar préstamos |
+| PUT | `/api/loans/:id/return` | Marcar como devuelto |
+| DELETE | `/api/loans/:id` | Eliminar préstamo |
+
+> Todas las rutas `POST`, `PUT` y `DELETE`, y todas las de `/api/loans`, requieren `Authorization: Bearer <token>`.
+
 ### Códigos de respuesta esperados
-- `200` OK · `201` creado · `204` eliminado · `400` datos inválidos · `404` no encontrado · `409` nombre duplicado · `500` error del servidor
+- `200` OK · `201` creado · `204` eliminado · `400` datos inválidos · `401` sin sesión · `404` no encontrado · `409` nombre duplicado · `429` demasiados intentos · `500` error del servidor
 
 ---
 
@@ -232,25 +276,28 @@ authors (1) ───< books >─── (1) categories
 - [x] 9.9 (Opcional) Pestañas para gestionar autores y categorías
 
 ### Fase 10 — Pruebas y cierre
-- [ ] 10.1 Probar flujo completo: crear → ver en inicio → ver detalle → ver autor → editar → eliminar
-- [ ] 10.2 Revisar responsive en móvil, tablet y escritorio
-- [ ] 10.3 Revisar errores en la consola del navegador y del servidor
-- [ ] 10.4 Escribir `README.md` (instalación, cómo correr, endpoints)
-- [ ] 10.5 Commit final
+- [x] 10.1 Probar flujo completo: crear → ver en inicio → ver detalle → ver autor → editar → eliminar
+- [x] 10.2 Revisar responsive en móvil, tablet y escritorio
+- [x] 10.3 Revisar errores en la consola del navegador y del servidor
+- [x] 10.4 Escribir `README.md` (instalación, cómo correr, endpoints)
+- [x] 10.5 Commit final
 
 ### Extras (opcionales)
-- [ ] E.1 Login básico para proteger el panel de administración
-- [ ] E.2 Paginación en `GET /api/books`
-- [ ] E.3 Campo `available` / préstamos de libros
-- [ ] E.4 Dockerizar la aplicación (`Dockerfile` + `docker-compose.yml`)
+- [x] E.1 Login básico para proteger el panel de administración
+- [x] E.2 Paginación en `GET /api/books`
+- [x] E.3 Campo `available` / préstamos de libros
+- [x] E.4 Dockerizar la aplicación (`Dockerfile` + `docker-compose.yml`)
 
 ---
 
-## 🚀 Cómo ejecutar (cuando esté listo)
+## 🚀 Cómo ejecutar
 
 ```bash
 npm install
+cp .env.example .env   # opcional
 npm run seed
 npm run dev
-# Abrir http://localhost:3000
+# Abrir http://localhost:3000  ·  Panel: http://localhost:3000/admin.html
 ```
+
+Con Docker: `docker compose up -d --build`. Más detalles en el [README](README.md).

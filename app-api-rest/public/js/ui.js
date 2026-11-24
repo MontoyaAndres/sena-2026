@@ -41,8 +41,19 @@ export function bookCardHtml(book) {
         <span class="badge">${escapeHtml(book.category.name)}</span>
         <h3><a class="book-card-link" href="/book.html?id=${book.id}">${escapeHtml(book.title)}</a></h3>
         <a class="book-card-author" href="/author.html?id=${book.author.id}">${escapeHtml(book.author.name)}</a>
+        ${availabilityHtml(book)}
       </div>
     </article>`;
+}
+
+// Etiqueta "Disponible" / "Agotado" según los ejemplares libres
+export function availabilityHtml(book, { long = false } = {}) {
+  if (book.available > 0) {
+    const text = long ? `${book.available} de ${book.copies} ejemplares disponibles` : 'Disponible';
+    return `<span class="availability is-available">● ${text}</span>`;
+  }
+  const text = book.copies > 0 ? 'Agotado: todos los ejemplares están prestados' : 'Sin ejemplares';
+  return `<span class="availability is-out">● ${long ? text : 'Agotado'}</span>`;
 }
 
 // Lee ?id= de la URL. Devuelve un entero positivo o null.

@@ -9,6 +9,25 @@ function parseId(value, field = 'id') {
   return id;
 }
 
+// Entero >= 0 (por ejemplo, número de ejemplares)
+function parseNonNegativeInt(value, field, max = Number.MAX_SAFE_INTEGER) {
+  const n = Number(value);
+  if (value === '' || !Number.isInteger(n) || n < 0 || n > max) {
+    throw new HttpError(400, `El campo "${field}" debe ser un número entero entre 0 y ${max}`);
+  }
+  return n;
+}
+
+// Fecha obligatoria con formato AAAA-MM-DD
+function parseDate(value, field) {
+  const text = requiredText(value, field, 10);
+  const date = new Date(`${text}T00:00:00Z`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text) || Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== text) {
+    throw new HttpError(400, `El campo "${field}" debe ser una fecha válida con formato AAAA-MM-DD`);
+  }
+  return text;
+}
+
 // Texto obligatorio: quita espacios y valida que no esté vacío
 function requiredText(value, field, max = 255) {
   if (typeof value !== 'string' || value.trim() === '') {
@@ -38,4 +57,4 @@ function optionalImageUrl(value, field) {
   return text;
 }
 
-module.exports = { parseId, requiredText, optionalText, optionalImageUrl };
+module.exports = { parseId, parseNonNegativeInt, parseDate, requiredText, optionalText, optionalImageUrl };
