@@ -1,16 +1,26 @@
 const db = require('../db/database');
 const { HttpError } = require('../middlewares/errorHandler');
 const { publicPath, removeUpload } = require('../middlewares/upload');
-const { parseId, requiredText, optionalText, optionalImageUrl } = require('../utils/validate');
+const { parseId, parseNonNegativeInt, requiredText, optionalText, optionalImageUrl } = require('../utils/validate');
 
-const BASE_SELECT = `
-  SELECT b.id, b.title, b.description, b.image, b.created_at,
-         a.id AS author_id, a.name AS author_name,
-         c.id AS category_id, c.name AS category_name
+// Préstamos activos (sin devolver) de un libro
+const ACTIVE_LOANS = '(SELECT COUNT(*) FROM loans l WHERE l.book_id = b.id AND l.returned_at IS NULL)';
+
+const FROM = `
   FROM books b
   JOIN authors a    ON a.id = b.author_id
   JOIN categories c ON c.id = b.category_id
 `;
+
+const BASE_SELECT = `
+  SELECT b.id, b.title, b.description, b.image, b.copies, b.created_at,
+         MAX(b.copies - ${ACTIVE_LOANS}, 0) AS available,
+         a.id AS author_id, a.name AS author_name,
+         c.id AS category_id, c.name AS category_name
+  ${FROM}
+`;
+
+const MAX_PAGE_SIZE = 50;
 
 // Convierte una fila plana de SQL en un objeto con author y category anidados
 function toBook(row) {
@@ -19,6 +29,8 @@ function toBook(row) {
     title: row.title,
     description: row.description,
     image: row.image,
+    copies: row.copies,
+    available: row.available,
     created_at: row.created_at,
     author: { id: row.author_id, name: row.author_name },
     category: { id: row.category_id, name: row.category_name },
@@ -34,6 +46,9 @@ function findBook(id) {
   book.images = db.prepare('SELECT id, url FROM book_images WHERE book_id = ? ORDER BY id').all(id);
   return book;
 }
+
+const countActiveLoans = (bookId) =>
+  db.prepare('SELECT COUNT(*) AS n FROM loans WHERE book_id = ? AND returned_at IS NULL').get(bookId).n;
 
 function assertExists(table, id, label) {
   if (!db.prepare(`SELECT 1 FROM ${table} WHERE id = ?`).get(id)) {
@@ -52,6 +67,7 @@ function readBookInput(req, current = {}) {
     author_id: parseId(pick('author_id'), 'author_id'),
     category_id: parseId(pick('category_id'), 'category_id'),
     image: optionalImageUrl(pick('image'), 'image'),
+    copies: parseNonNegativeInt(pick('copies') ?? 1, 'copies', 1000),
   };
 
   assertExists('authors', data.author_id, 'El autor');
@@ -69,7 +85,9 @@ const insertGallery = (bookId, files = []) => {
   for (const f of files) stmt.run(bookId, publicPath(f));
 };
 
-// GET /api/books?search=&category=&author=
+// GET /api/books?search=&category=&author=&available=1&page=&limit=
+// Sin page/limit devuelve un arreglo con todos los libros.
+// Con page o limit devuelve { data, pagination }.
 function list(req, res) {
   const where = [];
   const params = {};
@@ -86,9 +104,32 @@ function list(req, res) {
     where.push('b.author_id = @author');
     params.author = parseId(req.query.author, 'author');
   }
+  if (req.query.available === '1' || req.query.available === 'true') {
+    where.push(`b.copies - ${ACTIVE_LOANS} > 0`);
+  }
 
-  const sql = `${BASE_SELECT} ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY b.title COLLATE NOCASE`;
-  res.json(db.prepare(sql).all(params).map(toBook));
+  const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
+  const orderSql = 'ORDER BY b.title COLLATE NOCASE';
+
+  const paginate = req.query.page !== undefined || req.query.limit !== undefined;
+  if (!paginate) {
+    res.json(db.prepare(`${BASE_SELECT} ${whereSql} ${orderSql}`).all(params).map(toBook));
+    return;
+  }
+
+  const page = req.query.page !== undefined ? parseId(req.query.page, 'page') : 1;
+  const limit = req.query.limit !== undefined ? parseId(req.query.limit, 'limit') : 12;
+  if (limit > MAX_PAGE_SIZE) throw new HttpError(400, `El campo "limit" no puede ser mayor que ${MAX_PAGE_SIZE}`);
+
+  const { total } = db.prepare(`SELECT COUNT(*) AS total ${FROM} ${whereSql}`).get(params);
+  const rows = db
+    .prepare(`${BASE_SELECT} ${whereSql} ${orderSql} LIMIT @limit OFFSET @offset`)
+    .all({ ...params, limit, offset: (page - 1) * limit });
+
+  res.json({
+    data: rows.map(toBook),
+    pagination: { page, limit, total, totalPages: Math.max(1, Math.ceil(total / limit)) },
+  });
 }
 
 // GET /api/books/:id
@@ -102,8 +143,8 @@ function create(req, res) {
 
   const id = db.transaction(() => {
     const { lastInsertRowid } = db
-      .prepare(`INSERT INTO books (title, description, image, author_id, category_id)
-                VALUES (@title, @description, @image, @author_id, @category_id)`)
+      .prepare(`INSERT INTO books (title, description, image, author_id, category_id, copies)
+                VALUES (@title, @description, @image, @author_id, @category_id, @copies)`)
       .run(data);
     insertGallery(lastInsertRowid, req.files?.gallery);
     return lastInsertRowid;
@@ -119,10 +160,14 @@ function update(req, res) {
   if (!current) throw new HttpError(404, 'Libro no encontrado');
 
   const data = readBookInput(req, current);
+  const active = countActiveLoans(id);
+  if (data.copies < active) {
+    throw new HttpError(400, `No puedes dejar ${data.copies} ejemplar(es): hay ${active} prestado(s) en este momento`);
+  }
 
   db.transaction(() => {
     db.prepare(`UPDATE books SET title = @title, description = @description, image = @image,
-                author_id = @author_id, category_id = @category_id WHERE id = @id`).run({ ...data, id });
+                author_id = @author_id, category_id = @category_id, copies = @copies WHERE id = @id`).run({ ...data, id });
     insertGallery(id, req.files?.gallery);
   })();
 
@@ -130,14 +175,19 @@ function update(req, res) {
   res.json(findBook(id));
 }
 
-// DELETE /api/books/:id
+// DELETE /api/books/:id  (no se permite si tiene préstamos activos)
 function remove(req, res) {
   const id = parseId(req.params.id);
   const book = db.prepare('SELECT image FROM books WHERE id = ?').get(id);
   if (!book) throw new HttpError(404, 'Libro no encontrado');
 
+  const active = countActiveLoans(id);
+  if (active > 0) {
+    throw new HttpError(400, `No se puede eliminar: el libro tiene ${active} préstamo(s) activo(s)`);
+  }
+
   const images = db.prepare('SELECT url FROM book_images WHERE book_id = ?').all(id);
-  db.prepare('DELETE FROM books WHERE id = ?').run(id); // book_images se borran en cascada
+  db.prepare('DELETE FROM books WHERE id = ?').run(id); // imágenes y préstamos devueltos se borran en cascada
 
   removeUpload(book.image);
   images.forEach((img) => removeUpload(img.url));

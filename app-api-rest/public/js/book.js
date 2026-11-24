@@ -1,6 +1,6 @@
 import './layout.js';
 import * as api from './api.js';
-import { escapeHtml, imgSrc, bookCardHtml, getIdFromUrl, loadingHtml, emptyHtml, errorHtml } from './ui.js';
+import { escapeHtml, imgSrc, bookCardHtml, availabilityHtml, getIdFromUrl, loadingHtml, emptyHtml, errorHtml } from './ui.js';
 
 const page = document.getElementById('book-page');
 
@@ -107,12 +107,14 @@ function renderBook(book) {
         <span class="badge">${escapeHtml(book.category.name)}</span>
         <h1>${escapeHtml(book.title)}</h1>
         <p class="book-byline">por <a href="${authorUrl}">${escapeHtml(author.name)}</a></p>
+        <p class="book-availability">${availabilityHtml(book, { long: true })}</p>
 
         <p class="book-description">${escapeHtml(book.description || 'Este libro todavía no tiene descripción.')}</p>
 
         <dl class="meta-list">
           <dt>Autor</dt><dd>${escapeHtml(author.name)}</dd>
           <dt>Categoría</dt><dd>${escapeHtml(book.category.name)}</dd>
+          <dt>Ejemplares</dt><dd>${book.copies}</dd>
           <dt>Imágenes</dt><dd>${images[0] ? images.length : 0}</dd>
           <dt>Agregado</dt><dd>${formatDate(book.created_at)}</dd>
         </dl>

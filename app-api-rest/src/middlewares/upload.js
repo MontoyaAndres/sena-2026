@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const crypto = require('node:crypto');
 const multer = require('multer');
 
-const UPLOADS_DIR = path.join(__dirname, '..', '..', 'uploads');
+const { UPLOADS_DIR } = require('../config');
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];

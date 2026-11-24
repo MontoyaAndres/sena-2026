@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    container_name: biblioteca
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3000
+      DB_PATH: /app/data/library.sqlite
+      UPLOADS_DIR: /app/uploads
+    volumes:
+      - library-data:/app/data       # base de datos SQLite
+      - library-uploads:/app/uploads # imágenes subidas
+    restart: unless-stopped
+
+volumes:
+  library-data:
+  library-uploads:

@@ -46,10 +46,17 @@
           <div class="filters">
             <label class="visually-hidden" for="search">Buscar libros</label>
             <input id="search" class="input" type="search" placeholder="Buscar por título o autor…" autocomplete="off" />
-            <div id="category-chips" class="chips" role="group" aria-label="Filtrar por categoría"></div>
+            <div class="filters-row">
+              <div id="category-chips" class="chips" role="group" aria-label="Filtrar por categoría"></div>
+              <label class="switch">
+                <input id="only-available" type="checkbox" />
+                <span>Solo disponibles</span>
+              </label>
+            </div>
           </div>
 
           <div id="books"></div>
+          <nav id="pagination" class="pagination" aria-label="Paginación" hidden></nav>
         </div>
       </section>
     </main>

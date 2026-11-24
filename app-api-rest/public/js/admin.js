@@ -9,6 +9,8 @@ const state = {
   books: [],
   authors: [],
   categories: [],
+  loans: [],
+  loanStatus: 'active', // filtro de la tabla de préstamos
   editingBookId: null,
   editingAuthorId: null,
   editingCategoryId: null,
@@ -22,7 +24,7 @@ const fullRow = (cols, html) => `<tr><td colspan="${cols}">${html}</td></tr>`;
 /* =========================================================
    Pestañas
    ========================================================= */
-const TABS = ['books', 'authors', 'categories'];
+const TABS = ['books', 'authors', 'categories', 'loans'];
 const tabButtons = document.querySelectorAll('[role="tab"]');
 
 function selectTab(name) {
@@ -39,8 +41,16 @@ tabButtons.forEach((tab) => tab.addEventListener('click', () => selectTab(tab.da
 selectTab(TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'books');
 
 function updateCounts() {
-  for (const key of TABS) $(`[data-count="${key}"]`).textContent = state[key].length;
+  for (const key of ['books', 'authors', 'categories']) $(`[data-count="${key}"]`).textContent = state[key].length;
+  // Préstamos activos = ejemplares totales - disponibles
+  const activeLoans = state.books.reduce((sum, b) => sum + (b.copies - b.available), 0);
+  $('[data-count="loans"]').textContent = activeLoans;
 }
+
+/* =========================================================
+   Sesión
+   ========================================================= */
+$('#logout').addEventListener('click', api.logout);
 
 /* =========================================================
    Utilidades de formularios
@@ -113,6 +123,7 @@ document.querySelectorAll('dialog').forEach((dialog) => {
 async function loadBooks() {
   state.books = await api.getBooks();
   renderBooks();
+  fillLoanBookSelect();
 }
 
 async function loadAuthors() {
@@ -127,10 +138,10 @@ async function loadCategories() {
   fillSelect($('#book-category'), state.categories, 'Selecciona una categoría');
 }
 
-// Recarga todo (los contadores de libros por autor/categoría cambian al editar libros)
+// Recarga todo (los contadores y la disponibilidad cambian al editar libros o préstamos)
 async function reloadAll() {
   try {
-    await Promise.all([loadBooks(), loadAuthors(), loadCategories()]);
+    await Promise.all([loadBooks(), loadAuthors(), loadCategories(), loadLoans()]);
   } catch (err) {
     toast(err.message, 'error');
   } finally {
@@ -162,7 +173,7 @@ function renderBooks() {
 
   if (books.length === 0) {
     const msg = state.books.length ? 'Ningún libro coincide con la búsqueda.' : 'Todavía no hay libros. ¡Agrega el primero!';
-    booksBody.innerHTML = fullRow(5, emptyHtml(msg));
+    booksBody.innerHTML = fullRow(6, emptyHtml(msg));
     return;
   }
 
@@ -177,6 +188,7 @@ function renderBooks() {
         </td>
         <td class="hide-sm">${escapeHtml(b.author.name)}</td>
         <td class="hide-sm"><span class="badge">${escapeHtml(b.category.name)}</span></td>
+        <td class="num"><span class="stock ${b.available > 0 ? 'stock-ok' : 'stock-out'}">${b.available} / ${b.copies}</span></td>
         <td class="actions">
           <a class="btn btn-sm btn-ghost" href="/book.html?id=${b.id}">Ver</a>
           <button class="btn btn-sm btn-outline" type="button" data-action="edit" data-id="${b.id}">Editar</button>
@@ -281,6 +293,7 @@ function openBookForm(book = null) {
   bookForm.elements.description.value = book?.description ?? '';
   bookForm.elements.author_id.value = book?.author.id ?? '';
   bookForm.elements.category_id.value = book?.category.id ?? '';
+  bookForm.elements.copies.value = book?.copies ?? 1;
   bookForm.elements.image.value = book?.image ?? '';
 
   updateBookPreview();
@@ -305,6 +318,10 @@ function buildBookData() {
   if (!title) throw new Error('El título es obligatorio');
   if (!bookForm.elements.author_id.value) throw new Error('Selecciona un autor');
   if (!bookForm.elements.category_id.value) throw new Error('Selecciona una categoría');
+  const copies = Number(bookForm.elements.copies.value);
+  if (bookForm.elements.copies.value === '' || !Number.isInteger(copies) || copies < 0 || copies > 1000) {
+    throw new Error('Los ejemplares deben ser un número entero entre 0 y 1000');
+  }
 
   const imageUrl = bookForm.elements.image.value.trim();
   const imageFile = bookForm.elements.imageFile.files[0];
@@ -320,6 +337,7 @@ function buildBookData() {
   data.append('description', bookForm.elements.description.value.trim());
   data.append('author_id', bookForm.elements.author_id.value);
   data.append('category_id', bookForm.elements.category_id.value);
+  data.append('copies', String(copies));
   data.append('image', imageFile ?? imageUrl); // archivo o URL (vacío = sin portada)
   gallery.forEach((f) => data.append('gallery', f));
   return data;
@@ -594,17 +612,186 @@ categoriesBody.addEventListener('keydown', (e) => {
 });
 
 /* =========================================================
+   PRÉSTAMOS
+   ========================================================= */
+const loansBody = $('#loans-body');
+const loanForm = $('#loan-form');
+const loanFilters = $('#loan-filters');
+
+const STATUS_LABELS = {
+  active: { text: 'Activo', cls: 'status-active' },
+  overdue: { text: 'Vencido', cls: 'status-overdue' },
+  returned: { text: 'Devuelto', cls: 'status-returned' },
+};
+
+const formatDate = (iso) =>
+  iso ? new Date(`${iso}T00:00:00`).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+
+// Fecha local en formato AAAA-MM-DD, sumando `days` días a hoy
+function isoDate(days = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+async function loadLoans() {
+  state.loans = await api.getLoans({ status: state.loanStatus });
+  renderLoans();
+}
+
+// Solo se pueden prestar libros con ejemplares disponibles
+function fillLoanBookSelect() {
+  const select = loanForm.elements.book_id;
+  const current = select.value;
+  const available = state.books.filter((b) => b.available > 0);
+  select.innerHTML =
+    `<option value="">${available.length ? 'Selecciona un libro' : 'No hay libros disponibles'}</option>` +
+    available
+      .map((b) => `<option value="${b.id}">${escapeHtml(b.title)} (${b.available} disp.)</option>`)
+      .join('');
+  select.value = available.some((b) => String(b.id) === current) ? current : '';
+}
+
+function renderLoans() {
+  if (state.loans.length === 0) {
+    const messages = {
+      active: 'No hay préstamos activos.',
+      overdue: 'No hay préstamos vencidos. 🎉',
+      returned: 'Todavía no hay préstamos devueltos.',
+      '': 'Todavía no hay préstamos.',
+    };
+    loansBody.innerHTML = fullRow(6, emptyHtml(messages[state.loanStatus]));
+    return;
+  }
+
+  loansBody.innerHTML = state.loans
+    .map((l) => {
+      const status = STATUS_LABELS[l.status];
+      return `
+      <tr>
+        <td>
+          <a class="cell-title" href="/book.html?id=${l.book.id}">${escapeHtml(l.book.title)}</a>
+        </td>
+        <td>
+          <div>${escapeHtml(l.borrower_name)}</div>
+          ${l.borrower_email ? `<div class="cell-sub">${escapeHtml(l.borrower_email)}</div>` : ''}
+        </td>
+        <td class="hide-sm">${formatDate(l.loan_date)}</td>
+        <td>${formatDate(l.due_date)}</td>
+        <td>
+          <span class="status ${status.cls}">${status.text}</span>
+          ${l.returned_at ? `<div class="cell-sub">el ${formatDate(l.returned_at)}</div>` : ''}
+        </td>
+        <td class="actions">
+          ${l.returned_at ? '' : `<button class="btn btn-sm btn-outline" type="button" data-action="return" data-id="${l.id}">Marcar devuelto</button>`}
+          <button class="btn btn-sm btn-danger" type="button" data-action="delete" data-id="${l.id}">Eliminar</button>
+        </td>
+      </tr>`;
+    })
+    .join('');
+}
+
+loanFilters.addEventListener('click', async (e) => {
+  const chip = e.target.closest('[data-status]');
+  if (!chip) return;
+  state.loanStatus = chip.dataset.status;
+  loanFilters.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+  loansBody.innerHTML = fullRow(6, loadingHtml('Cargando préstamos…'));
+  try {
+    await loadLoans();
+  } catch (err) {
+    loansBody.innerHTML = fullRow(6, errorHtml(err.message));
+  }
+});
+
+loansBody.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+  const loan = state.loans.find((l) => l.id === Number(btn.dataset.id));
+
+  if (btn.dataset.action === 'return') {
+    btn.disabled = true;
+    try {
+      await api.returnLoan(loan.id);
+      toast(`"${loan.book.title}" fue devuelto`);
+      await reloadAll();
+    } catch (err) {
+      btn.disabled = false;
+      toast(err.message, 'error');
+    }
+  }
+
+  if (btn.dataset.action === 'delete') {
+    const extra = loan.returned_at ? '' : ' El ejemplar quedará disponible otra vez.';
+    const ok = await confirmDialog(`Se eliminará el préstamo de "${loan.book.title}" a ${loan.borrower_name}.${extra}`);
+    if (!ok) return;
+    try {
+      await api.deleteLoan(loan.id);
+      toast('Préstamo eliminado');
+      await reloadAll();
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
+});
+
+loanForm.elements.due_date.min = isoDate(0);
+loanForm.elements.due_date.value = isoDate(14); // por defecto, 2 semanas
+
+loanForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearFormError(loanForm);
+
+  const f = loanForm.elements;
+  const data = {
+    book_id: f.book_id.value,
+    borrower_name: f.borrower_name.value.trim(),
+    borrower_email: f.borrower_email.value.trim(),
+    due_date: f.due_date.value,
+  };
+
+  if (!data.book_id) return showFormError(loanForm, 'Selecciona un libro');
+  if (!data.borrower_name) return showFormError(loanForm, 'Escribe el nombre del lector');
+  if (data.borrower_email && !f.borrower_email.checkValidity()) return showFormError(loanForm, 'El correo no es válido');
+  if (!data.due_date) return showFormError(loanForm, 'Elige la fecha de devolución');
+  if (data.due_date < isoDate(0)) return showFormError(loanForm, 'La fecha de devolución no puede ser anterior a hoy');
+
+  const btn = $('[type="submit"]', loanForm);
+  btn.disabled = true;
+  try {
+    const loan = await api.createLoan(data);
+    toast(`"${loan.book.title}" prestado a ${loan.borrower_name}`);
+    f.borrower_name.value = '';
+    f.borrower_email.value = '';
+    f.due_date.value = isoDate(14);
+    await reloadAll();
+  } catch (err) {
+    showFormError(loanForm, err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* =========================================================
    Inicio
    ========================================================= */
-booksBody.innerHTML = fullRow(5, loadingHtml('Cargando libros…'));
+booksBody.innerHTML = fullRow(6, loadingHtml('Cargando libros…'));
 authorsBody.innerHTML = fullRow(4, loadingHtml('Cargando autores…'));
 categoriesBody.innerHTML = fullRow(3, loadingHtml('Cargando categorías…'));
+loansBody.innerHTML = fullRow(6, loadingHtml('Cargando préstamos…'));
 
-Promise.all([loadBooks(), loadAuthors(), loadCategories()])
+// Primero se valida la sesión (si el token venció, api.js redirige al login)
+api
+  .getMe()
+  .then(({ user }) => {
+    $('#session-user').textContent = user.username;
+    return Promise.all([loadBooks(), loadAuthors(), loadCategories(), loadLoans()]);
+  })
   .then(updateCounts)
   .catch((err) => {
     const html = errorHtml(`No se pudieron cargar los datos: ${err.message}`);
-    booksBody.innerHTML = fullRow(5, html);
+    booksBody.innerHTML = fullRow(6, html);
     authorsBody.innerHTML = fullRow(4, html);
     categoriesBody.innerHTML = fullRow(3, html);
+    loansBody.innerHTML = fullRow(6, html);
   });

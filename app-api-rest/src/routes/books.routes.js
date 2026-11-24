@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const books = require('../controllers/books.controller');
 const { upload } = require('../middlewares/upload');
+const { requireAuth } = require('../middlewares/auth');
 
 const router = Router();
 
@@ -10,11 +11,14 @@ const bookImages = upload.fields([
   { name: 'gallery', maxCount: 6 },
 ]);
 
+// Lectura pública
 router.get('/', books.list);
 router.get('/:id', books.getById);
-router.post('/', bookImages, books.create);
-router.put('/:id', bookImages, books.update);
-router.delete('/:id', books.remove);
-router.delete('/:id/images/:imageId', books.removeImage);
+
+// Escritura: requiere sesión (requireAuth va antes de multer para no guardar archivos sin permiso)
+router.post('/', requireAuth, bookImages, books.create);
+router.put('/:id', requireAuth, bookImages, books.update);
+router.delete('/:id', requireAuth, books.remove);
+router.delete('/:id/images/:imageId', requireAuth, books.removeImage);
 
 module.exports = router;

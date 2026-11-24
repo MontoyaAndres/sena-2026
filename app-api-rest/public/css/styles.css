@@ -1389,3 +1389,229 @@ h3 {
     display: none;
   }
 }
+
+/* =========================================================
+   Extras: login, disponibilidad, préstamos y paginación
+   ========================================================= */
+
+.btn-block {
+  width: 100%;
+}
+
+/* ---------- Login ---------- */
+.login-page {
+  display: grid;
+  place-items: center;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(100%, 420px);
+  margin-inline: auto;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.login-header {
+  text-align: center;
+}
+
+.login-icon {
+  font-size: 2.25rem;
+}
+
+.login-header h1 {
+  margin-block: var(--space-2) var(--space-1);
+  font-size: 1.6rem;
+}
+
+.login-back {
+  font-size: 0.9rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* ---------- Encabezado del panel con la sesión ---------- */
+.admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.session {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ---------- Disponibilidad ---------- */
+.availability {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.availability.is-available {
+  color: var(--color-success);
+}
+
+.availability.is-out {
+  color: var(--color-danger);
+}
+
+.book-availability {
+  margin: calc(-1 * var(--space-3)) 0 var(--space-5);
+}
+
+.book-availability .availability {
+  font-size: 0.95rem;
+}
+
+.stock {
+  display: inline-block;
+  min-width: 3.5em;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.stock-ok {
+  background: #e7f6ee;
+  color: var(--color-success);
+}
+
+.stock-out {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+/* ---------- Estados de préstamo ---------- */
+.status {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-active {
+  background: #e8f0fb;
+  color: #1d4f91;
+}
+
+.status-overdue {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.status-returned {
+  background: var(--color-surface-alt);
+  color: var(--color-muted);
+}
+
+/* ---------- Formulario de préstamo ---------- */
+.loan-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.loan-form h2 {
+  font-size: 1.2rem;
+}
+
+.loan-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1fr auto;
+  gap: var(--space-3);
+  align-items: end;
+}
+
+/* ---------- Filtros del inicio ---------- */
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.switch input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--color-primary);
+}
+
+/* ---------- Paginación ---------- */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.page-btn {
+  min-width: 40px;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.page-btn[aria-current='page'] {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 960px) {
+  .loan-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .loan-grid .btn {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .loan-grid {
+    grid-template-columns: 1fr;
+  }
+}
