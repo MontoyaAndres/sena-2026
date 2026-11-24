@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Catálogo de libros de la biblioteca: novelas, cuentos, poesía y ensayo." />
+    <title>Biblioteca · Inicio</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/home.js"></script>
+  </head>
+  <body>
+    <header id="site-header"></header>
+
+    <main>
+      <!-- ================= Hero ================= -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <span class="hero-eyebrow">📖 Catálogo abierto</span>
+            <h1>Descubre tu próxima gran lectura</h1>
+            <p>Explora nuestra colección de novelas, cuentos, poesía y ensayo de los grandes autores de la literatura latinoamericana.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#catalogo">Ver libros</a>
+              <a class="btn btn-outline" href="/admin.html">Administrar catálogo</a>
+            </div>
+            <ul class="hero-stats" aria-label="Resumen del catálogo">
+              <li><strong id="stat-books">–</strong><span>libros</span></li>
+              <li><strong id="stat-authors">–</strong><span>autores</span></li>
+              <li><strong id="stat-categories">–</strong><span>categorías</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Catálogo ================= -->
+      <section id="catalogo" class="section" aria-labelledby="catalogo-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2 id="catalogo-title">Libros disponibles</h2>
+              <p class="muted">Haz clic en un libro para ver sus imágenes y más información.</p>
+            </div>
+            <p id="results-count" class="results-count" aria-live="polite"></p>
+          </div>
+
+          <div class="filters">
+            <label class="visually-hidden" for="search">Buscar libros</label>
+            <input id="search" class="input" type="search" placeholder="Buscar por título o autor…" autocomplete="off" />
+            <div id="category-chips" class="chips" role="group" aria-label="Filtrar por categoría"></div>
+          </div>
+
+          <div id="books"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+  </body>
+</html>
