@@ -45,9 +45,11 @@ app-api-rest/
 │   │   ├── books.controller.js
 │   │   ├── authors.controller.js
 │   │   └── categories.controller.js
-│   └── middlewares/
-│       ├── errorHandler.js
-│       └── upload.js          # Configuración de multer
+│   ├── middlewares/
+│   │   ├── errorHandler.js
+│   │   └── upload.js          # Configuración de multer
+│   └── utils/
+│       └── validate.js        # Validaciones de los datos de entrada
 ├── uploads/                   # Imágenes subidas
 └── public/                    # Frontend
     ├── index.html             # Inicio (hero + libros + footer)
@@ -111,11 +113,14 @@ authors (1) ───< books >─── (1) categories
 ### Libros
 | Método | Ruta | Descripción |
 |--------|------|-------------|
-| GET | `/api/books` | Listar libros (con autor y categoría). Filtros: `?category=`, `?search=` |
+| GET | `/api/books` | Listar libros (con autor y categoría). Filtros: `?category=`, `?author=`, `?search=` |
 | GET | `/api/books/:id` | Detalle de un libro (incluye autor, categoría e imágenes) |
 | POST | `/api/books` | Crear libro |
 | PUT | `/api/books/:id` | Editar libro |
 | DELETE | `/api/books/:id` | Eliminar libro |
+| DELETE | `/api/books/:id/images/:imageId` | Eliminar una imagen de la galería |
+
+> `POST` y `PUT` de libros aceptan JSON (con `image` como URL) o `multipart/form-data` con los archivos `image` (portada) y `gallery` (hasta 6 imágenes). En `PUT`, los campos que no se envían conservan su valor.
 
 ### Autores
 | Método | Ruta | Descripción |
@@ -132,7 +137,7 @@ authors (1) ───< books >─── (1) categories
 | POST / PUT / DELETE | `/api/categories[/:id]` | CRUD de categorías (para el admin) |
 
 ### Códigos de respuesta esperados
-- `200` OK · `201` creado · `400` datos inválidos · `404` no encontrado · `500` error del servidor
+- `200` OK · `201` creado · `204` eliminado · `400` datos inválidos · `404` no encontrado · `409` nombre duplicado · `500` error del servidor
 
 ---
 
@@ -155,31 +160,31 @@ authors (1) ───< books >─── (1) categories
 - [x] 1.6 Probar que las tablas se crean y el seed inserta datos
 
 ### Fase 2 — Servidor Express
-- [ ] 2.1 Crear `src/server.js` con Express, `express.json()` y `cors()`
-- [ ] 2.2 Servir el frontend estático: `express.static('public')`
-- [ ] 2.3 Servir imágenes: `express.static('uploads')` en `/uploads`
-- [ ] 2.4 Montar rutas bajo `/api`
-- [ ] 2.5 Middleware de manejo de errores (`errorHandler.js`)
-- [ ] 2.6 Middleware para rutas no encontradas (404 en JSON)
+- [x] 2.1 Crear `src/server.js` con Express, `express.json()` y `cors()`
+- [x] 2.2 Servir el frontend estático: `express.static('public')`
+- [x] 2.3 Servir imágenes: `express.static('uploads')` en `/uploads`
+- [x] 2.4 Montar rutas bajo `/api`
+- [x] 2.5 Middleware de manejo de errores (`errorHandler.js`)
+- [x] 2.6 Middleware para rutas no encontradas (404 en JSON)
 
 ### Fase 3 — API de libros
-- [ ] 3.1 `GET /api/books` con `JOIN` a autores y categorías
-- [ ] 3.2 Filtros opcionales por categoría y búsqueda por título
-- [ ] 3.3 `GET /api/books/:id` (404 si no existe)
-- [ ] 3.4 `POST /api/books` con validación (título, autor y categoría obligatorios)
-- [ ] 3.5 `PUT /api/books/:id`
-- [ ] 3.6 `DELETE /api/books/:id`
-- [ ] 3.7 Subida de imagen con `multer` (o aceptar URL de imagen)
-- [ ] 3.8 Probar todos los endpoints con Thunder Client / Postman
+- [x] 3.1 `GET /api/books` con `JOIN` a autores y categorías
+- [x] 3.2 Filtros opcionales por categoría y búsqueda por título
+- [x] 3.3 `GET /api/books/:id` (404 si no existe)
+- [x] 3.4 `POST /api/books` con validación (título, autor y categoría obligatorios)
+- [x] 3.5 `PUT /api/books/:id`
+- [x] 3.6 `DELETE /api/books/:id`
+- [x] 3.7 Subida de imagen con `multer` (o aceptar URL de imagen)
+- [x] 3.8 Probar todos los endpoints con Thunder Client / Postman
 
 ### Fase 4 — API de autores y categorías
-- [ ] 4.1 `GET /api/authors` y `GET /api/authors/:id`
-- [ ] 4.2 `GET /api/authors/:id/books` (libros relacionados del autor)
-- [ ] 4.3 CRUD de autores (POST, PUT, DELETE)
-- [ ] 4.4 `GET /api/categories`
-- [ ] 4.5 CRUD de categorías
-- [ ] 4.6 Definir qué pasa al eliminar un autor/categoría con libros (bloquear con `400` o `ON DELETE` adecuado)
-- [ ] 4.7 Probar endpoints
+- [x] 4.1 `GET /api/authors` y `GET /api/authors/:id`
+- [x] 4.2 `GET /api/authors/:id/books` (libros relacionados del autor)
+- [x] 4.3 CRUD de autores (POST, PUT, DELETE)
+- [x] 4.4 `GET /api/categories`
+- [x] 4.5 CRUD de categorías
+- [x] 4.6 Definir qué pasa al eliminar un autor/categoría con libros (bloquear con `400` o `ON DELETE` adecuado)
+- [x] 4.7 Probar endpoints
 
 ### Fase 5 — Frontend: base y estilos
 - [ ] 5.1 Crear `styles.css` con variables (colores, tipografía, espaciados)
