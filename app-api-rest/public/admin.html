@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administración · Biblioteca</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/admin.js"></script>
+  </head>
+  <body>
+    <header id="site-header"></header>
+
+    <main class="page">
+      <div class="container">
+        <div class="page-header">
+          <h1>Panel de administración</h1>
+          <p class="muted">Gestiona los libros, autores y categorías de la biblioteca.</p>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Secciones">
+          <button class="tab" role="tab" id="tab-books" data-tab="books" aria-controls="panel-books">
+            Libros <span class="count" data-count="books">0</span>
+          </button>
+          <button class="tab" role="tab" id="tab-authors" data-tab="authors" aria-controls="panel-authors">
+            Autores <span class="count" data-count="authors">0</span>
+          </button>
+          <button class="tab" role="tab" id="tab-categories" data-tab="categories" aria-controls="panel-categories">
+            Categorías <span class="count" data-count="categories">0</span>
+          </button>
+        </div>
+
+        <!-- ================= Libros ================= -->
+        <section id="panel-books" role="tabpanel" aria-labelledby="tab-books">
+          <div class="toolbar">
+            <label class="visually-hidden" for="book-search">Buscar libros</label>
+            <input id="book-search" class="input" type="search" placeholder="Buscar por título, autor o categoría…" />
+            <button id="new-book" class="btn btn-primary" type="button">＋ Nuevo libro</button>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><span class="visually-hidden">Portada</span></th>
+                  <th>Título</th>
+                  <th class="hide-sm">Autor</th>
+                  <th class="hide-sm">Categoría</th>
+                  <th class="actions">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="books-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= Autores ================= -->
+        <section id="panel-authors" role="tabpanel" aria-labelledby="tab-authors" hidden>
+          <div class="toolbar">
+            <p class="muted small">Un autor con libros asociados no se puede eliminar.</p>
+            <button id="new-author" class="btn btn-primary" type="button">＋ Nuevo autor</button>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><span class="visually-hidden">Foto</span></th>
+                  <th>Nombre</th>
+                  <th class="num">Libros</th>
+                  <th class="actions">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="authors-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= Categorías ================= -->
+        <section id="panel-categories" role="tabpanel" aria-labelledby="tab-categories" hidden>
+          <div class="toolbar">
+            <form id="category-form" class="inline-form" novalidate>
+              <label class="visually-hidden" for="category-name">Nombre de la nueva categoría</label>
+              <input id="category-name" name="name" class="input" placeholder="Nueva categoría" maxlength="100" required />
+              <button class="btn btn-primary" type="submit">Agregar</button>
+            </form>
+            <p class="muted small">Una categoría con libros asociados no se puede eliminar.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th class="num">Libros</th>
+                  <th class="actions">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="categories-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <!-- ================= Modal: libro ================= -->
+    <dialog id="book-dialog" class="dialog" aria-labelledby="book-dialog-title">
+      <form id="book-form" novalidate>
+        <div class="dialog-header">
+          <h2 id="book-dialog-title">Nuevo libro</h2>
+          <button class="dialog-close" type="button" data-close aria-label="Cerrar">×</button>
+        </div>
+
+        <div class="dialog-body">
+          <p class="form-error" role="alert" hidden></p>
+
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="book-title">Título <span class="required">*</span></label>
+              <input id="book-title" name="title" class="input" maxlength="255" required />
+            </div>
+
+            <div class="form-group">
+              <label for="book-author">Autor <span class="required">*</span></label>
+              <select id="book-author" name="author_id" class="select" required></select>
+            </div>
+
+            <div class="form-group">
+              <label for="book-category">Categoría <span class="required">*</span></label>
+              <select id="book-category" name="category_id" class="select" required></select>
+            </div>
+
+            <div class="form-group full">
+              <label for="book-description">Descripción</label>
+              <textarea id="book-description" name="description" class="textarea" maxlength="5000"></textarea>
+            </div>
+
+            <div class="form-group full">
+              <span class="label">Portada</span>
+              <div class="image-field">
+                <img id="book-image-preview" class="image-preview" alt="Vista previa de la portada" />
+                <div class="image-inputs">
+                  <label class="visually-hidden" for="book-image-url">URL de la portada</label>
+                  <input id="book-image-url" name="image" class="input" inputmode="url" placeholder="https://… (URL de la imagen)" />
+                  <span class="or">o</span>
+                  <label class="visually-hidden" for="book-image-file">Subir portada</label>
+                  <input id="book-image-file" name="imageFile" class="input" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+                  <span class="hint">JPG, PNG, WEBP o GIF · máximo 5 MB. Si subes un archivo, se usa en lugar de la URL.</span>
+                  <button id="book-image-clear" class="btn btn-sm btn-danger" type="button">Quitar portada</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group full" id="book-gallery-current-group">
+              <span class="label">Galería actual</span>
+              <div id="book-gallery-current" class="gallery-grid"></div>
+            </div>
+
+            <div class="form-group full">
+              <label for="book-gallery">Agregar imágenes a la galería</label>
+              <input id="book-gallery" name="gallery" class="input" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif" />
+              <span class="hint">Hasta 6 imágenes por vez · máximo 5 MB cada una.</span>
+              <div id="book-gallery-new" class="gallery-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-footer">
+          <button class="btn btn-outline" type="button" data-close>Cancelar</button>
+          <button class="btn btn-primary" type="submit">Guardar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- ================= Modal: autor ================= -->
+    <dialog id="author-dialog" class="dialog" aria-labelledby="author-dialog-title">
+      <form id="author-form" novalidate>
+        <div class="dialog-header">
+          <h2 id="author-dialog-title">Nuevo autor</h2>
+          <button class="dialog-close" type="button" data-close aria-label="Cerrar">×</button>
+        </div>
+
+        <div class="dialog-body">
+          <p class="form-error" role="alert" hidden></p>
+
+          <div class="form-group">
+            <label for="author-name">Nombre <span class="required">*</span></label>
+            <input id="author-name" name="name" class="input" maxlength="255" required />
+          </div>
+
+          <div class="form-group">
+            <label for="author-bio">Biografía</label>
+            <textarea id="author-bio" name="bio" class="textarea" maxlength="5000"></textarea>
+          </div>
+
+          <div class="form-group">
+            <span class="label">Foto</span>
+            <div class="image-field">
+              <img id="author-photo-preview" class="image-preview round" alt="Vista previa de la foto" />
+              <div class="image-inputs">
+                <label class="visually-hidden" for="author-photo-url">URL de la foto</label>
+                <input id="author-photo-url" name="photo" class="input" inputmode="url" placeholder="https://… (URL de la imagen)" />
+                <span class="or">o</span>
+                <label class="visually-hidden" for="author-photo-file">Subir foto</label>
+                <input id="author-photo-file" name="photoFile" class="input" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+                <span class="hint">JPG, PNG, WEBP o GIF · máximo 5 MB.</span>
+                <button id="author-photo-clear" class="btn btn-sm btn-danger" type="button">Quitar foto</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-footer">
+          <button class="btn btn-outline" type="button" data-close>Cancelar</button>
+          <button class="btn btn-primary" type="submit">Guardar</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

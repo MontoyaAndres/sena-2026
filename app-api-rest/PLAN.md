@@ -60,6 +60,8 @@ app-api-rest/
     │   └── styles.css
     └── js/
         ├── api.js             # Funciones fetch reutilizables
+        ├── ui.js              # Escape de HTML, toasts, confirmación, estados
+        ├── layout.js          # Header y footer comunes
         ├── home.js
         ├── book.js
         ├── author.js
@@ -187,11 +189,11 @@ authors (1) ───< books >─── (1) categories
 - [x] 4.7 Probar endpoints
 
 ### Fase 5 — Frontend: base y estilos
-- [ ] 5.1 Crear `styles.css` con variables (colores, tipografía, espaciados)
-- [ ] 5.2 Crear header/navbar común (Inicio, Admin)
-- [ ] 5.3 Crear footer común
-- [ ] 5.4 Crear `js/api.js` con funciones: `getBooks()`, `getBook(id)`, `getAuthor(id)`, `getAuthorBooks(id)`, `createBook()`, `updateBook()`, `deleteBook()`
-- [ ] 5.5 Diseño responsive (mobile first, grid de tarjetas)
+- [x] 5.1 Crear `styles.css` con variables (colores, tipografía, espaciados)
+- [x] 5.2 Crear header/navbar común (Inicio, Admin)
+- [x] 5.3 Crear footer común
+- [x] 5.4 Crear `js/api.js` con funciones: `getBooks()`, `getBook(id)`, `getAuthor(id)`, `getAuthorBooks(id)`, `createBook()`, `updateBook()`, `deleteBook()`
+- [x] 5.5 Diseño responsive (mobile first, grid de tarjetas)
 
 ### Fase 6 — Página de inicio (`index.html`)
 - [ ] 6.1 Sección **hero** (título, subtítulo, imagen de fondo, botón "Ver libros")
@@ -219,15 +221,15 @@ authors (1) ───< books >─── (1) categories
 - [ ] 8.4 Listar sus libros en tarjetas (clic → detalle)
 
 ### Fase 9 — Panel de administración (`admin.html`)
-- [ ] 9.1 Tabla con todos los libros (imagen, título, autor, categoría, acciones)
-- [ ] 9.2 Formulario para **crear** libro (título, descripción, imagen, categoría, autor)
-- [ ] 9.3 Selects de autor y categoría cargados desde la API
-- [ ] 9.4 Botón **editar**: cargar datos en el formulario y enviar `PUT`
-- [ ] 9.5 Botón **eliminar** con confirmación y `DELETE`
-- [ ] 9.6 Vista previa de la imagen antes de guardar
-- [ ] 9.7 Validaciones en el formulario (campos obligatorios)
-- [ ] 9.8 Mensajes de éxito/error y refrescar la tabla tras cada acción
-- [ ] 9.9 (Opcional) Pestañas para gestionar autores y categorías
+- [x] 9.1 Tabla con todos los libros (imagen, título, autor, categoría, acciones)
+- [x] 9.2 Formulario para **crear** libro (título, descripción, imagen, categoría, autor)
+- [x] 9.3 Selects de autor y categoría cargados desde la API
+- [x] 9.4 Botón **editar**: cargar datos en el formulario y enviar `PUT`
+- [x] 9.5 Botón **eliminar** con confirmación y `DELETE`
+- [x] 9.6 Vista previa de la imagen antes de guardar
+- [x] 9.7 Validaciones en el formulario (campos obligatorios)
+- [x] 9.8 Mensajes de éxito/error y refrescar la tabla tras cada acción
+- [x] 9.9 (Opcional) Pestañas para gestionar autores y categorías
 
 ### Fase 10 — Pruebas y cierre
 - [ ] 10.1 Probar flujo completo: crear → ver en inicio → ver detalle → ver autor → editar → eliminar
