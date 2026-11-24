@@ -139,12 +139,12 @@ authors (1) ───< books >─── (1) categories
 ## ✅ Tareas
 
 ### Fase 0 — Configuración del proyecto
-- [ ] 0.1 Inicializar el proyecto (`npm init -y`, ya existe `package.json`)
-- [ ] 0.2 Instalar dependencias: `npm i express better-sqlite3 cors multer`
-- [ ] 0.3 Instalar dependencias de desarrollo: `npm i -D nodemon`
-- [ ] 0.4 Agregar scripts en `package.json`: `"start": "node src/server.js"`, `"dev": "nodemon src/server.js"`, `"seed": "node src/db/seed.js"`
-- [ ] 0.5 Crear `.gitignore` (`node_modules/`, `*.sqlite`, `uploads/*`)
-- [ ] 0.6 Crear la estructura de carpetas
+- [x] 0.1 Inicializar el proyecto (`npm init -y`, ya existe `package.json`)
+- [x] 0.2 Instalar dependencias: `npm i express better-sqlite3 cors multer`
+- [x] 0.3 Instalar dependencias de desarrollo: `npm i -D nodemon`
+- [x] 0.4 Agregar scripts en `package.json`: `"start": "node src/server.js"`, `"dev": "nodemon src/server.js"`, `"seed": "node src/db/seed.js"`
+- [x] 0.5 Crear `.gitignore` (`node_modules/`, `*.sqlite`, `uploads/*`)
+- [x] 0.6 Crear la estructura de carpetas
 
 ### Fase 1 — Base de datos (SQLite)
 - [ ] 1.1 Crear `src/db/database.js` con la conexión a `library.sqlite`
